@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>DTQL examples — DALgo</title>
+<meta name="description" content="Example DTQL documents: YAML serializations of dal.StructuredQuery, validated against the DTQL JSON Schema." />
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230d1117'/><text x='50%25' y='52%25' text-anchor='middle' dominant-baseline='middle' font-family='ui-monospace,monospace' font-size='28' font-weight='700' fill='%232f81f7'>d/</text></svg>" />
+<link rel="stylesheet" href="../../styles.css" />
+</head>
+<body>
+
+<header class="AppHeader" role="banner">
+  <div class="AppHeader-inner">
+    <a class="AppHeader-brand" href="/" aria-label="DALgo home">
+      <span class="AppHeader-brand-mark" aria-hidden="true"><span class="brand-dal">DAL</span><span class="brand-go">go</span></span>
+    </a>
+    <nav class="AppHeader-context" aria-label="Context">
+      <span class="AppHeader-context-slash" aria-hidden="true">/</span>
+      <a class="AppHeader-context-item" href="/dtql/">DTQL</a>
+      <span class="AppHeader-context-slash" aria-hidden="true">/</span>
+      <a class="AppHeader-context-item" href="/dtql/examples/">examples</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-eyebrow">DTQL / examples</span>
+        <h1 class="section-title">Example documents</h1>
+        <p class="section-kicker">Each file is a valid DTQL document: it deserializes to a
+          <code>dal.StructuredQuery</code> and validates against the
+          <a href="../schema.json">schema</a>.</p>
+      </div>
+      <ul class="adapter-grid" role="list">
+        <li><a class="adapter Box" href="./select-all.dtql.yaml">
+          <span class="adapter-kind">source</span>
+          <h3>select-all.dtql.yaml</h3>
+          <p>The minimal document — a single <code>from</code> over a root collection (SELECT *).</p>
+          <span class="adapter-go">examples/select-all.dtql.yaml</span>
+        </a></li>
+        <li><a class="adapter Box" href="./comparison.dtql.yaml">
+          <span class="adapter-kind">filter</span>
+          <h3>comparison.dtql.yaml</h3>
+          <p>A standalone <code>Comparison</code> with an inline constant value.</p>
+          <span class="adapter-go">examples/comparison.dtql.yaml</span>
+        </a></li>
+        <li><a class="adapter Box" href="./columns-paged.dtql.yaml">
+          <span class="adapter-kind">columns · paging</span>
+          <h3>columns-paged.dtql.yaml</h3>
+          <p>Selected columns with aliases, ordering, and <code>limit</code>/<code>offset</code>.</p>
+          <span class="adapter-go">examples/columns-paged.dtql.yaml</span>
+        </a></li>
+        <li><a class="adapter Box" href="./and-or-groups.dtql.yaml">
+          <span class="adapter-kind">groups</span>
+          <h3>and-or-groups.dtql.yaml</h3>
+          <p>Nested <code>And</code>/<code>Or</code> group filters with an <code>In</code> array.</p>
+          <span class="adapter-go">examples/and-or-groups.dtql.yaml</span>
+        </a></li>
+      </ul>
+      <p style="margin-top:24px"><a href="/dtql/">&larr; Back to DTQL</a></p>
+    </div>
+  </section>
+</main>
+
+<footer class="AppFooter">
+  <div class="container AppFooter-inner">
+    <ul role="list">
+      <li>&copy; <span id="year">2026</span> DALgo contributors</li>
+      <li><a href="/dtql/">DTQL</a></li>
+      <li><a href="https://github.com/dal-go/dalgo/tree/main/dtql" rel="noopener">Source</a></li>
+    </ul>
+    <span class="AppFooter-tag">Generated from the dalgo <code>dtql</code> package.</span>
+  </div>
+</footer>
+
+</body>
+</html>
