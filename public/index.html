@@ -4,11 +4,11 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>DALgo — Database Abstraction Layer for Go</title>
-<meta name="description" content="DALgo is a Database Abstraction Layer for Go. One interface, many databases — in-memory, SQL, Firestore, Datastore, files, Git, inGitDB." />
+<meta name="description" content="DALgo is a Database Abstraction Layer for Go with portable, explainable access policies. One interface, many databases, least privilege everywhere." />
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)" />
 <meta property="og:title" content="DALgo — Database Abstraction Layer for Go" />
-<meta property="og:description" content="One interface. Many databases. Write storage-agnostic Go." />
+<meta property="og:description" content="One interface. Many databases. Portable least privilege across every adapter." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://dal-go.github.io" />
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230d1117'/><text x='50%25' y='52%25' text-anchor='middle' dominant-baseline='middle' font-family='ui-monospace,monospace' font-size='28' font-weight='700' fill='%232f81f7'>d/</text></svg>" />
@@ -34,6 +34,7 @@
 
     <nav class="AppHeader-nav" aria-label="Primary">
       <a href="#why">Why</a>
+      <a href="/access-policies/">Access policies</a>
       <a href="#adapters">Adapters</a>
       <a href="#quickstart">Quick start</a>
       <a href="#collections">Collections</a>
@@ -85,6 +86,7 @@
           <svg class="octicon" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75V1.75Z"/></svg>
           pkg.go.dev
         </a>
+        <a class="btn btn-default" href="/access-policies/">Explore access policies</a>
         <code class="hero-install" tabindex="0">
           <span class="hero-install-prompt">$</span> go get github.com/dal-go/dalgo
         </code>
@@ -107,6 +109,61 @@
       </div>
     </figure>
 
+  </div>
+</section>
+
+<!-- ============================ ACCESS POLICIES ============================ -->
+<section id="access-policies" class="section policy-feature">
+  <div class="container">
+    <div class="policy-feature-grid">
+      <div class="policy-feature-copy">
+        <span class="section-eyebrow">Capability boundaries</span>
+        <h2 class="section-title">Least privilege once.<br />Enforced by every adapter.</h2>
+        <p class="policy-lede">Give an extension, tenant, job, analytics tool, or support console a DAL handle that simply cannot reach anything outside its capability.</p>
+        <ul class="policy-points" role="list">
+          <li><strong>Every path is covered.</strong> Reads, queries, batches, writes, and transactions are checked before the adapter is called.</li>
+          <li><strong>Hierarchy without surprises.</strong> Allow a subtree, deny a sensitive child—or deny a parent and reopen named children.</li>
+          <li><strong>Purpose-built permissions.</strong> Get without Query. Insert without Read. Reserved Truncate. No accidental permission bundles.</li>
+          <li><strong>Denials explain themselves.</strong> Operation, resource, policy source, and winning rule arrive as structured data.</li>
+        </ul>
+        <div class="policy-actions">
+          <a class="btn btn-primary" href="/access-policies/">See how policies work</a>
+          <a class="btn btn-default" href="https://github.com/dal-go/dalgo/blob/main/docs/access-policies.md" rel="noopener">Read the guide</a>
+        </div>
+      </div>
+
+      <div class="policy-console" aria-label="Example hierarchical access policy and denial explanation">
+        <div class="policy-console-head">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span>extension-trackus.yaml</span>
+          <span class="policy-console-badge">default deny</span>
+        </div>
+        <pre><code><span class="pl-c"># One policy, stored anywhere</span>
+<span class="pl-k">apiVersion:</span> dalgo.io/access/v1
+<span class="pl-k">kind:</span> AccessPolicy
+<span class="pl-k">metadata:</span> { <span class="pl-k">name:</span> extension-trackus }
+<span class="pl-k">default:</span> deny
+<span class="pl-k">scopes:</span>
+  - <span class="pl-k">path:</span> /spaces/*/**
+    <span class="pl-k">rules:</span>
+      - { <span class="pl-k">id:</span> outside-extension,
+          <span class="pl-k">effect:</span> deny, <span class="pl-k">operations:</span> [write] }
+    <span class="pl-k">scopes:</span>
+      - <span class="pl-k">path:</span> /ext/trackus/**
+        <span class="pl-k">rules:</span>
+          - { <span class="pl-k">id:</span> own-data,
+              <span class="pl-k">effect:</span> allow, <span class="pl-k">operations:</span> [write] }</code></pre>
+        <div class="denial-card">
+          <div class="denial-title"><span>DENIED</span> <code>set /users/u1</code></div>
+          <div class="denial-trace">
+            <span>policy</span><strong>extension-trackus</strong>
+            <span>source</span><strong>extension-trackus.yaml</strong>
+            <span>rule</span><strong>outside-extension</strong>
+          </div>
+          <p>The adapter was never called.</p>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
