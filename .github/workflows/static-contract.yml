@@ -1,0 +1,40 @@
+name: Static contract
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  static-contract:
+    name: Static contract
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Validate assets and navigation
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f public/index.html
+          test -f public/access-policies/index.html
+          test -f public/styles.css
+          grep -Fq 'href="/access-policies/"' public/index.html
+          grep -Fq '<meta property="og:url" content="https://dalgo.io/"' public/index.html
+          ! grep -Fq 'dal-go.github.io' public/index.html
+          for anchor in model operations errors portable audit start; do
+            grep -Fq "id=\"${anchor}\"" public/access-policies/index.html
+          done
+          grep -Fq 'href="../styles.css"' public/access-policies/index.html
+          grep -Fq 'https://github.com/dal-go/dalgo/blob/main/docs/access-policies.md' public/access-policies/index.html
+          grep -Fq 'https://pkg.go.dev/github.com/dal-go/dalgo/access' public/access-policies/index.html
+  wrangler-dry-run:
+    name: Wrangler dry run
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Validate the pinned static-assets deploy contract
+        shell: bash
+        run: npx --yes wrangler@4.120.1 deploy --dry-run
