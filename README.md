@@ -3,6 +3,10 @@
 Source for **https://dalgo.io** — the landing page for the
 [DALgo](https://github.com/dal-go/dalgo) ecosystem.
 
+## DALgo in DataTug development
+
+In [DataTug](https://datatug.app), DALgo provides a data-access seam in the development ecosystem. Read [how DataTug’s development tools were built](https://datatug.app/en/under-the-hood/tools-we-built/).
+
 ## Stack
 
 Plain static HTML + CSS. No build step. Everything served to the browser lives
