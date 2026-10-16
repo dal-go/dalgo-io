@@ -1,0 +1,81 @@
+name: Build and deploy website
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - name: Verify static entrypoint
+        run: test -s public/index.html
+      - name: Package verified release
+        # tar preserves dotfiles, _headers, _redirects, and file permissions.
+        run: tar -czf site.tar.gz public wrangler.jsonc
+      - name: Record artifact provenance
+        run: |
+          printf '%s\n' "$GITHUB_SHA" > source-sha.txt
+          sha256sum site.tar.gz > site.tar.gz.sha256
+      - name: Upload verified release
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: site-${{ github.sha }}
+          path: |
+            site.tar.gz
+            site.tar.gz.sha256
+            source-sha.txt
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 0
+      - name: Report artifact availability
+        if: vars.CLOUDFLARE_DEPLOY_ENABLED != 'true'
+        run: |
+          {
+            echo '### Website artifact built'
+            echo "Artifact: site-$GITHUB_SHA"
+            echo 'Automatic publication is disabled (CLOUDFLARE_DEPLOY_ENABLED is not true).'
+            echo 'The landing owner can download this artifact and publish it with authenticated Wrangler without rebuilding.'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  deploy:
+    needs: build
+    if: vars.CLOUDFLARE_DEPLOY_ENABLED == 'true' && github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: production
+    concurrency:
+      group: website-production
+      cancel-in-progress: false
+    steps:
+      - name: Download this run's verified release
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
+        with:
+          name: site-${{ github.sha }}
+      - name: Verify and extract release
+        run: |
+          test "$(cat source-sha.txt)" = "$GITHUB_SHA"
+          sha256sum --check site.tar.gz.sha256
+          mkdir release
+          tar -xzf site.tar.gz -C release
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 26
+      - name: Publish built artifact
+        working-directory: release
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID || '01c8a86fc1064f063eb5dd9d101d7001' }}
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "::error::Configure the CLOUDFLARE_API_TOKEN secret for production publishing."
+            exit 1
+          fi
+          npx --yes wrangler@4.135.0 deploy --config wrangler.jsonc
