@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Access Policies — DALgo</title>
+<meta name="description" content="Portable, hierarchical, explainable access policies for every DALgo database adapter." />
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)" />
+<meta property="og:title" content="DALgo Access Policies — Least privilege across every adapter" />
+<meta property="og:description" content="Constrain reads, queries, writes, batches and transactions with one portable capability model." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://dalgo.io/access-policies/" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230d1117'/><text x='50%25' y='52%25' text-anchor='middle' dominant-baseline='middle' font-family='ui-monospace,monospace' font-size='28' font-weight='700' fill='%232f81f7'>d/</text></svg>" />
+<link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+
+<header class="AppHeader" role="banner">
+  <div class="AppHeader-inner">
+    <a class="AppHeader-brand" href="/" aria-label="DALgo home">
+      <span class="AppHeader-brand-mark" aria-hidden="true"><span class="brand-dal">DAL</span><span class="brand-go">go</span></span>
+    </a>
+    <nav class="AppHeader-context" aria-label="Context">
+      <span class="AppHeader-context-slash" aria-hidden="true">/</span>
+      <a class="AppHeader-context-item" href="/access-policies/" aria-current="page">access policies</a>
+    </nav>
+    <nav class="AppHeader-nav" aria-label="Page">
+      <a href="#model">Model</a>
+      <a href="#operations">Operations</a>
+      <a href="#errors">Denials</a>
+      <a href="#portable">Portable policies</a>
+      <a href="#audit">Audit</a>
+    </nav>
+    <div class="AppHeader-actions">
+      <a class="btn btn-default btn-sm" href="https://github.com/dal-go/dalgo/blob/main/docs/access-policies.md" rel="noopener">Docs</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="policy-hero">
+    <div class="container policy-hero-grid">
+      <div>
+        <div class="hero-eyebrow">New in DALgo · adapter-independent</div>
+        <h1>Data access with<br /><span class="hero-accent">hard boundaries.</span></h1>
+        <p class="policy-hero-lede">Pass code a DAL handle that can do its job—and nothing else. The same readable policy protects Firestore, SQL, files, Git, and your in-memory tests.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#start">Build a capability</a>
+          <a class="btn btn-default" href="https://github.com/dal-go/dalgo/tree/main/access" rel="noopener">View the Go package</a>
+        </div>
+        <div class="policy-proof" aria-label="Feature summary">
+          <div><strong>8</strong><span>explicit operations</span></div>
+          <div><strong>100%</strong><span>adapter-independent</span></div>
+          <div><strong>0</strong><span>silent denials</span></div>
+        </div>
+      </div>
+
+      <div class="boundary-demo" aria-label="An extension capability boundary">
+        <div class="boundary-label">CAPABILITY · extension/trackus</div>
+        <div class="boundary-tree">
+          <div class="tree-row is-denied"><span class="tree-path">/users/u1</span><span class="tree-state">deny</span></div>
+          <div class="tree-row is-allowed"><span class="tree-path">/ext/trackus/…</span><span class="tree-state">allow</span></div>
+          <div class="tree-row"><span class="tree-path">/spaces/<em>*</em>/</span><span class="tree-state muted">inherit</span></div>
+          <div class="tree-row tree-child is-allowed"><span class="tree-path">ext/trackus/…</span><span class="tree-state">allow</span></div>
+          <div class="tree-row tree-child is-denied"><span class="tree-path">ext/billing/…</span><span class="tree-state">deny</span></div>
+        </div>
+        <div class="boundary-result"><span aria-hidden="true">✓</span> Evaluated before the adapter</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="model" class="section section-subtle">
+    <div class="container">
+      <header class="section-head">
+        <span class="section-eyebrow">The model</span>
+        <h2 class="section-title">Hierarchical where it helps.<br />Monotonic where it matters.</h2>
+        <p class="section-kicker">One policy reads like a path tree. Separate policies intersect like capability boundaries.</p>
+      </header>
+      <div class="precedence-grid">
+        <article class="Box precedence-card">
+          <span class="precedence-num">01</span>
+          <h3>Start closed</h3>
+          <p>No matching allow means denied. Unknown future operations stay denied.</p>
+          <code>default: deny</code>
+        </article>
+        <article class="Box precedence-card">
+          <span class="precedence-num">02</span>
+          <h3>Most specific wins</h3>
+          <p>Inside one policy, child rules can carve out or reopen a subtree.</p>
+          <code>Deny(path).Allow(child)</code>
+        </article>
+        <article class="Box precedence-card">
+          <span class="precedence-num">03</span>
+          <h3>Policies intersect</h3>
+          <p>A context capability can narrow a global policy. It can never widen one.</p>
+          <code>global ∩ context</code>
+        </article>
+      </div>
+      <div class="hierarchy-examples">
+        <div class="hierarchy-case">
+          <span>Broad access, sensitive carve-out</span>
+          <div><strong class="allow-text">ALLOW</strong> /spaces/*/**</div>
+          <div class="indent"><strong class="deny-text">DENY</strong> /private/**</div>
+        </div>
+        <div class="hierarchy-arrow" aria-hidden="true">or</div>
+        <div class="hierarchy-case">
+          <span>Closed namespace, named capability</span>
+          <div><strong class="deny-text">DENY</strong> /spaces/*/**</div>
+          <div class="indent"><strong class="allow-text">ALLOW</strong> /ext/trackus/**</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="operations" class="section">
+    <div class="container">
+      <header class="section-head">
+        <span class="section-eyebrow">Purpose-built authority</span>
+        <h2 class="section-title">Grant the operation, not a vague role.</h2>
+        <p class="section-kicker">Reading a known key is not enumerating a collection. Appending a log is not reading it back.</p>
+      </header>
+      <div class="operation-strip" role="list" aria-label="Policy operations">
+        <span class="op read">GET</span><span class="op read">EXISTS</span><span class="op read">QUERY</span>
+        <span class="op write">INSERT</span><span class="op write">SET</span><span class="op write">UPDATE</span><span class="op write">DELETE</span><span class="op future">TRUNCATE</span>
+      </div>
+      <div class="use-case-grid">
+        <article class="Box use-case"><span class="use-case-tag">Append-only</span><h3>Log producer</h3><p>Allow <code>Insert</code>. No read, update, delete, or query capability follows.</p></article>
+        <article class="Box use-case"><span class="use-case-tag">Known-key support</span><h3>Secret lookup</h3><p>Allow <code>Get</code>, deny <code>Query</code>. Inspect one known record without enumeration.</p></article>
+        <article class="Box use-case"><span class="use-case-tag">Analytics</span><h3>Query-only tool</h3><p>Allow <code>Query</code> without point reads or mutations—a foundation for field and predicate constraints.</p></article>
+        <article class="Box use-case"><span class="use-case-tag">Raw SQL</span><h3>Opaque by default</h3><p>Custom SQL text needs an explicit <code>OpaqueQueryScope</code>. A trusted SQL→DTQL analyzer can narrow it later; incomplete analysis still denies.</p></article>
+      </div>
+      <p class="operation-footnote"><strong>Future-safe:</strong> <code>Truncate</code> exists in the vocabulary now, before a session method does, so existing policies fail closed.</p>
+    </div>
+  </section>
+
+  <section id="errors" class="section denial-section">
+    <div class="container denial-layout">
+      <div>
+        <span class="section-eyebrow">Explainable enforcement</span>
+        <h2 class="section-title">A denial should answer “why?”</h2>
+        <p class="section-kicker">Every rejection is a typed error and a structured decision trace. Operators reach the offending policy and rule without reconstructing a matcher in their heads.</p>
+        <div class="denial-fields">
+          <span>operation</span><span>resource</span><span>policy</span><span>source</span><span>rule</span><span>effect</span>
+        </div>
+        <aside class="safe-error-note"><strong>Safe by design.</strong> Put the detailed trace in trusted logs or authenticated tooling. Return a generic forbidden response and correlation ID to untrusted clients.</aside>
+      </div>
+      <div class="error-terminal">
+        <div class="error-terminal-head"><span></span><span></span><span></span><em>policy decision</em></div>
+        <div class="error-status">ACCESS DENIED</div>
+        <dl>
+          <dt>operation</dt><dd>set</dd>
+          <dt>resource</dt><dd>/users/u1</dd>
+          <dt>policy</dt><dd>extension-trackus</dd>
+          <dt>source</dt><dd>config/access/extensions.yaml</dd>
+          <dt>rule</dt><dd>outside-extension</dd>
+          <dt>because</dt><dd>matched rule “outside-extension” (deny)</dd>
+        </dl>
+        <div class="adapter-call"><span>adapter call</span><strong>SKIPPED</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="portable" class="section section-subtle">
+    <div class="container">
+      <header class="section-head">
+        <span class="section-eyebrow">Portable by construction</span>
+        <h2 class="section-title">YAML for humans. JSON for systems.<br />Any storage you choose.</h2>
+        <p class="section-kicker">The loader accepts an <code>io.Reader</code>, not a filename. Keep policies in Git, object storage, a database, embedded assets, or ordinary files.</p>
+      </header>
+      <div class="portable-grid">
+        <div class="codeblock policy-code">
+          <div class="codeblock-head"><span class="codeblock-dot" style="background:#ff5f56"></span><span class="codeblock-dot" style="background:#ffbd2e"></span><span class="codeblock-dot" style="background:#27c93f"></span><span class="codeblock-name">extension-trackus.yaml</span><span class="codeblock-lang">YAML</span></div>
+          <pre><code><span class="pl-k">apiVersion:</span> dalgo.io/access/v1
+<span class="pl-k">kind:</span> AccessPolicy
+<span class="pl-k">metadata:</span>
+  <span class="pl-k">name:</span> extension-trackus
+<span class="pl-k">default:</span> deny
+<span class="pl-k">scopes:</span>
+  - <span class="pl-k">path:</span> /spaces/*/**
+    <span class="pl-k">rules:</span>
+      - <span class="pl-k">id:</span> outside-extension
+        <span class="pl-k">effect:</span> deny
+        <span class="pl-k">operations:</span> [readwrite]
+    <span class="pl-k">scopes:</span>
+      - <span class="pl-k">path:</span> /ext/trackus/**
+        <span class="pl-k">rules:</span>
+          - <span class="pl-k">id:</span> own-data
+            <span class="pl-k">effect:</span> allow
+            <span class="pl-k">operations:</span> [readwrite]</code></pre>
+        </div>
+        <div class="portable-copy">
+          <div class="storage-flow" aria-label="Policy storage flows through a codec into the matcher">
+            <div><strong>Git · GCS · DB · file</strong><span>your storage</span></div><i>→</i>
+            <div><strong>io.Reader</strong><span>storage neutral</span></div><i>→</i>
+            <div><strong>YAMLCodec</strong><span>strict + versioned</span></div><i>→</i>
+            <div><strong>Policy</strong><span>ready to enforce</span></div>
+          </div>
+          <ul class="portable-list">
+            <li>Strict unknown-field, version, operation, effect, and path validation.</li>
+            <li>Equivalent YAML and JSON document semantics.</li>
+            <li>Extensible <code>Codec</code> boundary for HCL or another syntax.</li>
+            <li>Source references survive loading and appear in explanations.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="audit" class="section audit-section">
+    <div class="container audit-grid">
+      <div>
+        <span class="section-eyebrow">One matcher, separate intent</span>
+        <h2 class="section-title">Select audit events without changing access.</h2>
+        <p class="section-kicker">Reuse the same paths and operations with independent <code>audit</code> and <code>ignore-audit</code> effects. Avoid recursive logging without inventing a second policy language.</p>
+      </div>
+      <div class="audit-rules">
+        <div><span class="audit-yes">AUDIT</span><code>write /users/**</code></div>
+        <div><span class="audit-yes">AUDIT</span><code>write /transactions/**</code></div>
+        <div><span class="audit-no">IGNORE</span><code>write /auditLog/**</code></div>
+        <p>Classification only—your application owns persistence, redaction, delivery, and retention.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="start" class="section closing policy-closing">
+    <div class="container closing-inner">
+      <span class="section-eyebrow">Make authority visible</span>
+      <h2>Give every component exactly the data access it needs.</h2>
+      <p>Define the boundary once. Exercise it in memory. Enforce it unchanged in production.</p>
+      <div class="closing-cta">
+        <a class="btn btn-primary" href="https://github.com/dal-go/dalgo/blob/main/docs/access-policies.md" rel="noopener">Read the implementation guide</a>
+        <a class="btn btn-default" href="https://pkg.go.dev/github.com/dal-go/dalgo/access" rel="noopener">Open package docs</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="AppFooter">
+  <div class="container AppFooter-inner">
+    <ul role="list">
+      <li><a href="/">DALgo</a></li>
+      <li><a href="https://github.com/dal-go/dalgo" rel="noopener">GitHub</a></li>
+      <li><a href="https://pkg.go.dev/github.com/dal-go/dalgo" rel="noopener">pkg.go.dev</a></li>
+      <li><a href="/dtql/">DTQL</a></li>
+    </ul>
+    <span class="AppFooter-tag">One interface · Many databases · Explicit authority</span>
+  </div>
+</footer>
+</body>
+</html>
