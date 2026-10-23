@@ -7,7 +7,7 @@
   "use strict";
   var GA_ID = "G-DLR3FRM1DZ";
   var KEY = "dalgo.analytics-consent.v1";
-  var GATED = ["AT","BE","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR","HU","IE","IT","LV","LT","LU","MT","NL","PL","PT","RO","SK","SI","ES","SE","IS","LI","NO","GB"];
+  var GATED = ["AT","BE","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR","HU","IE","IT","LV","LT","LU","MT","NL","PL","PT","RO","SK","SI","ES","SE","IS","LI","NO","CH","GB","GI","JE","GG","IM","RE","GP","MQ","GF","YT","MF","AX","XX","T1"];
   var loaded = false, banner = null, opener = null;
 
   function stored() {
@@ -100,7 +100,7 @@
     if (c === "denied") { withdraw(); return; }
     fetch("/cdn-cgi/trace").then(function (r) { return r.text(); }).then(function (t) {
       var m = /(?:^|\n)loc=([A-Z]{2})/.exec(t);
-      return !(m && GATED.indexOf(m[1]) === -1); // unknown region is gated
+      return !(m && GATED.indexOf(m[1]) === -1); // unknown region (XX, T1, no match) is gated
     }, function () { return true; }).then(function (gated) {
       if (c === "granted" || !gated) load(); else show(false);
     });
