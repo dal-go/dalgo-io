@@ -130,7 +130,7 @@ $defs:
             - boolean
         type: array
     type: object
-$id: https://dal-go.github.io/dtql/schema.json
+$id: https://dal-go.github.io/tugql/schema.json
 $schema: https://json-schema.org/draft/2020-12/schema
 additionalProperties: false
 description: YAML serialization of dalgo's dal.StructuredQuery (core relational read-only subset).
@@ -155,5 +155,5 @@ properties:
     $ref: '#/$defs/condition'
 required:
   - from
-title: DTQL
+title: TugQL
 type: object

@@ -13,7 +13,8 @@ dalgo-io/
 ├── public/            ← everything served to the browser
 │   ├── index.html
 │   ├── styles.css
-│   └── dtql/          ← DTQL reference pages + examples
+│   ├── tugql/          ← TugQL reference pages + examples
+│   └── dtql/           ← static redirect stub for the former location
 └── wrangler.jsonc     ← Worker + assets config
 ```
 
