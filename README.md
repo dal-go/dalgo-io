@@ -25,7 +25,8 @@ python3 -m http.server 8000 --directory public
 
 - `public/index.html` — page content and structure.
 - `public/styles.css` — design system: fonts, colors, layout, motion.
-- `public/dtql/` — the DTQL reference pages and examples.
+- `public/tugql/` — the TugQL reference pages and examples.
+- `public/dtql/` — a static redirect stub for the former location (index.html to /tugql/, schema.json is a `$ref` to the TugQL schema).
 
 ## License
 
