@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Privacy — DALgo</title>
+<meta name="description" content="How dalgo.io uses Google Analytics and how to change your choice." />
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230d1117'/><text x='50%25' y='52%25' text-anchor='middle' dominant-baseline='middle' font-family='ui-monospace,monospace' font-size='28' font-weight='700' fill='%232f81f7'>d/</text></svg>" />
+<link rel="stylesheet" href="/styles.css" />
+<script src="/analytics.js" defer></script>
+</head>
+<body>
+
+<header class="AppHeader" role="banner">
+  <div class="AppHeader-inner">
+    <a class="AppHeader-brand" href="/" aria-label="DALgo home">
+      <span class="AppHeader-brand-mark" aria-hidden="true"><span class="brand-dal">DAL</span><span class="brand-go">go</span></span>
+    </a>
+      </div>
+</header>
+
+<main class="container" style="max-width:820px;padding:32px 16px 48px">
+<h1>Privacy</h1>
+<p>Effective 23 October 2026</p>
+<p>dalgo.io is a static documentation site. It has no accounts and no advertising, and it does not sell data. This page says what happens when you visit it and the one choice you control: analytics.</p>
+<h2 id="analytics">Analytics</h2>
+<p>We use Google Analytics 4, provided by Google Ireland Limited, to measure traffic. Google Signals and ad personalization are switched off, we set no user ID, and we send no personal data beyond what Google Analytics collects automatically (described below).</p>
+<p>If you visit from the European Economic Area (including its overseas territories), Iceland, Liechtenstein, Norway, Switzerland, the United Kingdom, Gibraltar or the Crown Dependencies, nothing is sent to Google and the Google Analytics script is not even loaded until you choose Accept in the banner. If you choose Decline, it does not load (or stops) and any analytics cookies already set on this site are deleted. Elsewhere, Google Analytics loads normally and no banner is shown. Your region is taken from the country code that Cloudflare, which hosts this site, reports for your request; if it cannot be determined, you are treated as being in the EEA or UK.</p>
+<p>When Google Analytics runs, it sets first-party cookies (<code>_ga</code> and <code>_ga_&lt;id&gt;</code>, kept for up to two years) and receives the page address, the referring page, browser and device information, and an approximate location derived from your IP address.</p>
+<p>In the EEA and UK the legal basis is your consent. We keep Google Analytics event data for no longer than 14 months.</p>
+<h2 id="choice">Your choice</h2>
+<p>Your choice is stored in your browser (<code>localStorage</code>, key <code>dalgo.analytics-consent.v1</code>). You can change it at any time below.</p>
+<p><button type="button" class="btn btn-default" data-analytics-choices hidden>Change analytics choice</button></p>
+<h2 id="contact">Questions</h2>
+<p>Open an issue at <a href="https://github.com/dal-go/dalgo/issues" rel="noopener">github.com/dal-go/dalgo</a>.</p>
+</main>
+
+<footer class="AppFooter">
+  <div class="container AppFooter-inner">
+    <ul role="list">
+      <li>&copy; <span id="year">2026</span> DALgo contributors</li>
+      <li><a href="/">DALgo</a></li>
+      <li><a href="https://github.com/dal-go/dalgo/tree/main/tugql" rel="noopener">Source</a></li>
+      <li><a href="/privacy/">Privacy</a></li>
+    </ul>
+    <span class="AppFooter-tag">Open-source documentation site. No accounts, no advertising.</span>
+  </div>
+</footer>
+
+</body>
+</html>
