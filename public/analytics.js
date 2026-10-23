@@ -8,7 +8,7 @@
   var GA_ID = "G-DLR3FRM1DZ";
   var KEY = "dalgo.analytics-consent.v1";
   var GATED = ["AT","BE","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR","HU","IE","IT","LV","LT","LU","MT","NL","PL","PT","RO","SK","SI","ES","SE","IS","LI","NO","CH","GB","GI","JE","GG","IM","RE","GP","MQ","GF","YT","MF","AX","XX","T1"];
-  var loaded = false, banner = null, opener = null;
+  var loaded = false, banner = null, opener = null, decided = false;
 
   function stored() {
     try { var v = localStorage.getItem(KEY); return v === "granted" || v === "denied" ? v : null; } catch (e) { return null; }
@@ -52,6 +52,7 @@
   function hide() { if (banner && banner.parentNode) banner.parentNode.removeChild(banner); banner = null; }
 
   function decide(v) {
+    decided = true;
     store(v);
     hide();
     if (v === "granted") load(); else withdraw();
@@ -102,7 +103,10 @@
       var m = /(?:^|\n)loc=([A-Z]{2})/.exec(t);
       return !(m && GATED.indexOf(m[1]) === -1); // unknown region (XX, T1, no match) is gated
     }, function () { return true; }).then(function (gated) {
-      if (c === "granted" || !gated) load(); else show(false);
+      if (decided) return; // the visitor chose while the lookup ran; decide() already applied it
+      var now = stored();
+      if (now === "denied") return;
+      if (now === "granted" || !gated) load(); else show(false);
     });
   }
 
