@@ -27,6 +27,15 @@ python3 -m http.server 8000 --directory public
 - `public/styles.css` — design system: fonts, colors, layout, motion.
 - `public/tugql/` — the TugQL reference pages and examples.
 - `public/dtql/` — a static redirect stub for the former location (index.html to /tugql/, schema.json is a `$ref` to the TugQL schema).
+- `content/articles/*.md` — one Markdown file per article (title, date, description, and summary in front matter).
+- `public/articles/` — the generated article index and pages. Regenerate after editing Markdown:
+
+```sh
+python3 scripts/render_articles.py
+python3 scripts/render_articles.py --check   # fails if public/articles is stale
+```
+
+The renderer is dependency-free. It understands the subset the articles use: headings, lists, fenced code, tables, blockquotes, links, bold, italics, and inline code. Deploy still serves `public/` with no build step; commit the generated HTML with the Markdown.
 
 ## License
 
