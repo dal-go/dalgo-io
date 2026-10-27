@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Why use DALgo — DALgo</title>
+<meta name="description" content="What DALgo gives Go and TypeScript applications — one record, query, and transaction API across real adapters — and the limits it refuses to hide." />
+<link rel="canonical" href="https://dalgo.io/articles/why-use-dalgo/" />
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)" />
+<meta property="og:title" content="Why use DALgo — DALgo" />
+<meta property="og:description" content="What DALgo gives Go and TypeScript applications — one record, query, and transaction API across real adapters — and the limits it refuses to hide." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://dalgo.io/articles/why-use-dalgo/" />
+<meta property="article:published_time" content="2026-10-27" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230d1117'/><text x='50%25' y='52%25' text-anchor='middle' dominant-baseline='middle' font-family='ui-monospace,monospace' font-size='28' font-weight='700' fill='%232f81f7'>d/</text></svg>" />
+<link rel="stylesheet" href="/styles.css" />
+<script src="/analytics.js" defer></script>
+</head>
+<body>
+
+<header class="AppHeader" role="banner">
+  <div class="AppHeader-inner">
+    <a class="AppHeader-brand" href="/" aria-label="DALgo home">
+      <span class="AppHeader-brand-mark" aria-hidden="true">
+        <span class="brand-dal">DAL</span><span class="brand-go">go</span>
+      </span>
+    </a>
+
+    <nav class="AppHeader-context" aria-label="Context">
+      <span class="AppHeader-context-slash" aria-hidden="true">/</span>
+      <a class="AppHeader-context-item" href="/articles/">Articles</a>
+    </nav>
+
+    <nav class="AppHeader-nav" aria-label="Primary">
+      <a href="/#why">Why</a>
+      <a href="/#adapters">Adapters</a>
+      <a href="/articles/">Articles</a>
+      <a href="/tugql/">TugQL</a>
+    </nav>
+
+    <div class="AppHeader-actions">
+      <a class="btn btn-default btn-sm" href="https://github.com/dal-go/dalgo" rel="noopener">
+        <svg class="octicon" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></svg>
+        <span>Star</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+<article class="article">
+  <header class="article-header">
+    <p class="article-kicker"><a href="/articles/">Articles</a></p>
+    <h1>Why use DALgo</h1>
+    <p class="article-meta"><time datetime="2026-10-27">27 October 2026</time></p>
+    <p class="article-standfirst">DALgo keeps domain code on one record, query, and transaction API while the storage backend stays replaceable. This is the case for it, grounded in the modules and the projects that already sit on that seam.</p>
+  </header>
+  <nav class="Box toc" aria-label="On this page"><strong>On this page</strong><ol><li><a href="#the-seam-you-program-against">The seam you program against</a></li>
+<li><a href="#what-you-get-for-taking-the-dependency">What you get for taking the dependency</a></li>
+<li><a href="#where-this-is-already-the-architecture">Where this is already the architecture</a></li>
+<li><a href="#why-the-typescript-family-is-part-of-the-same-story">Why the TypeScript family is part of the same story</a></li>
+<li><a href="#a-bounded-promise">A bounded promise</a></li>
+<li><a href="#sources">Sources</a></li></ol></nav>
+  <div class="article-prose">
+<p>DALgo is a database abstraction layer. The Go module, <a href="https://github.com/dal-go/dalgo" rel="noopener"><code>github.com/dal-go/dalgo</code></a>, is the one production services import. A separate TypeScript package, <a href="https://github.com/dal-go/dalgo-js" rel="noopener"><code>@dalgo/core</code></a>, carries the same idea into browser and Node code: hierarchical keys, typed collections, structured queries, and transaction-scoped writes, with no database SDK of its own. Adapters are the part that knows Firestore, Postgres, SQLite, a Git working tree, or an HTTP API.</p>
+<p>The point of the split is ordinary. Application code spends years naming records, reading them back, and updating them inside a transaction. Those operations do not have to name <code>*sql.DB</code>, a Firestore client, or an HTTP route. When they don&#x27;t, the storage choice can move without a rewrite of the domain, and the test suite can run against a stand-in that speaks the same interface.</p>
+<p>That is the whole pitch. The rest of this article is what the repositories actually ship, and where teams in the same orbit already use it. The companion article, <a href="/articles/when-to-use-dalgo/">When to use DALgo, and when not to</a>, is the other half: the jobs this layer should not be given.</p>
+<h2 id="the-seam-you-program-against">The seam you program against</h2>
+<p>Most application code should accept <code>dal.DB</code>, <code>dal.ReadSession</code>, or <code>dal.ReadwriteSession</code>, and never a concrete adapter. <code>dal.DB</code> is the database handle: identity, schema metadata, transactions, and reads. It is built with <code>dal.NewDB</code> from an adapter&#x27;s <code>dal.Backend</code>, and it owns the write pipeline, so validation and before-save hooks run before any adapter is entered. An adapter cannot quietly skip them, and two adapters cannot disagree about whether a write was checked.</p>
+<p>Day-to-day CRUD can sit on a generic, session-less <code>dal.Collection[K, T]</code>. The handle holds no connection, so it can live as a package-level variable. Reads take a <code>ReadSession</code> and return <code>T</code>. Writes take a <code>WriteSession</code>, which means a write that is handed a plain <code>dal.DB</code> is a compile error. The transaction callback is where mutation is allowed.</p>
+<div class="codeblock"><div class="codeblock-head"><span class="codeblock-name">example.go</span><span class="codeblock-lang">Go</span></div><pre><code>type User struct {
+    Name  string
+    Email string
+}
+
+func (User) CollectionName() string { return "users" }
+
+var Users = dal.CollectionOf[string, User]()
+
+func GetUser(ctx context.Context, db dal.DB, id string) (User, error) {
+    return Users.GetData(ctx, db, id)
+}</code></pre></div>
+<p>That function is the same whether <code>db</code> was opened with the in-memory adapter, Firestore, SQL, or a filesystem. The core README shows the same shape against <code>database/sql</code>, where the function knows the table, the placeholder, and <code>sql.ErrNoRows</code>. The DALgo version knows a collection name and an id. Missing rows come back through <code>dal.IsNotFound</code>.</p>
+<p>Keys can be hierarchical (<code>countries/ireland/cities/dublin</code>), which is the natural shape for Firestore-style data and also how a SQL adapter maps a parent into columns. Queries are a structured builder — filters, order, limit, projection, grouping, aggregates, inner and left equi-joins — plus <a href="/tugql/">TugQL</a>, a YAML serialization of that query so a saved query can round-trip without being a string of SQL dialect.</p>
+<p>Transactions are callbacks. The adapter owns begin, commit, retry, and rollback. The callback receives a session and returns an error.</p>
+<div class="codeblock"><div class="codeblock-head"><span class="codeblock-name">example.go</span><span class="codeblock-lang">Go</span></div><pre><code>err := db.RunReadwriteTransaction(ctx, func(ctx context.Context, tx dal.ReadwriteTransaction) error {
+    return Users.SetByID(ctx, tx, "u1", User{Name: "Ada", Email: "ada@example.com"})
+})</code></pre></div>
+<p>A record whose data implements <code>Validate() error</code> is validated on <code>Insert</code>, <code>Set</code>, <code>UpdateRecord</code>, and the multi-record variants before any row is written. A batch that fails validation writes nothing. <code>dal.WithoutValidation</code> is the explicit opt-out for a repair or a bulk import, and it is visible at the call site. Hooks still run.</p>
+<h2 id="what-you-get-for-taking-the-dependency">What you get for taking the dependency</h2>
+<p><strong>One vocabulary for records, queries, and transactions.</strong> Driver-specific types stay inside the adapter. Domain packages, HTTP handlers, and job workers talk about keys, records, updates, and sessions. That is a readability win on its own, before anyone swaps a database. The same call shape is also what makes a review possible: a write outside a transaction, or a read of a path the caller should not see, has one place to be illegal.</p>
+<p><strong>A real test double, not a pile of hand-written fakes.</strong> <code>dalgo2memory</code> ships in the core module. The project describes it as the store for tests, examples, and local development, and as something that can run many structured-query features end to end, including schema registration and typed records. Generated mocks for the interfaces live in the core <code>mocks</code> package. The older standalone <code>mocks4dalgo</code> repository is archived. Shared scenarios live in the core <code>end2end</code> package; the standalone <code>dalgo-end2end-tests</code> repository is archived too.</p>
+<p><strong>A place to put policy, once.</strong> Access policies wrap any adapter and run before the adapter sees a get, an exists check, a query, a mutation, or a transaction. <code>Get</code>, <code>Exists</code>, and <code>Query</code> are separate read capabilities. <code>Insert</code>, <code>Set</code>, <code>Update</code>, <code>Delete</code>, and a reserved <code>Truncate</code> are separate write capabilities. Write access does not imply read access. A secured handle with no policy in force denies every request. Rules are default-deny, hierarchical, and intersecting: adding another policy can only narrow authority. A denial comes back as an <code>access.DeniedError</code> that names the operation, the resource, the policy, and the rule. Policies load from YAML or JSON via an <code>io.Reader</code>. The same wrapper is what the project recommends for extension code, tenants, jobs, and support tools. Sneat&#x27;s Go core uses a related idea at the edge: <code>facade.ProtectSneatDB</code> applies a reviewed root-collection registry when <code>db.Adapter().Name()</code> is <code>&quot;firestore&quot;</code>, and returns any other adapter untouched, so a non-Firestore deployment keeps its own layout.</p>
+<p><strong>Explicit failure when a backend cannot do the thing.</strong> The core README states the rule directly: DALgo does not try to hide every database difference. An adapter returns <code>dal.ErrNotSupported</code> for a capability it does not have. Callers can share one query shape in tests and skip, or fail, when a store cannot run it. That is less convenient than an ORM that silently rewrites your query into something else. It is also how the abstraction stays honest. The next article is about living with that rule.</p>
+<p><strong>SQL engines keep their own compilers where it matters.</strong> <a href="https://github.com/dal-go/dalgo2sql" rel="noopener"><code>dalgo2sql</code></a> is the shared SQL adapter. Its own README describes a SQLite structured emitter and a typed compiler for PostgreSQL, MySQL, Oracle, and SQL Server. With a dialect set, values are bound parameters and identifiers are quoted. <a href="https://github.com/dal-go/dalgo2postgres" rel="noopener"><code>dalgo2postgres</code></a> forces the <code>postgres</code> dialect in its constructors, so a structured query on that handle cannot fall through to the legacy text emitter, which interpolates values into SQL text. Engine-specific modules add the parts a portable interface cannot invent: <code>dalgo2postgres</code> introspects catalogs and applies Postgres DDL; <code>dalgo2sqlite</code> reports <code>Concurrency() = 1</code> on the write path because SQLite has a single writer, and it introspects <code>sqlite_master</code>. The <code>dalgo2sqlite</code> README names DataTug&#x27;s <code>db copy</code> as the kind of consumer that wants schema changes and concurrency hints through this API rather than a hand-rolled <code>CREATE TABLE</code> per engine.</p>
+<p><strong>Stores that are not a hosted database still fit the same calls.</strong> The dal-go organization also publishes adapters whose backends are files, Git, HTTP, or a vendor API:</p>
+<ul>
+<li><a href="https://github.com/dal-go/dalgo2files" rel="noopener"><code>dalgo2files</code></a> and the built-in <code>dalgo2fs</code> for filesystem persistence.</li>
+<li><a href="https://github.com/dal-go/dalgo2git" rel="noopener"><code>dalgo2git</code></a> for versioned storage in a Git repository.</li>
+<li><a href="https://github.com/dal-go/dalgo2openvaultdb" rel="noopener"><code>dalgo2openvaultdb</code></a> for the OpenVaultDB HTTP API.</li>
+<li><a href="https://github.com/ingitdb/dalgo2ingitdb" rel="noopener"><code>ingitdb/dalgo2ingitdb</code></a>, <a href="https://github.com/ingitdb/dalgo2ingitdb4local" rel="noopener"><code>dalgo2ingitdb4local</code></a>, and <a href="https://github.com/ingitdb/dalgo2ingitdb4github" rel="noopener"><code>dalgo2ingitdb4github</code></a> for <a href="https://github.com/ingitdb/ingitdb" rel="noopener">inGitDB</a> projects on a local tree or through the GitHub API.</li>
+<li>Narrower modules whose descriptions are the feature: read-only Cloudflare D1 (<code>dalgo2d1</code>), read-only HTTP/JSON (<code>dalgo2http</code>), bounded local log files (<code>dalgo2logs</code>), Namecheap domains and DNS records (<code>dalgo2namecheap</code>), bounded BigQuery reads (<code>dalgo2bigquery</code>), and a DuckDB driver (<code>dalgo2duckdb</code>).</li>
+</ul>
+<p>BuntDB and BadgerDB adapters still exist and are deprecated. They are not current production targets.</p>
+<p>The TypeScript side is a catalog as much as a runtime. <a href="https://github.com/dal-go/dalgo-http-adapters" rel="noopener"><code>dalgo-http-adapters</code></a> qualifies which HTTP data planes can preserve DALgo semantics and which must fail closed. <code>@dalgo/firestore</code> is the reference adapter and is aimed at the browser, because Firebase Auth and Security Rules are built for public clients. The package README is explicit that a long-lived database credential does not belong in a browser, and that several products in the matrix are HTTP-capable only from a trusted runtime. Older standalone JavaScript adapter repositories were archived as that catalog took over.</p>
+<h2 id="where-this-is-already-the-architecture">Where this is already the architecture</h2>
+<p>These are public repositories, read in October 2026. They are not a customer list, and they are not independent benchmarks. They are the projects that publish how they sit on the interface.</p>
+<p><strong>Sneat.</strong> <a href="https://github.com/sneat-co/sneat-go-core" rel="noopener"><code>sneat-go-core</code></a> exposes <code>facade.GetSneatDB(ctx) (dal.DB, error)</code>. Since v0.60.3 that function is not a reassignable package variable. Tests and request-scoped code inject a database with <code>facade.WithSneatDB</code> or <code>facade.WithSneatDBProvider</code>, which is safe under <code>go test</code> parallelism. Production wiring sets a default provider at startup. <code>ProtectSneatDB</code> then wraps Firestore handles with the reviewed collection registry and leaves every other adapter alone.</p>
+<p>The Sneat CLI uses that seam in a concrete way. Its convo sandbox comment says the facades stay storage-agnostic and always go through <code>facade.GetSneatDB</code>; only the wiring picks the driver. <code>SNEAT_STORAGE</code> selects <code>dalgo2memory</code> (the default, constructed with a Firestore profile so the stand-in follows the production backend) or <code>dalgo2openvaultdb</code> pointed at <code>ovdb serve</code>. The same CLI also opens user Firestore through <code>dalgo2firestore</code> for read paths, and that package deliberately does not hand callers a full <code>dal.DB</code>. It keeps a read-only transaction runner, because a read-write handle would be a wider escape hatch than those callers need. Both facts belong in the picture: the interface is what makes the swap possible, and teams still narrow it at the edge.</p>
+<p><strong>OpenVaultDB.</strong> <a href="https://github.com/openvaultdb/openvaultdb" rel="noopener">OpenVaultDB</a> is a user-controlled vault: schemas, narrow capabilities, and storage that the user can move. The Go library&#x27;s README states the MVP goal in one diagram:</p>
+<div class="codeblock"><div class="codeblock-head"><span class="codeblock-name">text</span><span class="codeblock-lang">Text</span></div><pre><code>sneat-cli → Sneat facades → DALgo → dalgo2openvaultdb → OpenVaultDB HTTP → SQLite | inGitDB</code></pre></div>
+<p>The server stores records in a SQLite file or an inGitDB tree and exposes one JSON HTTP API. The driver speaks that API with the standard library HTTP client. A Go program that already has a <code>dal.DB</code> can be pointed at it without a second data-access stack. The driver&#x27;s README is also a capability table: point reads, batch writes inside a transaction, and a structured query subset are supported; cursors, offsets, <code>GROUP BY</code>, collection-group queries, and update preconditions return <code>dal.ErrNotSupported</code>. Direct field projections are applied in the client after the HTTP response, so they do not shrink the payload. That table is the practical meaning of &quot;the business logic did not change.&quot;</p>
+<p><strong>inGitDB.</strong> <a href="https://github.com/ingitdb/ingitdb" rel="noopener">inGitDB</a> is a Git-backed database: collections as text files, history as commits, branches as branches. It is not DALgo. DALgo is one client interface over it. <code>ingitdb-cli</code> requires the core module plus <code>dalgo2ingitdb</code>, <code>dalgo2ingitdb4local</code>, and <code>dalgo2ingitdb4github</code>. The local adapter can enforce owner access policies from <code>.ingitdb/access/manifest.yaml</code>, using the portable <code>tugql.org/access/v1</code> format, and can publish an immutable policy generation as its own Git commit. <code>dalgo2git</code>, in the dal-go organization, is a separate and thinner driver: versioned storage in a Git repository. Treat them as different backends that happen to share a theme.</p>
+<p><strong>DataTug.</strong> <a href="https://github.com/datatug/datatug" rel="noopener">DataTug</a> is a context-aware exploration environment across operational sources, with project files stored as Git-native content. The DALgo README describes DALgo as the data-access seam in that development ecosystem, and the TypeScript README says DataTug&#x27;s current DALgo work uses the Go implementation, with <code>@dalgo/core</code> remaining a separate codebase. Separately, the <a href="https://github.com/datatug/datatug-apps" rel="noopener"><code>datatug-apps</code></a> workspace manifest depends on <code>@dalgo/core</code>, <code>@dalgo/indexeddb</code>, <code>@dalgo/ovdb</code>, <code>@dalgo/sqlite-sql</code>, and <code>@dalgo/sqlite-wasm</code>, pinned to git revisions. OpenVaultDB&#x27;s own README describes DataTug session storage on OpenVaultDB as architecture still in progress. Taken together, DataTug is a consumer and a reason the query format (TugQL) and several adapters exist. It is not evidence that every DataTug screen runs through one adapter.</p>
+<p><strong>Listus and bots.</strong> The Listus backend module (<code>github.com/sneat-co/listus/backend</code>) requires <code>github.com/dal-go/dalgo</code>. The Go chatbot framework <a href="https://github.com/bots-go-framework/bots-fw" rel="noopener"><code>bots-fw</code></a> no longer depends on DALgo in its core module. Persistence sits behind a small <code>StateStore</code> port. <a href="https://github.com/bots-go-framework/bots-fw-store-dalgo" rel="noopener"><code>bots-fw-store-dalgo</code></a> is the optional implementation of that port: it keeps the historical keys (<code>botPlatforms/{platform}/botUsers/{user}</code>, and chats nested under a bot), writes partial field updates so different services do not wipe each other&#x27;s fields on a shared platform-user document, and commits the application user, the platform link, and the chat in one adapter-owned transaction. The framework&#x27;s <code>WebhookContext</code> has no <code>DB()</code> method. That is a mature way to use the layer. Domain code depends on a port sized to the use case. DALgo is the implementation of the port, present in the process that needs it.</p>
+<h2 id="why-the-typescript-family-is-part-of-the-same-story">Why the TypeScript family is part of the same story</h2>
+<p><code>@dalgo/core</code> does not open a connection. An application adds an adapter that implements the current core contracts. The Firestore Web SDK adapter is the one the repository points to first, and it runs in the browser. Collection paths use the same parent-key model as Go (<code>items</code> inside <code>spaces/{id}</code>), and collection-group queries are an explicit constructor rather than a side effect of naming a collection.</p>
+<p>The two implementations are not drop-in ports of each other. The TypeScript README&#x27;s adapter inventory says the generic JOIN executor scans each relation through <code>QueryExecutor.query</code>, and that several adapters, including current-core Firestore and IndexedDB, do not yet have JOIN integration tests. Adapters still importing the legacy <code>@dal-go/dalgo</code> package are a second module identity; mixing them with <code>@dalgo/core</code> installs two cores. DataTug&#x27;s published note that its current DALgo work is on the Go side is consistent with that gap. Use the TypeScript stack where the program actually runs in JavaScript and the adapter you import documents the operations you call. Use the Go module where the service is Go.</p>
+<h2 id="a-bounded-promise">A bounded promise</h2>
+<p>DALgo is MIT-licensed. The core repository asks contributors to keep the public API stable under semantic versioning, and it still publishes v0 releases (the core README and downstream <code>go.mod</code> files in October 2026 pin versions in the v0.9x line, and not all on the same patch). Pin the module. Read the adapter README for the dialect and the error you will actually get.</p>
+<p>If the code you are about to write will run against more than one of these backends, including a memory stand-in in tests, the interface is the thing you are buying: less driver boilerplate, one policy and validation pipeline, and a compile-time reminder that writes happen inside a transaction. If the code exists to use one engine&#x27;s own language as far as it will go, read the next article before adding the dependency.</p>
+<h2 id="sources">Sources</h2>
+<p>Public default branches and repository metadata, read on 27 October 2026.</p>
+<ul>
+<li><a href="https://github.com/dal-go/dalgo" rel="noopener">dal-go/dalgo</a> README, access-policy guide, hooks documentation, and <code>end2end</code> / <code>mocks</code> layout. License: MIT.</li>
+<li><a href="https://github.com/dal-go/dalgo-js" rel="noopener">dal-go/dalgo-js</a> and <a href="https://github.com/dal-go/dalgo-http-adapters" rel="noopener">dal-go/dalgo-http-adapters</a>.</li>
+<li><a href="https://github.com/dal-go/dalgo2sql" rel="noopener">dal-go/dalgo2sql</a>, <a href="https://github.com/dal-go/dalgo2postgres" rel="noopener">dalgo2postgres</a>, <a href="https://github.com/dal-go/dalgo2sqlite" rel="noopener">dalgo2sqlite</a>, <a href="https://github.com/dal-go/dalgo2firestore" rel="noopener">dalgo2firestore</a>, <a href="https://github.com/dal-go/dalgo2openvaultdb" rel="noopener">dalgo2openvaultdb</a>.</li>
+<li><a href="https://github.com/sneat-co/sneat-go-core" rel="noopener">sneat-co/sneat-go-core</a> <code>facade/get_sneat_db.go</code> and <code>facade/root_policy.go</code>. <a href="https://github.com/sneat-co/sneat-cli" rel="noopener">sneat-co/sneat-cli</a> <code>cmd/sneat/commands/convo_storage.go</code> and <code>internal/firestoredb/firestoredb.go</code>.</li>
+<li><a href="https://github.com/openvaultdb/openvaultdb" rel="noopener">openvaultdb/openvaultdb</a> and <a href="https://github.com/openvaultdb/openvaultdb-go" rel="noopener">openvaultdb/openvaultdb-go</a>.</li>
+<li><a href="https://github.com/ingitdb/ingitdb" rel="noopener">ingitdb/ingitdb</a>, <a href="https://github.com/ingitdb/ingitdb-cli" rel="noopener">ingitdb/ingitdb-cli</a>, <a href="https://github.com/ingitdb/dalgo2ingitdb" rel="noopener">ingitdb/dalgo2ingitdb</a>.</li>
+<li><a href="https://github.com/datatug/datatug" rel="noopener">datatug/datatug</a> and the <code>datatug-apps</code> workspace <code>package.json</code>.</li>
+<li><a href="https://github.com/sneat-co/listus" rel="noopener">sneat-co/listus</a> <code>backend/go.mod</code>.</li>
+<li><a href="https://github.com/bots-go-framework/bots-fw" rel="noopener">bots-go-framework/bots-fw</a> <code>PERSISTENCE.md</code> and <a href="https://github.com/bots-go-framework/bots-fw-store-dalgo" rel="noopener">bots-fw-store-dalgo</a>.</li>
+</ul>
+  </div>
+  <aside class="article-related"><h2>More articles</h2><ul><li><a href="/articles/when-to-use-dalgo/">When to use DALgo, and when not to</a></li></ul></aside>
+  <p class="article-source">Source file: <a href="https://github.com/dal-go/dalgo-io/blob/main/content/articles/why-use-dalgo.md"><code>content/articles/why-use-dalgo.md</code></a></p>
+</article>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Why use DALgo","description":"What DALgo gives Go and TypeScript applications — one record, query, and transaction API across real adapters — and the limits it refuses to hide.","datePublished":"2026-10-27","dateModified":"2026-10-27","mainEntityOfPage":"https://dalgo.io/articles/why-use-dalgo/","author":{"@type":"Organization","name":"DALgo contributors","url":"https://dalgo.io/"},"publisher":{"@type":"Organization","name":"DALgo","url":"https://dalgo.io/"}}</script>
+</main>
+
+
+<footer class="AppFooter">
+  <div class="container AppFooter-inner">
+    <ul role="list">
+      <li>&copy; <span id="year">2026</span> DALgo contributors</li>
+      <li><a href="/">DALgo</a></li>
+      <li><a href="/articles/">Articles</a></li>
+      <li><a href="/tugql/">TugQL</a></li>
+      <li><a href="https://github.com/dal-go/dalgo" rel="noopener">Core repo</a></li>
+      <li><a href="https://github.com/dal-go/dalgo/blob/main/LICENSE" rel="noopener">MIT License</a></li>
+      <li><a href="/privacy/">Privacy</a></li>
+    </ul>
+    <span class="AppFooter-tag">Open-source documentation site. No accounts, no advertising.</span>
+  </div>
+</footer>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

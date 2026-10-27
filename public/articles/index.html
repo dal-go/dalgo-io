@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Articles — DALgo</title>
+<meta name="description" content="Articles on why to use DALgo, and when a direct database driver or another tool is the better choice." />
+<link rel="canonical" href="https://dalgo.io/articles/" />
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)" />
+<meta property="og:title" content="Articles — DALgo" />
+<meta property="og:description" content="Articles on why to use DALgo, and when a direct database driver or another tool is the better choice." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://dalgo.io/articles/" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230d1117'/><text x='50%25' y='52%25' text-anchor='middle' dominant-baseline='middle' font-family='ui-monospace,monospace' font-size='28' font-weight='700' fill='%232f81f7'>d/</text></svg>" />
+<link rel="stylesheet" href="/styles.css" />
+<script src="/analytics.js" defer></script>
+</head>
+<body>
+
+<header class="AppHeader" role="banner">
+  <div class="AppHeader-inner">
+    <a class="AppHeader-brand" href="/" aria-label="DALgo home">
+      <span class="AppHeader-brand-mark" aria-hidden="true">
+        <span class="brand-dal">DAL</span><span class="brand-go">go</span>
+      </span>
+    </a>
+
+    <nav class="AppHeader-context" aria-label="Context">
+      <span class="AppHeader-context-slash" aria-hidden="true">/</span>
+      <a class="AppHeader-context-item" href="/articles/">Articles</a>
+    </nav>
+
+    <nav class="AppHeader-nav" aria-label="Primary">
+      <a href="/#why">Why</a>
+      <a href="/#adapters">Adapters</a>
+      <a href="/articles/">Articles</a>
+      <a href="/tugql/">TugQL</a>
+    </nav>
+
+    <div class="AppHeader-actions">
+      <a class="btn btn-default btn-sm" href="https://github.com/dal-go/dalgo" rel="noopener">
+        <svg class="octicon" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></svg>
+        <span>Star</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero page-hero">
+  <div class="container">
+    <div class="hero-eyebrow">Notes from the project</div>
+    <h1 class="hero-title"><span class="hero-line">Articles</span></h1>
+    <p class="hero-lede">Writing about what DALgo is for, where it fits, and where a database driver is the better tool. Each article is one Markdown file in the site repository.</p>
+  </div>
+</section>
+<section class="section">
+  <div class="container article-index">
+    <div class="article-list">
+      <a class="Box article-card" href="/articles/why-use-dalgo/">
+        <time class="article-date" datetime="2026-10-27">27 October 2026</time>
+        <h2>Why use DALgo</h2>
+        <p>DALgo keeps domain code on one record, query, and transaction API while the storage backend stays replaceable. This is the case for it, grounded in the modules and the projects that already sit on that seam.</p>
+      </a>
+<a class="Box article-card" href="/articles/when-to-use-dalgo/">
+        <time class="article-date" datetime="2026-10-27">27 October 2026</time>
+        <h2>When to use DALgo, and when not to</h2>
+        <p>DALgo earns its place when the same domain code must run against more than one store, including a test double. It is the wrong tool when the engine&#x27;s own language is the product.</p>
+      </a>
+    </div>
+  </div>
+</section>
+</main>
+
+
+<footer class="AppFooter">
+  <div class="container AppFooter-inner">
+    <ul role="list">
+      <li>&copy; <span id="year">2026</span> DALgo contributors</li>
+      <li><a href="/">DALgo</a></li>
+      <li><a href="/articles/">Articles</a></li>
+      <li><a href="/tugql/">TugQL</a></li>
+      <li><a href="https://github.com/dal-go/dalgo" rel="noopener">Core repo</a></li>
+      <li><a href="https://github.com/dal-go/dalgo/blob/main/LICENSE" rel="noopener">MIT License</a></li>
+      <li><a href="/privacy/">Privacy</a></li>
+    </ul>
+    <span class="AppFooter-tag">Open-source documentation site. No accounts, no advertising.</span>
+  </div>
+</footer>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

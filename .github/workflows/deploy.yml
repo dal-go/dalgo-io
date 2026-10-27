@@ -17,6 +17,8 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - name: Verify static entrypoint
         run: test -s public/index.html
+      - name: Verify generated articles match Markdown sources
+        run: python3 scripts/render_articles.py --check
       - name: Package verified release
         # tar preserves dotfiles, _headers, _redirects, and file permissions.
         run: tar -czf site.tar.gz public wrangler.jsonc
