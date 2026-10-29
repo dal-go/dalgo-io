@@ -67,30 +67,33 @@ marks those links "(англ.)". The adapter list follows the adapter audit
 adapters that pass the shared conformance suite, the rest are listed with their
 limits. Update `adapters.json` and both catalogs together when that audit changes.
 
-### Film slot (disabled until the video IDs exist)
+### Film slot
 
-The DALgo film ("Swap the adapter") goes into its own section after the hero. It
-is a click-to-load YouTube poster: the page ships a local poster and a button, and
-nothing is requested from YouTube until the visitor presses play (then a
-`youtube-nocookie.com` iframe replaces the button; see `public/video.js`).
+The DALgo film ("Swap the adapter", 1:45 English, 1:57 Russian) sits in its own
+section after the hero, one film per locale: `/` shows the English film, `/ru/` the
+Russian one. It is a click-to-load YouTube poster: the page ships a local poster and
+a button, and nothing is requested from YouTube until the visitor presses play (then
+a `youtube-nocookie.com` iframe replaces the button; see `public/video.js`). The
+button carries a visible duration badge and an accessible label with the duration.
 
-To turn it on, edit `content/site/video.json`:
+It is configured in `content/site/video.json`:
 
 ```json
 {
   "enabled": true,
   "locales": {
-    "en": { "youtubeId": "<11-char id of the English film>", "poster": "/video/poster-en.svg", "width": 1280, "height": 720 },
-    "ru": { "youtubeId": "<11-char id of the Russian film>", "poster": "/video/poster-ru.svg", "width": 1280, "height": 720 }
+    "en": { "youtubeId": "<11-char id>", "poster": "/video/poster-en.webp", "width": 1280, "height": 720, "duration": "1:45" },
+    "ru": { "youtubeId": "<11-char id>", "poster": "/video/poster-ru.webp", "width": 1280, "height": 720, "duration": "1:57" }
   }
 }
 ```
 
-Then replace `public/video/poster-en.svg` / `poster-ru.svg` (placeholders) with the
-real 16:9 posters (keep `width`/`height` equal to the file's size so the box does
-not shift), review the `video.*` strings in `en.json` / `ru.json`, and run
-`python3 scripts/render_site.py`. Setting `enabled` to `true` without both ids
-makes the generator fail; leaving it `false` emits no film markup and no script.
+Posters are the 16:9 files `public/video/poster-en.webp` / `poster-ru.webp` (keep
+`width`/`height` equal to the file's size so the box does not shift). The section text
+is in the `video.*` strings of `en.json` / `ru.json`; `video.play` takes `{duration}`.
+After any change run `python3 scripts/render_site.py`. With `enabled` true the
+generator fails unless both locales have an 11-character id and an `m:ss` duration;
+with `enabled` false no film markup and no script are emitted.
 
 ## License
 

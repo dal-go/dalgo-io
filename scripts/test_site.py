@@ -104,38 +104,42 @@ class FilmSlot(unittest.TestCase):
         adapters = rs.load_json(rs.SRC / "adapters.json")
         return {loc: rs.render_page(loc, template, catalogs, adapters, video) for loc in rs.LOCALES}
 
-    def test_disabled_by_default_and_no_youtube_anywhere(self):
+    def test_published_film_is_the_right_one_per_locale(self):
         video = rs.load_json(rs.SRC / "video.json")
-        self.assertFalse(video["enabled"])
-        for page in (EN, RU):
+        self.assertTrue(video["enabled"])
+        ids = {"en": "wtkqlcjfzQA", "ru": "ekU0IUfgkGY"}
+        durations = {"en": "1:45", "ru": "1:57"}
+        for loc, page in (("en", EN), ("ru", RU)):
+            other = next(v for k, v in ids.items() if k != loc)
+            with self.subTest(locale=loc):
+                self.assertEqual(video["locales"][loc]["youtubeId"], ids[loc])
+                self.assertIn(f'data-video-id="{ids[loc]}"', page)
+                self.assertNotIn(other, page)  # never the other language's film
+                self.assertIn(f'<img src="/video/poster-{loc}.webp" width="1280" height="720"', page)
+                self.assertIn(f'<span class="film-duration" aria-hidden="true">{durations[loc]}</span>', page)
+                self.assertIn(f'lang="{loc}" aria-label="', page)
+                self.assertIn(durations[loc], re.search(r'class="film-play"[^>]*aria-label="([^"]+)"', page).group(1))
+                self.assertNotIn("<iframe", page)  # created on click only
+                self.assertNotRegex(page, r"(?i)(https?:)?//[^\s\"']*(youtube|ytimg|googlevideo)")
+                self.assertIn('<script src="/video.js" defer></script>', page)
+                poster = ROOT / "public" / "video" / f"poster-{loc}.webp"
+                self.assertEqual(poster.read_bytes()[:4], b"RIFF")
+        js = (ROOT / "public" / "video.js").read_text(encoding="utf-8")
+        self.assertIn("https://www.youtube-nocookie.com/embed/", js)
+        self.assertNotIn("youtube.com/", js.replace("youtube-nocookie.com", ""))
+
+    def test_disabled_renders_no_film_and_no_youtube(self):
+        video = copy.deepcopy(rs.load_json(rs.SRC / "video.json"))
+        video["enabled"] = False
+        for page in self.render(video).values():
             self.assertNotIn('id="film"', page)
             self.assertNotIn("video.js", page)
             self.assertNotRegex(page, r"(?i)youtube|ytimg|googlevideo")
 
-    def test_enabled_renders_poster_per_locale_without_third_party_requests(self):
-        video = copy.deepcopy(rs.load_json(rs.SRC / "video.json"))
-        video["enabled"] = True
-        video["locales"]["en"]["youtubeId"] = "AAAAAAAAAAA"
-        video["locales"]["ru"]["youtubeId"] = "BBBBBBBBBBB"
-        pages = self.render(video)
-        for loc, vid in (("en", "AAAAAAAAAAA"), ("ru", "BBBBBBBBBBB")):
-            page = pages[loc]
-            with self.subTest(locale=loc):
-                self.assertIn(f'data-video-id="{vid}"', page)
-                self.assertIn(f'<img src="/video/poster-{loc}.svg" width="1280" height="720"', page)
-                self.assertNotIn("<iframe", page)  # created on click only
-                self.assertNotRegex(page, r"(?i)(https?:)?//[^\s\"']*(youtube|ytimg|googlevideo)")
-                self.assertIn('<script src="/video.js" defer></script>', page)
-        js = (ROOT / "public" / "video.js").read_text(encoding="utf-8")
-        self.assertIn("https://www.youtube-nocookie.com/embed/", js)
-        self.assertNotIn("youtube.com/", js.replace("youtube-nocookie.com", ""))
-        self.assertTrue((ROOT / "public" / "video" / "poster-en.svg").is_file())
-        self.assertTrue((ROOT / "public" / "video" / "poster-ru.svg").is_file())
-
     def test_enabled_without_both_ids_is_refused(self):
         video = copy.deepcopy(rs.load_json(rs.SRC / "video.json"))
         video["enabled"] = True
-        video["locales"]["en"]["youtubeId"] = "AAAAAAAAAAA"
+        video["locales"]["ru"]["youtubeId"] = ""
         with self.assertRaises(SystemExit):
             self.render(video)
 

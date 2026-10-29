@@ -1,18 +1,20 @@
 {
-  "_comment": "Set enabled to true and fill youtubeId for each locale to show the film section. Posters are local files under public/ (16:9, width x height as given).",
-  "enabled": false,
+  "_comment": "Set enabled to true and fill youtubeId for each locale to show the film section. Posters are local files under public/ (16:9, width x height as given). duration is shown on the poster and in the button label.",
+  "enabled": true,
   "locales": {
     "en": {
-      "youtubeId": "",
-      "poster": "/video/poster-en.svg",
+      "youtubeId": "wtkqlcjfzQA",
+      "poster": "/video/poster-en.webp",
       "width": 1280,
-      "height": 720
+      "height": 720,
+      "duration": "1:45"
     },
     "ru": {
-      "youtubeId": "",
-      "poster": "/video/poster-ru.svg",
+      "youtubeId": "ekU0IUfgkGY",
+      "poster": "/video/poster-ru.webp",
       "width": 1280,
-      "height": 720
+      "height": 720,
+      "duration": "1:57"
     }
   }
 }
