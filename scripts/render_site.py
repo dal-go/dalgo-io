@@ -213,14 +213,16 @@ def render_page(loc: str, template: str, catalogs: dict, adapters: dict, video: 
     return out
 
 
-def unused_keys(template: str, catalogs: dict) -> list[str]:
+def unused_keys(template: str, catalogs: dict, adapters: dict) -> list[str]:
+    """Catalog keys that nothing renders: the template names most of them; the
+    adapter, diagram and film keys are rendered by code, so check them here."""
     named = set(PLACEHOLDER.findall(template))
-    skip_prefix = ("adapters.", "adapters_more.", "cy.")
-    return sorted(
-        k for k in flatten(catalogs[DEFAULT_LOCALE])
-        if k not in named and not k.startswith(skip_prefix) and k not in ("adapters.more_title", "adapters.more_lead", "adapters.cards_label", "lang.label")
-        and not k.startswith("video.")
-    )
+    by_code = {"lang.label", "adapters.more_title", "adapters.more_lead", "adapters.cards_label"}
+    by_code |= {f"adapters.{c['id']}.{part}" for c in adapters["cards"] for part in ("kind", "desc")}
+    by_code |= {f"adapters_more.{m['id']}" for m in adapters["more"]}
+    by_code |= {f"cy.{name}" for name in re.findall(r"\bL\.(\w+)", template)}
+    by_code |= {f"video.{k}" for k in ("eyebrow", "title", "kicker", "play", "note")}
+    return sorted(k for k in flatten(catalogs[DEFAULT_LOCALE]) if k not in named and k not in by_code)
 
 
 def sitemap() -> str:
@@ -240,12 +242,8 @@ def sitemap() -> str:
             alt = "".join(
                 f'\n    <xhtml:link rel="alternate" hreflang="{l}" href="{SITE}{LOCALE_INFO[l]["prefix"]}"/>' for l in LOCALES
             ) + f'\n    <xhtml:link rel="alternate" hreflang="x-default" href="{SITE}/"/>'
-            entries.append(f"  <url>\n    <loc>{loc}</loc>{alt}\n  </url>")
-            ru = f"{SITE}{LOCALE_INFO['ru']['prefix']}"
-            ru_alt = "".join(
-                f'\n    <xhtml:link rel="alternate" hreflang="{l}" href="{SITE}{LOCALE_INFO[l]["prefix"]}"/>' for l in LOCALES
-            ) + f'\n    <xhtml:link rel="alternate" hreflang="x-default" href="{SITE}/"/>'
-            entries.append(f"  <url>\n    <loc>{ru}</loc>{ru_alt}\n  </url>")
+            for url in (loc, f"{SITE}{LOCALE_INFO['ru']['prefix']}"):
+                entries.append(f"  <url>\n    <loc>{url}</loc>{alt}\n  </url>")
         else:
             entries.append(f"  <url>\n    <loc>{loc}</loc>\n  </url>")
     return (
@@ -261,7 +259,7 @@ def build() -> dict[Path, str]:
     catalogs = load_catalogs()
     adapters = load_json(SRC / "adapters.json")
     video = load_json(SRC / "video.json")
-    stale = unused_keys(template, catalogs)
+    stale = unused_keys(template, catalogs, adapters)
     if stale:
         raise SystemExit(f"catalog keys not used by the template: {stale}")
     outputs = {LOCALE_INFO[loc]["out"]: render_page(loc, template, catalogs, adapters, video) for loc in LOCALES}

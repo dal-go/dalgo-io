@@ -141,7 +141,7 @@
     },
     "dalgo2ingitdb": {
       "kind": "Versioned · inGitDB",
-      "desc": "Adapter for inGitDB — a Git-native database with branchable, mergeable data. Reads and writes; a transaction is a Git commit. Lives in the inGitDB organization."
+      "desc": "Adapter for inGitDB — a Git-native database with branchable, mergeable data. Reads and writes; a transaction can be committed to Git. Lives in the inGitDB organization."
     },
     "dalgo2openvaultdb": {
       "kind": "Document · HTTP API",

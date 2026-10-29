@@ -67,9 +67,10 @@ class LandingPages(unittest.TestCase):
         self.assertEqual(SITEMAP.count('hreflang="x-default" href="https://dalgo.io/"'), 2)
         self.assertNotIn("/dtql/", SITEMAP)
 
-    def test_ru_path_is_served_with_trailing_slash(self):
+    def test_ru_path_relies_on_auto_trailing_slash_config(self):
         # The Worker uses html_handling "auto-trailing-slash": /ru redirects to /ru/
-        # because public/ru/index.html exists. (Verified live with wrangler dev.)
+        # because public/ru/index.html exists. This asserts the config only; the live
+        # 307 was checked once by hand with `wrangler dev`.
         config = (ROOT / "wrangler.jsonc").read_text(encoding="utf-8")
         self.assertIn('"html_handling": "auto-trailing-slash"', config)
         self.assertTrue((ROOT / "public" / "ru" / "index.html").is_file())
