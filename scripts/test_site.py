@@ -84,6 +84,12 @@ class LandingPages(unittest.TestCase):
             self.assertIn("https://github.com/dal-go/dalgo/tree/main/dalgotest", page)
             self.assertIn("https://github.com/dal-go/dalgo-http-adapters", page)
             self.assertIn("@dalgo/core", page)
+        for page, rw in ((EN, "Read-write: "), (RU, "Чтение и запись: ")):
+            m = re.search(re.escape(rw) + r"(.*?)\. ", page)
+            self.assertIn("@dalgo/sqlite-wasm", m.group(1))
+            self.assertIn("@dalgo/indexeddb", m.group(1))
+            for ro in ("ovdb", "bigquery", "d1", "http"):
+                self.assertNotIn(f"@dalgo/{ro}<", m.group(1))
         files = re.search(r"dalgo2files</strong></a> — ([^<]*)", EN).group(1)
         self.assertIn("read-only", files)
         self.assertIn("JSON", files)
