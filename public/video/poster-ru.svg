@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="Смена адаптера">
-  <rect width="1280" height="720" fill="#0d1117"/>
-  <text x="640" y="330" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="96" font-weight="700"><tspan fill="#2f81f7">DAL</tspan><tspan fill="#00ADD8">go</tspan></text>
-  <text x="640" y="430" text-anchor="middle" font-family="-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="52" fill="#e6edf3">Смена адаптера</text>
-  <text x="640" y="500" text-anchor="middle" font-family="-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" fill="#8b949e">DALgo — слой абстракции баз данных для Go и TypeScript</text>
-</svg>

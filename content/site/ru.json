@@ -108,7 +108,7 @@
   "video.eyebrow": "Фильм",
   "video.title": "Смена адаптера",
   "video.kicker": "Короткий фильм: тот же код, другой адаптер.",
-  "video.play": "Смотреть фильм",
+  "video.play": "Смотреть фильм ({duration})",
   "video.note": "Нажатие на кнопку загружает видео с YouTube (youtube-nocookie.com). До этого страница не обращается к YouTube.",
   "adapters": {
     "dalgo": {

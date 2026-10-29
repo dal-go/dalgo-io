@@ -150,9 +150,11 @@ def video_section(loc: str, catalog: dict, video: dict) -> str:
         vid = video["locales"][each]["youtubeId"]
         if not YOUTUBE_ID.match(vid):
             raise SystemExit(f"video.json: enabled, but locales.{each}.youtubeId is not an 11-character YouTube id")
+        if not re.fullmatch(r"\d{1,2}:\d{2}", video["locales"][each].get("duration", "")):
+            raise SystemExit(f"video.json: enabled, but locales.{each}.duration is not m:ss")
     cfg = video["locales"][loc]
     title = html.escape(re.sub(r"<[^>]+>", "", catalog["video.title"]), quote=True)
-    play = html.escape(catalog["video.play"], quote=True)
+    play = html.escape(catalog["video.play"].replace("{duration}", cfg["duration"]), quote=True)
     return f"""<!-- ============================ FILM ============================ -->
 <section id="film" class="section">
   <div class="container">
@@ -162,9 +164,10 @@ def video_section(loc: str, catalog: dict, video: dict) -> str:
       <p class="section-kicker">{catalog["video.kicker"]}</p>
     </header>
     <div class="film" data-film data-video-id="{cfg["youtubeId"]}" data-video-title="{title}">
-      <button class="film-play" type="button" aria-label="{play}: {title}">
+      <button class="film-play" type="button" lang="{loc}" aria-label="{play}: {title}">
         <img src="{cfg["poster"]}" width="{cfg["width"]}" height="{cfg["height"]}" alt="" decoding="async" />
         <span class="film-play-icon">{PLAY_ICON}</span>
+        <span class="film-duration" aria-hidden="true">{cfg["duration"]}</span>
       </button>
     </div>
     <p class="film-note">{catalog["video.note"]}</p>

@@ -108,7 +108,7 @@
   "video.eyebrow": "Film",
   "video.title": "Swap the adapter",
   "video.kicker": "A short film: the same code, a different adapter.",
-  "video.play": "Play the film",
+  "video.play": "Play the {duration} film",
   "video.note": "Pressing play loads the video from YouTube (youtube-nocookie.com). Until then, the page makes no request to YouTube.",
   "adapters": {
     "dalgo": {
