@@ -1003,3 +1003,11 @@ code, pre, kbd { font-family: var(--f-mono); }
 #ga-consent-banner button { cursor: pointer; border-radius: 8px; padding: .4rem .9rem; font-size: 14px; border: 1px solid #3a3f4b; background: #262a32; color: #e6e6e6; }
 #ga-consent-banner button#ga-accept { background: #2f6f43; border-color: #2f6f43; color: #fff; }
 #ga-consent-banner button:focus-visible { outline: 2px solid #8ab4ff; outline-offset: 2px; }
+
+.site-feedback { padding: 20px 24px; text-align: center; }
+.site-feedback button { min-height: 44px; max-width: 100%; padding: 10px 18px; border: 1px solid #084dbd; border-radius: 6px; background: #0d63e9; color: #fff; font: 600 14px/1.4 system-ui, sans-serif; cursor: pointer; }
+.site-feedback button[hidden] { display: none; }
+.site-feedback button:hover { background: #084dbd; }
+.site-feedback button:focus-visible { outline: 3px solid #084dbd; outline-offset: 3px; }
+
+html:has(#ga-consent-banner) .site-feedback { padding-bottom: calc(20px + 32px + var(--feedback-overlay-h, 220px)); }
