@@ -1,0 +1,1198 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>DALgo — слой абстракции баз данных для Go и TypeScript</title>
+<meta name="description" content="DALgo — слой абстракции баз данных для Go и TypeScript. Один интерфейс — много баз данных: память, SQL, Firestore, файлы, inGitDB, OpenVaultDB. Модуль для Go — основная реализация; пакет для TypeScript, @dalgo/core, опубликован в npm." />
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)" />
+<meta property="og:title" content="DALgo — слой абстракции баз данных для Go и TypeScript" />
+<meta property="og:description" content="Один интерфейс. Много баз данных. Код на Go и TypeScript, не привязанный к хранилищу." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://dalgo.io/ru/" />
+<meta property="og:site_name" content="DALgo" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:locale:alternate" content="en_US" />
+<link rel="canonical" href="https://dalgo.io/ru/" />
+<link rel="alternate" hreflang="en" href="https://dalgo.io/" />
+<link rel="alternate" hreflang="ru" href="https://dalgo.io/ru/" />
+<link rel="alternate" hreflang="x-default" href="https://dalgo.io/" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230d1117'/><text x='50%25' y='52%25' text-anchor='middle' dominant-baseline='middle' font-family='ui-monospace,monospace' font-size='28' font-weight='700' fill='%232f81f7'>d/</text></svg>" />
+<link rel="stylesheet" href="/styles.css" />
+<script src="/analytics.js" defer></script>
+</head>
+<body>
+
+<!-- ============================ APP HEADER ============================ -->
+<header class="AppHeader" role="banner">
+  <div class="AppHeader-inner">
+    <a class="AppHeader-brand" href="#top" aria-label="DALgo — на главную">
+      <span class="AppHeader-brand-mark" aria-hidden="true">
+        <span class="brand-dal">DAL</span><span class="brand-go">go</span>
+      </span>
+    </a>
+
+    <nav class="AppHeader-context" aria-label="Контекст">
+      <span class="AppHeader-context-slash" aria-hidden="true">/</span>
+      <a class="AppHeader-context-item" href="https://github.com/dal-go" rel="noopener">
+        dal-go на GitHub
+      </a>
+    </nav>
+
+    <nav class="AppHeader-nav" aria-label="Основная навигация">
+      <a href="#why">Зачем</a>
+      <a href="#adapters">Адаптеры</a>
+      <a href="#quickstart">Быстрый старт</a>
+      <a href="#typescript">TypeScript</a>
+      <a href="#collections">Коллекции</a>
+      <a href="#interfaces">Интерфейс</a>
+      <a href="#queries">Запросы</a>
+      <a href="/articles/">Статьи (англ.)</a>
+      <a href="/tugql/">TugQL</a>
+    </nav>
+
+    <div class="AppHeader-actions">
+      <nav class="lang-switch" aria-label="Язык"><a class="lang-switch-item" href="/" hreflang="en" lang="en" data-lang-link>EN</a><span class="lang-switch-item" aria-current="true" lang="ru">RU</span></nav>
+      <a class="btn btn-default btn-sm" href="https://github.com/dal-go/dalgo" rel="noopener">
+        <svg class="octicon" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></svg>
+        <span>Star</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ============================ HERO ============================ -->
+<section class="hero">
+  <div class="container hero-grid">
+
+    <div class="hero-left">
+      <div class="hero-eyebrow">
+        <svg class="octicon" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M5.05.31c.81 2.17.41 3.38-.52 4.31C3.55 5.67 1.98 6.45.9 7.98c-1.45 2.05-1.7 6.53 3.53 7.7-2.2-1.16-2.67-4.52-.3-6.61-.61 2.03.53 3.33 1.94 2.86 1.39-.47 2.3.53 2.27 1.67-.02.78-.31 1.44-1.13 1.81 3.42-.59 4.78-3.42 4.78-5.56 0-2.84-2.53-3.22-1.25-5.61-1.52.13-2.03 1.13-1.89 2.75.09 1.08-1.02 1.8-1.86 1.33-.67-.41-.66-1.19-.11-1.7.91-.86 1.07-2.34-.5-4.32Z"/></svg>
+        Открытый код &middot; Модуль Go &middot; Пакет TypeScript
+      </div>
+
+      <h1 class="hero-title">
+        <span class="hero-line">Один интерфейс.</span>
+        <span class="hero-line">Много <span class="hero-accent">баз данных</span>.</span>
+        <span class="hero-line">Без переписывания.</span>
+      </h1>
+
+      <p class="hero-lede">
+        <strong>DALgo</strong> — слой абстракции баз данных для Go и TypeScript. Пишите логику предметной области один раз, против единого хорошо протестированного интерфейса, — и меняйте Postgres на Firestore, а хранилище в памяти на настоящее, не трогая бизнес-код. Модуль для Go — основная реализация; пакет для TypeScript, <code>@dalgo/core</code>, опубликован в npm.
+      </p>
+
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#quickstart">
+          <svg class="octicon" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M2.75 14A1.75 1.75 0 0 1 1 12.25v-2.5a.75.75 0 0 1 1.5 0v2.5c0 .138.112.25.25.25h10.5a.25.25 0 0 0 .25-.25v-2.5a.75.75 0 0 1 1.5 0v2.5A1.75 1.75 0 0 1 13.25 14H2.75ZM7.25 7.689V2a.75.75 0 0 1 1.5 0v5.689l1.97-1.969a.749.749 0 1 1 1.06 1.06l-3.25 3.25a.749.749 0 0 1-1.06 0L4.22 6.78a.749.749 0 1 1 1.06-1.06l1.97 1.969Z"/></svg>
+          Начать
+        </a>
+        <a class="btn btn-default" href="https://pkg.go.dev/github.com/dal-go/dalgo" rel="noopener">
+          <svg class="octicon" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75V1.75Z"/></svg>
+          pkg.go.dev
+        </a>
+        <code class="hero-install" tabindex="0">
+          <span class="hero-install-prompt">$</span> go get github.com/dal-go/dalgo
+        </code>
+        <code class="hero-install" tabindex="0">
+          <span class="hero-install-prompt">$</span> npm install @dalgo/core
+        </code>
+      </div>
+    </div>
+
+    <!-- Bridge diagram -->
+    <figure class="diagram" aria-label="DALgo связывает ваш Go-код со многими базами данных">
+      <div class="diagram-frame">
+        <div class="diagram-canvas" id="cy" role="img"
+             aria-label="Схема: ваш Go-код обращается к DALgo, который подключает SQL (SQLite, PostgreSQL, MySQL), локальные хранилища (память, файловая система, inGitDB), OpenVaultDB, Firestore и HTTP-источники либо ваш собственный адаптер."></div>
+        <noscript>
+          <p class="diagram-fallback">
+            Ваш код → <strong>DALgo</strong> → SQL (SQLite, PostgreSQL, MySQL) · память, файловая система, inGitDB · OpenVaultDB · Firestore · HTTP-источники · или ваш собственный адаптер.
+          </p>
+        </noscript>
+      </div>
+    </figure>
+
+  </div>
+</section>
+
+
+
+<!-- ============================ WHY ============================ -->
+<section id="why" class="section">
+  <div class="container">
+    <header class="section-head">
+      <span class="section-eyebrow">01 — Зачем нужен DAL</span>
+      <h2 class="section-title">Хранилище — деталь, а не судьба.</h2>
+      <p class="section-kicker">Шесть причин, по которым разработчики берут DALgo с первого дня. Подробнее — в статье <a href="/articles/why-use-dalgo/">Why use DALgo</a>, а границы применимости — в <a href="/articles/when-to-use-dalgo/">When to use DALgo, and when not to</a> (обе на английском).</p>
+    </header>
+
+    <div class="why-grid">
+
+      <article class="Box why-card">
+        <div class="why-icon">
+          <svg class="octicon" viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M1 2.75A.75.75 0 0 1 1.75 2h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 2.75Zm0 5A.75.75 0 0 1 1.75 7h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 7.75ZM1.75 12h12.5a.75.75 0 0 1 0 1.5H1.75a.75.75 0 0 1 0-1.5Z"/></svg>
+        </div>
+        <h3>Логика, не зависящая от хранилища</h3>
+        <p>Пишите бизнес-код против <code>dal.DB</code>. Где он будет жить — в Postgres, Firestore или в JSON-файле на диске, — решите позже.</p>
+      </article>
+
+      <article class="Box why-card">
+        <div class="why-icon">
+          <svg class="octicon" viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M4.72 3.22a.75.75 0 0 1 1.06 1.06L2.06 8l3.72 3.72a.749.749 0 1 1-1.06 1.06L.47 8.53a.75.75 0 0 1 0-1.06l4.25-4.25Zm6.56 0a.75.75 0 1 0-1.06 1.06L13.94 8l-3.72 3.72a.749.749 0 1 0 1.06 1.06l4.25-4.25a.75.75 0 0 0 0-1.06l-4.25-4.25Z"/></svg>
+        </div>
+        <h3>Меньше кода, он читается лучше</h3>
+        <p>Один небольшой API с чёткой позицией заменяет горы шаблонного кода под конкретные драйверы. Записи, ключи, запросы, транзакции — одинаково для каждого адаптера.</p>
+      </article>
+
+      <article class="Box why-card">
+        <div class="why-icon">
+          <svg class="octicon" viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M7.467.133a1.748 1.748 0 0 1 1.066 0l5.25 1.68A1.75 1.75 0 0 1 15 3.48V7c0 1.566-.32 3.182-1.303 4.682-.983 1.498-2.585 2.813-5.032 3.855a1.697 1.697 0 0 1-1.33 0c-2.447-1.042-4.049-2.357-5.032-3.855C1.32 10.182 1 8.566 1 7V3.48a1.75 1.75 0 0 1 1.217-1.667Z"/></svg>
+        </div>
+        <h3>Тестируемость по построению</h3>
+        <p>В тестах подставляйте вместо боевого драйвера встроенный адаптер <a href="https://github.com/dal-go/dalgo/tree/main/adapters/dalgo2memory" rel="noopener"><code>dalgo2memory</code></a>. Нужны моки? Сгенерированный пакет <a href="https://github.com/dal-go/dalgo/tree/main/mocks" rel="noopener"><code>mocks</code></a> входит в основной репозиторий.</p>
+      </article>
+
+      <article class="Box why-card">
+        <div class="why-icon">
+          <svg class="octicon" viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M14.064 0h.186C15.216 0 16 .784 16 1.75v.186a1.75 1.75 0 0 1-.5 1.22l-1.5 1.5a.25.25 0 0 0 0 .354l.5.5a.75.75 0 0 1-1.06 1.06l-.5-.5a.25.25 0 0 0-.354 0l-1.5 1.5a1.75 1.75 0 0 1-1.22.5h-.186a1.75 1.75 0 0 1-1.75-1.75v-.186a1.75 1.75 0 0 1 .5-1.22l1.5-1.5a.25.25 0 0 0 0-.354l-.5-.5a.75.75 0 0 1 1.06-1.06l.5.5a.25.25 0 0 0 .354 0l1.5-1.5A1.75 1.75 0 0 1 14.064 0Z"/></svg>
+        </div>
+        <h3>Хуки и логирование — бесплатно</h3>
+        <p>Поскольку каждая операция проходит через один интерфейс, наблюдаемость и аудит — это обёртка, а не рефакторинг.</p>
+      </article>
+
+      <article class="Box why-card">
+        <div class="why-icon">
+          <svg class="octicon" viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"/><path fill="currentColor" d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Z"/></svg>
+        </div>
+        <h3>Один набор сквозных тестов</h3>
+        <p>Десять адаптеров на Go в CI проходят один и тот же <a href="https://github.com/dal-go/dalgo/tree/main/dalgotest" rel="noopener">общий набор тестов на соответствие</a>. Соответствие — это контракт; про остальные адаптеры ниже сказано, что они поддерживают, а что нет.</p>
+      </article>
+
+      <article class="Box why-card">
+        <div class="why-icon">
+          <svg class="octicon" viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M7.177 3.073 9.573.677A.25.25 0 0 1 10 .854v4.792a.25.25 0 0 1-.427.177L7.177 3.427a.25.25 0 0 1 0-.354ZM3.75 2.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Zm-2.25.75a2.25 2.25 0 1 1 3 2.122v5.256a2.251 2.251 0 1 1-1.5 0V5.372A2.25 2.25 0 0 1 1.5 3.25ZM11 2.5h-1V4h1a1 1 0 0 1 1 1v5.628a2.251 2.251 0 1 0 1.5 0V5A2.5 2.5 0 0 0 11 2.5Zm1 10.25a.75.75 0 1 1 1.5 0 .75.75 0 0 1-1.5 0ZM3.75 12a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Z"/></svg>
+        </div>
+        <h3>Транзакции в духе Go</h3>
+        <p>Транзакции только для чтения и для чтения и записи — полноправная часть интерфейса. Передайте замыкание — получите атомарность, не пропуская типы транзакций конкретных драйверов в предметный код.</p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================ ADAPTERS ============================ -->
+<section id="adapters" class="section section-subtle">
+  <div class="container">
+    <header class="section-head">
+      <span class="section-eyebrow">02 — Адаптеры</span>
+      <h2 class="section-title">Один интерфейс. Разные хранилища.</h2>
+      <p class="section-kicker">Два адаптера входят в основной модуль. Десять адаптеров на Go проходят общий набор тестов на соответствие; остальные перечислены ниже вместе с их ограничениями.</p>
+    </header>
+
+    <ul class="adapter-grid" role="list" aria-label="Адаптеры, проходящие общий набор тестов на соответствие">
+      <li>
+        <a class="Box adapter adapter-core" href="https://github.com/dal-go/dalgo" rel="noopener">
+          <span class="adapter-kind">
+            <svg class="octicon" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M8 0a8.2 8.2 0 0 1 .701.031C13.444.443 16 4.273 16 8c0 .43-.025.85-.075 1.255A8 8 0 1 1 8 0Z"/></svg>
+            Ядро
+          </span>
+          <h3>dalgo</h3>
+          <p>Сам интерфейс. <code>dal</code>, <code>orm</code>, <code>record</code>, <code>update</code>, транзакции, ошибки.</p>
+          <span class="adapter-go">github.com/dal-go/dalgo</span>
+        </a>
+      </li>
+
+      <li>
+        <a class="Box adapter" href="https://github.com/dal-go/dalgo/tree/main/adapters/dalgo2memory" rel="noopener">
+          <span class="adapter-kind">
+            Встроенный · В памяти
+          </span>
+          <h3>dalgo2memory</h3>
+          <p>Адаптер в памяти из основного модуля — хранилище по умолчанию для тестов, примеров и локальной разработки. Выполняет большинство возможностей структурированных запросов целиком.</p>
+          <span class="adapter-go">github.com/dal-go/dalgo<wbr/>/adapters/dalgo2memory</span>
+        </a>
+      </li>
+
+      <li>
+        <a class="Box adapter" href="https://github.com/dal-go/dalgo/tree/main/adapters/dalgo2fs" rel="noopener">
+          <span class="adapter-kind">
+            Встроенный · Файловая система
+          </span>
+          <h3>dalgo2fs</h3>
+          <p>Встроенный адаптер, отображающий файловую систему ОС на записи DALgo, — удобен для демо и простого локального хранения.</p>
+          <span class="adapter-go">github.com/dal-go/dalgo<wbr/>/adapters/dalgo2fs</span>
+        </a>
+      </li>
+
+      <li>
+        <a class="Box adapter" href="https://github.com/dal-go/dalgo2sql" rel="noopener">
+          <span class="adapter-kind">
+            SQL
+          </span>
+          <h3>dalgo2sql</h3>
+          <p>Адаптер для стандартного <code>database/sql</code> — любой совместимый драйвер.</p>
+          <span class="adapter-go">github.com/dal-go/dalgo2sql</span>
+        </a>
+      </li>
+
+      <li>
+        <a class="Box adapter" href="https://github.com/dal-go/dalgo2sqlite" rel="noopener">
+          <span class="adapter-kind">
+            SQL
+          </span>
+          <h3>dalgo2sqlite</h3>
+          <p>Драйвер для SQLite: схема, DDL и операции с учётом параллелизма поверх <code>dalgo2sql</code>.</p>
+          <span class="adapter-go">github.com/dal-go/dalgo2sqlite</span>
+        </a>
+      </li>
+
+      <li>
+        <a class="Box adapter" href="https://github.com/dal-go/dalgo2postgres" rel="noopener">
+          <span class="adapter-kind">
+            SQL
+          </span>
+          <h3>dalgo2postgres</h3>
+          <p>Драйвер для PostgreSQL поверх <code>dalgo2sql</code>: принудительно включает диалект <code>postgres</code>, читает каталоги и применяет DDL Postgres.</p>
+          <span class="adapter-go">github.com/dal-go/dalgo2postgres</span>
+        </a>
+      </li>
+
+      <li>
+        <a class="Box adapter" href="https://github.com/dal-go/dalgo2mysql" rel="noopener">
+          <span class="adapter-kind">
+            SQL
+          </span>
+          <h3>dalgo2mysql</h3>
+          <p>Драйвер для MySQL поверх <code>dalgo2sql</code>: чтение схемы и DDL MySQL. В CI набор тестов на соответствие запускается на MySQL 8.</p>
+          <span class="adapter-go">github.com/dal-go/dalgo2mysql</span>
+        </a>
+      </li>
+
+      <li>
+        <a class="Box adapter" href="https://github.com/ingitdb/dalgo2ingitdb" rel="noopener">
+          <span class="adapter-kind">
+            С историей · inGitDB
+          </span>
+          <h3>dalgo2ingitdb</h3>
+          <p>Адаптер для inGitDB — базы данных на основе Git, с ветвящимися и сливаемыми данными. Чтение и запись; транзакция — это коммит Git. Живёт в организации inGitDB.</p>
+          <span class="adapter-go">github.com/ingitdb/dalgo2ingitdb</span>
+        </a>
+      </li>
+
+      <li>
+        <a class="Box adapter" href="https://github.com/dal-go/dalgo2openvaultdb" rel="noopener">
+          <span class="adapter-kind">
+            Документная · HTTP API
+          </span>
+          <h3>dalgo2openvaultdb</h3>
+          <p>Адаптер для OpenVaultDB через её HTTP API <code>ovdb serve</code>: чтение и транзакционная запись.</p>
+          <span class="adapter-go">github.com/dal-go/dalgo2openvaultdb</span>
+        </a>
+      </li>
+
+      <li>
+        <a class="Box adapter" href="https://github.com/dal-go/dalgo2firestore" rel="noopener">
+          <span class="adapter-kind">
+            NoSQL · Облако
+          </span>
+          <h3>dalgo2firestore</h3>
+          <p>Для Google Cloud Firestore — глобально распределённой документной NoSQL-базы.</p>
+          <span class="adapter-go">github.com/dal-go/dalgo2firestore</span>
+        </a>
+      </li>
+
+      <li>
+        <a class="Box adapter" href="https://github.com/dal-go/dalgo2http" rel="noopener">
+          <span class="adapter-kind">
+            Веб · Только чтение
+          </span>
+          <h3>dalgo2http</h3>
+          <p>Декларативные HTTP-эндпоинты — JSON, а также именованные ресурсы XML и CSV — как коллекции DALgo. По замыслу только чтение.</p>
+          <span class="adapter-go">github.com/dal-go/dalgo2http</span>
+        </a>
+      </li>
+    </ul>
+
+    <aside class="Box companion adapters-more">
+      <h3>Тоже доступны: только чтение или частичная поддержка</h3>
+      <p>У этих адаптеров на Go есть собственные тесты, но общий набор тестов на соответствие они не проходят. Большинство работают только на чтение или по замыслу покрывают лишь часть интерфейса.</p>
+      <ul role="list">
+        <li><a href="https://github.com/dal-go/dalgo2files" rel="noopener"><strong>dalgo2files</strong></a> — файлы JSON, только чтение</li>
+        <li><a href="https://github.com/dal-go/dalgo2logs" rel="noopener"><strong>dalgo2logs</strong></a> — файлы журналов, только чтение</li>
+        <li><a href="https://github.com/dal-go/dalgo2mssql" rel="noopener"><strong>dalgo2mssql</strong></a> — SQL Server, компилятора структурированных запросов пока нет</li>
+        <li><a href="https://github.com/dal-go/dalgo2oracle" rel="noopener"><strong>dalgo2oracle</strong></a> — Oracle, компилятора структурированных запросов пока нет</li>
+        <li><a href="https://github.com/dal-go/dalgo2duckdb" rel="noopener"><strong>dalgo2duckdb</strong></a> — DuckDB, чтения схемы и DDL пока нет</li>
+        <li><a href="https://github.com/dal-go/dalgo2libsql" rel="noopener"><strong>dalgo2libsql</strong></a> — libSQL / Turso, только чтение</li>
+        <li><a href="https://github.com/dal-go/dalgo2postgrest" rel="noopener"><strong>dalgo2postgrest</strong></a> — PostgREST, только чтение</li>
+        <li><a href="https://github.com/dal-go/dalgo2mongodb" rel="noopener"><strong>dalgo2mongodb</strong></a> — MongoDB, только чтение</li>
+        <li><a href="https://github.com/dal-go/dalgo2couchdb" rel="noopener"><strong>dalgo2couchdb</strong></a> — CouchDB, только чтение</li>
+        <li><a href="https://github.com/dal-go/dalgo2redis" rel="noopener"><strong>dalgo2redis</strong></a> — Redis, только команды чтения</li>
+        <li><a href="https://github.com/dal-go/dalgo2typesense" rel="noopener"><strong>dalgo2typesense</strong></a> — Typesense, только чтение</li>
+        <li><a href="https://github.com/dal-go/dalgo2bigquery" rel="noopener"><strong>dalgo2bigquery</strong></a> — BigQuery, только чтение</li>
+        <li><a href="https://github.com/dal-go/dalgo2d1" rel="noopener"><strong>dalgo2d1</strong></a> — Cloudflare D1, только чтение</li>
+        <li><a href="https://github.com/dal-go/dalgo2namecheap" rel="noopener"><strong>dalgo2namecheap</strong></a> — домены и DNS Namecheap, чтение и запись</li>
+      </ul>
+    </aside>
+
+    <aside class="Box companion">
+      <h3>Сопутствующие модули</h3>
+      <ul role="list">
+        <li><a href="https://github.com/dal-go/dalgo/tree/main/mocks" rel="noopener"><strong>dalgo/mocks</strong></a> — сгенерированные моки для всех интерфейсов DALgo, теперь часть основного репозитория (отдельный репозиторий <code>mocks4dalgo</code> архивирован).</li>
+        <li><a href="https://github.com/dal-go/dalgo/tree/main/dalgotest" rel="noopener"><strong>dalgo/dalgotest</strong></a> — общий набор тестов на соответствие (<code>dalgotest.RunConformance</code>), который проходят адаптеры выше; теперь часть основного репозитория (отдельный репозиторий <code>dalgo-end2end-tests</code> архивирован).</li>
+        <li><a href="https://github.com/dal-go/dalgo-demo" rel="noopener"><strong>dalgo-demo</strong></a> — посмотрите, как мало кода нужно для работающего приложения.</li>
+        <li><a href="https://github.com/dal-go/dalgo4auth" rel="noopener"><strong>dalgo4auth</strong></a> — готовые структуры записей для таблиц аутентификации пользователей.</li>
+        <li><a href="https://github.com/dal-go/dalgo-memcache-appengine" rel="noopener"><strong>dalgo-memcache-appengine</strong></a> — обёртка над memcache App Engine для транзакций DALgo.</li>
+      </ul>
+    </aside>
+  </div>
+</section>
+
+<!-- ============================ QUICKSTART ============================ -->
+<section id="quickstart" class="section">
+  <div class="container">
+    <header class="section-head">
+      <span class="section-eyebrow">03 — Быстрый старт</span>
+      <h2 class="section-title">Установите ядро. Выберите адаптер. Запишите данные.</h2>
+      <p class="section-kicker">Рабочий пример короче 40 строк.</p>
+    </header>
+
+    <div class="qs-grid">
+      <ol class="qs-steps" role="list">
+        <li><span class="qs-step-num">1</span><div><p>Установите основной модуль. Встроенный адаптер <code>dalgo2memory</code> идёт вместе с ним — дополнительных зависимостей для старта не нужно.</p></div></li>
+        <li><span class="qs-step-num">2</span><div><p>Откройте базу данных. Возвращённый <code>dal.DB</code> — единственный тип, о котором должно знать ваше приложение.</p></div></li>
+        <li><span class="qs-step-num">3</span><div><p>Опишите запись, задайте её данные и прочитайте обратно по ключу.</p></div></li>
+        <li><span class="qs-step-num">4</span><div><p>Позже замените <code>dalgo2memory</code> на <code>dalgo2sqlite</code> или <code>dalgo2firestore</code>. Ваши обработчики не меняются.</p></div></li>
+      </ol>
+
+      <div class="codeblock" role="figure" aria-label="Пример: установка и использование">
+        <div class="codeblock-head">
+          <span class="codeblock-dot" style="background:#ff5f57"></span>
+          <span class="codeblock-dot" style="background:#febc2e"></span>
+          <span class="codeblock-dot" style="background:#28c840"></span>
+          <span class="codeblock-name">main.go</span>
+          <span class="codeblock-lang">Go</span>
+        </div>
+<pre><code><span class="pl-c">// $ go get github.com/dal-go/dalgo</span>
+
+<span class="pl-k">package</span> main
+
+<span class="pl-k">import</span> (
+    <span class="pl-s">"context"</span>
+    <span class="pl-s">"fmt"</span>
+
+    <span class="pl-s">"github.com/dal-go/dalgo/dal"</span>
+    <span class="pl-s">"github.com/dal-go/dalgo/adapters/dalgo2memory"</span>
+)
+
+<span class="pl-k">type</span> User <span class="pl-k">struct</span> {
+    Name  <span class="pl-t">string</span> <span class="pl-s">`json:"name"`</span>
+    Email <span class="pl-t">string</span> <span class="pl-s">`json:"email"`</span>
+}
+
+<span class="pl-k">func</span> <span class="pl-en">main</span>() {
+    ctx <span class="pl-k">:=</span> context.<span class="pl-en">Background</span>()
+    db <span class="pl-k">:=</span> dalgo2memory.<span class="pl-en">NewDB</span>()
+
+    key <span class="pl-k">:=</span> dal.<span class="pl-en">NewKeyWithID</span>(<span class="pl-s">"users"</span>, <span class="pl-s">"u1"</span>)
+    user <span class="pl-k">:=</span> <span class="pl-k">&amp;</span>User{Name: <span class="pl-s">"Ada Lovelace"</span>, Email: <span class="pl-s">"ada@example.com"</span>}
+    <span class="pl-k">if</span> err <span class="pl-k">:=</span> db.<span class="pl-en">Set</span>(ctx, dal.<span class="pl-en">NewRecordWithData</span>(key, user)); err <span class="pl-k">!=</span> <span class="pl-c1">nil</span> {
+        <span class="pl-en">panic</span>(err)
+    }
+
+    <span class="pl-k">var</span> got User
+    record <span class="pl-k">:=</span> dal.<span class="pl-en">NewRecordWithData</span>(key, <span class="pl-k">&amp;</span>got)
+    <span class="pl-k">if</span> err <span class="pl-k">:=</span> db.<span class="pl-en">Get</span>(ctx, record); err <span class="pl-k">!=</span> <span class="pl-c1">nil</span> {
+        <span class="pl-en">panic</span>(err)
+    }
+    <span class="pl-k">if</span> record.<span class="pl-en">Exists</span>() {
+        fmt.<span class="pl-en">Println</span>(got.Email)
+    }
+}
+</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ TYPESCRIPT ============================ -->
+<section id="typescript" class="section section-subtle">
+  <div class="container">
+    <header class="section-head">
+      <span class="section-eyebrow">04 — TypeScript</span>
+      <h2 class="section-title">Та же идея на TypeScript.</h2>
+      <p class="section-kicker"><code>@dalgo/core</code> — реализация DALgo на TypeScript, не привязанная к браузеру: иерархические ключи, типизированные коллекции, структурированные запросы и запись только внутри транзакций.</p>
+    </header>
+
+    <div class="iface-grid">
+      <div class="iface-prose">
+        <p>Установите пакет из npm: <code>npm install @dalgo/core</code>. У пакета нет собственного SDK базы данных, и сам он к базе не подключается — это делает адаптер. Исходный код: <a href="https://github.com/dal-go/dalgo-js" rel="noopener">dal-go/dalgo-js</a>.</p>
+        <p>Адаптеры для TypeScript лежат в <a href="https://github.com/dal-go/dalgo-http-adapters" rel="noopener">dal-go/dalgo-http-adapters</a>. Семь из них опубликованы в npm: <code>@dalgo/firestore</code> (эталонный адаптер), <code>@dalgo/indexeddb</code>, <code>@dalgo/ovdb</code>, <code>@dalgo/bigquery</code>, <code>@dalgo/d1</code>, <code>@dalgo/http</code> и <code>@dalgo/sqlite-wasm</code>. Остальные в разработке и пока не в npm.</p>
+        <div class="Flash">
+          <svg class="octicon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+          <div>Зрелость: <code>@dalgo/core</code> пока в версиях 0.x, а несколько адаптеров работают только на чтение или только на запросы. В README каждого адаптера указано, что он поддерживает; операция, которую он не умеет, завершается явной ошибкой.</div>
+        </div>
+      </div>
+
+      <div class="codeblock" role="figure" aria-label="Пример: типизированный запрос на TypeScript">
+        <div class="codeblock-head">
+          <span class="codeblock-name">query.ts</span>
+          <span class="codeblock-lang">TypeScript</span>
+        </div>
+<pre><code><span class="pl-c">// $ npm install @dalgo/core</span>
+<span class="pl-k">import</span> { collection, key } <span class="pl-k">from</span> <span class="pl-s">"@dalgo/core"</span>;
+
+<span class="pl-k">interface</span> Item {
+  title: <span class="pl-t">string</span>;
+  done: <span class="pl-t">boolean</span>;
+  rank: <span class="pl-t">number</span>;
+}
+
+<span class="pl-k">const</span> spaceKey = <span class="pl-en">key</span>(<span class="pl-s">"spaces"</span>, spaceId);
+<span class="pl-k">const</span> items = <span class="pl-en">collection</span>&lt;Item&gt;(<span class="pl-s">"items"</span>).<span class="pl-en">in</span>(spaceKey);
+
+<span class="pl-k">const</span> query = items.<span class="pl-en">query</span>()
+  .<span class="pl-en">where</span>(<span class="pl-s">"done"</span>, <span class="pl-s">"=="</span>, <span class="pl-c1">false</span>)
+  .<span class="pl-en">orderBy</span>(<span class="pl-s">"rank"</span>)
+  .<span class="pl-en">limit</span>(<span class="pl-c1">25</span>)
+  .<span class="pl-en">build</span>();
+
+<span class="pl-c">// Pass query to an adapter updated for @dalgo/core.</span>
+</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ TYPED COLLECTIONS ============================ -->
+<section id="collections" class="section">
+  <div class="container">
+    <header class="section-head">
+      <span class="section-eyebrow">05 — Типизированные коллекции</span>
+      <h2 class="section-title">Меньше церемоний для повседневного CRUD.</h2>
+      <p class="section-kicker">Обобщённый <code>dal.Collection[T]</code> без сессии возвращает типизированные значения напрямую: без возни с ключами, без обёрток записей, без приведения типов. Это надстройка над основным API, и она работает с любым адаптером для Go.</p>
+    </header>
+
+    <div class="codeblock" role="figure" aria-label="Пример: типизированная коллекция">
+      <div class="codeblock-head">
+        <span class="codeblock-dot" style="background:#ff5f57"></span>
+        <span class="codeblock-dot" style="background:#febc2e"></span>
+        <span class="codeblock-dot" style="background:#28c840"></span>
+        <span class="codeblock-name">collections.go</span>
+        <span class="codeblock-lang">Go</span>
+      </div>
+<pre><code><span class="pl-k">type</span> User <span class="pl-k">struct</span> {
+    Name  <span class="pl-t">string</span> <span class="pl-s">`json:"name"`</span>
+    Email <span class="pl-t">string</span> <span class="pl-s">`json:"email"`</span>
+}
+
+<span class="pl-c">// CollectionName (value receiver) names the collection.</span>
+<span class="pl-k">func</span> (User) <span class="pl-en">CollectionName</span>() <span class="pl-t">string</span> { <span class="pl-k">return</span> <span class="pl-s">"users"</span> }
+
+<span class="pl-c">// A Collection[T] holds no session — declare it once and reuse it.</span>
+<span class="pl-k">var</span> Users <span class="pl-k">=</span> dal.<span class="pl-en">CollectionOf</span>[User]()
+
+<span class="pl-k">func</span> <span class="pl-en">demo</span>(ctx context.<span class="pl-en">Context</span>, db dal.<span class="pl-en">DB</span>) <span class="pl-t">error</span> {
+    <span class="pl-c">// Writes take a WriteSession — only reachable inside a transaction.</span>
+    <span class="pl-k">if</span> err <span class="pl-k">:=</span> db.<span class="pl-en">RunReadwriteTransaction</span>(ctx,
+        <span class="pl-k">func</span>(ctx context.<span class="pl-en">Context</span>, tx dal.<span class="pl-en">ReadwriteTransaction</span>) <span class="pl-t">error</span> {
+            <span class="pl-k">return</span> Users.<span class="pl-en">Set</span>(ctx, tx, <span class="pl-s">"u1"</span>,
+                User{Name: <span class="pl-s">"Ada Lovelace"</span>, Email: <span class="pl-s">"ada@example.com"</span>})
+        }); err <span class="pl-k">!=</span> <span class="pl-c1">nil</span> {
+        <span class="pl-k">return</span> err
+    }
+
+    <span class="pl-c">// Reads take a ReadSession (a plain dal.DB works) and return T.</span>
+    user, err <span class="pl-k">:=</span> Users.<span class="pl-en">Get</span>(ctx, db, <span class="pl-s">"u1"</span>)
+    <span class="pl-k">if</span> err <span class="pl-k">!=</span> <span class="pl-c1">nil</span> { <span class="pl-c">// not-found via dal.IsNotFound(err)</span>
+        <span class="pl-k">return</span> err
+    }
+    fmt.<span class="pl-en">Println</span>(user.Email)
+    <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+}
+</code></pre>
+    </div>
+
+    <p class="section-kicker" style="margin-top:28px">
+      Тот же объект умеет и <code>Insert</code> (с генерацией id), <code>InsertWithID</code>, <code>All</code>, <code>First</code>, <code>Count</code>, <code>Exists</code>, <code>Update</code>, <code>Delete</code>, пакетный <code>InsertMany</code> и <code>In(parentKey)</code> для вложенных коллекций.
+    </p>
+
+    <h3 class="section-title" style="font-size:1.15rem;margin-top:8px">Стандартный <code>database/sql</code> и DALgo</h3>
+    <p class="section-kicker">Одни и те же операции, написанные на стандартной библиотеке и на DALgo. Версия на DALgo не зависит от бэкенда: тот же код работает с Firestore, SQL, файловой системой и адаптером в памяти.</p>
+
+    <div class="tabs" role="tablist" aria-label="Примеры сравнения">
+      <button class="tab-btn is-active" id="tabbtn-getuser" type="button" role="tab" aria-selected="true" aria-controls="tab-getuser">GetUser()</button>
+      <button class="tab-btn" id="tabbtn-banuser" type="button" role="tab" aria-selected="false" aria-controls="tab-banuser">BanUser()</button>
+    </div>
+
+    <div class="tab-panel is-active" id="tab-getuser" role="tabpanel" aria-labelledby="tabbtn-getuser">
+    <p class="section-kicker" style="margin-top:0;max-width:none">Прочитать пользователя по id — и сразу вернуть типизированное значение.</p>
+    <div class="compare-grid">
+      <div class="codeblock" role="figure" aria-label="Стандартный database/sql">
+        <div class="codeblock-head">
+          <span class="codeblock-dot" style="background:#ff5f57"></span>
+          <span class="codeblock-dot" style="background:#febc2e"></span>
+          <span class="codeblock-dot" style="background:#28c840"></span>
+          <span class="codeblock-name">database/sql</span>
+          <span class="codeblock-lang">Go</span>
+        </div>
+<pre><code><span class="pl-c">// Standard library: hand-written SQL + Scan.</span>
+<span class="pl-k">type</span> User <span class="pl-k">struct</span> {
+    ID    <span class="pl-t">int</span>
+    Name  <span class="pl-t">string</span>
+    Email <span class="pl-t">string</span>
+}
+
+<span class="pl-k">func</span> <span class="pl-en">GetUser</span>(ctx context.<span class="pl-en">Context</span>, db <span class="pl-k">*</span>sql.<span class="pl-en">DB</span>, id <span class="pl-t">int</span>) (<span class="pl-k">*</span>User, <span class="pl-t">error</span>) {
+    row <span class="pl-k">:=</span> db.<span class="pl-en">QueryRowContext</span>(ctx,
+        <span class="pl-s">"SELECT id, name, email FROM users WHERE id = ?"</span>, id)
+
+    u <span class="pl-k">:=</span> <span class="pl-k">&amp;</span>User{}
+    err <span class="pl-k">:=</span> row.<span class="pl-en">Scan</span>(
+        <span class="pl-k">&amp;</span>u.ID,
+        <span class="pl-k">&amp;</span>u.Name,
+        <span class="pl-k">&amp;</span>u.Email,
+    )
+    <span class="pl-k">if</span> errors.<span class="pl-en">Is</span>(err, sql.ErrNoRows) {
+        <span class="pl-k">return</span> <span class="pl-c1">nil</span>, <span class="pl-c1">nil</span>
+    }
+    <span class="pl-k">if</span> err <span class="pl-k">!=</span> <span class="pl-c1">nil</span> {
+        <span class="pl-k">return</span> <span class="pl-c1">nil</span>, err
+    }
+    <span class="pl-k">return</span> u, <span class="pl-c1">nil</span>
+}
+</code></pre>
+      </div>
+
+      <div class="codeblock" role="figure" aria-label="Типизированная коллекция DALgo">
+        <div class="codeblock-head">
+          <span class="codeblock-dot" style="background:#ff5f57"></span>
+          <span class="codeblock-dot" style="background:#febc2e"></span>
+          <span class="codeblock-dot" style="background:#28c840"></span>
+          <span class="codeblock-name">DALgo</span>
+          <span class="codeblock-lang">Go</span>
+        </div>
+<pre><code><span class="pl-c">// DALgo: one typed call, any backend.</span>
+<span class="pl-k">type</span> User <span class="pl-k">struct</span> {
+    ID    <span class="pl-t">int</span>
+    Name  <span class="pl-t">string</span>
+    Email <span class="pl-t">string</span>
+}
+
+<span class="pl-k">func</span> <span class="pl-en">GetUser</span>(ctx context.<span class="pl-en">Context</span>, db dal.<span class="pl-en">DB</span>, id <span class="pl-t">int</span>) (User, <span class="pl-t">error</span>) {
+    <span class="pl-k">return</span> dal.<span class="pl-en">CollectionAt</span>[User](<span class="pl-s">"users"</span>).<span class="pl-en">Get</span>(ctx, db, id)
+}
+</code></pre>
+      </div>
+    </div>
+    </div><!-- /tab-panel: getuser -->
+
+    <div class="tab-panel" id="tab-banuser" role="tabpanel" aria-labelledby="tabbtn-banuser">
+    <p class="section-kicker" style="margin-top:0;max-width:none">В одной транзакции: загрузить пользователя; если он не заблокирован — пометить его и добавить запись Ban.</p>
+    <div class="compare-grid">
+      <div class="codeblock" role="figure" aria-label="Стандартный database/sql">
+        <div class="codeblock-head">
+          <span class="codeblock-dot" style="background:#ff5f57"></span>
+          <span class="codeblock-dot" style="background:#febc2e"></span>
+          <span class="codeblock-dot" style="background:#28c840"></span>
+          <span class="codeblock-name">database/sql</span>
+          <span class="codeblock-lang">Go</span>
+        </div>
+<pre><code><span class="pl-c">// Standard library: manual BEGIN / COMMIT / ROLLBACK.</span>
+<span class="pl-k">type</span> User <span class="pl-k">struct</span> {
+    ID       <span class="pl-t">int</span>
+    Name     <span class="pl-t">string</span>
+    Email    <span class="pl-t">string</span>
+    IsBanned <span class="pl-t">bool</span>
+}
+
+<span class="pl-k">type</span> Ban <span class="pl-k">struct</span> {
+    UserID       <span class="pl-t">int</span>
+    BanTimestamp time.<span class="pl-en">Time</span>
+}
+
+<span class="pl-k">func</span> <span class="pl-en">BanUser</span>(ctx context.<span class="pl-en">Context</span>, db <span class="pl-k">*</span>sql.<span class="pl-en">DB</span>, id <span class="pl-t">int</span>) <span class="pl-t">error</span> {
+    tx, err <span class="pl-k">:=</span> db.<span class="pl-en">BeginTx</span>(ctx, <span class="pl-c1">nil</span>)
+    <span class="pl-k">if</span> err <span class="pl-k">!=</span> <span class="pl-c1">nil</span> {
+        <span class="pl-k">return</span> err
+    }
+    <span class="pl-k">defer</span> tx.<span class="pl-en">Rollback</span>()
+
+    <span class="pl-k">var</span> u User
+    err <span class="pl-k">=</span> tx.<span class="pl-en">QueryRowContext</span>(ctx,
+        <span class="pl-s">"SELECT id, name, email, is_banned FROM users WHERE id = ?"</span>, id).
+        <span class="pl-en">Scan</span>(<span class="pl-k">&amp;</span>u.ID, <span class="pl-k">&amp;</span>u.Name, <span class="pl-k">&amp;</span>u.Email, <span class="pl-k">&amp;</span>u.IsBanned)
+    <span class="pl-k">if</span> err <span class="pl-k">!=</span> <span class="pl-c1">nil</span> {
+        <span class="pl-k">return</span> err
+    }
+    <span class="pl-k">if</span> u.IsBanned {
+        <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+    }
+
+    <span class="pl-k">if</span> _, err <span class="pl-k">=</span> tx.<span class="pl-en">ExecContext</span>(ctx,
+        <span class="pl-s">"UPDATE users SET is_banned = TRUE WHERE id = ?"</span>, id); err <span class="pl-k">!=</span> <span class="pl-c1">nil</span> {
+        <span class="pl-k">return</span> err
+    }
+    <span class="pl-k">if</span> _, err <span class="pl-k">=</span> tx.<span class="pl-en">ExecContext</span>(ctx,
+        <span class="pl-s">"INSERT INTO bans (user_id, ban_timestamp) VALUES (?, ?)"</span>,
+        id, time.<span class="pl-en">Now</span>()); err <span class="pl-k">!=</span> <span class="pl-c1">nil</span> {
+        <span class="pl-k">return</span> err
+    }
+    <span class="pl-k">return</span> tx.<span class="pl-en">Commit</span>()
+}
+</code></pre>
+      </div>
+
+      <div class="codeblock" role="figure" aria-label="Типизированная коллекция DALgo">
+        <div class="codeblock-head">
+          <span class="codeblock-dot" style="background:#ff5f57"></span>
+          <span class="codeblock-dot" style="background:#febc2e"></span>
+          <span class="codeblock-dot" style="background:#28c840"></span>
+          <span class="codeblock-name">DALgo</span>
+          <span class="codeblock-lang">Go</span>
+        </div>
+<pre><code><span class="pl-c">// DALgo: one closure, the driver runs the transaction.</span>
+<span class="pl-k">type</span> User <span class="pl-k">struct</span> {
+    ID       <span class="pl-t">int</span>
+    Name     <span class="pl-t">string</span>
+    Email    <span class="pl-t">string</span>
+    IsBanned <span class="pl-t">bool</span>
+}
+
+<span class="pl-k">type</span> Ban <span class="pl-k">struct</span> {
+    UserID       <span class="pl-t">int</span>
+    BanTimestamp time.<span class="pl-en">Time</span>
+}
+
+<span class="pl-k">func</span> <span class="pl-en">BanUser</span>(ctx context.<span class="pl-en">Context</span>, db dal.<span class="pl-en">DB</span>, id <span class="pl-t">int</span>) <span class="pl-t">error</span> {
+    <span class="pl-k">return</span> db.<span class="pl-en">RunReadwriteTransaction</span>(ctx,
+        <span class="pl-k">func</span>(ctx context.<span class="pl-en">Context</span>, tx dal.<span class="pl-en">ReadwriteTransaction</span>) <span class="pl-t">error</span> {
+            users <span class="pl-k">:=</span> dal.<span class="pl-en">CollectionAt</span>[User](<span class="pl-s">"users"</span>)
+            user, err <span class="pl-k">:=</span> users.<span class="pl-en">Get</span>(ctx, tx, id)
+            <span class="pl-k">if</span> err <span class="pl-k">!=</span> <span class="pl-c1">nil</span> {
+                <span class="pl-k">return</span> err
+            }
+            <span class="pl-k">if</span> user.IsBanned {
+                <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+            }
+            <span class="pl-k">if</span> err <span class="pl-k">=</span> users.<span class="pl-en">Update</span>(ctx, tx, id,
+                []update.<span class="pl-en">Update</span>{update.<span class="pl-en">ByFieldName</span>(<span class="pl-s">"IsBanned"</span>, <span class="pl-c1">true</span>)}); err <span class="pl-k">!=</span> <span class="pl-c1">nil</span> {
+                <span class="pl-k">return</span> err
+            }
+            bans <span class="pl-k">:=</span> dal.<span class="pl-en">CollectionAt</span>[Ban](<span class="pl-s">"bans"</span>)
+            _, err <span class="pl-k">=</span> bans.<span class="pl-en">Insert</span>(ctx, tx, Ban{UserID: id, BanTimestamp: time.<span class="pl-en">Now</span>()})
+            <span class="pl-k">return</span> err
+        })
+}
+</code></pre>
+      </div>
+    </div>
+    </div><!-- /tab-panel: banuser -->
+  </div>
+</section>
+
+<!-- ============================ INTERFACES ============================ -->
+<section id="interfaces" class="section section-subtle">
+  <div class="container">
+    <header class="section-head">
+      <span class="section-eyebrow">06 — Интерфейс</span>
+      <h2 class="section-title">Достаточно мал, чтобы запомнить.</h2>
+      <p class="section-kicker">Достаточно строг, чтобы держать все адаптеры в рамках.</p>
+    </header>
+
+    <div class="iface-grid">
+      <div class="iface-prose">
+        <p>
+          Каждый адаптер DALgo — SQL, NoSQL, встраиваемый, файловый — реализует один и тот же контракт <code>dal.DB</code>. Операции чтения живут в <code>ReadSession</code>, операции изменения — в <code>ReadwriteSession</code>. Транзакции — это замыкания: вы передаёте функцию, драйвер даёт вам сессию, а ваш код никогда не видит дескриптор конкретного драйвера.
+        </p>
+        <div class="Flash">
+          <svg class="octicon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+          <div>Драйверы, которые не могут выполнить операцию, возвращают <code>dal.ErrNotSupported</code> — явный отказ лучше молчаливой чепухи.</div>
+        </div>
+      </div>
+
+      <div class="codeblock">
+        <div class="codeblock-head">
+          <span class="codeblock-dot" style="background:#ff5f57"></span>
+          <span class="codeblock-dot" style="background:#febc2e"></span>
+          <span class="codeblock-dot" style="background:#28c840"></span>
+          <span class="codeblock-name">dal/db_database.go</span>
+          <span class="codeblock-lang">Go</span>
+        </div>
+<pre><code><span class="pl-k">package</span> dal
+
+<span class="pl-k">type</span> DB <span class="pl-k">interface</span> {
+    <span class="pl-en">ID</span>() <span class="pl-t">string</span>
+    <span class="pl-en">Adapter</span>() <span class="pl-en">Adapter</span>
+    <span class="pl-en">Schema</span>() <span class="pl-en">Schema</span>
+    TransactionCoordinator
+    ReadSession
+    ConcurrencyAware
+}
+
+<span class="pl-k">type</span> TransactionCoordinator <span class="pl-k">interface</span> {
+    <span class="pl-en">RunReadonlyTransaction</span>(ctx context.<span class="pl-en">Context</span>,
+        f <span class="pl-en">ROTxWorker</span>, opts <span class="pl-k">...</span><span class="pl-en">TransactionOption</span>) <span class="pl-t">error</span>
+
+    <span class="pl-en">RunReadwriteTransaction</span>(ctx context.<span class="pl-en">Context</span>,
+        f <span class="pl-en">RWTxWorker</span>, opts <span class="pl-k">...</span><span class="pl-en">TransactionOption</span>) <span class="pl-t">error</span>
+}
+
+<span class="pl-k">type</span> ReadSession <span class="pl-k">interface</span> {
+    <span class="pl-en">Get</span>(ctx context.<span class="pl-en">Context</span>, record <span class="pl-en">Record</span>) <span class="pl-t">error</span>
+    <span class="pl-en">GetMulti</span>(ctx context.<span class="pl-en">Context</span>, records []<span class="pl-en">Record</span>) <span class="pl-t">error</span>
+    <span class="pl-en">ExecuteQueryToRecordsReader</span>(ctx context.<span class="pl-en">Context</span>,
+        query <span class="pl-en">Query</span>) (<span class="pl-en">RecordsReader</span>, <span class="pl-t">error</span>)
+}
+
+<span class="pl-k">type</span> ReadwriteSession <span class="pl-k">interface</span> {
+    ReadSession
+    <span class="pl-en">Insert</span>(ctx context.<span class="pl-en">Context</span>, r <span class="pl-en">Record</span>, opts <span class="pl-k">...</span><span class="pl-en">InsertOption</span>) <span class="pl-t">error</span>
+    <span class="pl-en">Set</span>(ctx context.<span class="pl-en">Context</span>, r <span class="pl-en">Record</span>) <span class="pl-t">error</span>
+    <span class="pl-en">Update</span>(ctx context.<span class="pl-en">Context</span>, key <span class="pl-k">*</span><span class="pl-en">Key</span>,
+        updates []update.<span class="pl-en">Update</span>, pre <span class="pl-k">...</span><span class="pl-en">Precondition</span>) <span class="pl-t">error</span>
+    <span class="pl-en">Delete</span>(ctx context.<span class="pl-en">Context</span>, key <span class="pl-k">*</span><span class="pl-en">Key</span>) <span class="pl-t">error</span>
+}
+</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ QUERIES ============================ -->
+<section id="queries" class="section">
+  <div class="container">
+    <header class="section-head">
+      <span class="section-eyebrow">07 — Запросы и схема</span>
+      <h2 class="section-title">Больше, чем get и set.</h2>
+      <p class="section-kicker">Построитель структурированных запросов, иерархические коллекции и ключи с учётом схемы — с поддержкой по возможностям адаптера.</p>
+    </header>
+
+    <div class="iface-grid">
+      <div class="iface-prose">
+        <p>
+          DALgo включает построитель структурированных запросов для типичных чтений: фильтры, сортировка, <code>LIMIT</code>, выбор столбцов, <code>GROUP BY</code> / <code>HAVING</code>, агрегаты вроде <code>COUNT(*)</code> и <code>SUM</code>, а также внутренние и левые соединения по равенству. Ключи могут описывать вложенные пути документов, например <code>countries/ireland/cities/dublin</code>, а родительский ключ ограничивает запрос вложенной коллекцией.
+        </p>
+        <div class="Flash">
+          <svg class="octicon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+          <div>Поддержка зависит от возможностей адаптера: бэкенд, который не умеет выполнять часть запроса, возвращает <code>dal.ErrNotSupported</code>, поэтому тесты используют одну форму запроса и корректно пропускают недоступное. Сериализованный формат запросов описан в <a href="/tugql/">TugQL</a> (на английском).</div>
+        </div>
+      </div>
+
+      <div class="codeblock">
+        <div class="codeblock-head">
+          <span class="codeblock-dot" style="background:#ff5f57"></span>
+          <span class="codeblock-dot" style="background:#febc2e"></span>
+          <span class="codeblock-dot" style="background:#28c840"></span>
+          <span class="codeblock-name">query.go</span>
+          <span class="codeblock-lang">Go</span>
+        </div>
+<pre><code><span class="pl-c">// Query the largest cities, projecting two columns.</span>
+cities <span class="pl-k">:=</span> dal.<span class="pl-en">NewRootCollectionRef</span>(<span class="pl-s">"cities"</span>, <span class="pl-s">""</span>)
+
+q <span class="pl-k">:=</span> dal.<span class="pl-en">From</span>(cities).<span class="pl-en">NewQuery</span>().
+    <span class="pl-en">WhereField</span>(<span class="pl-s">"Country"</span>, dal.Equal, <span class="pl-s">"IE"</span>).
+    <span class="pl-en">OrderBy</span>(dal.<span class="pl-en">DescendingField</span>(<span class="pl-s">"Population"</span>)).
+    <span class="pl-en">Limit</span>(<span class="pl-c1">10</span>).
+    <span class="pl-en">SelectColumns</span>(
+        dal.Column{Expression: dal.<span class="pl-en">Field</span>(<span class="pl-s">"Name"</span>)},
+        dal.Column{Expression: dal.<span class="pl-en">Field</span>(<span class="pl-s">"Population"</span>)},
+    )
+
+records, err <span class="pl-k">:=</span> dal.<span class="pl-en">ExecuteQueryAndReadAllToRecords</span>(ctx, q, db)
+</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-subtle" aria-labelledby="datatug-heading">
+  <div class="container">
+    <h2 class="section-title" id="datatug-heading">Используется в разработке DataTug</h2>
+    <p><a href="https://datatug.app">DataTug</a> помогает разработчикам изучать схемы баз данных, писать и запускать запросы и понимать их результаты. DALgo служит швом доступа к данным в среде разработки DataTug. Прочитайте, <a href="https://datatug.app/en/under-the-hood/tools-we-built/">как создавались инструменты разработки DataTug</a> (на английском).</p>
+  </div>
+</section>
+
+<!-- ============================ CLOSING ============================ -->
+<section class="section closing">
+  <div class="container closing-inner">
+    <h2>Хранилище — деталь. Относитесь к нему так.</h2>
+    <p>DALgo распространяется по лицензии MIT и ждёт, когда вы попробуете его сломать. Модуль для Go проверен в эксплуатации; пакет для TypeScript пока в версиях 0.x. Новые адаптеры и разбор крайних случаев приветствуются.</p>
+    <div class="closing-cta">
+      <a class="btn btn-primary" href="https://github.com/dal-go/dalgo" rel="noopener">
+        <svg class="octicon" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></svg>
+        Star на GitHub
+      </a>
+      <a class="btn btn-default" href="https://github.com/dal-go/dalgo/blob/main/CONTRIBUTING.md" rel="noopener">Участвовать</a>
+      <a class="btn btn-default" href="/articles/">Читать статьи (англ.)</a>
+      <a class="btn btn-default" href="/tugql/">Изучить TugQL</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================ FOOTER ============================ -->
+<footer class="AppFooter">
+  <div class="container AppFooter-inner">
+    <ul role="list">
+      <li>&copy; <span id="year">2026</span> участники DALgo</li>
+      <li><a href="https://github.com/dal-go" rel="noopener">Организация</a></li>
+      <li><a href="https://github.com/dal-go/dalgo" rel="noopener">Основной репозиторий</a></li>
+      <li><a href="https://pkg.go.dev/github.com/dal-go/dalgo" rel="noopener">Pkg.go.dev</a></li>
+      <li><a href="https://github.com/dal-go/dalgo/blob/main/LICENSE" rel="noopener">Лицензия MIT</a></li>
+      <li><a href="/articles/">Статьи (англ.)</a></li>
+      <li><a href="/privacy/">Конфиденциальность (англ.)</a></li>
+    </ul>
+    <span class="AppFooter-tag">Вдохновлено дизайн-системой Primer от GitHub. Не связано с GitHub.</span>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  // Keep the visitor's place when switching language: /#adapters -> /ru/#adapters.
+  document.querySelectorAll('[data-lang-link]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      if (location.hash) a.setAttribute('href', a.getAttribute('href').split('#')[0] + location.hash);
+    });
+  });
+</script>
+
+<script>
+  // Tabbed comparison examples: toggle .is-active on the clicked button and
+  // the panel it controls (aria-controls -> panel id).
+  document.querySelectorAll('.tabs').forEach(function (tabs) {
+    var btns = Array.prototype.slice.call(tabs.querySelectorAll('.tab-btn'));
+    var panels = tabs.parentNode.querySelectorAll('.tab-panel');
+    btns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var target = btn.getAttribute('aria-controls');
+        btns.forEach(function (b) {
+          var on = b === btn;
+          b.classList.toggle('is-active', on);
+          b.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+        panels.forEach(function (p) {
+          p.classList.toggle('is-active', p.id === target);
+        });
+      });
+    });
+  });
+</script>
+
+<script src="https://unpkg.com/cytoscape@3.30.2/dist/cytoscape.min.js" defer></script>
+<script defer>
+  window.addEventListener('load', function () {
+    if (!window.cytoscape) return;
+    var container = document.getElementById('cy');
+    if (!container) return;
+
+    var css = getComputedStyle(document.documentElement);
+    var v = function (n, fallback) {
+      var x = css.getPropertyValue(n).trim();
+      return x || fallback;
+    };
+    var accent       = v('--accent-fg', '#0969da');
+    var accentSubtle = v('--accent-subtle', '#ddf4ff');
+    var canvas       = v('--canvas-default', '#ffffff');
+    var subtle       = v('--canvas-subtle', '#f6f8fa');
+    var border       = v('--border-default', '#d1d9e0');
+    var fg           = v('--fg-default', '#1f2328');
+    var muted        = v('--fg-muted', '#59636e');
+    var done         = v('--done-fg', '#8250df');
+    var goCyan       = '#00ADD8';
+
+    // Positions are in an abstract coordinate space; Cytoscape fits them
+    // to the container with `fit: true`. The only compound is `adapters`,
+    // which auto-sizes around its children. All other nodes are simple
+    // nodes connected by edges.
+    var REPO  = 'https://github.com/dal-go/';
+    var L = {"app": "Ваш Go-код", "adapters": "Адаптеры", "local": "Локально и Git", "document": "Документные", "cloud": "Облако и веб", "memory": "В памяти", "filesystem": "Файловая система", "custom": "Свой адаптер"};
+    var elements = [
+      // app + core
+      { data: { id: 'app',   label: L.app,  kind: 'app'  }, position: { x:   0, y: 260 } },
+      { data: { id: 'dalgo', label: 'DALgo\ndal.DB', kind: 'core',
+                url: REPO + 'dalgo' },                                position: { x: 200, y: 260 } },
+
+      // outer compound: groups all adapter nodes (categories + leaves)
+      { data: { id: 'adapters', label: L.adapters, kind: 'group' } },
+
+      // Category nodes (left column inside the compound)
+      { data: { id: 'sql',   label: 'SQL',     kind: 'cat', parent: 'adapters',
+                url: REPO + 'dalgo2sql' },                                position: { x: 420, y:  74 } },
+      { data: { id: 'local', label: L.local,   kind: 'cat', parent: 'adapters' },
+                                                                          position: { x: 420, y: 236 } },
+      { data: { id: 'doc',   label: L.document, kind: 'cat', parent: 'adapters' },
+                                                                          position: { x: 420, y: 340 } },
+      { data: { id: 'cloud', label: L.cloud,   kind: 'cat', parent: 'adapters' },
+                                                                          position: { x: 420, y: 426 } },
+
+      // SQL children
+      { data: { id: 'sqlite', label: 'SQLite',       kind: 'leaf', parent: 'adapters',
+                url: REPO + 'dalgo2sqlite' },                            position: { x: 620, y:  20 } },
+      { data: { id: 'pg',     label: 'PostgreSQL',   kind: 'leaf', parent: 'adapters',
+                url: REPO + 'dalgo2postgres' },                          position: { x: 620, y:  56 } },
+      { data: { id: 'mysql',  label: 'MySQL',        kind: 'leaf', parent: 'adapters',
+                url: REPO + 'dalgo2mysql' },                             position: { x: 620, y:  92 } },
+      { data: { id: 'dbsql',  label: 'database/sql', kind: 'leaf', parent: 'adapters',
+                url: REPO + 'dalgo2sql' },                               position: { x: 620, y: 128 } },
+
+      // Local and Git children
+      { data: { id: 'memory', label: L.memory, kind: 'leaf', parent: 'adapters',
+                url: REPO + 'dalgo/tree/main/adapters/dalgo2memory' },   position: { x: 620, y: 200 } },
+      { data: { id: 'fsys',   label: L.filesystem, kind: 'leaf', parent: 'adapters',
+                url: REPO + 'dalgo/tree/main/adapters/dalgo2fs' },       position: { x: 620, y: 236 } },
+      { data: { id: 'ingitdb', label: 'inGitDB', kind: 'leaf', parent: 'adapters',
+                url: 'https://github.com/ingitdb/dalgo2ingitdb' },       position: { x: 620, y: 272 } },
+
+      // Document children
+      { data: { id: 'ovdb',    label: 'OpenVaultDB', kind: 'leaf', parent: 'adapters',
+                url: REPO + 'dalgo2openvaultdb' },                       position: { x: 620, y: 340 } },
+
+      // Cloud and web children
+      { data: { id: 'firestore', label: 'Firestore',   kind: 'leaf', parent: 'adapters',
+                url: REPO + 'dalgo2firestore' },                         position: { x: 620, y: 408 } },
+      { data: { id: 'http',      label: 'HTTP / JSON', kind: 'leaf', parent: 'adapters',
+                url: REPO + 'dalgo2http' },                              position: { x: 620, y: 444 } },
+
+      // Extensibility: roll your own adapter
+      { data: { id: 'custom', label: L.custom, kind: 'custom', parent: 'adapters',
+                url: REPO + 'dalgo/blob/main/CONTRIBUTING.md' },         position: { x: 420, y: 520 } },
+
+      // Edges
+      { data: { source: 'app',   target: 'dalgo'  } },
+      { data: { source: 'dalgo', target: 'sql'    } },
+      { data: { source: 'dalgo', target: 'local'  } },
+      { data: { source: 'dalgo', target: 'doc'    } },
+      { data: { source: 'dalgo', target: 'cloud'  } },
+      { data: { source: 'dalgo', target: 'custom' } },
+      { data: { source: 'sql',   target: 'sqlite' } },
+      { data: { source: 'sql',   target: 'pg'     } },
+      { data: { source: 'sql',   target: 'mysql'  } },
+      { data: { source: 'sql',   target: 'dbsql'  } },
+      { data: { source: 'local', target: 'memory' } },
+      { data: { source: 'local', target: 'fsys'   } },
+      { data: { source: 'local', target: 'ingitdb' } },
+      { data: { source: 'doc',   target: 'ovdb'   } },
+      { data: { source: 'cloud', target: 'firestore' } },
+      { data: { source: 'cloud', target: 'http'     } }
+    ];
+
+    var monoFont = 'ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace';
+
+    var cy = cytoscape({
+      container: container,
+      elements: elements,
+      wheelSensitivity: 0.2,
+      userZoomingEnabled: false,
+      userPanningEnabled: false,
+      boxSelectionEnabled: false,
+      autoungrabify: true,
+      autounselectify: true,
+      minZoom: 0.4,
+      maxZoom: 1.2,
+      style: [
+        // Base node style (overridden per kind below)
+        {
+          selector: 'node',
+          style: {
+            'label': 'data(label)',
+            'text-valign': 'center',
+            'text-halign': 'center',
+            'font-family': monoFont,
+            'font-size': 11,
+            'font-weight': 500,
+            'color': fg,
+            'background-color': canvas,
+            'border-color': border,
+            'border-width': 1,
+            'shape': 'round-rectangle',
+            'width': 'label',
+            'height': 26,
+            'padding': '10px',
+            'text-margin-y': 0,
+            'transition-property': 'border-color, background-color, border-width',
+            'transition-duration': '120ms'
+          }
+        },
+
+        // "Your Go code" node — visually prominent (the user's starting point)
+        {
+          selector: 'node[kind="app"]',
+          style: {
+            'background-color': canvas,
+            'border-color': goCyan,
+            'border-width': 2,
+            'color': fg,
+            'font-weight': 700,
+            'font-size': 13,
+            'padding': '12px',
+            'shadow-blur': 14,
+            'shadow-color': goCyan,
+            'shadow-opacity': 0.35,
+            'shadow-offset-x': 0,
+            'shadow-offset-y': 0
+          }
+        },
+
+        // DALgo core — round, two-line label "DALgo / dal.DB"
+        {
+          selector: 'node[kind="core"]',
+          style: {
+            'shape': 'ellipse',
+            'background-color': canvas,
+            'border-color': accent,
+            'border-width': 2,
+            'width': 100,
+            'height': 100,
+            'font-size': 13,
+            'font-weight': 700,
+            'color': accent,
+            'text-wrap': 'wrap',
+            'text-justification': 'center',
+            'line-height': 1.4
+          }
+        },
+
+        // Outer compound that groups every adapter (categories + leaves)
+        {
+          selector: 'node[kind="group"]',
+          style: {
+            'shape': 'round-rectangle',
+            'background-color': subtle,
+            'background-opacity': 0.6,
+            'border-color': border,
+            'border-width': 1,
+            'border-style': 'dashed',
+            'color': muted,
+            'font-family': monoFont,
+            'font-size': 10,
+            'font-weight': 700,
+            'text-transform': 'uppercase',
+            'text-halign': 'center',
+            'text-valign': 'top',
+            'text-margin-y': -10,
+            'padding': 16
+          }
+        },
+
+        // Category node (SQL / File System / Key Value Storages / Cloud)
+        // — simple node with centered label, accent fill
+        {
+          selector: 'node[kind="cat"]',
+          style: {
+            'shape': 'round-rectangle',
+            'background-color': accentSubtle,
+            'border-color': accent,
+            'border-width': 1,
+            'color': accent,
+            'font-family': monoFont,
+            'font-size': 11,
+            'font-weight': 700,
+            'text-wrap': 'wrap',
+            'text-max-width': 110
+          }
+        },
+
+        // Leaf adapter nodes inside category compounds
+        {
+          selector: 'node[kind="leaf"]',
+          style: {
+            'shape': 'round-rectangle',
+            'background-color': canvas,
+            'border-color': border,
+            'color': fg
+          }
+        },
+
+        // "Your own custom adapter" — dashed border, italic, sits at the bottom
+        {
+          selector: 'node[kind="custom"]',
+          style: {
+            'shape': 'round-rectangle',
+            'background-color': canvas,
+            'border-color': accent,
+            'border-style': 'dashed',
+            'border-width': 1,
+            'color': accent,
+            'font-family': monoFont,
+            'font-size': 11,
+            'font-style': 'italic',
+            'text-wrap': 'wrap',
+            'text-max-width': 140,
+            'padding': '10px'
+          }
+        },
+
+        // Edges
+        {
+          selector: 'edge',
+          style: {
+            'curve-style': 'bezier',
+            'line-color': accent,
+            'opacity': 0.5,
+            'width': 1.2,
+            'target-arrow-shape': 'none',
+            'transition-property': 'opacity, line-color, width',
+            'transition-duration': '150ms'
+          }
+        },
+
+        // Hover-highlight classes (applied/removed in JS)
+        { selector: 'node.dim',  style: { 'opacity': 0.25 } },
+        { selector: 'edge.dim',  style: { 'opacity': 0.08 } },
+        { selector: 'edge.hi',   style: { 'opacity': 1, 'width': 2, 'line-color': goCyan } },
+        { selector: 'node.hi',   style: { 'border-color': goCyan, 'border-width': 2 } }
+      ],
+      layout: { name: 'preset', fit: true, padding: 18 }
+    });
+
+    // Hover highlight: light the upstream path back to "Your Go code"
+    // (via DALgo) AND the downstream successors of the hovered node, so
+    // hovering an intermediate like SQL keeps its children (SQLite,
+    // PostgreSQL, ...) active too. For the DAG: predecessors() walks
+    // incoming edges; successors() walks outgoing edges.
+    cy.on('mouseover', 'node', function (e) {
+      var n = e.target;
+      var path = n.predecessors()
+                  .union(n)
+                  .union(n.successors())
+                  .union(n.ancestors());
+      // If user hovers the outer Adapters compound directly, light its
+      // descendants too — otherwise the whole graph would dim.
+      if (n.isParent()) {
+        path = path.union(n.descendants());
+      }
+      cy.elements().difference(path).addClass('dim');
+      path.removeClass('dim').addClass('hi');
+
+      // Pointer cursor for nodes with an associated GitHub repo
+      if (n.data('url')) container.style.cursor = 'pointer';
+    });
+    cy.on('mouseout', 'node', function () {
+      cy.elements().removeClass('dim hi');
+      container.style.cursor = '';
+    });
+
+    // Click an adapter -> open its GitHub repo in a new tab.
+    cy.on('tap', 'node', function (e) {
+      var url = e.target.data('url');
+      if (url) window.open(url, '_blank', 'noopener');
+    });
+
+    // Keep the graph fitted on resize.
+    var refit;
+    window.addEventListener('resize', function () {
+      clearTimeout(refit);
+      refit = setTimeout(function () { cy.fit(undefined, 18); }, 80);
+    });
+  });
+</script>
+
+<div class="site-feedback"><button type="button" data-feedback-launcher aria-haspopup="dialog" hidden><svg class="feedback-mark" aria-hidden="true" focusable="false" viewBox="0 0 64 64"><rect width="64" height="64" rx="18" fill="#d4ef83"/><path d="M18 46 46 18M20 18h26v26" fill="none" stroke="#202c2a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>Предложить улучшение</button></div>
+<script id="site-feedback-widget" src="https://improveit.now/widget.js" data-space="ao58m" data-app="53707531c1e1120447e7673109bb6538" data-lang="ru" data-color="#0d63e9" data-launcher="hidden" defer></script>
+<script src="/feedback.js" defer></script>
+</body>
+</html>

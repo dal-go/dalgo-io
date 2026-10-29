@@ -17,6 +17,8 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - name: Verify static entrypoint
         run: test -s public/index.html
+      - name: Verify generated landing pages and sitemap match their sources
+        run: python3 scripts/render_site.py --check
       - name: Verify generated articles match Markdown sources
         run: python3 scripts/render_articles.py --check
       - name: Verify feedback routing on static and generated pages

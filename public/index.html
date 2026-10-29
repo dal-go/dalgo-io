@@ -3,16 +3,23 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>DALgo — Database Abstraction Layer for Go</title>
-<meta name="description" content="DALgo is a Database Abstraction Layer for Go. One interface, many databases — in-memory, SQL, Firestore, Datastore, files, Git, inGitDB." />
+<title>DALgo — database abstraction layer for Go and TypeScript</title>
+<meta name="description" content="DALgo is a database abstraction layer for Go and TypeScript. One interface, many databases — in-memory, SQL, Firestore, files, inGitDB, OpenVaultDB. The Go module is the main implementation; the TypeScript package @dalgo/core is on npm." />
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)" />
-<meta property="og:title" content="DALgo — Database Abstraction Layer for Go" />
-<meta property="og:description" content="One interface. Many databases. Write storage-agnostic Go." />
+<meta property="og:title" content="DALgo — database abstraction layer for Go and TypeScript" />
+<meta property="og:description" content="One interface. Many databases. Write storage-agnostic Go and TypeScript." />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://dal-go.github.io" />
+<meta property="og:url" content="https://dalgo.io/" />
+<meta property="og:site_name" content="DALgo" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:locale:alternate" content="ru_RU" />
+<link rel="canonical" href="https://dalgo.io/" />
+<link rel="alternate" hreflang="en" href="https://dalgo.io/" />
+<link rel="alternate" hreflang="ru" href="https://dalgo.io/ru/" />
+<link rel="alternate" hreflang="x-default" href="https://dalgo.io/" />
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230d1117'/><text x='50%25' y='52%25' text-anchor='middle' dominant-baseline='middle' font-family='ui-monospace,monospace' font-size='28' font-weight='700' fill='%232f81f7'>d/</text></svg>" />
-<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="/styles.css" />
 <script src="/analytics.js" defer></script>
 </head>
 <body>
@@ -37,6 +44,7 @@
       <a href="#why">Why</a>
       <a href="#adapters">Adapters</a>
       <a href="#quickstart">Quick start</a>
+      <a href="#typescript">TypeScript</a>
       <a href="#collections">Collections</a>
       <a href="#interfaces">Interfaces</a>
       <a href="#queries">Queries</a>
@@ -45,6 +53,7 @@
     </nav>
 
     <div class="AppHeader-actions">
+      <nav class="lang-switch" aria-label="Language"><span class="lang-switch-item" aria-current="true" lang="en">EN</span><a class="lang-switch-item" href="/ru/" hreflang="ru" lang="ru" data-lang-link>RU</a></nav>
       <a class="btn btn-default btn-sm" href="https://github.com/dal-go/dalgo" rel="noopener">
         <svg class="octicon" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></svg>
         <span>Star</span>
@@ -62,7 +71,7 @@
     <div class="hero-left">
       <div class="hero-eyebrow">
         <svg class="octicon" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M5.05.31c.81 2.17.41 3.38-.52 4.31C3.55 5.67 1.98 6.45.9 7.98c-1.45 2.05-1.7 6.53 3.53 7.7-2.2-1.16-2.67-4.52-.3-6.61-.61 2.03.53 3.33 1.94 2.86 1.39-.47 2.3.53 2.27 1.67-.02.78-.31 1.44-1.13 1.81 3.42-.59 4.78-3.42 4.78-5.56 0-2.84-2.53-3.22-1.25-5.61-1.52.13-2.03 1.13-1.89 2.75.09 1.08-1.02 1.8-1.86 1.33-.67-.41-.66-1.19-.11-1.7.91-.86 1.07-2.34-.5-4.32Z"/></svg>
-        Open source &middot; Go module
+        Open source &middot; Go module &middot; TypeScript package
       </div>
 
       <h1 class="hero-title">
@@ -72,10 +81,7 @@
       </h1>
 
       <p class="hero-lede">
-        <strong>DALgo</strong> is a Database Abstraction Layer for Go. Write your domain
-        logic once against a single, well-tested interface — swap Postgres for Firestore,
-        SQLite for Datastore, an in-memory store for a real one — without touching your
-        business code.
+        <strong>DALgo</strong> is a database abstraction layer for Go and TypeScript. Write your domain logic once against a single, well-tested interface — swap Postgres for Firestore, an in-memory store for a real one — without touching your business code. The Go module is the main implementation; the TypeScript package, <code>@dalgo/core</code>, is published on npm.
       </p>
 
       <div class="hero-cta">
@@ -90,6 +96,9 @@
         <code class="hero-install" tabindex="0">
           <span class="hero-install-prompt">$</span> go get github.com/dal-go/dalgo
         </code>
+        <code class="hero-install" tabindex="0">
+          <span class="hero-install-prompt">$</span> npm install @dalgo/core
+        </code>
       </div>
     </div>
 
@@ -97,13 +106,10 @@
     <figure class="diagram" aria-label="DALgo bridges your Go code to many databases">
       <div class="diagram-frame">
         <div class="diagram-canvas" id="cy" role="img"
-             aria-label="Graph: your Go code talks to DALgo, which adapts to SQL (SQLite, PostgreSQL, Oracle, MS SQL Server), File System, Key Value Storages (Redis, Memcache), and Cloud (Firebase Firestore, Google BigQuery, Google Cloud Spanner)."></div>
+             aria-label="Graph: your Go code talks to DALgo, which adapts to SQL (SQLite, PostgreSQL, MySQL), local storage (in-memory, file system, inGitDB), OpenVaultDB, Firestore and HTTP sources, or to your own custom adapter."></div>
         <noscript>
           <p class="diagram-fallback">
-            Your code → <strong>DALgo</strong> → SQL (SQLite, PostgreSQL, Oracle, MS SQL Server) ·
-            File System · Key Value Storages (Redis, Memcache) ·
-            Cloud (Firebase Firestore, Google BigQuery, Google Cloud Spanner) ·
-            or your own custom adapter.
+            Your code → <strong>DALgo</strong> → SQL (SQLite, PostgreSQL, MySQL) · in-memory, file system, inGitDB · OpenVaultDB · Firestore · HTTP sources · or your own custom adapter.
           </p>
         </noscript>
       </div>
@@ -111,6 +117,8 @@
 
   </div>
 </section>
+
+
 
 <!-- ============================ WHY ============================ -->
 <section id="why" class="section">
@@ -160,7 +168,7 @@
           <svg class="octicon" viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"/><path fill="currentColor" d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Z"/></svg>
         </div>
         <h3>One end-to-end test suite</h3>
-        <p>Every official adapter is validated against the same <a href="https://github.com/dal-go/dalgo-end2end-tests" rel="noopener">end-to-end test suite</a>. Conformance is the contract.</p>
+        <p>Ten Go adapters pass the same <a href="https://github.com/dal-go/dalgo/tree/main/dalgotest" rel="noopener">shared conformance suite</a> in CI. Conformance is the contract; the others are listed below with what they do and do not support.</p>
       </article>
 
       <article class="Box why-card">
@@ -181,11 +189,10 @@
     <header class="section-head">
       <span class="section-eyebrow">02 — Adapters</span>
       <h2 class="section-title">Same interface. Different stores.</h2>
-      <p class="section-kicker">Two adapters ship inside the core module; the rest span SQL, NoSQL, file, and Git-versioned storage.</p>
+      <p class="section-kicker">Two adapters ship inside the core module. Ten Go adapters pass the shared conformance suite; the rest are listed below with their limits.</p>
     </header>
 
-    <ul class="adapter-grid" role="list">
-
+    <ul class="adapter-grid" role="list" aria-label="Adapters that pass the shared conformance suite">
       <li>
         <a class="Box adapter adapter-core" href="https://github.com/dal-go/dalgo" rel="noopener">
           <span class="adapter-kind">
@@ -200,7 +207,9 @@
 
       <li>
         <a class="Box adapter" href="https://github.com/dal-go/dalgo/tree/main/adapters/dalgo2memory" rel="noopener">
-          <span class="adapter-kind">Built-in · In-memory</span>
+          <span class="adapter-kind">
+            Built-in · In-memory
+          </span>
           <h3>dalgo2memory</h3>
           <p>In-memory adapter shipped in the core module — the default store for tests, examples, and local development. Runs most structured-query features end to end.</p>
           <span class="adapter-go">github.com/dal-go/dalgo<wbr/>/adapters/dalgo2memory</span>
@@ -209,7 +218,9 @@
 
       <li>
         <a class="Box adapter" href="https://github.com/dal-go/dalgo/tree/main/adapters/dalgo2fs" rel="noopener">
-          <span class="adapter-kind">Built-in · Filesystem</span>
+          <span class="adapter-kind">
+            Built-in · Filesystem
+          </span>
           <h3>dalgo2fs</h3>
           <p>Built-in adapter mapping the OS file system to DALgo records — handy for demos and simple local persistence.</p>
           <span class="adapter-go">github.com/dal-go/dalgo<wbr/>/adapters/dalgo2fs</span>
@@ -218,16 +229,20 @@
 
       <li>
         <a class="Box adapter" href="https://github.com/dal-go/dalgo2sql" rel="noopener">
-          <span class="adapter-kind">SQL</span>
+          <span class="adapter-kind">
+            SQL
+          </span>
           <h3>dalgo2sql</h3>
-          <p>Adapter for the standard <code>database/sql</code> — Postgres, MySQL, MSSQL, anything compliant.</p>
+          <p>Adapter for the standard <code>database/sql</code> — any compliant driver.</p>
           <span class="adapter-go">github.com/dal-go/dalgo2sql</span>
         </a>
       </li>
 
       <li>
         <a class="Box adapter" href="https://github.com/dal-go/dalgo2sqlite" rel="noopener">
-          <span class="adapter-kind">SQL</span>
+          <span class="adapter-kind">
+            SQL
+          </span>
           <h3>dalgo2sqlite</h3>
           <p>SQLite-specific driver: schema, DDL, concurrency-aware operations on top of <code>dalgo2sql</code>.</p>
           <span class="adapter-go">github.com/dal-go/dalgo2sqlite</span>
@@ -235,8 +250,54 @@
       </li>
 
       <li>
+        <a class="Box adapter" href="https://github.com/dal-go/dalgo2postgres" rel="noopener">
+          <span class="adapter-kind">
+            SQL
+          </span>
+          <h3>dalgo2postgres</h3>
+          <p>PostgreSQL-specific driver on top of <code>dalgo2sql</code>: forces the <code>postgres</code> dialect, introspects catalogs and applies Postgres DDL.</p>
+          <span class="adapter-go">github.com/dal-go/dalgo2postgres</span>
+        </a>
+      </li>
+
+      <li>
+        <a class="Box adapter" href="https://github.com/dal-go/dalgo2mysql" rel="noopener">
+          <span class="adapter-kind">
+            SQL
+          </span>
+          <h3>dalgo2mysql</h3>
+          <p>MySQL-specific driver on top of <code>dalgo2sql</code>: schema introspection and MySQL DDL. CI runs the conformance suite against MySQL 8.</p>
+          <span class="adapter-go">github.com/dal-go/dalgo2mysql</span>
+        </a>
+      </li>
+
+      <li>
+        <a class="Box adapter" href="https://github.com/ingitdb/dalgo2ingitdb" rel="noopener">
+          <span class="adapter-kind">
+            Versioned · inGitDB
+          </span>
+          <h3>dalgo2ingitdb</h3>
+          <p>Adapter for inGitDB — a Git-native database with branchable, mergeable data. Reads and writes; a transaction is a Git commit. Lives in the inGitDB organization.</p>
+          <span class="adapter-go">github.com/ingitdb/dalgo2ingitdb</span>
+        </a>
+      </li>
+
+      <li>
+        <a class="Box adapter" href="https://github.com/dal-go/dalgo2openvaultdb" rel="noopener">
+          <span class="adapter-kind">
+            Document · HTTP API
+          </span>
+          <h3>dalgo2openvaultdb</h3>
+          <p>Adapter for OpenVaultDB through its <code>ovdb serve</code> HTTP API: reads and transactional writes.</p>
+          <span class="adapter-go">github.com/dal-go/dalgo2openvaultdb</span>
+        </a>
+      </li>
+
+      <li>
         <a class="Box adapter" href="https://github.com/dal-go/dalgo2firestore" rel="noopener">
-          <span class="adapter-kind">NoSQL · Cloud</span>
+          <span class="adapter-kind">
+            NoSQL · Cloud
+          </span>
           <h3>dalgo2firestore</h3>
           <p>For Google Cloud Firestore — a globally distributed NoSQL document database.</p>
           <span class="adapter-go">github.com/dal-go/dalgo2firestore</span>
@@ -244,66 +305,43 @@
       </li>
 
       <li>
-        <a class="Box adapter" href="https://github.com/dal-go/dalgo2datastore" rel="noopener">
-          <span class="adapter-kind">NoSQL · Cloud</span>
-          <h3>dalgo2datastore</h3>
-          <p>For Google Cloud Datastore — Firestore's predecessor, still widely deployed on App Engine.</p>
-          <span class="adapter-go">github.com/dal-go/dalgo2datastore</span>
+        <a class="Box adapter" href="https://github.com/dal-go/dalgo2http" rel="noopener">
+          <span class="adapter-kind">
+            Web · Read-only
+          </span>
+          <h3>dalgo2http</h3>
+          <p>Declarative HTTP endpoints — JSON, plus named XML and CSV resources — exposed as DALgo collections. Read-only by design.</p>
+          <span class="adapter-go">github.com/dal-go/dalgo2http</span>
         </a>
       </li>
-
-      <li>
-        <a class="Box adapter" href="https://github.com/dal-go/dalgo2buntdb" rel="noopener">
-          <span class="adapter-kind">Embedded KV · Deprecated</span>
-          <h3>dalgo2buntdb</h3>
-          <p>For BuntDB — an embeddable in-memory key/value store. Deprecated: no longer a supported production target.</p>
-          <span class="adapter-go">github.com/dal-go/dalgo2buntdb</span>
-        </a>
-      </li>
-
-      <li>
-        <a class="Box adapter" href="https://github.com/dal-go/dalgo2badger" rel="noopener">
-          <span class="adapter-kind">Embedded KV · Deprecated</span>
-          <h3>dalgo2badger</h3>
-          <p>For BadgerDB — an embeddable, persistent key-value database in pure Go. Deprecated: no longer a supported production target.</p>
-          <span class="adapter-go">github.com/dal-go/dalgo2badger</span>
-        </a>
-      </li>
-
-      <li>
-        <a class="Box adapter" href="https://github.com/dal-go/dalgo2files" rel="noopener">
-          <span class="adapter-kind">Filesystem</span>
-          <h3>dalgo2files</h3>
-          <p>Persist data on the local filesystem in human-readable formats — JSON, YAML, CSV.</p>
-          <span class="adapter-go">github.com/dal-go/dalgo2files</span>
-        </a>
-      </li>
-
-      <li>
-        <a class="Box adapter" href="https://github.com/dal-go/dalgo2git" rel="noopener">
-          <span class="adapter-kind">Versioned</span>
-          <h3>dalgo2git</h3>
-          <p>Versioned, auditable storage backed by a Git repository — every write is a commit.</p>
-          <span class="adapter-go">github.com/dal-go/dalgo2git</span>
-        </a>
-      </li>
-
-      <li>
-        <a class="Box adapter" href="https://github.com/ingitdb/ingitdb-cli/tree/main/pkg/dalgo2ingitdb" rel="noopener">
-          <span class="adapter-kind">Versioned · External</span>
-          <h3>dalgo2ingitdb</h3>
-          <p>Adapter for <a href="https://github.com/ingitdb" rel="noopener">inGitDB</a> — a Git-native database with branchable, mergeable data. Lives in the inGitDB CLI.</p>
-          <span class="adapter-go">github.com/ingitdb/ingitdb-cli<wbr/>/pkg/dalgo2ingitdb</span>
-        </a>
-      </li>
-
     </ul>
+
+    <aside class="Box companion adapters-more">
+      <h3>Also available: read-only or partial</h3>
+      <p>These Go adapters have their own tests but do not pass the shared conformance suite. Most are read-only or cover part of the interface by design.</p>
+      <ul role="list">
+        <li><a href="https://github.com/dal-go/dalgo2files" rel="noopener"><strong>dalgo2files</strong></a> — JSON files, read-only</li>
+        <li><a href="https://github.com/dal-go/dalgo2logs" rel="noopener"><strong>dalgo2logs</strong></a> — log files, read-only</li>
+        <li><a href="https://github.com/dal-go/dalgo2mssql" rel="noopener"><strong>dalgo2mssql</strong></a> — SQL Server, no structured-query compiler yet</li>
+        <li><a href="https://github.com/dal-go/dalgo2oracle" rel="noopener"><strong>dalgo2oracle</strong></a> — Oracle, no structured-query compiler yet</li>
+        <li><a href="https://github.com/dal-go/dalgo2duckdb" rel="noopener"><strong>dalgo2duckdb</strong></a> — DuckDB, no schema introspection or DDL yet</li>
+        <li><a href="https://github.com/dal-go/dalgo2libsql" rel="noopener"><strong>dalgo2libsql</strong></a> — libSQL / Turso, read-only</li>
+        <li><a href="https://github.com/dal-go/dalgo2postgrest" rel="noopener"><strong>dalgo2postgrest</strong></a> — PostgREST, read-only</li>
+        <li><a href="https://github.com/dal-go/dalgo2mongodb" rel="noopener"><strong>dalgo2mongodb</strong></a> — MongoDB, read-only</li>
+        <li><a href="https://github.com/dal-go/dalgo2couchdb" rel="noopener"><strong>dalgo2couchdb</strong></a> — CouchDB, read-only</li>
+        <li><a href="https://github.com/dal-go/dalgo2redis" rel="noopener"><strong>dalgo2redis</strong></a> — Redis, read commands only</li>
+        <li><a href="https://github.com/dal-go/dalgo2typesense" rel="noopener"><strong>dalgo2typesense</strong></a> — Typesense, read-only</li>
+        <li><a href="https://github.com/dal-go/dalgo2bigquery" rel="noopener"><strong>dalgo2bigquery</strong></a> — BigQuery, read-only</li>
+        <li><a href="https://github.com/dal-go/dalgo2d1" rel="noopener"><strong>dalgo2d1</strong></a> — Cloudflare D1, read-only</li>
+        <li><a href="https://github.com/dal-go/dalgo2namecheap" rel="noopener"><strong>dalgo2namecheap</strong></a> — Namecheap domains and DNS, reads and writes</li>
+      </ul>
+    </aside>
 
     <aside class="Box companion">
       <h3>Companion modules</h3>
       <ul role="list">
         <li><a href="https://github.com/dal-go/dalgo/tree/main/mocks" rel="noopener"><strong>dalgo/mocks</strong></a> — generated mocks for every DALgo interface, now part of the core repo (the standalone <code>mocks4dalgo</code> repo is archived).</li>
-        <li><a href="https://github.com/dal-go/dalgo-end2end-tests" rel="noopener"><strong>dalgo-end2end-tests</strong></a> — the conformance suite every adapter runs against.</li>
+        <li><a href="https://github.com/dal-go/dalgo/tree/main/dalgotest" rel="noopener"><strong>dalgo/dalgotest</strong></a> — the shared conformance suite (<code>dalgotest.RunConformance</code>) that the adapters above run against, now part of the core repo (the standalone <code>dalgo-end2end-tests</code> repo is archived).</li>
         <li><a href="https://github.com/dal-go/dalgo-demo" rel="noopener"><strong>dalgo-demo</strong></a> — see how little code you need to ship a working app.</li>
         <li><a href="https://github.com/dal-go/dalgo4auth" rel="noopener"><strong>dalgo4auth</strong></a> — opinionated record structs for user-auth tables.</li>
         <li><a href="https://github.com/dal-go/dalgo-memcache-appengine" rel="noopener"><strong>dalgo-memcache-appengine</strong></a> — App Engine memcache wrapper for DALgo transactions.</li>
@@ -379,13 +417,62 @@
   </div>
 </section>
 
+<!-- ============================ TYPESCRIPT ============================ -->
+<section id="typescript" class="section section-subtle">
+  <div class="container">
+    <header class="section-head">
+      <span class="section-eyebrow">04 — TypeScript</span>
+      <h2 class="section-title">The same idea in TypeScript.</h2>
+      <p class="section-kicker"><code>@dalgo/core</code> is the browser-neutral TypeScript implementation: hierarchical keys, typed collections, structured queries and transaction-only writes.</p>
+    </header>
+
+    <div class="iface-grid">
+      <div class="iface-prose">
+        <p>Install it from npm with <code>npm install @dalgo/core</code>. The package has no database SDK of its own and does not connect to a database by itself; an adapter does. Source: <a href="https://github.com/dal-go/dalgo-js" rel="noopener">dal-go/dalgo-js</a>.</p>
+        <p>The TypeScript adapters live in <a href="https://github.com/dal-go/dalgo-http-adapters" rel="noopener">dal-go/dalgo-http-adapters</a>. Seven are published on npm: <code>@dalgo/firestore</code> (the reference adapter), <code>@dalgo/indexeddb</code>, <code>@dalgo/ovdb</code>, <code>@dalgo/bigquery</code>, <code>@dalgo/d1</code>, <code>@dalgo/http</code> and <code>@dalgo/sqlite-wasm</code>. More are in development and not yet on npm.</p>
+        <div class="Flash">
+          <svg class="octicon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+          <div>Maturity: <code>@dalgo/core</code> is at 0.x, and several adapters are read-only or query-only. Each adapter's README states what it supports; an operation it cannot do fails explicitly.</div>
+        </div>
+      </div>
+
+      <div class="codeblock" role="figure" aria-label="Example: a typed query in TypeScript">
+        <div class="codeblock-head">
+          <span class="codeblock-name">query.ts</span>
+          <span class="codeblock-lang">TypeScript</span>
+        </div>
+<pre><code><span class="pl-c">// $ npm install @dalgo/core</span>
+<span class="pl-k">import</span> { collection, key } <span class="pl-k">from</span> <span class="pl-s">"@dalgo/core"</span>;
+
+<span class="pl-k">interface</span> Item {
+  title: <span class="pl-t">string</span>;
+  done: <span class="pl-t">boolean</span>;
+  rank: <span class="pl-t">number</span>;
+}
+
+<span class="pl-k">const</span> spaceKey = <span class="pl-en">key</span>(<span class="pl-s">"spaces"</span>, spaceId);
+<span class="pl-k">const</span> items = <span class="pl-en">collection</span>&lt;Item&gt;(<span class="pl-s">"items"</span>).<span class="pl-en">in</span>(spaceKey);
+
+<span class="pl-k">const</span> query = items.<span class="pl-en">query</span>()
+  .<span class="pl-en">where</span>(<span class="pl-s">"done"</span>, <span class="pl-s">"=="</span>, <span class="pl-c1">false</span>)
+  .<span class="pl-en">orderBy</span>(<span class="pl-s">"rank"</span>)
+  .<span class="pl-en">limit</span>(<span class="pl-c1">25</span>)
+  .<span class="pl-en">build</span>();
+
+<span class="pl-c">// Pass query to an adapter updated for @dalgo/core.</span>
+</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============================ TYPED COLLECTIONS ============================ -->
 <section id="collections" class="section">
   <div class="container">
     <header class="section-head">
-      <span class="section-eyebrow">04 — Typed collections</span>
+      <span class="section-eyebrow">05 — Typed collections</span>
       <h2 class="section-title">Less ceremony for everyday CRUD.</h2>
-      <p class="section-kicker">A generic, session-less <code>dal.Collection[T]</code> handle returns typed values directly — no key wrangling, no record wrapping, no type assertions. It is additive over the core API and works with every adapter.</p>
+      <p class="section-kicker">A generic, session-less <code>dal.Collection[T]</code> handle returns typed values directly — no key wrangling, no record wrapping, no type assertions. It is additive over the core API and works with every Go adapter.</p>
     </header>
 
     <div class="codeblock" role="figure" aria-label="Example: typed collection">
@@ -429,10 +516,7 @@
     </div>
 
     <p class="section-kicker" style="margin-top:28px">
-      The same handle also offers <code>Insert</code> (generated id), <code>InsertWithID</code>,
-      <code>All</code>, <code>First</code>, <code>Count</code>, <code>Exists</code>,
-      <code>Update</code>, <code>Delete</code>, batch <code>InsertMany</code>, and
-      <code>In(parentKey)</code> for nested collections.
+      The same handle also offers <code>Insert</code> (generated id), <code>InsertWithID</code>, <code>All</code>, <code>First</code>, <code>Count</code>, <code>Exists</code>, <code>Update</code>, <code>Delete</code>, batch <code>InsertMany</code>, and <code>In(parentKey)</code> for nested collections.
     </p>
 
     <h3 class="section-title" style="font-size:1.15rem;margin-top:8px">Standard <code>database/sql</code> vs DALgo</h3>
@@ -613,7 +697,7 @@
 <section id="interfaces" class="section section-subtle">
   <div class="container">
     <header class="section-head">
-      <span class="section-eyebrow">05 — The interface</span>
+      <span class="section-eyebrow">06 — The interface</span>
       <h2 class="section-title">Small enough to memorize.</h2>
       <p class="section-kicker">Strict enough to keep every adapter honest.</p>
     </header>
@@ -621,11 +705,7 @@
     <div class="iface-grid">
       <div class="iface-prose">
         <p>
-          Every DALgo adapter — SQL, NoSQL, embedded, filesystem — implements the same
-          <code>dal.DB</code> contract. Read operations live on
-          <code>ReadSession</code>; mutating operations live on
-          <code>ReadwriteSession</code>. Transactions are closures: pass a function, the
-          driver gives you a session, your code never sees a driver-specific handle.
+          Every DALgo adapter — SQL, NoSQL, embedded, filesystem — implements the same <code>dal.DB</code> contract. Read operations live on <code>ReadSession</code>; mutating operations live on <code>ReadwriteSession</code>. Transactions are closures: pass a function, the driver gives you a session, your code never sees a driver-specific handle.
         </p>
         <div class="Flash">
           <svg class="octicon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
@@ -685,7 +765,7 @@
 <section id="queries" class="section">
   <div class="container">
     <header class="section-head">
-      <span class="section-eyebrow">06 — Queries &amp; schema</span>
+      <span class="section-eyebrow">07 — Queries &amp; schema</span>
       <h2 class="section-title">More than get and set.</h2>
       <p class="section-kicker">A structured query builder, hierarchical collections, and schema-aware key mapping — capability-based across adapters.</p>
     </header>
@@ -693,12 +773,7 @@
     <div class="iface-grid">
       <div class="iface-prose">
         <p>
-          DALgo ships a structured query builder for the common database reads: filters,
-          ordering, <code>LIMIT</code>, column projection, <code>GROUP BY</code> /
-          <code>HAVING</code>, aggregates like <code>COUNT(*)</code> and <code>SUM</code>,
-          and inner / left equi-joins. Keys can model nested document paths such as
-          <code>countries/ireland/cities/dublin</code>, and a parent key scopes a query to a
-          nested collection.
+          DALgo ships a structured query builder for the common database reads: filters, ordering, <code>LIMIT</code>, column projection, <code>GROUP BY</code> / <code>HAVING</code>, aggregates like <code>COUNT(*)</code> and <code>SUM</code>, and inner / left equi-joins. Keys can model nested document paths such as <code>countries/ireland/cities/dublin</code>, and a parent key scopes a query to a nested collection.
         </p>
         <div class="Flash">
           <svg class="octicon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
@@ -744,7 +819,7 @@ records, err <span class="pl-k">:=</span> dal.<span class="pl-en">ExecuteQueryAn
 <section class="section closing">
   <div class="container closing-inner">
     <h2>Storage is a detail. Treat it like one.</h2>
-    <p>DALgo is MIT-licensed, production-tested, and waiting for you to break it. Contributions for new adapters and edge cases are welcome.</p>
+    <p>DALgo is MIT-licensed and waiting for you to break it. The Go module is production-tested; the TypeScript package is at 0.x. Contributions for new adapters and edge cases are welcome.</p>
     <div class="closing-cta">
       <a class="btn btn-primary" href="https://github.com/dal-go/dalgo" rel="noopener">
         <svg class="octicon" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></svg>
@@ -777,6 +852,12 @@ records, err <span class="pl-k">:=</span> dal.<span class="pl-en">ExecuteQueryAn
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
+  // Keep the visitor's place when switching language: /#adapters -> /ru/#adapters.
+  document.querySelectorAll('[data-lang-link]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      if (location.hash) a.setAttribute('href', a.getAttribute('href').split('#')[0] + location.hash);
+    });
+  });
 </script>
 
 <script>
@@ -828,69 +909,75 @@ records, err <span class="pl-k">:=</span> dal.<span class="pl-en">ExecuteQueryAn
     // which auto-sizes around its children. All other nodes are simple
     // nodes connected by edges.
     var REPO  = 'https://github.com/dal-go/';
+    var L = {"app": "Your Go code", "adapters": "Adapters", "local": "Local and Git", "document": "Document", "cloud": "Cloud and web", "memory": "In-memory", "filesystem": "File system", "custom": "Your own custom adapter"};
     var elements = [
       // app + core
-      { data: { id: 'app',   label: 'Your Go code',  kind: 'app'  }, position: { x:   0, y: 290 } },
+      { data: { id: 'app',   label: L.app,  kind: 'app'  }, position: { x:   0, y: 260 } },
       { data: { id: 'dalgo', label: 'DALgo\ndal.DB', kind: 'core',
-                url: REPO + 'dalgo' },                                position: { x: 200, y: 290 } },
+                url: REPO + 'dalgo' },                                position: { x: 200, y: 260 } },
 
       // outer compound: groups all adapter nodes (categories + leaves)
-      { data: { id: 'adapters', label: 'Adapters', kind: 'group' } },
+      { data: { id: 'adapters', label: L.adapters, kind: 'group' } },
 
-      // Category parent nodes (left column inside the compound)
-      { data: { id: 'sql',   label: 'SQL',                kind: 'cat', parent: 'adapters',
+      // Category nodes (left column inside the compound)
+      { data: { id: 'sql',   label: 'SQL',     kind: 'cat', parent: 'adapters',
                 url: REPO + 'dalgo2sql' },                                position: { x: 420, y:  74 } },
-      { data: { id: 'fs',    label: 'File System',        kind: 'cat', parent: 'adapters',
-                url: REPO + 'dalgo2files' },                              position: { x: 420, y: 210 } },
-      { data: { id: 'kv',    label: 'Key Value Storages', kind: 'cat', parent: 'adapters' },
-                                                                          position: { x: 420, y: 308 } },
-      { data: { id: 'cloud', label: 'Cloud',              kind: 'cat', parent: 'adapters' },
-                                                                          position: { x: 420, y: 446 } },
+      { data: { id: 'local', label: L.local,   kind: 'cat', parent: 'adapters' },
+                                                                          position: { x: 420, y: 236 } },
+      { data: { id: 'doc',   label: L.document, kind: 'cat', parent: 'adapters' },
+                                                                          position: { x: 420, y: 340 } },
+      { data: { id: 'cloud', label: L.cloud,   kind: 'cat', parent: 'adapters' },
+                                                                          position: { x: 420, y: 426 } },
 
-      // SQL children (right of SQL). Driver-specific adapters all live in dalgo2sql.
-      { data: { id: 'sqlite', label: 'SQLite',        kind: 'leaf', parent: 'adapters',
+      // SQL children
+      { data: { id: 'sqlite', label: 'SQLite',       kind: 'leaf', parent: 'adapters',
                 url: REPO + 'dalgo2sqlite' },                            position: { x: 620, y:  20 } },
-      { data: { id: 'pg',     label: 'PostgreSQL',    kind: 'leaf', parent: 'adapters',
-                url: REPO + 'dalgo2sql' },                               position: { x: 620, y:  56 } },
-      { data: { id: 'oracle', label: 'Oracle',        kind: 'leaf', parent: 'adapters',
-                url: REPO + 'dalgo2sql' },                               position: { x: 620, y:  92 } },
-      { data: { id: 'mssql',  label: 'MS SQL Server', kind: 'leaf', parent: 'adapters',
+      { data: { id: 'pg',     label: 'PostgreSQL',   kind: 'leaf', parent: 'adapters',
+                url: REPO + 'dalgo2postgres' },                          position: { x: 620, y:  56 } },
+      { data: { id: 'mysql',  label: 'MySQL',        kind: 'leaf', parent: 'adapters',
+                url: REPO + 'dalgo2mysql' },                             position: { x: 620, y:  92 } },
+      { data: { id: 'dbsql',  label: 'database/sql', kind: 'leaf', parent: 'adapters',
                 url: REPO + 'dalgo2sql' },                               position: { x: 620, y: 128 } },
 
-      // Key Value Storages children
-      { data: { id: 'redis',    label: 'Redis',    kind: 'leaf', parent: 'adapters' },
-                                                                          position: { x: 620, y: 290 } },
-      { data: { id: 'memcache', label: 'Memcache', kind: 'leaf', parent: 'adapters',
-                url: REPO + 'dalgo-memcache-appengine' },                position: { x: 620, y: 326 } },
+      // Local and Git children
+      { data: { id: 'memory', label: L.memory, kind: 'leaf', parent: 'adapters',
+                url: REPO + 'dalgo/tree/main/adapters/dalgo2memory' },   position: { x: 620, y: 200 } },
+      { data: { id: 'fsys',   label: L.filesystem, kind: 'leaf', parent: 'adapters',
+                url: REPO + 'dalgo/tree/main/adapters/dalgo2fs' },       position: { x: 620, y: 236 } },
+      { data: { id: 'ingitdb', label: 'inGitDB', kind: 'leaf', parent: 'adapters',
+                url: 'https://github.com/ingitdb/dalgo2ingitdb' },       position: { x: 620, y: 272 } },
 
-      // Cloud children
-      { data: { id: 'firestore', label: 'Firebase Firestore',   kind: 'leaf', parent: 'adapters',
-                url: REPO + 'dalgo2firestore' },                         position: { x: 620, y: 410 } },
-      { data: { id: 'bigquery',  label: 'Google BigQuery',      kind: 'leaf', parent: 'adapters' },
-                                                                          position: { x: 620, y: 446 } },
-      { data: { id: 'spanner',   label: 'Google Cloud Spanner', kind: 'leaf', parent: 'adapters' },
-                                                                          position: { x: 620, y: 482 } },
+      // Document children
+      { data: { id: 'ovdb',    label: 'OpenVaultDB', kind: 'leaf', parent: 'adapters',
+                url: REPO + 'dalgo2openvaultdb' },                       position: { x: 620, y: 340 } },
+
+      // Cloud and web children
+      { data: { id: 'firestore', label: 'Firestore',   kind: 'leaf', parent: 'adapters',
+                url: REPO + 'dalgo2firestore' },                         position: { x: 620, y: 408 } },
+      { data: { id: 'http',      label: 'HTTP / JSON', kind: 'leaf', parent: 'adapters',
+                url: REPO + 'dalgo2http' },                              position: { x: 620, y: 444 } },
 
       // Extensibility: roll your own adapter
-      { data: { id: 'custom', label: 'Your own custom adapter', kind: 'custom', parent: 'adapters',
-                url: REPO + 'dalgo/blob/main/CONTRIBUTING.md' },         position: { x: 420, y: 560 } },
+      { data: { id: 'custom', label: L.custom, kind: 'custom', parent: 'adapters',
+                url: REPO + 'dalgo/blob/main/CONTRIBUTING.md' },         position: { x: 420, y: 520 } },
 
       // Edges
       { data: { source: 'app',   target: 'dalgo'  } },
       { data: { source: 'dalgo', target: 'sql'    } },
-      { data: { source: 'dalgo', target: 'fs'     } },
-      { data: { source: 'dalgo', target: 'kv'     } },
+      { data: { source: 'dalgo', target: 'local'  } },
+      { data: { source: 'dalgo', target: 'doc'    } },
       { data: { source: 'dalgo', target: 'cloud'  } },
       { data: { source: 'dalgo', target: 'custom' } },
       { data: { source: 'sql',   target: 'sqlite' } },
       { data: { source: 'sql',   target: 'pg'     } },
-      { data: { source: 'sql',   target: 'oracle' } },
-      { data: { source: 'sql',   target: 'mssql'  } },
-      { data: { source: 'kv',    target: 'redis'    } },
-      { data: { source: 'kv',    target: 'memcache' } },
+      { data: { source: 'sql',   target: 'mysql'  } },
+      { data: { source: 'sql',   target: 'dbsql'  } },
+      { data: { source: 'local', target: 'memory' } },
+      { data: { source: 'local', target: 'fsys'   } },
+      { data: { source: 'local', target: 'ingitdb' } },
+      { data: { source: 'doc',   target: 'ovdb'   } },
       { data: { source: 'cloud', target: 'firestore' } },
-      { data: { source: 'cloud', target: 'bigquery'  } },
-      { data: { source: 'cloud', target: 'spanner'   } }
+      { data: { source: 'cloud', target: 'http'     } }
     ];
 
     var monoFont = 'ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace';

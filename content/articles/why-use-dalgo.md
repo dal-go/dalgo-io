@@ -62,13 +62,12 @@ A record whose data implements `Validate() error` is validated on `Insert`, `Set
 
 **Stores that are not a hosted database still fit the same calls.** The dal-go organization also publishes adapters whose backends are files, Git, HTTP, or a vendor API:
 
-- [`dalgo2files`](https://github.com/dal-go/dalgo2files) and the built-in `dalgo2fs` for filesystem persistence.
-- [`dalgo2git`](https://github.com/dal-go/dalgo2git) for versioned storage in a Git repository.
+- The built-in `dalgo2fs` for filesystem persistence, and [`dalgo2files`](https://github.com/dal-go/dalgo2files), which today is read-only and handles JSON files only.
 - [`dalgo2openvaultdb`](https://github.com/dal-go/dalgo2openvaultdb) for the OpenVaultDB HTTP API.
 - [`ingitdb/dalgo2ingitdb`](https://github.com/ingitdb/dalgo2ingitdb), [`dalgo2ingitdb4local`](https://github.com/ingitdb/dalgo2ingitdb4local), and [`dalgo2ingitdb4github`](https://github.com/ingitdb/dalgo2ingitdb4github) for [inGitDB](https://github.com/ingitdb/ingitdb) projects on a local tree or through the GitHub API.
 - Narrower modules whose descriptions are the feature: read-only Cloudflare D1 (`dalgo2d1`), read-only HTTP/JSON (`dalgo2http`), bounded local log files (`dalgo2logs`), Namecheap domains and DNS records (`dalgo2namecheap`), bounded BigQuery reads (`dalgo2bigquery`), and a DuckDB driver (`dalgo2duckdb`).
 
-BuntDB and BadgerDB adapters still exist and are deprecated. They are not current production targets.
+The BuntDB and BadgerDB adapters are archived and deprecated. They are not current targets.
 
 The TypeScript side is a catalog as much as a runtime. [`dalgo-http-adapters`](https://github.com/dal-go/dalgo-http-adapters) qualifies which HTTP data planes can preserve DALgo semantics and which must fail closed. `@dalgo/firestore` is the reference adapter and is aimed at the browser, because Firebase Auth and Security Rules are built for public clients. The package README is explicit that a long-lived database credential does not belong in a browser, and that several products in the matrix are HTTP-capable only from a trusted runtime. Older standalone JavaScript adapter repositories were archived as that catalog took over.
 

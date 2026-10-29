@@ -4,14 +4,20 @@ This site is a static landing page served from `public/`. It deploys as a
 **CloudFlare Worker with static assets** — the current model, *not* the
 deprecated standalone CloudFlare Pages product.
 
-There is no Worker script and no build step: the Worker is assets-only.
+There is no Worker script and no production build step: the Worker is assets-only.
+The landing pages (`/` and `/ru/`) and `sitemap.xml` are generated from
+`content/site/` by `python3 scripts/render_site.py` and committed, like the
+articles; CI fails if they are stale.
 
 ## Files
 
 ```
 dalgo-io/
 ├── public/            ← everything served to the browser
-│   ├── index.html
+│   ├── index.html      ← English landing (generated from content/site)
+│   ├── ru/index.html   ← Russian landing (generated)
+│   ├── sitemap.xml     ← generated; robots.txt points to it
+│   ├── video.js        ← click-to-load film player (used only when enabled)
 │   ├── styles.css
 │   ├── articles/       ← generated article index + pages (source: content/articles)
 │   ├── tugql/          ← TugQL reference pages + examples
@@ -24,7 +30,8 @@ dalgo-io/
 [Build and deploy website](.github/workflows/deploy.yml) runs for pull requests,
 main pushes, and manual dispatches. The build job checks the static entrypoint
 and archives `public/` with `wrangler.jsonc` as `site.tar.gz`. No compilation is
-needed for this site. The `site-<source SHA>` artifact retains all asset files,
+needed for this site; the build job only verifies that the generated pages and
+articles match their sources. The `site-<source SHA>` artifact retains all asset files,
 including dotfiles, `_headers`, and `_redirects` when present.
 
 Automatic publication is disabled unless `CLOUDFLARE_DEPLOY_ENABLED` is `true`.

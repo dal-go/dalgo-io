@@ -1043,3 +1043,70 @@ code, pre, kbd { font-family: var(--f-mono); }
 /* The controller measures the consent banner as it appears and resizes. */
 html:has(#ga-consent-banner) .site-feedback { min-height: calc(128px + var(--feedback-overlay-h, 220px) + env(safe-area-inset-bottom)); }
 html:has(#ga-consent-banner) .site-feedback button { bottom: calc(32px + var(--feedback-overlay-h, 220px) + max(18px, env(safe-area-inset-bottom))); }
+
+/* ============================================================
+   Language switch (EN | RU) in the header
+   ============================================================ */
+.lang-switch {
+  display: inline-flex;
+  border: 1px solid #3d444d;
+  border-radius: var(--radius-1);
+  overflow: hidden;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+}
+.lang-switch-item { padding: 6px 9px; color: var(--header-fg-muted, #9198a1); }
+a.lang-switch-item:hover { background: #ffffff1a; color: var(--header-fg); text-decoration: none; }
+.lang-switch-item[aria-current] { background: #ffffff26; color: var(--header-fg); }
+
+/* Read-only / partial adapter list under the adapter grid */
+.adapters-more { margin-top: 24px; }
+.adapters-more p { margin: 0 0 12px; color: var(--fg-muted); font-size: 14px; }
+
+/* ============================================================
+   Film slot: a click-to-load YouTube poster. The poster is a local
+   image with intrinsic width/height, so reserving 16:9 up front means
+   loading the player causes no layout shift.
+   ============================================================ */
+.film {
+  position: relative;
+  max-width: 960px;
+  margin: 0 auto;
+  aspect-ratio: 16 / 9;
+  background: #0d1117;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-2);
+  overflow: hidden;
+}
+.film-play {
+  position: absolute; inset: 0;
+  display: block; width: 100%; height: 100%;
+  padding: 0; border: 0; background: transparent; cursor: pointer;
+}
+.film-play img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.film-play-icon {
+  position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  width: 68px; height: 48px;
+  transition: transform .15s ease;
+}
+.film-play:hover .film-play-icon,
+.film-play:focus-visible .film-play-icon { transform: translate(-50%, -50%) scale(1.1); }
+.film-play:focus-visible { outline: 3px solid var(--accent-emphasis); outline-offset: -3px; }
+.film iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.film-note { max-width: 960px; margin: 10px auto 0; color: var(--fg-muted); font-size: 13px; }
+@media (prefers-reduced-motion: reduce) { .film-play-icon { transition: none; } }
+
+/* Russian words run longer than the English headline: a smaller ceiling keeps
+   "Без переписывания." on one line in the hero column. */
+html[lang="ru"] .hero-title { font-size: clamp(34px, 5vw, 56px); overflow-wrap: anywhere; }
+.adapters-more + .companion { margin-top: 16px; }
+
+/* The Russian nav labels are longer: keep them on one line and give them the
+   room the "dal-go on GitHub" context link takes on narrower desktops. */
+html[lang="ru"] .AppHeader-nav a { white-space: nowrap; }
+@media (max-width: 1240px) and (min-width: 881px) {
+  html[lang="ru"] .AppHeader-context { display: none; }
+  html[lang="ru"] .AppHeader-nav a { padding: 6px 7px; }
+}
