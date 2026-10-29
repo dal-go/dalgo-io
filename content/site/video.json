@@ -1,0 +1,18 @@
+{
+  "_comment": "Set enabled to true and fill youtubeId for each locale to show the film section. Posters are local files under public/ (16:9, width x height as given).",
+  "enabled": false,
+  "locales": {
+    "en": {
+      "youtubeId": "",
+      "poster": "/video/poster-en.svg",
+      "width": 1280,
+      "height": 720
+    },
+    "ru": {
+      "youtubeId": "",
+      "poster": "/video/poster-ru.svg",
+      "width": 1280,
+      "height": 720
+    }
+  }
+}

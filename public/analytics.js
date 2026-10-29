@@ -9,6 +9,12 @@
   var KEY = "dalgo.analytics-consent.v1";
   var GATED = ["AT","BE","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR","HU","IE","IT","LV","LT","LU","MT","NL","PL","PT","RO","SK","SI","ES","SE","IS","LI","NO","CH","GB","GI","JE","GG","IM","RE","GP","MQ","GF","YT","MF","AX","XX","T1"];
   var loaded = false, banner = null, opener = null, decided = false;
+  // Banner text follows <html lang>. The privacy notice itself is English only.
+  var TEXT = {
+    en: { region: "Analytics choice", text: "We’d like to use Google Analytics to count visits. It loads and sets cookies only if you accept.", privacy: "Privacy notice", decline: "Decline", accept: "Accept" },
+    ru: { region: "Выбор по аналитике", text: "Мы хотели бы использовать Google Analytics для подсчёта посещений. Он загружается и ставит cookie, только если вы согласитесь.", privacy: "Уведомление о конфиденциальности (на английском)", decline: "Отклонить", accept: "Принять" }
+  };
+  var T = TEXT[(document.documentElement.lang || "en").slice(0, 2)] || TEXT.en;
 
   function stored() {
     try { var v = localStorage.getItem(KEY); return v === "granted" || v === "denied" ? v : null; } catch (e) { return null; }
@@ -71,17 +77,17 @@
     banner = document.createElement("section");
     banner.id = "ga-consent-banner";
     banner.setAttribute("role", "region");
-    banner.setAttribute("aria-label", "Analytics choice");
+    banner.setAttribute("aria-label", T.region);
     banner.tabIndex = -1;
     var p = document.createElement("p");
-    p.appendChild(document.createTextNode("We’d like to use Google Analytics to count visits. It loads and sets cookies only if you accept. "));
+    p.appendChild(document.createTextNode(T.text + " "));
     var a = document.createElement("a");
-    a.href = "/privacy/#analytics"; a.textContent = "Privacy notice";
+    a.href = "/privacy/#analytics"; a.textContent = T.privacy;
     p.appendChild(a);
     var row = document.createElement("div");
     row.className = "ga-consent-actions";
-    row.appendChild(btn("Decline", "denied", "ga-decline"));
-    row.appendChild(btn("Accept", "granted", "ga-accept"));
+    row.appendChild(btn(T.decline, "denied", "ga-decline"));
+    row.appendChild(btn(T.accept, "granted", "ga-accept"));
     banner.appendChild(p); banner.appendChild(row);
     document.body.appendChild(banner);
     if (focus) banner.focus();

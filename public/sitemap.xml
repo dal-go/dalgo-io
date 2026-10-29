@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://dalgo.io/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dalgo.io/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dalgo.io/ru/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dalgo.io/"/>
+  </url>
+  <url>
+    <loc>https://dalgo.io/ru/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dalgo.io/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dalgo.io/ru/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dalgo.io/"/>
+  </url>
+  <url>
+    <loc>https://dalgo.io/articles/</loc>
+  </url>
+  <url>
+    <loc>https://dalgo.io/articles/when-to-use-dalgo/</loc>
+  </url>
+  <url>
+    <loc>https://dalgo.io/articles/why-use-dalgo/</loc>
+  </url>
+  <url>
+    <loc>https://dalgo.io/privacy/</loc>
+  </url>
+  <url>
+    <loc>https://dalgo.io/tugql/</loc>
+  </url>
+  <url>
+    <loc>https://dalgo.io/tugql/examples/</loc>
+  </url>
+</urlset>

@@ -1,0 +1,143 @@
+{
+  "cards": [
+    {
+      "id": "dalgo",
+      "name": "dalgo",
+      "url": "https://github.com/dal-go/dalgo",
+      "gopath": "github.com/dal-go/dalgo",
+      "core": true
+    },
+    {
+      "id": "dalgo2memory",
+      "name": "dalgo2memory",
+      "url": "https://github.com/dal-go/dalgo/tree/main/adapters/dalgo2memory",
+      "gopath": "github.com/dal-go/dalgo<wbr/>/adapters/dalgo2memory"
+    },
+    {
+      "id": "dalgo2fs",
+      "name": "dalgo2fs",
+      "url": "https://github.com/dal-go/dalgo/tree/main/adapters/dalgo2fs",
+      "gopath": "github.com/dal-go/dalgo<wbr/>/adapters/dalgo2fs"
+    },
+    {
+      "id": "dalgo2sql",
+      "name": "dalgo2sql",
+      "url": "https://github.com/dal-go/dalgo2sql",
+      "gopath": "github.com/dal-go/dalgo2sql"
+    },
+    {
+      "id": "dalgo2sqlite",
+      "name": "dalgo2sqlite",
+      "url": "https://github.com/dal-go/dalgo2sqlite",
+      "gopath": "github.com/dal-go/dalgo2sqlite"
+    },
+    {
+      "id": "dalgo2postgres",
+      "name": "dalgo2postgres",
+      "url": "https://github.com/dal-go/dalgo2postgres",
+      "gopath": "github.com/dal-go/dalgo2postgres"
+    },
+    {
+      "id": "dalgo2mysql",
+      "name": "dalgo2mysql",
+      "url": "https://github.com/dal-go/dalgo2mysql",
+      "gopath": "github.com/dal-go/dalgo2mysql"
+    },
+    {
+      "id": "dalgo2ingitdb",
+      "name": "dalgo2ingitdb",
+      "url": "https://github.com/ingitdb/dalgo2ingitdb",
+      "gopath": "github.com/ingitdb/dalgo2ingitdb"
+    },
+    {
+      "id": "dalgo2openvaultdb",
+      "name": "dalgo2openvaultdb",
+      "url": "https://github.com/dal-go/dalgo2openvaultdb",
+      "gopath": "github.com/dal-go/dalgo2openvaultdb"
+    },
+    {
+      "id": "dalgo2firestore",
+      "name": "dalgo2firestore",
+      "url": "https://github.com/dal-go/dalgo2firestore",
+      "gopath": "github.com/dal-go/dalgo2firestore"
+    },
+    {
+      "id": "dalgo2http",
+      "name": "dalgo2http",
+      "url": "https://github.com/dal-go/dalgo2http",
+      "gopath": "github.com/dal-go/dalgo2http"
+    }
+  ],
+  "more": [
+    {
+      "id": "dalgo2files",
+      "name": "dalgo2files",
+      "url": "https://github.com/dal-go/dalgo2files"
+    },
+    {
+      "id": "dalgo2logs",
+      "name": "dalgo2logs",
+      "url": "https://github.com/dal-go/dalgo2logs"
+    },
+    {
+      "id": "dalgo2mssql",
+      "name": "dalgo2mssql",
+      "url": "https://github.com/dal-go/dalgo2mssql"
+    },
+    {
+      "id": "dalgo2oracle",
+      "name": "dalgo2oracle",
+      "url": "https://github.com/dal-go/dalgo2oracle"
+    },
+    {
+      "id": "dalgo2duckdb",
+      "name": "dalgo2duckdb",
+      "url": "https://github.com/dal-go/dalgo2duckdb"
+    },
+    {
+      "id": "dalgo2libsql",
+      "name": "dalgo2libsql",
+      "url": "https://github.com/dal-go/dalgo2libsql"
+    },
+    {
+      "id": "dalgo2postgrest",
+      "name": "dalgo2postgrest",
+      "url": "https://github.com/dal-go/dalgo2postgrest"
+    },
+    {
+      "id": "dalgo2mongodb",
+      "name": "dalgo2mongodb",
+      "url": "https://github.com/dal-go/dalgo2mongodb"
+    },
+    {
+      "id": "dalgo2couchdb",
+      "name": "dalgo2couchdb",
+      "url": "https://github.com/dal-go/dalgo2couchdb"
+    },
+    {
+      "id": "dalgo2redis",
+      "name": "dalgo2redis",
+      "url": "https://github.com/dal-go/dalgo2redis"
+    },
+    {
+      "id": "dalgo2typesense",
+      "name": "dalgo2typesense",
+      "url": "https://github.com/dal-go/dalgo2typesense"
+    },
+    {
+      "id": "dalgo2bigquery",
+      "name": "dalgo2bigquery",
+      "url": "https://github.com/dal-go/dalgo2bigquery"
+    },
+    {
+      "id": "dalgo2d1",
+      "name": "dalgo2d1",
+      "url": "https://github.com/dal-go/dalgo2d1"
+    },
+    {
+      "id": "dalgo2namecheap",
+      "name": "dalgo2namecheap",
+      "url": "https://github.com/dal-go/dalgo2namecheap"
+    }
+  ]
+}
