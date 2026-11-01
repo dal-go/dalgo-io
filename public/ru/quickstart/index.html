@@ -109,9 +109,9 @@
 </section><section aria-labelledby="typescript-start">
 <h2 id="typescript-start">TypeScript · браузер</h2>
 <p>В браузерном TypeScript-проекте со сборщиком установите ядро и адаптер IndexedDB. Аккаунт базы данных не нужен. Данные хранятся в браузере для этого origin; пример не запускается в Node.js.</p>
-<pre><code>npm install @dalgo/core@0.8.1 @dalgo/indexeddb@0.4.1</code></pre>
+<div class="codeblock"><pre><code>npm install @dalgo/core@0.8.1 @dalgo/indexeddb@0.4.1</code></pre></div>
 <p>Добавьте код в браузерную точку входа, откройте приложение и посмотрите консоль:</p>
-<pre><code>import { collection } from &#x27;@dalgo/core&#x27;;
+<div class="codeblock"><pre><code>import { collection } from &#x27;@dalgo/core&#x27;;
 
 // Load the selected adapter. IndexedDB runs in the browser.
 const { IndexedDbDatabase } = await import(&#x27;@dalgo/indexeddb&#x27;);
@@ -125,7 +125,7 @@ await db.runReadwriteTransaction(async (transaction) =&gt; {
 const page = await db.query(todos.query().where(&#x27;done&#x27;, &#x27;==&#x27;, false).limit(20).build());
 console.log(page);
 await db.close();
-</code></pre>
+</code></pre></div>
 </section>
 </main>
 

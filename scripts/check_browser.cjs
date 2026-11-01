@@ -84,7 +84,14 @@ const server = createServer(async (request, response) => {
       await page.setViewportSize({ width, height: 900 });
       for (const route of ['/', '/adapters/', '/quickstart/', '/ru/adapters/']) {
         await page.goto(origin + route);
-        assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), `no page overflow: ${width} ${route}`);
+        const overflow = await page.evaluate(() => {
+          const elements = Array.from(document.querySelectorAll('body *')).filter((element) => {
+            const box = element.getBoundingClientRect();
+            return box.width && (box.right > innerWidth + 1 || box.left < -1) && getComputedStyle(element).position !== 'fixed';
+          }).slice(0, 12).map((element) => ({ tag: element.tagName, className: element.className, width: element.getBoundingClientRect().width }));
+          return { pageWidth: document.documentElement.scrollWidth, viewportWidth: innerWidth, elements };
+        });
+        assert.ok(overflow.pageWidth <= overflow.viewportWidth + 1, `no page overflow: ${width} ${route}: ${JSON.stringify(overflow)}`);
         assert.equal(await page.locator('.AppHeader-nav a:visible').count(), 4);
         await page.screenshot({ path: join(output, `${width}-${route.replaceAll('/', '_') || 'home'}.png`), fullPage: true });
       }

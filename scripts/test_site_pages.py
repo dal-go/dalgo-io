@@ -6,7 +6,7 @@ from unittest.mock import patch
 
 import render_site as site
 from site_pages import adapter_inventory
-from site_shell import TITLES, title
+from site_shell import TITLES, title, theme_styles
 
 
 class TopicPages(unittest.TestCase):
@@ -81,6 +81,13 @@ class TopicPages(unittest.TestCase):
         articles = load_articles()
         for article in articles:
             self.assertIn('data-theme-switch', render_article(article, articles))
+
+    def test_explicit_dark_feedback_palette_preserves_conditional_banner_position(self):
+        css = theme_styles((site.PUBLIC / 'styles.css').read_text(encoding='utf-8'))
+        rule = re.search(r':root\[data-theme="dark"\] \.site-feedback button\{([^}]+)\}', css)[1]
+        self.assertIn('background: #293d32', rule)
+        self.assertIn('color: #e2efd4', rule)
+        self.assertNotIn('bottom:', rule)
 
 
 if __name__ == '__main__':

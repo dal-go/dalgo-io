@@ -83,7 +83,7 @@ def theme_styles(styles: str) -> str:
         result += f':root[data-theme="{mode}"] {{color-scheme:{mode};'
         result += ''.join(f'{key}:{values[key]};' for key in palettes['dark']) + '}\n'
         for suffix in ('', ':hover', ':focus-visible'):
-            blocks = re.findall(r'\.site-feedback button' + re.escape(suffix) + r'\s*\{([^}]+)\}', styles)
+            blocks = re.findall(r'^[ \t]*\.site-feedback button' + re.escape(suffix) + r'\s*\{([^}]+)\}', styles, re.MULTILINE)
             if blocks:
                 result += f':root[data-theme="{mode}"] .site-feedback button{suffix}{{{blocks[0 if mode == "light" else -1]}}}\n'
     result += ':root[data-theme="light"] .feedback-mark rect{fill:#d4ef83}:root[data-theme="dark"] .feedback-mark rect{fill:#9bb67b}\n'
