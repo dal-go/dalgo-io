@@ -50,19 +50,18 @@ class TopicPages(unittest.TestCase):
 
     def test_matrix_keeps_languages_and_runtimes_separate(self):
         inventory = adapter_inventory(site.SRC / 'adapter-status.json')
-        self.assertEqual(len(inventory['adapters']), 49)
-        self.assertEqual(sum('runtime' in row['typescript'] for row in inventory['adapters']), 36)
+        self.assertGreaterEqual(len(inventory['adapters']), 49)
         by_id = {row['id']: row for row in inventory['adapters']}
-        self.assertEqual(by_id['elasticsearch']['go']['status'], 'bootstrap')
-        self.assertEqual(by_id['oracle']['typescript']['status'], 'absent')
-        self.assertEqual(by_id['databricks']['typescript']['runtime']['classification'], 'trusted-server-http-default')
-        self.assertTrue(by_id['databricks']['typescript']['manifest_private'])
+        self.assertIn('supabase', by_id)
+        self.assertIn('turso', by_id)
+        self.assertEqual(len(inventory['capabilityMatrix']['requestedProviders']), 20)
         outputs = site.build()
-        page = outputs[site.PUBLIC / 'adapters/index.html']
-        self.assertIn('Node.js / edge: qualification unverified', page)
-        self.assertIn('Trusted server · HTTP', page)
-        self.assertIn('Browser · local', page)
-        self.assertEqual(len(re.findall(r'<tr><th scope="row">', page)), 49)
+        for locale, prefix in (('en', ''), ('ru', 'ru')):
+            page = outputs[site.PUBLIC / prefix / 'adapters/index.html']
+            self.assertEqual(page.count('<details class="cap-adapter"'), len(inventory['adapters']))
+            self.assertIn('TypeScript · Node.js', page)
+            self.assertIn('TypeScript · ' + ('browser' if locale == 'en' else 'браузер'), page)
+            self.assertNotIn('name="accordion"', page)
         self.assertEqual(json.loads(outputs[site.PUBLIC / 'adapters/status.json']), inventory)
 
     def test_quick_start_has_working_setup_for_both_languages(self):

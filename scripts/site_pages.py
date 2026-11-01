@@ -9,77 +9,9 @@ from pathlib import Path
 from render_articles import page_shell
 from site_shell import TITLES, UI, enhance_page, href, title
 
+from capability_matrix import load_inventory as adapter_inventory, render_matrix as adapter_table
+
 SITE = "https://dalgo.io"
-STATUS = {
-    "en": {"implemented": "Implemented", "readonly": "Read-only", "partial": "Partial", "source-only": "Source only", "absent": "Not implemented", "bootstrap": "Repository scaffold"},
-    "ru": {"implemented": "Реализован", "readonly": "Только чтение", "partial": "Частично", "source-only": "Только исходники", "absent": "Не реализован", "bootstrap": "Заготовка репозитория"},
-}
-RUNTIME = {
-    "browser-local": ("Browser · local", "Браузер · локально"),
-    "browser-web-sdk": ("Browser · Web SDK", "Браузер · Web SDK"),
-    "browser-direct-http-conditional": ("Browser · HTTP, conditional", "Браузер · HTTP, с условиями"),
-    "trusted-server-http-default": ("Trusted server · HTTP", "Доверенный сервер · HTTP"),
-    "worker-binding-and-conditional-browser-http": ("Worker binding / conditional browser HTTP", "Worker binding / HTTP из браузера с условиями"),
-}
-
-
-def adapter_inventory(path: Path) -> dict:
-    inventory = json.loads(path.read_text(encoding="utf-8"))
-    ids = set()
-    for row in inventory["adapters"]:
-        if row["id"] in ids:
-            raise ValueError(f"Duplicate adapter: {row['id']}")
-        ids.add(row["id"])
-        for language in ("go", "typescript"):
-            cell = row[language]
-            if cell["status"] not in STATUS["en"]:
-                raise ValueError(f"Unknown adapter status: {cell['status']}")
-            runtime = cell.get("runtime")
-            if runtime and runtime["classification"] not in RUNTIME:
-                raise ValueError("Unknown runtime classification")
-            for url in cell.get("sources", []) + (runtime.get("sources", []) if runtime else []):
-                if not url.startswith("https://github.com/"):
-                    raise ValueError("Adapter evidence must link to the canonical GitHub source")
-    return inventory
-
-
-def adapter_cell(cell: dict, locale: str) -> str:
-    escape = html.escape
-    result = f'<span class="adapter-status">{STATUS[locale][cell["status"]]}</span>'
-    implementation = cell.get("implementation_status")
-    if implementation and implementation != cell["status"]:
-        result += f'<span class="runtime-note">{STATUS[locale][implementation]}</span>'
-    runtime = cell.get("runtime")
-    if runtime:
-        result += f'<p><span class="runtime-badge">{RUNTIME[runtime["classification"]][locale == "ru"]}</span></p>'
-        result += '<span class="runtime-note">Node.js / edge: ' + ('qualification unverified' if locale == 'en' else 'проверка выполнения не подтверждена') + '</span>'
-    if cell.get("manifest_private"):
-        result += '<p>' + ('Private npm manifest · use source' if locale == 'en' else 'Приватный npm-манифест · исходный код') + '</p>'
-    details = []
-    for limit in cell.get("limits", []):
-        details.append(f'<li lang="en">{escape(limit)}</li>')
-    if runtime:
-        browser = runtime["browser"]
-        for text in (browser.get("conditions_and_limits"), browser.get("note"), runtime["node"].get("note"), runtime["edge"].get("note")):
-            if text:
-                details.append(f'<li lang="en">{escape(text)}</li>')
-    sources = cell.get("sources", []) + (runtime.get("sources", []) if runtime else [])
-    if details or sources:
-        label = 'Limits and source' if locale == 'en' else 'Ограничения и исходники'
-        result += f'<details><summary>{label}</summary><ul>{"".join(details)}</ul>'
-        result += ' · '.join(f'<a href="{escape(url, quote=True)}">{"Source" if locale == "en" else "Исходник"} {index + 1}</a>' for index, url in enumerate(dict.fromkeys(sources)))
-        result += '</details>'
-    return result
-
-
-def adapter_table(inventory: dict, locale: str) -> str:
-    heading = 'Implementation and runtime support' if locale == 'en' else 'Реализация и среды выполнения'
-    note = ('Implementation, package publication and runtime are tracked separately. Package publication was not verified by this source audit. Runtime badges describe the source and documented contract; they are not live-service test receipts. Browser HTTP access requires suitable CORS and user-scoped authentication. Node.js and edge execution were not qualified in this audit. A server driver can be exposed through an explicitly implemented HTTP service; that does not make the driver browser-compatible.' if locale == 'en' else
-            'Реализация, публикация пакета и среда выполнения учитываются отдельно. Публикация пакетов в этом аудите исходников не проверялась. Метки сред описывают код и документацию; проверка живого сервиса ими не подтверждается. Для HTTP из браузера нужны подходящие CORS и авторизация пользователя. Выполнение в Node.js и edge в этом аудите не проверялось. Серверный драйвер можно предоставить через реализованный HTTP-сервис; сам драйвер при этом остаётся серверным.')
-    rows = ''.join(f'<tr><th scope="row">{html.escape(row["name"])}</th><td>{adapter_cell(row["go"], locale)}</td><td>{adapter_cell(row["typescript"], locale)}</td></tr>' for row in inventory['adapters'])
-    return f'''<header class="section-head"><h1>{html.escape(title("adapters", locale))}</h1><p>{note}</p></header>
-<p>{"Source audit" if locale == "en" else "Аудит исходников"}: <time>{inventory["auditDate"]}</time> · <a href="/adapters/status.json">JSON</a></p>
-<div class="adapter-table-wrap"><table class="adapter-table"><caption>{heading}</caption><thead><tr><th scope="col">{"Adapter" if locale == "en" else "Адаптер"}</th><th scope="col">Go</th><th scope="col">TypeScript</th></tr></thead><tbody>{rows}</tbody></table></div>'''
 
 
 def go_section(locale: str) -> str:

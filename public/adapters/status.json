@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "auditDate": "2026-11-01",
   "scope": "Committed implementation and documented runtime contracts; not a release, conformance, live-service or DataTug-readiness guarantee.",
   "publicationPolicy": "Source presence and non-private manifests do not establish registry availability.",
@@ -2434,6 +2434,1154 @@
           ]
         }
       }
+    },
+    {
+      "id": "supabase",
+      "name": "Supabase",
+      "go": {
+        "status": "unverified",
+        "sources": [],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "unverified",
+        "sources": [],
+        "publication": "not-verified"
+      }
+    },
+    {
+      "id": "turso",
+      "name": "Turso",
+      "go": {
+        "status": "unverified",
+        "sources": [],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "unverified",
+        "sources": [],
+        "publication": "not-verified"
+      }
+    },
+    {
+      "id": "convex",
+      "name": "Convex",
+      "go": {
+        "status": "unverified",
+        "sources": [],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "unverified",
+        "sources": [],
+        "publication": "not-verified"
+      }
+    },
+    {
+      "id": "cloudflare-kv",
+      "name": "Cloudflare KV",
+      "go": {
+        "status": "unverified",
+        "sources": [],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "unverified",
+        "sources": [],
+        "publication": "not-verified"
+      }
+    },
+    {
+      "id": "athena",
+      "name": "Athena",
+      "go": {
+        "status": "unverified",
+        "sources": [],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "unverified",
+        "sources": [],
+        "publication": "not-verified"
+      }
+    },
+    {
+      "id": "meilisearch",
+      "name": "Meilisearch",
+      "go": {
+        "status": "unverified",
+        "sources": [],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "unverified",
+        "sources": [],
+        "publication": "not-verified"
+      }
+    },
+    {
+      "id": "upstash-rest",
+      "name": "Upstash REST",
+      "go": {
+        "status": "unverified",
+        "sources": [],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "unverified",
+        "sources": [],
+        "publication": "not-verified"
+      }
     }
-  ]
+  ],
+  "capabilityMatrix": {
+    "schemaVersion": 1,
+    "scope": "Capabilities describe audited public adapter surfaces. Source review and runtime execution are separate; no registry, installed CLI, hosted or deployed web acceptance is implied.",
+    "requestedProviders": [
+      {
+        "id": "redis-resp",
+        "adapterId": "redis",
+        "name": "Redis RESP",
+        "note": {
+          "en": "This row is Redis RESP. Upstash REST is a separate provider and protocol; an HTTP bridge requires its own implementation and authorization.",
+          "ru": "Эта строка относится к Redis RESP. Upstash REST — отдельный провайдер и протокол; HTTP-мост требует отдельного кода и авторизации."
+        }
+      },
+      {
+        "id": "mongodb",
+        "adapterId": "mongodb",
+        "name": "MongoDB"
+      },
+      {
+        "id": "duckdb",
+        "adapterId": "duckdb",
+        "name": "DuckDB"
+      },
+      {
+        "id": "clickhouse",
+        "adapterId": "clickhouse",
+        "name": "ClickHouse"
+      },
+      {
+        "id": "supabase",
+        "adapterId": "supabase",
+        "name": "Supabase",
+        "note": {
+          "en": "Supabase is a distinct hosted-service target. PostgREST/PostgreSQL protocol evidence does not qualify hosted JWT, RLS, CORS or delivery.",
+          "ru": "Supabase — отдельная облачная цель. Проверка PostgREST/PostgreSQL не подтверждает облачные JWT, RLS, CORS или поставку."
+        }
+      },
+      {
+        "id": "couchdb",
+        "adapterId": "couchdb",
+        "name": "CouchDB"
+      },
+      {
+        "id": "turso",
+        "adapterId": "turso",
+        "name": "Turso",
+        "note": {
+          "en": "Turso is a distinct hosted-service target. Local libSQL/Hrana evidence does not qualify hosted Turso credentials, CORS or service behavior.",
+          "ru": "Turso — отдельная облачная цель. Локальная проверка libSQL/Hrana не подтверждает облачную авторизацию, CORS или поведение Turso."
+        }
+      },
+      {
+        "id": "firestore",
+        "adapterId": "firestore",
+        "name": "Firestore"
+      },
+      {
+        "id": "influxdb-cloud",
+        "adapterId": "influxdb",
+        "name": "InfluxDB Cloud",
+        "note": {
+          "en": "InfluxDB Cloud must name its product generation. Existing InfluxDB3 source is not blanket v2/Flux/InfluxQL or hosted qualification.",
+          "ru": "Для InfluxDB Cloud нужна версия продукта. Код InfluxDB3 не означает поддержку v2/Flux/InfluxQL или проверку облачного сервиса."
+        }
+      },
+      {
+        "id": "dynamodb",
+        "adapterId": "dynamodb",
+        "name": "DynamoDB"
+      },
+      {
+        "id": "cosmosdb",
+        "adapterId": "cosmosdb",
+        "name": "Cosmos DB"
+      },
+      {
+        "id": "convex",
+        "adapterId": "convex",
+        "name": "Convex"
+      },
+      {
+        "id": "cloudflare-kv",
+        "adapterId": "cloudflare-kv",
+        "name": "Cloudflare KV"
+      },
+      {
+        "id": "upstash-rest",
+        "adapterId": "upstash-rest",
+        "name": "Upstash REST"
+      },
+      {
+        "id": "athena",
+        "adapterId": "athena",
+        "name": "Athena"
+      },
+      {
+        "id": "snowflake",
+        "adapterId": "snowflake",
+        "name": "Snowflake"
+      },
+      {
+        "id": "elasticsearch",
+        "adapterId": "elasticsearch",
+        "name": "Elasticsearch"
+      },
+      {
+        "id": "opensearch",
+        "adapterId": "opensearch",
+        "name": "OpenSearch"
+      },
+      {
+        "id": "typesense",
+        "adapterId": "typesense",
+        "name": "Typesense"
+      },
+      {
+        "id": "meilisearch",
+        "adapterId": "meilisearch",
+        "name": "Meilisearch"
+      }
+    ],
+    "priority": [
+      "redis-resp",
+      "mongodb",
+      "duckdb",
+      "clickhouse",
+      "supabase",
+      "couchdb",
+      "turso",
+      "firestore",
+      "influxdb-cloud",
+      "dynamodb",
+      "cosmosdb",
+      "convex",
+      "cloudflare-kv",
+      "upstash-rest",
+      "athena",
+      "snowflake",
+      "elasticsearch",
+      "opensearch",
+      "typesense",
+      "meilisearch"
+    ],
+    "evidence": {
+      "mongodb-go-source": {
+        "kind": "source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2mongodb/blob/505815e3caf4e894230c26df5b33e547d54dd44e/mongodb.go"
+      },
+      "mongodb-go-contract": {
+        "kind": "documentation",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2mongodb/blob/505815e3caf4e894230c26df5b33e547d54dd44e/README.md"
+      },
+      "redis-go-source": {
+        "kind": "source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2redis/blob/4c7b26799cc80ce22e8f85381609785104383099/redis.go"
+      },
+      "redis-go-contract": {
+        "kind": "documentation",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2redis/blob/4c7b26799cc80ce22e8f85381609785104383099/README.md"
+      },
+      "duckdb-go-source": {
+        "kind": "source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2duckdb/blob/f1a17f24faeafa12fe23b28818a781ed032fc95d/database.go"
+      },
+      "duckdb-go-contract": {
+        "kind": "documentation",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2duckdb/blob/f1a17f24faeafa12fe23b28818a781ed032fc95d/README.md"
+      },
+      "clickhouse-go-source": {
+        "kind": "source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2clickhouse/blob/99a44064132e9e3ca603e2c2bb04afb7b8b1986a/database.go"
+      },
+      "clickhouse-go-contract": {
+        "kind": "documentation",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2clickhouse/blob/99a44064132e9e3ca603e2c2bb04afb7b8b1986a/README.md"
+      },
+      "bigquery-go-source": {
+        "kind": "source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2bigquery/blob/109050791e1fd5813f1085d67e0ceba1b39e0595/source_backend.go"
+      },
+      "bigquery-go-contract": {
+        "kind": "documentation",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2bigquery/blob/109050791e1fd5813f1085d67e0ceba1b39e0595/README.md"
+      },
+      "postgrest-go-source": {
+        "kind": "source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2postgrest/blob/b8d31e8c335cfd1dea2993d68b438eb0e8329d05/database.go"
+      },
+      "postgrest-go-contract": {
+        "kind": "documentation",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2postgrest/blob/b8d31e8c335cfd1dea2993d68b438eb0e8329d05/README.md"
+      },
+      "mongodb-ts-public-tree": {
+        "kind": "inventory-audit",
+        "runtimes": [
+          "ts-browser",
+          "ts-node"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/tree/31ad826e925348826e9a47ad962e897d7ece60d0/packages"
+      },
+      "redis-ts-public-tree": {
+        "kind": "inventory-audit",
+        "runtimes": [
+          "ts-browser",
+          "ts-node"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/tree/31ad826e925348826e9a47ad962e897d7ece60d0/packages"
+      },
+      "duckdb-ts-public-tree": {
+        "kind": "inventory-audit",
+        "runtimes": [
+          "ts-browser",
+          "ts-node"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/tree/31ad826e925348826e9a47ad962e897d7ece60d0/packages"
+      },
+      "bq-node-source": {
+        "kind": "source",
+        "runtimes": [
+          "ts-node"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/3249ded5ee880ad5d1697578acadf8b68cafdc8e/packages/bigquery/src/database.ts"
+      },
+      "bq-node-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-node"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/3249ded5ee880ad5d1697578acadf8b68cafdc8e/packages/bigquery/test/analytical-execution.test.ts"
+      },
+      "bq-node-ci": {
+        "kind": "execution",
+        "runtimes": [
+          "ts-node"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/actions/runs/41315531049"
+      }
+    },
+    "overrides": {
+      "mongodb": {
+        "go": {
+          "read": {
+            "status": "SUPPORTED",
+            "reason": {
+              "en": "Get/Exists/GetMulti",
+              "ru": "API реализован в указанной среде; область определена источниками ниже. Проверка выполнения и публикация — отдельные факты."
+            },
+            "detail": "Get/Exists/GetMulti",
+            "evidence": [
+              "mongodb-go-source",
+              "mongodb-go-contract"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Adapter is read-only; MongoDB itself supports writes.",
+              "ru": "В проверенном публичном API возможность не реализована. Это не ограничение самой базы данных."
+            },
+            "detail": "Adapter is read-only; MongoDB itself supports writes.",
+            "evidence": [
+              "mongodb-go-source",
+              "mongodb-go-contract"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Top-level scalar structured comparisons, AND/OR, projection, sort and positive limit; no joins/grouping/cursor/native commands.",
+              "ru": "Реализовано ограниченное подмножество; точная область приведена ниже. Это не полная поддержка."
+            },
+            "detail": "Top-level scalar structured comparisons, AND/OR, projection, sort and positive limit; no joins/grouping/cursor/native commands.",
+            "evidence": [
+              "mongodb-go-source",
+              "mongodb-go-contract"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "RunReadonlyTransaction only calls its callback with readTx; no native Mongo session/transaction. Readwrite callback refused.",
+              "ru": "В проверенном публичном API возможность не реализована. Это не ограничение самой базы данных."
+            },
+            "detail": "RunReadonlyTransaction only calls its callback with readTx; no native Mongo session/transaction. Readwrite callback refused.",
+            "evidence": [
+              "mongodb-go-source",
+              "mongodb-go-contract"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Schema returns nil; no implemented discovery contract found.",
+              "ru": "В проверенном публичном API возможность не реализована. Это не ограничение самой базы данных."
+            },
+            "detail": "Schema returns nil; no implemented discovery contract found.",
+            "evidence": [
+              "mongodb-go-source",
+              "mongodb-go-contract"
+            ],
+            "verification": "source-only"
+          }
+        },
+        "ts-browser": {
+          "read": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
+              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+            },
+            "evidence": [
+              "mongodb-ts-public-tree"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
+              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+            },
+            "evidence": [
+              "mongodb-ts-public-tree"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
+              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+            },
+            "evidence": [
+              "mongodb-ts-public-tree"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
+              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+            },
+            "evidence": [
+              "mongodb-ts-public-tree"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
+              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+            },
+            "evidence": [
+              "mongodb-ts-public-tree"
+            ],
+            "verification": "source-only"
+          }
+        },
+        "ts-node": {
+          "read": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
+              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+            },
+            "evidence": [
+              "mongodb-ts-public-tree"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
+              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+            },
+            "evidence": [
+              "mongodb-ts-public-tree"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
+              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+            },
+            "evidence": [
+              "mongodb-ts-public-tree"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
+              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+            },
+            "evidence": [
+              "mongodb-ts-public-tree"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
+              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+            },
+            "evidence": [
+              "mongodb-ts-public-tree"
+            ],
+            "verification": "source-only"
+          }
+        }
+      },
+      "redis": {
+        "go": {
+          "read": {
+            "status": "SUPPORTED",
+            "reason": {
+              "en": "Flat string-namespace point reads and bounded native read command allowlist.",
+              "ru": "API реализован в указанной среде; область определена источниками ниже. Проверка выполнения и публикация — отдельные факты."
+            },
+            "detail": "Flat string-namespace point reads and bounded native read command allowlist.",
+            "evidence": [
+              "redis-go-source",
+              "redis-go-contract"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Writes/admin/scripts refused; RESP supports writes.",
+              "ru": "В проверенном публичном API возможность не реализована. Это не ограничение самой базы данных."
+            },
+            "detail": "Writes/admin/scripts refused; RESP supports writes.",
+            "evidence": [
+              "redis-go-source",
+              "redis-go-contract"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "GET/MGET/HGET/HMGET/HEXISTS/EXISTS/TYPE/TTL/PTTL/STRLEN/HLEN/LLEN/SCARD/ZCARD. No SCAN, generic structured query or SQL/TugQL.",
+              "ru": "Реализовано ограниченное подмножество; точная область приведена ниже. Это не полная поддержка."
+            },
+            "detail": "GET/MGET/HGET/HMGET/HEXISTS/EXISTS/TYPE/TTL/PTTL/STRLEN/HLEN/LLEN/SCARD/ZCARD. No SCAN, generic structured query or SQL/TugQL.",
+            "evidence": [
+              "redis-go-source",
+              "redis-go-contract"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Both callbacks return ErrNotSupported; Redis MULTI/EXEC exists.",
+              "ru": "В проверенном публичном API возможность не реализована. Это не ограничение самой базы данных."
+            },
+            "detail": "Both callbacks return ErrNotSupported; Redis MULTI/EXEC exists.",
+            "evidence": [
+              "redis-go-source",
+              "redis-go-contract"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Schema nil; no key/type discovery API.",
+              "ru": "В проверенном публичном API возможность не реализована. Это не ограничение самой базы данных."
+            },
+            "detail": "Schema nil; no key/type discovery API.",
+            "evidence": [
+              "redis-go-source",
+              "redis-go-contract"
+            ],
+            "verification": "source-only"
+          }
+        },
+        "ts-browser": {
+          "read": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
+              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+            },
+            "evidence": [
+              "redis-ts-public-tree"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
+              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+            },
+            "evidence": [
+              "redis-ts-public-tree"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
+              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+            },
+            "evidence": [
+              "redis-ts-public-tree"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
+              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+            },
+            "evidence": [
+              "redis-ts-public-tree"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
+              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+            },
+            "evidence": [
+              "redis-ts-public-tree"
+            ],
+            "verification": "source-only"
+          }
+        },
+        "ts-node": {
+          "read": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
+              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+            },
+            "evidence": [
+              "redis-ts-public-tree"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
+              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+            },
+            "evidence": [
+              "redis-ts-public-tree"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
+              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+            },
+            "evidence": [
+              "redis-ts-public-tree"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
+              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+            },
+            "evidence": [
+              "redis-ts-public-tree"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
+              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+            },
+            "evidence": [
+              "redis-ts-public-tree"
+            ],
+            "verification": "source-only"
+          }
+        }
+      },
+      "duckdb": {
+        "go": {
+          "read": {
+            "status": "SUPPORTED",
+            "reason": {
+              "en": "Embeds dalgo2sql and exposes native SQL DB; embedded files or memory.",
+              "ru": "API реализован в указанной среде; область определена источниками ниже. Проверка выполнения и публикация — отдельные факты."
+            },
+            "detail": "Embeds dalgo2sql and exposes native SQL DB; embedded files or memory.",
+            "evidence": [
+              "duckdb-go-source",
+              "duckdb-go-contract"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "UNVERIFIED",
+            "reason": {
+              "en": "General NewDatabase inherits dalgo2sql mutation surface; NewReadOnlyDatabase explicitly forbids mutations. Provider/dialect CRUD conformance not qualified here.",
+              "ru": "Есть унаследованный SQL API; совместимость диалекта и точный контракт пока не проверены."
+            }
+          },
+          "query": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Native SQL/Parquet plus inherited SQL structured compiler; read-query validator and external-resource authorization are separate.",
+              "ru": "Реализовано ограниченное подмножество; точная область приведена ниже. Это не полная поддержка."
+            },
+            "detail": "Native SQL/Parquet plus inherited SQL structured compiler; read-query validator and external-resource authorization are separate.",
+            "evidence": [
+              "duckdb-go-source",
+              "duckdb-go-contract"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "UNVERIFIED",
+            "reason": {
+              "en": "Inherited dalgo2sql callbacks use real database/sql BeginTx/commit/rollback; read-only constructor adds per-connection native READ ONLY transaction.",
+              "ru": "Есть унаследованный SQL API; совместимость диалекта и точный контракт пока не проверены."
+            }
+          },
+          "schema": {
+            "status": "UNVERIFIED",
+            "reason": {
+              "en": "Supplied DALgo schema retained; no DuckDB-specific automatic introspection contract.",
+              "ru": "Есть унаследованный SQL API; совместимость диалекта и точный контракт пока не проверены."
+            }
+          }
+        },
+        "ts-browser": {
+          "read": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
+              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+            },
+            "evidence": [
+              "duckdb-ts-public-tree"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
+              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+            },
+            "evidence": [
+              "duckdb-ts-public-tree"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
+              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+            },
+            "evidence": [
+              "duckdb-ts-public-tree"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
+              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+            },
+            "evidence": [
+              "duckdb-ts-public-tree"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
+              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+            },
+            "evidence": [
+              "duckdb-ts-public-tree"
+            ],
+            "verification": "source-only"
+          }
+        },
+        "ts-node": {
+          "read": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
+              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+            },
+            "evidence": [
+              "duckdb-ts-public-tree"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
+              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+            },
+            "evidence": [
+              "duckdb-ts-public-tree"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
+              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+            },
+            "evidence": [
+              "duckdb-ts-public-tree"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
+              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+            },
+            "evidence": [
+              "duckdb-ts-public-tree"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
+              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+            },
+            "evidence": [
+              "duckdb-ts-public-tree"
+            ],
+            "verification": "source-only"
+          }
+        }
+      },
+      "clickhouse": {
+        "go": {
+          "read": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Anonymous ordinal resultsets; Get/Exists/GetMulti and keyed records reader refused.",
+              "ru": "Реализовано ограниченное подмножество; точная область приведена ниже. Это не полная поддержка."
+            },
+            "detail": "Anonymous ordinal resultsets; Get/Exists/GetMulti and keyed records reader refused.",
+            "evidence": [
+              "clickhouse-go-source",
+              "clickhouse-go-contract"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Read-only adapter policy; provider writes exist.",
+              "ru": "В проверенном публичном API возможность не реализована. Это не ограничение самой базы данных."
+            },
+            "detail": "Read-only adapter policy; provider writes exist.",
+            "evidence": [
+              "clickhouse-go-source",
+              "clickhouse-go-contract"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Allowlisted structured queries; native SQL explicit opt-in; server readonly=1 on leased connection.",
+              "ru": "Реализовано ограниченное подмножество; точная область приведена ниже. Это не полная поддержка."
+            },
+            "detail": "Allowlisted structured queries; native SQL explicit opt-in; server readonly=1 on leased connection.",
+            "evidence": [
+              "clickhouse-go-source",
+              "clickhouse-go-contract"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Both callback transaction APIs refuse; do not infer a blanket provider impossibility.",
+              "ru": "В проверенном публичном API возможность не реализована. Это не ограничение самой базы данных."
+            },
+            "detail": "Both callback transaction APIs refuse; do not infer a blanket provider impossibility.",
+            "evidence": [
+              "clickhouse-go-source",
+              "clickhouse-go-contract"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Separate SchemaReader implements configured catalog, collections, columns and metadata despite Schema() nil.",
+              "ru": "Реализовано ограниченное подмножество; точная область приведена ниже. Это не полная поддержка."
+            },
+            "detail": "Separate SchemaReader implements configured catalog, collections, columns and metadata despite Schema() nil.",
+            "evidence": [
+              "clickhouse-go-source",
+              "clickhouse-go-contract"
+            ],
+            "verification": "source-only"
+          }
+        }
+      },
+      "bigquery": {
+        "go": {
+          "read": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "ReadOnlyDatabase source rows/views; generic key Get/GetMulti/Exists and generic DALgo query readers refuse.",
+              "ru": "Реализовано ограниченное подмножество; точная область приведена ниже. Это не полная поддержка."
+            },
+            "detail": "ReadOnlyDatabase source rows/views; generic key Get/GetMulti/Exists and generic DALgo query readers refuse.",
+            "evidence": [
+              "bigquery-go-source",
+              "bigquery-go-contract"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Separate explicit load operation exists; this is not generic key CRUD. Do not label all writes implemented or impossible.",
+              "ru": "Реализовано ограниченное подмножество; точная область приведена ниже. Это не полная поддержка."
+            },
+            "detail": "Separate explicit load operation exists; this is not generic key CRUD. Do not label all writes implemented or impossible.",
+            "evidence": [
+              "bigquery-go-source",
+              "bigquery-go-contract"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Separate analytical read-plan/job/reader API with dry-run, approval and budgets; source reader distinct.",
+              "ru": "Реализовано ограниченное подмножество; точная область приведена ниже. Это не полная поддержка."
+            },
+            "detail": "Separate analytical read-plan/job/reader API with dry-run, approval and budgets; source reader distinct.",
+            "evidence": [
+              "bigquery-go-source",
+              "bigquery-go-contract"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Generic callback APIs refuse; BigQuery provider transaction support is not an intrinsic impossibility claim.",
+              "ru": "В проверенном публичном API возможность не реализована. Это не ограничение самой базы данных."
+            },
+            "detail": "Generic callback APIs refuse; BigQuery provider transaction support is not an intrinsic impossibility claim.",
+            "evidence": [
+              "bigquery-go-source",
+              "bigquery-go-contract"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Separate bounded source SchemaReader implements metadata discovery.",
+              "ru": "Реализовано ограниченное подмножество; точная область приведена ниже. Это не полная поддержка."
+            },
+            "detail": "Separate bounded source SchemaReader implements metadata discovery.",
+            "evidence": [
+              "bigquery-go-source",
+              "bigquery-go-contract"
+            ],
+            "verification": "source-only"
+          }
+        },
+        "ts-node": {
+          "query": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Bounded structured/analytical API; synthetic Node transport and cancellation tests passed on a corrective source branch. Real Google authorization, jobs, costs and package release remain unverified.",
+              "ru": "Ограниченный структурированный и аналитический API: есть синтетические проверки Node в исправляющей ветке. Авторизация Google, реальные задания, стоимость и выпуск пакета не подтверждены."
+            },
+            "evidence": [
+              "bq-node-source",
+              "bq-node-test",
+              "bq-node-ci"
+            ],
+            "verification": "executed"
+          }
+        }
+      },
+      "postgrest": {
+        "go": {
+          "read": {
+            "status": "SUPPORTED",
+            "reason": {
+              "en": "Bounded Get/GetMulti and structured record/resultset readers.",
+              "ru": "API реализован в указанной среде; область определена источниками ниже. Проверка выполнения и публикация — отдельные факты."
+            },
+            "detail": "Bounded Get/GetMulti and structured record/resultset readers.",
+            "evidence": [
+              "postgrest-go-source",
+              "postgrest-go-contract"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Go adapter write stubs refuse; PostgREST supports writes.",
+              "ru": "В проверенном публичном API возможность не реализована. Это не ограничение самой базы данных."
+            },
+            "detail": "Go adapter write stubs refuse; PostgREST supports writes.",
+            "evidence": [
+              "postgrest-go-source",
+              "postgrest-go-contract"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Supported structured filters/orders/projection/positive limits and paging; arbitrary native SQL absent.",
+              "ru": "Реализовано ограниченное подмножество; точная область приведена ниже. Это не полная поддержка."
+            },
+            "detail": "Supported structured filters/orders/projection/positive limits and paging; arbitrary native SQL absent.",
+            "evidence": [
+              "postgrest-go-source",
+              "postgrest-go-contract"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "UNSUPPORTED",
+            "reason": {
+              "en": "Exact client callback transaction spanning independent stateless PostgREST HTTP requests cannot be atomic; PostgreSQL transactions themselves are supported by the provider.",
+              "ru": "Именно указанная ниже семантика недоступна в данном API или протоколе. Это не общий запрет для базы данных."
+            },
+            "detail": "Exact client callback transaction spanning independent stateless PostgREST HTTP requests cannot be atomic; PostgreSQL transactions themselves are supported by the provider.",
+            "evidence": [
+              "postgrest-go-source",
+              "postgrest-go-contract"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Bounded OpenAPI discovery; authorization failures are typed refusals.",
+              "ru": "Реализовано ограниченное подмножество; точная область приведена ниже. Это не полная поддержка."
+            },
+            "detail": "Bounded OpenAPI discovery; authorization failures are typed refusals.",
+            "evidence": [
+              "postgrest-go-source",
+              "postgrest-go-contract"
+            ],
+            "verification": "source-only"
+          }
+        }
+      }
+    },
+    "defaultStatus": "UNVERIFIED",
+    "runtimes": [
+      "go",
+      "ts-browser",
+      "ts-node"
+    ],
+    "capabilities": [
+      "read",
+      "write",
+      "query",
+      "transactions",
+      "schema"
+    ],
+    "statuses": [
+      "SUPPORTED",
+      "PARTIAL",
+      "NOT_IMPLEMENTED",
+      "UNSUPPORTED",
+      "UNVERIFIED"
+    ]
+  }
 }
