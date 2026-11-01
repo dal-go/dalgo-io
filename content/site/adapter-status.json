@@ -2632,14 +2632,69 @@
       "id": "upstash-rest",
       "name": "Upstash REST",
       "go": {
-        "status": "unverified",
-        "sources": [],
+        "status": "readonly",
+        "capabilities": [
+          "flat-key-read",
+          "native-allowlisted-commands",
+          "scoped-scan",
+          "lossless-native-values",
+          "cancellation"
+        ],
+        "limits": [
+          "Independent RESTClient in the existing Redis Go module: root POST command arrays, header-only read credentials and raw RESP2 responses. Query/QueryNative plus a flat-key DALgo DB facade; no SQL/TugQL or general structured query.",
+          "Owned HTTP/TLS protocol fixtures and a clean public-module consumer passed. These do not qualify hosted Upstash auth, quotas, CORS or remote Redis execution cancellation. SCAN needs an explicitly permitted ACL token and literal prefix; default Read Only tokens may deny it. COUNT is a hint; whole pages fail closed on malformed/foreign/oversized replies.",
+          "Public unmerged source branch 41f1ab510f15deb95425e8f28f111794eaeda935 (PR10). Tagged release, installed CLI, Apps and deployed web acceptance are unverified; source publication is separate."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo2redis/blob/41f1ab510f15deb95425e8f28f111794eaeda935/rest.go",
+          "https://github.com/dal-go/dalgo2redis/blob/41f1ab510f15deb95425e8f28f111794eaeda935/rest_test.go",
+          "https://github.com/dal-go/dalgo2redis/blob/41f1ab510f15deb95425e8f28f111794eaeda935/README.md"
+        ],
         "publication": "not-verified"
       },
       "typescript": {
-        "status": "unverified",
-        "sources": [],
-        "publication": "not-verified"
+        "status": "readonly",
+        "implementation_status": "readonly",
+        "package": "@dalgo/dalgo2upstash-redis",
+        "manifest_private": false,
+        "capabilities": [
+          "native-allowlisted-commands",
+          "scoped-scan",
+          "lossless-native-values",
+          "cancellation"
+        ],
+        "limits": [
+          "Independent Web API REST executor using the shared public Redis protocol subpath; not TCP Redis or a Go bridge. Native bytes/int64, one bounded command/page, header-only token, whole-reply validation and caller/deadline coverage. No keyed Database facade, SQL/TugQL, writes, callback transactions or automatic schema discovery.",
+          "Owned served HTTP protocol fixtures, strict packed Node/DOM declarations and browser VM import/laziness checks passed. Actual hosted Upstash, provider CORS and real Chromium execution remain UNVERIFIED; this is not Apps or deployed web acceptance.",
+          "Public unmerged source branch 01a2c87825b6c04b82e215059a0f5bce53ff25ad (PR94). Public adapter-runtime0.1.2/core0.8.1 were used; Redis protocol0.2 is a normal Changesets preview, not registry publication. npm release and installed delivery remain unverified."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/01a2c87825b6c04b82e215059a0f5bce53ff25ad/packages/upstash-redis/src/index.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/01a2c87825b6c04b82e215059a0f5bce53ff25ad/packages/upstash-redis/README.md",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/01a2c87825b6c04b82e215059a0f5bce53ff25ad/packages/upstash-redis/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "browser-direct-http-conditional",
+          "browser": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "Browser-safe source and packed DOM/VM checks exist. Actual hosted Upstash/CORS/Chromium query acceptance is UNVERIFIED. Only explicitly authorized read-scoped credentials may be supplied; no Standard/admin fallback. Default Read Only tokens may reject SCAN."
+          },
+          "node": {
+            "status": "conditional-not-qualified",
+            "execution_verified_in_this_audit": true,
+            "note": "Exact packed Node client passed a served loopback HTTP protocol fixture with public runtime0.1.2/core0.8.1, native values, cancellation/deadline and reopen. This verifies the account-free fixture scope, not hosted Upstash or released packages."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification is inferred from Web APIs, Node, DOM or browser VM checks."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/01a2c87825b6c04b82e215059a0f5bce53ff25ad/packages/upstash-redis/README.md"
+          ]
+        }
       }
     }
   ],
@@ -3007,6 +3062,77 @@
           "ts-browser"
         ],
         "url": "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/duckdb/scripts/real-browser.mjs"
+      },
+      "upstash-go-source": {
+        "kind": "source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2redis/blob/41f1ab510f15deb95425e8f28f111794eaeda935/rest.go"
+      },
+      "upstash-go-contract": {
+        "kind": "documentation",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2redis/blob/41f1ab510f15deb95425e8f28f111794eaeda935/README.md"
+      },
+      "upstash-go-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2redis/blob/41f1ab510f15deb95425e8f28f111794eaeda935/rest_test.go"
+      },
+      "upstash-go-ci": {
+        "kind": "execution",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2redis/actions/runs/41348066912/job/124972064217"
+      },
+      "upstash-ts-node-source": {
+        "kind": "source",
+        "runtimes": [
+          "ts-node"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/01a2c87825b6c04b82e215059a0f5bce53ff25ad/packages/upstash-redis/src/index.ts"
+      },
+      "upstash-ts-browser-source": {
+        "kind": "source",
+        "runtimes": [
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/01a2c87825b6c04b82e215059a0f5bce53ff25ad/packages/upstash-redis/src/index.ts"
+      },
+      "upstash-ts-contract": {
+        "kind": "documentation",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/01a2c87825b6c04b82e215059a0f5bce53ff25ad/packages/upstash-redis/README.md"
+      },
+      "upstash-ts-node-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-node"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/01a2c87825b6c04b82e215059a0f5bce53ff25ad/.github/fixtures/upstash-packed-consumer/runtime.mjs"
+      },
+      "upstash-ts-browser-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/01a2c87825b6c04b82e215059a0f5bce53ff25ad/.github/fixtures/upstash-packed-consumer/browser.ts"
+      },
+      "upstash-ts-node-ci": {
+        "kind": "execution",
+        "runtimes": [
+          "ts-node"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/actions/runs/41351717437/job/124983143877"
       }
     },
     "overrides": {
@@ -3820,6 +3946,213 @@
             "evidence": [
               "postgrest-go-source",
               "postgrest-go-contract"
+            ],
+            "verification": "source-only"
+          }
+        }
+      },
+      "upstash-rest": {
+        "go": {
+          "read": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Separate RESTClient Query/QueryNative and flat-key DB reads: bounded read commands, exact native bytes/int64 and scoped single-page SCAN. Owned HTTP/TLS protocol fixtures passed; hosted Upstash, release and installed CLI acceptance remain unverified.",
+              "ru": "Отдельный RESTClient Query/QueryNative и чтение плоских ключей через DB: ограниченные команды, байты/int64 без потерь и одна страница SCAN в заданной области. Локальные HTTP/TLS-фикстуры пройдены; облачный Upstash, выпуск и установленный CLI не подтверждены."
+            },
+            "evidence": [
+              "upstash-go-source",
+              "upstash-go-contract",
+              "upstash-go-test",
+              "upstash-go-ci"
+            ],
+            "verification": "executed"
+          },
+          "write": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "This adapter implements only read commands and refuses writes/admin/scripts/KEYS. The Upstash service supports writes; this is adapter policy, not intrinsic provider impossibility.",
+              "ru": "Адаптер реализует только чтение и отказывает в записи, администрировании, скриптах и KEYS. Сам Upstash поддерживает запись; это ограничение адаптера."
+            },
+            "evidence": [
+              "upstash-go-source",
+              "upstash-go-contract",
+              "upstash-go-test"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Separate RESTClient Query/QueryNative and flat-key DB reads: bounded read commands, exact native bytes/int64 and scoped single-page SCAN. Owned HTTP/TLS protocol fixtures passed; hosted Upstash, release and installed CLI acceptance remain unverified.",
+              "ru": "Отдельный RESTClient Query/QueryNative и чтение плоских ключей через DB: ограниченные команды, байты/int64 без потерь и одна страница SCAN в заданной области. Локальные HTTP/TLS-фикстуры пройдены; облачный Upstash, выпуск и установленный CLI не подтверждены."
+            },
+            "evidence": [
+              "upstash-go-source",
+              "upstash-go-contract",
+              "upstash-go-test",
+              "upstash-go-ci"
+            ],
+            "verification": "executed"
+          },
+          "transactions": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No callback transaction or multi-exec adapter surface is implemented. Upstash has atomic multi-exec; no global transaction impossibility is claimed.",
+              "ru": "Транзакции с обратным вызовом и API multi-exec не реализованы в адаптере. Upstash поддерживает атомарный multi-exec; общий запрет транзакций не утверждается."
+            },
+            "evidence": [
+              "upstash-go-source",
+              "upstash-go-contract",
+              "upstash-go-test"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No generic schema discovery API. Scoped SCAN and TYPE expose key/type facts only, not automatic relational metadata.",
+              "ru": "Общего API получения схемы нет. SCAN и TYPE показывают только сведения о ключах и типах в разрешённой области."
+            },
+            "evidence": [
+              "upstash-go-source",
+              "upstash-go-contract",
+              "upstash-go-test"
+            ],
+            "verification": "source-only"
+          }
+        },
+        "ts-node": {
+          "read": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Read-only REST executor, native values and scoped SCAN; no keyed Database or SQL/TugQL API. Exact packed Node client passed an owned HTTP mock with public runtime0.1.2/core0.8.1, cancellation/deadline and reopen. Hosted Upstash and package release remain unverified.",
+              "ru": "REST API только для чтения, нативные значения и ограниченный SCAN; API Database с ключами и SQL/TugQL нет. Упакованный клиент Node прошёл локальную HTTP-фикстуру с публичными runtime0.1.2/core0.8.1, отменой, сроком и повторным запросом. Облачный Upstash и выпуск пакета не подтверждены."
+            },
+            "evidence": [
+              "upstash-ts-node-source",
+              "upstash-ts-contract",
+              "upstash-ts-node-test",
+              "upstash-ts-node-ci"
+            ],
+            "verification": "executed"
+          },
+          "write": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "This adapter implements only read commands and refuses writes/admin/scripts/KEYS. The Upstash service supports writes; this is adapter policy, not intrinsic provider impossibility.",
+              "ru": "Адаптер реализует только чтение и отказывает в записи, администрировании, скриптах и KEYS. Сам Upstash поддерживает запись; это ограничение адаптера."
+            },
+            "evidence": [
+              "upstash-ts-node-source",
+              "upstash-ts-contract",
+              "upstash-ts-node-test"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Read-only REST executor, native values and scoped SCAN; no keyed Database or SQL/TugQL API. Exact packed Node client passed an owned HTTP mock with public runtime0.1.2/core0.8.1, cancellation/deadline and reopen. Hosted Upstash and package release remain unverified.",
+              "ru": "REST API только для чтения, нативные значения и ограниченный SCAN; API Database с ключами и SQL/TugQL нет. Упакованный клиент Node прошёл локальную HTTP-фикстуру с публичными runtime0.1.2/core0.8.1, отменой, сроком и повторным запросом. Облачный Upstash и выпуск пакета не подтверждены."
+            },
+            "evidence": [
+              "upstash-ts-node-source",
+              "upstash-ts-contract",
+              "upstash-ts-node-test",
+              "upstash-ts-node-ci"
+            ],
+            "verification": "executed"
+          },
+          "transactions": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No callback transaction or multi-exec adapter surface is implemented. Upstash has atomic multi-exec; no global transaction impossibility is claimed.",
+              "ru": "Транзакции с обратным вызовом и API multi-exec не реализованы в адаптере. Upstash поддерживает атомарный multi-exec; общий запрет транзакций не утверждается."
+            },
+            "evidence": [
+              "upstash-ts-node-source",
+              "upstash-ts-contract",
+              "upstash-ts-node-test"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No generic schema discovery API. Scoped SCAN and TYPE expose key/type facts only, not automatic relational metadata.",
+              "ru": "Общего API получения схемы нет. SCAN и TYPE показывают только сведения о ключах и типах в разрешённой области."
+            },
+            "evidence": [
+              "upstash-ts-node-source",
+              "upstash-ts-contract",
+              "upstash-ts-node-test"
+            ],
+            "verification": "source-only"
+          }
+        },
+        "ts-browser": {
+          "read": {
+            "status": "UNVERIFIED",
+            "reason": {
+              "en": "Public browser-safe REST source, strict DOM declarations and VM import/laziness proof exist. Actual hosted Upstash/CORS/Chromium read/query execution is UNVERIFIED; Node HTTP mock proof is not browser acceptance.",
+              "ru": "Есть публичный REST-клиент для браузера, строгая проверка типов DOM и импорта/отложенной загрузки в VM. Выполнение чтения и запросов в облачном Upstash/Chromium с CORS не подтверждено; HTTP-фикстура Node не заменяет браузерную приёмку."
+            },
+            "evidence": [
+              "upstash-ts-browser-source",
+              "upstash-ts-contract",
+              "upstash-ts-browser-test"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "This adapter implements only read commands and refuses writes/admin/scripts/KEYS. The Upstash service supports writes; this is adapter policy, not intrinsic provider impossibility.",
+              "ru": "Адаптер реализует только чтение и отказывает в записи, администрировании, скриптах и KEYS. Сам Upstash поддерживает запись; это ограничение адаптера."
+            },
+            "evidence": [
+              "upstash-ts-browser-source",
+              "upstash-ts-contract",
+              "upstash-ts-browser-test"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "UNVERIFIED",
+            "reason": {
+              "en": "Public browser-safe REST source, strict DOM declarations and VM import/laziness proof exist. Actual hosted Upstash/CORS/Chromium read/query execution is UNVERIFIED; Node HTTP mock proof is not browser acceptance.",
+              "ru": "Есть публичный REST-клиент для браузера, строгая проверка типов DOM и импорта/отложенной загрузки в VM. Выполнение чтения и запросов в облачном Upstash/Chromium с CORS не подтверждено; HTTP-фикстура Node не заменяет браузерную приёмку."
+            },
+            "evidence": [
+              "upstash-ts-browser-source",
+              "upstash-ts-contract",
+              "upstash-ts-browser-test"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No callback transaction or multi-exec adapter surface is implemented. Upstash has atomic multi-exec; no global transaction impossibility is claimed.",
+              "ru": "Транзакции с обратным вызовом и API multi-exec не реализованы в адаптере. Upstash поддерживает атомарный multi-exec; общий запрет транзакций не утверждается."
+            },
+            "evidence": [
+              "upstash-ts-browser-source",
+              "upstash-ts-contract",
+              "upstash-ts-browser-test"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No generic schema discovery API. Scoped SCAN and TYPE expose key/type facts only, not automatic relational metadata.",
+              "ru": "Общего API получения схемы нет. SCAN и TYPE показывают только сведения о ключах и типах в разрешённой области."
+            },
+            "evidence": [
+              "upstash-ts-browser-source",
+              "upstash-ts-contract",
+              "upstash-ts-browser-test"
             ],
             "verification": "source-only"
           }
