@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script src="/theme.js"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Queries and schema · DALgo</title>
+<meta name="description" content="Queries and schema" />
+<link rel="canonical" href="https://dalgo.io/queries/" />
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)" />
+<meta property="og:title" content="Queries and schema · DALgo" />
+<meta property="og:description" content="Queries and schema" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://dalgo.io/queries/" />
+<link rel="alternate" hreflang="en" href="https://dalgo.io/queries/" />
+<link rel="alternate" hreflang="ru" href="https://dalgo.io/ru/queries/" />
+<link rel="alternate" hreflang="x-default" href="https://dalgo.io/queries/" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230d1117'/><text x='50%25' y='52%25' text-anchor='middle' dominant-baseline='middle' font-family='ui-monospace,monospace' font-size='28' font-weight='700' fill='%232f81f7'>d/</text></svg>" />
+<link rel="stylesheet" href="/styles.css" />
+<script src="/analytics.js" defer></script>
+<link rel="stylesheet" href="/theme.css" />
+<script src="/site.js" defer></script>
+</head>
+<body>
+
+<header class="AppHeader" role="banner">
+  <div class="AppHeader-inner">
+    <a class="AppHeader-brand" href="/" aria-label="DALgo home">
+      <span class="AppHeader-brand-mark" aria-hidden="true">
+        <span class="brand-dal">DAL</span><span class="brand-go">go</span>
+      </span>
+    </a>
+
+
+
+    <nav class="AppHeader-nav" aria-label="Documentation"><a href="/go/">Go</a><a href="/typescript/">TypeScript</a><a href="/adapters/">Adapters</a><a href="/quickstart/">Quick Start</a></nav>
+
+    <div class="AppHeader-actions"><nav class="lang-switch" aria-label="Language"><span class="lang-switch-item" aria-current="true" lang="en">EN</span><a class="lang-switch-item" href="/ru/queries/" hreflang="ru" lang="ru" data-lang-link>RU</a></nav><label class="theme-control" data-theme-control hidden><span aria-hidden="true">◐</span><select data-theme-switch aria-label="Theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label>
+
+    </div>
+  </div>
+</header>
+
+<main id="top" class="container topic-page"><p><a href="/">DALgo</a> / Queries and schema</p><section id="queries" class="section">
+  <div class="container">
+    <header class="section-head">
+      <span class="section-eyebrow">07 — Queries &amp; schema</span>
+      <h1 class="section-title">Queries and schema</h1>
+      <p class="section-kicker">A structured query builder, hierarchical collections, and schema-aware key mapping — capability-based across adapters.</p>
+    </header>
+
+    <div class="iface-grid">
+      <div class="iface-prose">
+        <p>
+          DALgo ships a structured query builder for the common database reads: filters, ordering, <code>LIMIT</code>, column projection, <code>GROUP BY</code> / <code>HAVING</code>, aggregates like <code>COUNT(*)</code> and <code>SUM</code>, and inner / left equi-joins. Keys can model nested document paths such as <code>countries/ireland/cities/dublin</code>, and a parent key scopes a query to a nested collection.
+        </p>
+        <div class="Flash">
+          <svg class="octicon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+          <div>Adapter support is capability-based: a backend that can't run a query feature returns <code>dal.ErrNotSupported</code>, so tests share one query shape and skip cleanly. The serialized query format lives in <a href="/tugql/">TugQL</a>.</div>
+        </div>
+      </div>
+
+      <div class="codeblock">
+        <div class="codeblock-head">
+          <span class="codeblock-dot" style="background:#ff5f57"></span>
+          <span class="codeblock-dot" style="background:#febc2e"></span>
+          <span class="codeblock-dot" style="background:#28c840"></span>
+          <span class="codeblock-name">query.go</span>
+          <span class="codeblock-lang">Go</span>
+        </div>
+<pre><code><span class="pl-c">// Query the largest cities, projecting two columns.</span>
+cities <span class="pl-k">:=</span> dal.<span class="pl-en">NewRootCollectionRef</span>(<span class="pl-s">"cities"</span>, <span class="pl-s">""</span>)
+
+q <span class="pl-k">:=</span> dal.<span class="pl-en">From</span>(cities).<span class="pl-en">NewQuery</span>().
+    <span class="pl-en">WhereField</span>(<span class="pl-s">"Country"</span>, dal.Equal, <span class="pl-s">"IE"</span>).
+    <span class="pl-en">OrderBy</span>(dal.<span class="pl-en">DescendingField</span>(<span class="pl-s">"Population"</span>)).
+    <span class="pl-en">Limit</span>(<span class="pl-c1">10</span>).
+    <span class="pl-en">SelectColumns</span>(
+        dal.Column{Expression: dal.<span class="pl-en">Field</span>(<span class="pl-s">"Name"</span>)},
+        dal.Column{Expression: dal.<span class="pl-en">Field</span>(<span class="pl-s">"Population"</span>)},
+    )
+
+records, err <span class="pl-k">:=</span> dal.<span class="pl-en">ExecuteQueryAndReadAllToRecords</span>(ctx, q, db)
+</code></pre>
+      </div>
+    </div>
+  </div>
+</section></main>
+
+<footer class="AppFooter">
+  <div class="container AppFooter-inner">
+    <ul role="list">
+      <li>&copy; <span id="year">2026</span> DALgo contributors</li>
+      <li><a href="/">DALgo</a></li>
+      <li><a href="/articles/">Articles</a></li>
+      <li><a href="/tugql/">TugQL</a></li>
+      <li><a href="https://github.com/dal-go/dalgo" rel="noopener">Core repo</a></li>
+      <li><a href="https://github.com/dal-go/dalgo/blob/main/LICENSE" rel="noopener">MIT License</a></li>
+      <li><a href="/privacy/">Privacy</a></li>
+    </ul>
+    <span class="AppFooter-tag">Open-source documentation site. No accounts, no advertising.</span>
+  </div>
+<nav class="topic-footer container" data-topic-footer aria-label="Documentation"><a href="/go/">DALgo for Go</a><a href="/typescript/">DALgo for TypeScript</a><a href="/quickstart/">Quick Start</a><a href="/adapters/">Adapters and runtime support</a><a href="/why/">Why DALgo</a><a href="/collections/">Typed collections</a><a href="/interfaces/">Interfaces</a><a href="/queries/">Queries and schema</a><a href="/film/">Swap the adapter</a><a href="/datatug/">DALgo and DataTug</a><a href="/articles/">Articles</a><a href="/tugql/">TugQL</a></nav></footer>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<div class="site-feedback"><button type="button" data-feedback-launcher aria-haspopup="dialog" hidden><svg class="feedback-mark" aria-hidden="true" focusable="false" viewBox="0 0 64 64"><rect width="64" height="64" rx="18" fill="#d4ef83"/><path d="M18 46 46 18M20 18h26v26" fill="none" stroke="#202c2a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>Suggest an improvement</button></div>
+<script id="site-feedback-widget" src="https://improveit.now/widget.js" data-space="ao58m" data-app="53707531c1e1120447e7673109bb6538" data-lang="en" data-color="#0d63e9" data-launcher="hidden" defer></script>
+<script src="/feedback.js" defer></script>
+</body>
+</html>

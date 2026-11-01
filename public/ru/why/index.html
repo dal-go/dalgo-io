@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<script src="/theme.js"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Зачем DALgo · DALgo</title>
+<meta name="description" content="Зачем DALgo" />
+<link rel="canonical" href="https://dalgo.io/ru/why/" />
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)" />
+<meta property="og:title" content="Зачем DALgo · DALgo" />
+<meta property="og:description" content="Зачем DALgo" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://dalgo.io/ru/why/" />
+<link rel="alternate" hreflang="en" href="https://dalgo.io/why/" />
+<link rel="alternate" hreflang="ru" href="https://dalgo.io/ru/why/" />
+<link rel="alternate" hreflang="x-default" href="https://dalgo.io/why/" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230d1117'/><text x='50%25' y='52%25' text-anchor='middle' dominant-baseline='middle' font-family='ui-monospace,monospace' font-size='28' font-weight='700' fill='%232f81f7'>d/</text></svg>" />
+<link rel="stylesheet" href="/styles.css" />
+<script src="/analytics.js" defer></script>
+<link rel="stylesheet" href="/theme.css" />
+<script src="/site.js" defer></script>
+</head>
+<body>
+
+<header class="AppHeader" role="banner">
+  <div class="AppHeader-inner">
+    <a class="AppHeader-brand" href="/ru/" aria-label="Главная DALgo">
+      <span class="AppHeader-brand-mark" aria-hidden="true">
+        <span class="brand-dal">DAL</span><span class="brand-go">go</span>
+      </span>
+    </a>
+
+
+
+    <nav class="AppHeader-nav" aria-label="Документация"><a href="/ru/go/">Go</a><a href="/ru/typescript/">TypeScript</a><a href="/ru/adapters/">Адаптеры</a><a href="/ru/quickstart/">Быстрый старт</a></nav>
+
+    <div class="AppHeader-actions"><nav class="lang-switch" aria-label="Язык"><a class="lang-switch-item" href="/why/" hreflang="en" lang="en" data-lang-link>EN</a><span class="lang-switch-item" aria-current="true" lang="ru">RU</span></nav><label class="theme-control" data-theme-control hidden><span aria-hidden="true">◐</span><select data-theme-switch aria-label="Тема"><option value="system">Системная</option><option value="light">Светлая</option><option value="dark">Тёмная</option></select></label>
+
+    </div>
+  </div>
+</header>
+
+<main id="top" class="container topic-page"><p><a href="/ru/">DALgo</a> / Зачем DALgo</p><section id="why" class="section">
+  <div class="container">
+    <header class="section-head">
+      <span class="section-eyebrow">01 — Зачем нужен DAL</span>
+      <h1 class="section-title">Зачем DALgo</h1>
+      <p class="section-kicker">Шесть причин, по которым разработчики берут DALgo с первого дня. Подробнее — в статье <a href="/articles/why-use-dalgo/">Why use DALgo</a>, а границы применимости — в <a href="/articles/when-to-use-dalgo/">When to use DALgo, and when not to</a> (обе на английском).</p>
+    </header>
+
+    <div class="why-grid">
+
+      <article class="Box why-card">
+        <div class="why-icon">
+          <svg class="octicon" viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M1 2.75A.75.75 0 0 1 1.75 2h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 2.75Zm0 5A.75.75 0 0 1 1.75 7h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 7.75ZM1.75 12h12.5a.75.75 0 0 1 0 1.5H1.75a.75.75 0 0 1 0-1.5Z"/></svg>
+        </div>
+        <h3>Логика, не зависящая от хранилища</h3>
+        <p>Пишите бизнес-код против <code>dal.DB</code>. Где он будет жить — в Postgres, Firestore или в JSON-файле на диске, — решите позже.</p>
+      </article>
+
+      <article class="Box why-card">
+        <div class="why-icon">
+          <svg class="octicon" viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M4.72 3.22a.75.75 0 0 1 1.06 1.06L2.06 8l3.72 3.72a.749.749 0 1 1-1.06 1.06L.47 8.53a.75.75 0 0 1 0-1.06l4.25-4.25Zm6.56 0a.75.75 0 1 0-1.06 1.06L13.94 8l-3.72 3.72a.749.749 0 1 0 1.06 1.06l4.25-4.25a.75.75 0 0 0 0-1.06l-4.25-4.25Z"/></svg>
+        </div>
+        <h3>Меньше кода, он читается лучше</h3>
+        <p>Общий контракт для ключей, записей, запросов и транзакций. Поддерживаемые операции зависят от адаптера.</p>
+      </article>
+
+      <article class="Box why-card">
+        <div class="why-icon">
+          <svg class="octicon" viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M7.467.133a1.748 1.748 0 0 1 1.066 0l5.25 1.68A1.75 1.75 0 0 1 15 3.48V7c0 1.566-.32 3.182-1.303 4.682-.983 1.498-2.585 2.813-5.032 3.855a1.697 1.697 0 0 1-1.33 0c-2.447-1.042-4.049-2.357-5.032-3.855C1.32 10.182 1 8.566 1 7V3.48a1.75 1.75 0 0 1 1.217-1.667Z"/></svg>
+        </div>
+        <h3>Тестируемость по построению</h3>
+        <p>В тестах подставляйте вместо боевого драйвера встроенный адаптер <a href="https://github.com/dal-go/dalgo/tree/main/adapters/dalgo2memory" rel="noopener"><code>dalgo2memory</code></a>. Нужны моки? Сгенерированный пакет <a href="https://github.com/dal-go/dalgo/tree/main/mocks" rel="noopener"><code>mocks</code></a> входит в основной репозиторий.</p>
+      </article>
+
+      <article class="Box why-card">
+        <div class="why-icon">
+          <svg class="octicon" viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M14.064 0h.186C15.216 0 16 .784 16 1.75v.186a1.75 1.75 0 0 1-.5 1.22l-1.5 1.5a.25.25 0 0 0 0 .354l.5.5a.75.75 0 0 1-1.06 1.06l-.5-.5a.25.25 0 0 0-.354 0l-1.5 1.5a1.75 1.75 0 0 1-1.22.5h-.186a1.75 1.75 0 0 1-1.75-1.75v-.186a1.75 1.75 0 0 1 .5-1.22l1.5-1.5a.25.25 0 0 0 0-.354l-.5-.5a.75.75 0 0 1 1.06-1.06l.5.5a.25.25 0 0 0 .354 0l1.5-1.5A1.75 1.75 0 0 1 14.064 0Z"/></svg>
+        </div>
+        <h3>Хуки и логирование — бесплатно</h3>
+        <p>Поскольку каждая операция проходит через один интерфейс, наблюдаемость и аудит — это обёртка, а не рефакторинг.</p>
+      </article>
+
+      <article class="Box why-card">
+        <div class="why-icon">
+          <svg class="octicon" viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"/><path fill="currentColor" d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Z"/></svg>
+        </div>
+        <h3>Один набор сквозных тестов</h3>
+        <p>Общий <a href="https://github.com/dal-go/dalgo/tree/main/dalgotest">набор проверок</a> проверяет общее поведение. Ограничения и среды выполнения указаны в <a href="/ru/adapters/">таблице адаптеров</a>.</p>
+      </article>
+
+      <article class="Box why-card">
+        <div class="why-icon">
+          <svg class="octicon" viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M7.177 3.073 9.573.677A.25.25 0 0 1 10 .854v4.792a.25.25 0 0 1-.427.177L7.177 3.427a.25.25 0 0 1 0-.354ZM3.75 2.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Zm-2.25.75a2.25 2.25 0 1 1 3 2.122v5.256a2.251 2.251 0 1 1-1.5 0V5.372A2.25 2.25 0 0 1 1.5 3.25ZM11 2.5h-1V4h1a1 1 0 0 1 1 1v5.628a2.251 2.251 0 1 0 1.5 0V5A2.5 2.5 0 0 0 11 2.5Zm1 10.25a.75.75 0 1 1 1.5 0 .75.75 0 0 1-1.5 0ZM3.75 12a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Z"/></svg>
+        </div>
+        <h3>Транзакции в духе Go</h3>
+        <p>Транзакции только для чтения и для чтения и записи — полноправная часть интерфейса. Передайте замыкание — получите атомарность, не пропуская типы транзакций конкретных драйверов в предметный код.</p>
+      </article>
+
+    </div>
+  </div>
+</section></main>
+
+<footer class="AppFooter">
+  <div class="container AppFooter-inner">
+    <ul role="list">
+      <li>&copy; <span id="year">2026</span> DALgo contributors</li>
+      <li><a href="/">DALgo</a></li>
+      <li><a href="/articles/">Articles</a></li>
+      <li><a href="/tugql/">TugQL</a></li>
+      <li><a href="https://github.com/dal-go/dalgo" rel="noopener">Core repo</a></li>
+      <li><a href="https://github.com/dal-go/dalgo/blob/main/LICENSE" rel="noopener">MIT License</a></li>
+      <li><a href="/privacy/">Privacy</a></li>
+    </ul>
+    <span class="AppFooter-tag">Open-source documentation site. No accounts, no advertising.</span>
+  </div>
+<nav class="topic-footer container" data-topic-footer aria-label="Документация"><a href="/ru/go/">DALgo для Go</a><a href="/ru/typescript/">DALgo для TypeScript</a><a href="/ru/quickstart/">Быстрый старт</a><a href="/ru/adapters/">Адаптеры и среды выполнения</a><a href="/ru/why/">Зачем DALgo</a><a href="/ru/collections/">Типизированные коллекции</a><a href="/ru/interfaces/">Интерфейсы</a><a href="/ru/queries/">Запросы и схема</a><a href="/ru/film/">Смените адаптер</a><a href="/ru/datatug/">DALgo и DataTug</a><a href="/articles/">Articles</a><a href="/tugql/">TugQL</a></nav></footer>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<div class="site-feedback"><button type="button" data-feedback-launcher aria-haspopup="dialog" hidden><svg class="feedback-mark" aria-hidden="true" focusable="false" viewBox="0 0 64 64"><rect width="64" height="64" rx="18" fill="#d4ef83"/><path d="M18 46 46 18M20 18h26v26" fill="none" stroke="#202c2a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>Suggest an improvement</button></div>
+<script id="site-feedback-widget" src="https://improveit.now/widget.js" data-space="ao58m" data-app="53707531c1e1120447e7673109bb6538" data-lang="ru" data-color="#0d63e9" data-launcher="hidden" defer></script>
+<script src="/feedback.js" defer></script>
+</body>
+</html>

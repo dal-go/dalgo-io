@@ -21,6 +21,7 @@ import shutil
 import sys
 from dataclasses import dataclass
 from pathlib import Path
+from site_shell import enhance_page
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTENT_DIR = ROOT / "content" / "articles"
@@ -287,11 +288,11 @@ def render_table(rows: list[str]) -> str:
     )
 
 
-def page_shell(*, title: str, description: str, canonical: str, og_type: str, main: str, context_label: str, context_href: str, extra_head: str = "") -> str:
+def page_shell(*, title: str, description: str, canonical: str, og_type: str, main: str, context_label: str, context_href: str, extra_head: str = "", locale: str = "en", section: str | None = None) -> str:
     desc = html.escape(description, quote=True)
     title_attr = html.escape(title, quote=True)
-    return f"""<!doctype html>
-<html lang="en">
+    return enhance_page(f"""<!doctype html>
+<html lang="{locale}">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -312,7 +313,7 @@ def page_shell(*, title: str, description: str, canonical: str, og_type: str, ma
 
 <header class="AppHeader" role="banner">
   <div class="AppHeader-inner">
-    <a class="AppHeader-brand" href="/" aria-label="DALgo home">
+    <a class="AppHeader-brand" href="{'/ru/' if locale == 'ru' else '/'}" aria-label="{'Главная DALgo' if locale == 'ru' else 'DALgo home'}">
       <span class="AppHeader-brand-mark" aria-hidden="true">
         <span class="brand-dal">DAL</span><span class="brand-go">go</span>
       </span>
@@ -358,11 +359,11 @@ def page_shell(*, title: str, description: str, canonical: str, og_type: str, ma
 
 <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 <div class="site-feedback"><button type="button" data-feedback-launcher aria-haspopup="dialog" hidden><svg class="feedback-mark" aria-hidden="true" focusable="false" viewBox="0 0 64 64"><rect width="64" height="64" rx="18" fill="#d4ef83"/><path d="M18 46 46 18M20 18h26v26" fill="none" stroke="#202c2a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>Suggest an improvement</button></div>
-<script id="site-feedback-widget" src="https://improveit.now/widget.js" data-space="ao58m" data-app="53707531c1e1120447e7673109bb6538" data-lang="en" data-color="#0d63e9" data-launcher="hidden" defer></script>
+<script id="site-feedback-widget" src="https://improveit.now/widget.js" data-space="ao58m" data-app="53707531c1e1120447e7673109bb6538" data-lang="{locale}" data-color="#0d63e9" data-launcher="hidden" defer></script>
 <script src="/feedback.js" defer></script>
 </body>
 </html>
-"""
+""", locale, section)
 
 
 def render_index(articles: list[Article]) -> str:

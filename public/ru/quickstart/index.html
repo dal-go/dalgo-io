@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<script src="/theme.js"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Быстрый старт · DALgo</title>
+<meta name="description" content="Быстрый старт" />
+<link rel="canonical" href="https://dalgo.io/ru/quickstart/" />
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)" />
+<meta property="og:title" content="Быстрый старт · DALgo" />
+<meta property="og:description" content="Быстрый старт" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://dalgo.io/ru/quickstart/" />
+<link rel="alternate" hreflang="en" href="https://dalgo.io/quickstart/" />
+<link rel="alternate" hreflang="ru" href="https://dalgo.io/ru/quickstart/" />
+<link rel="alternate" hreflang="x-default" href="https://dalgo.io/quickstart/" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230d1117'/><text x='50%25' y='52%25' text-anchor='middle' dominant-baseline='middle' font-family='ui-monospace,monospace' font-size='28' font-weight='700' fill='%232f81f7'>d/</text></svg>" />
+<link rel="stylesheet" href="/styles.css" />
+<script src="/analytics.js" defer></script>
+<link rel="stylesheet" href="/theme.css" />
+<script src="/site.js" defer></script>
+</head>
+<body>
+
+<header class="AppHeader" role="banner">
+  <div class="AppHeader-inner">
+    <a class="AppHeader-brand" href="/ru/" aria-label="Главная DALgo">
+      <span class="AppHeader-brand-mark" aria-hidden="true">
+        <span class="brand-dal">DAL</span><span class="brand-go">go</span>
+      </span>
+    </a>
+
+
+
+    <nav class="AppHeader-nav" aria-label="Документация"><a href="/ru/go/">Go</a><a href="/ru/typescript/">TypeScript</a><a href="/ru/adapters/">Адаптеры</a><a href="/ru/quickstart/">Быстрый старт</a></nav>
+
+    <div class="AppHeader-actions"><nav class="lang-switch" aria-label="Язык"><a class="lang-switch-item" href="/quickstart/" hreflang="en" lang="en" data-lang-link>EN</a><span class="lang-switch-item" aria-current="true" lang="ru">RU</span></nav><label class="theme-control" data-theme-control hidden><span aria-hidden="true">◐</span><select data-theme-switch aria-label="Тема"><option value="system">Системная</option><option value="light">Светлая</option><option value="dark">Тёмная</option></select></label>
+
+    </div>
+  </div>
+</header>
+
+<main id="top" class="container topic-page"><p><a href="/ru/">DALgo</a> / Быстрый старт</p><section id="quickstart" class="section">
+  <div class="container">
+    <header class="section-head">
+      <span class="section-eyebrow">03 — Быстрый старт</span>
+      <h1 class="section-title">Быстрый старт</h1>
+      <p class="section-kicker">Рабочий пример короче 40 строк.</p>
+    </header>
+
+    <div class="qs-grid">
+      <ol class="qs-steps" role="list">
+        <li><span class="qs-step-num">1</span><div><p>Установите основной модуль. Встроенный адаптер <code>dalgo2memory</code> идёт вместе с ним — дополнительных зависимостей для старта не нужно.</p></div></li>
+        <li><span class="qs-step-num">2</span><div><p>Откройте базу данных. Возвращённый <code>dal.DB</code> — единственный тип, о котором должно знать ваше приложение.</p></div></li>
+        <li><span class="qs-step-num">3</span><div><p>Опишите запись, задайте её данные и прочитайте обратно по ключу.</p></div></li>
+        <li><span class="qs-step-num">4</span><div><p>Позже замените <code>dalgo2memory</code> на <code>dalgo2sqlite</code> или <code>dalgo2firestore</code>. Ваши обработчики не меняются.</p></div></li>
+      </ol>
+
+      <div class="codeblock" role="figure" aria-label="Пример: установка и использование">
+        <div class="codeblock-head">
+          <span class="codeblock-dot" style="background:#ff5f57"></span>
+          <span class="codeblock-dot" style="background:#febc2e"></span>
+          <span class="codeblock-dot" style="background:#28c840"></span>
+          <span class="codeblock-name">main.go</span>
+          <span class="codeblock-lang">Go</span>
+        </div>
+<pre><code><span class="pl-c">// $ go get github.com/dal-go/dalgo</span>
+
+<span class="pl-k">package</span> main
+
+<span class="pl-k">import</span> (
+    <span class="pl-s">"context"</span>
+    <span class="pl-s">"fmt"</span>
+
+    <span class="pl-s">"github.com/dal-go/dalgo/dal"</span>
+    <span class="pl-s">"github.com/dal-go/dalgo/adapters/dalgo2memory"</span>
+)
+
+<span class="pl-k">type</span> User <span class="pl-k">struct</span> {
+    Name  <span class="pl-t">string</span> <span class="pl-s">`json:"name"`</span>
+    Email <span class="pl-t">string</span> <span class="pl-s">`json:"email"`</span>
+}
+
+<span class="pl-k">func</span> <span class="pl-en">main</span>() {
+    ctx <span class="pl-k">:=</span> context.<span class="pl-en">Background</span>()
+    db <span class="pl-k">:=</span> dalgo2memory.<span class="pl-en">NewDB</span>()
+
+    key <span class="pl-k">:=</span> dal.<span class="pl-en">NewKeyWithID</span>(<span class="pl-s">"users"</span>, <span class="pl-s">"u1"</span>)
+    user <span class="pl-k">:=</span> <span class="pl-k">&amp;</span>User{Name: <span class="pl-s">"Ada Lovelace"</span>, Email: <span class="pl-s">"ada@example.com"</span>}
+    <span class="pl-k">if</span> err <span class="pl-k">:=</span> db.<span class="pl-en">Set</span>(ctx, dal.<span class="pl-en">NewRecordWithData</span>(key, user)); err <span class="pl-k">!=</span> <span class="pl-c1">nil</span> {
+        <span class="pl-en">panic</span>(err)
+    }
+
+    <span class="pl-k">var</span> got User
+    record <span class="pl-k">:=</span> dal.<span class="pl-en">NewRecordWithData</span>(key, <span class="pl-k">&amp;</span>got)
+    <span class="pl-k">if</span> err <span class="pl-k">:=</span> db.<span class="pl-en">Get</span>(ctx, record); err <span class="pl-k">!=</span> <span class="pl-c1">nil</span> {
+        <span class="pl-en">panic</span>(err)
+    }
+    <span class="pl-k">if</span> record.<span class="pl-en">Exists</span>() {
+        fmt.<span class="pl-en">Println</span>(got.Email)
+    }
+}
+</code></pre>
+      </div>
+    </div>
+  </div>
+</section><section aria-labelledby="typescript-start">
+<h2 id="typescript-start">TypeScript · браузер</h2>
+<p>В браузерном TypeScript-проекте со сборщиком установите ядро и адаптер IndexedDB. Аккаунт базы данных не нужен. Данные хранятся в браузере для этого origin; пример не запускается в Node.js.</p>
+<pre><code>npm install @dalgo/core@0.8.1 @dalgo/indexeddb@0.4.1</code></pre>
+<p>Добавьте код в браузерную точку входа, откройте приложение и посмотрите консоль:</p>
+<pre><code>import { collection } from &#x27;@dalgo/core&#x27;;
+
+// Load the selected adapter. IndexedDB runs in the browser.
+const { IndexedDbDatabase } = await import(&#x27;@dalgo/indexeddb&#x27;);
+const db = new IndexedDbDatabase({ name: &#x27;dalgo-quickstart&#x27; });
+const todos = collection&lt;{ title: string; done: boolean }&gt;(&#x27;todos&#x27;);
+
+await db.runReadwriteTransaction(async (transaction) =&gt; {
+  await transaction.set(todos.key(&#x27;first&#x27;), { title: &#x27;Try DALgo&#x27;, done: false });
+});
+
+const page = await db.query(todos.query().where(&#x27;done&#x27;, &#x27;==&#x27;, false).limit(20).build());
+console.log(page);
+await db.close();
+</code></pre>
+</section>
+</main>
+
+<footer class="AppFooter">
+  <div class="container AppFooter-inner">
+    <ul role="list">
+      <li>&copy; <span id="year">2026</span> DALgo contributors</li>
+      <li><a href="/">DALgo</a></li>
+      <li><a href="/articles/">Articles</a></li>
+      <li><a href="/tugql/">TugQL</a></li>
+      <li><a href="https://github.com/dal-go/dalgo" rel="noopener">Core repo</a></li>
+      <li><a href="https://github.com/dal-go/dalgo/blob/main/LICENSE" rel="noopener">MIT License</a></li>
+      <li><a href="/privacy/">Privacy</a></li>
+    </ul>
+    <span class="AppFooter-tag">Open-source documentation site. No accounts, no advertising.</span>
+  </div>
+<nav class="topic-footer container" data-topic-footer aria-label="Документация"><a href="/ru/go/">DALgo для Go</a><a href="/ru/typescript/">DALgo для TypeScript</a><a href="/ru/quickstart/">Быстрый старт</a><a href="/ru/adapters/">Адаптеры и среды выполнения</a><a href="/ru/why/">Зачем DALgo</a><a href="/ru/collections/">Типизированные коллекции</a><a href="/ru/interfaces/">Интерфейсы</a><a href="/ru/queries/">Запросы и схема</a><a href="/ru/film/">Смените адаптер</a><a href="/ru/datatug/">DALgo и DataTug</a><a href="/articles/">Articles</a><a href="/tugql/">TugQL</a></nav></footer>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<div class="site-feedback"><button type="button" data-feedback-launcher aria-haspopup="dialog" hidden><svg class="feedback-mark" aria-hidden="true" focusable="false" viewBox="0 0 64 64"><rect width="64" height="64" rx="18" fill="#d4ef83"/><path d="M18 46 46 18M20 18h26v26" fill="none" stroke="#202c2a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>Suggest an improvement</button></div>
+<script id="site-feedback-widget" src="https://improveit.now/widget.js" data-space="ao58m" data-app="53707531c1e1120447e7673109bb6538" data-lang="ru" data-color="#0d63e9" data-launcher="hidden" defer></script>
+<script src="/feedback.js" defer></script>
+</body>
+</html>

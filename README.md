@@ -26,7 +26,10 @@ python3 -m http.server 8000 --directory public
 
 - `content/site/` — the landing page in English and Russian (see below). **Do not edit `public/index.html` or `public/ru/index.html` by hand.**
 - `public/styles.css` — design system: fonts, colors, layout, motion.
-- `public/tugql/` — the TugQL reference pages and examples.
+- `content/pages/` — the hand-authored privacy and TugQL page bodies. The renderer adds the shared navigation and theme controls.
+- `content/site/adapter-status.json` — the adapter catalogue: separate Go and TypeScript implementation status, runtime restrictions, and pinned source evidence. This also generates `/adapters/status.json`.
+- `scripts/site_pages.py`, `scripts/site_shell.py` — dedicated topic pages and the shared navigation/theme shell.
+- `public/theme.js`, `public/site.js` — small shared preference and navigation scripts.
 - `public/dtql/` — a static redirect stub for the former location (index.html to /tugql/, schema.json is a `$ref` to the TugQL schema).
 - `content/articles/*.md` — one Markdown file per article (title, date, description, and summary in front matter).
 - `public/articles/` — the generated article index and pages. Regenerate after editing Markdown:
@@ -56,16 +59,28 @@ the code samples, which are identical in both languages, in one place.
 python3 scripts/render_site.py           # writes public/index.html, public/ru/index.html, public/sitemap.xml
 python3 scripts/render_site.py --check   # CI: fails if the committed pages are stale
 python3 -m unittest discover -s scripts -p 'test_*.py'
+node --test scripts/test_theme.cjs
 ```
 
 Both pages carry `<html lang>`, a canonical URL, reciprocal `hreflang`
 (`en`, `ru`, `x-default` = English), Open Graph per locale and an EN/RU switch in
 the header. `/ru` redirects to `/ru/` (Cloudflare `auto-trailing-slash`). The
 articles, TugQL and privacy pages are English only for now; the Russian page
-marks those links "(англ.)". The adapter list follows the adapter audit
-(dal-go/backstage `video/swap-the-adapter/data/adapters.md`): cards are the
-adapters that pass the shared conformance suite, the rest are listed with their
-limits. Update `adapters.json` and both catalogs together when that audit changes.
+marks those links "(англ.)". Each home section also has a dedicated English and
+Russian route, including `/go/`, `/typescript/`, `/quickstart/` and `/adapters/`.
+The four primary navigation links lead to these pages; the footer lists all topics.
+
+The catalogue at `/adapters/` is the public support inventory. Update
+`adapter-status.json` when an implementation or its qualification changes, citing
+the exact source revision. Source presence, published packages, runtime support,
+and verified DataTug integration are separate facts: an HTTP implementation alone
+does not establish browser safety, and Node.js/edge support needs qualification.
+Private package manifests and incomplete adapters must retain their limits.
+The home cards are a small introduction; the catalogue carries the full matrix.
+
+The theme selector supports System, Light and Dark. An explicitly saved preference
+wins; otherwise it follows the system, falling back to light if media queries are
+unavailable. Theme initialization runs before page styles to avoid a theme flash.
 
 ### Film slot
 

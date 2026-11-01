@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script src="/theme.js"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>DALgo for TypeScript · DALgo</title>
+<meta name="description" content="DALgo for TypeScript" />
+<link rel="canonical" href="https://dalgo.io/typescript/" />
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)" />
+<meta property="og:title" content="DALgo for TypeScript · DALgo" />
+<meta property="og:description" content="DALgo for TypeScript" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://dalgo.io/typescript/" />
+<link rel="alternate" hreflang="en" href="https://dalgo.io/typescript/" />
+<link rel="alternate" hreflang="ru" href="https://dalgo.io/ru/typescript/" />
+<link rel="alternate" hreflang="x-default" href="https://dalgo.io/typescript/" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230d1117'/><text x='50%25' y='52%25' text-anchor='middle' dominant-baseline='middle' font-family='ui-monospace,monospace' font-size='28' font-weight='700' fill='%232f81f7'>d/</text></svg>" />
+<link rel="stylesheet" href="/styles.css" />
+<script src="/analytics.js" defer></script>
+<link rel="stylesheet" href="/theme.css" />
+<script src="/site.js" defer></script>
+</head>
+<body>
+
+<header class="AppHeader" role="banner">
+  <div class="AppHeader-inner">
+    <a class="AppHeader-brand" href="/" aria-label="DALgo home">
+      <span class="AppHeader-brand-mark" aria-hidden="true">
+        <span class="brand-dal">DAL</span><span class="brand-go">go</span>
+      </span>
+    </a>
+
+
+
+    <nav class="AppHeader-nav" aria-label="Documentation"><a href="/go/">Go</a><a href="/typescript/">TypeScript</a><a href="/adapters/">Adapters</a><a href="/quickstart/">Quick Start</a></nav>
+
+    <div class="AppHeader-actions"><nav class="lang-switch" aria-label="Language"><span class="lang-switch-item" aria-current="true" lang="en">EN</span><a class="lang-switch-item" href="/ru/typescript/" hreflang="ru" lang="ru" data-lang-link>RU</a></nav><label class="theme-control" data-theme-control hidden><span aria-hidden="true">◐</span><select data-theme-switch aria-label="Theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label>
+
+    </div>
+  </div>
+</header>
+
+<main id="top" class="container topic-page"><p><a href="/">DALgo</a> / DALgo for TypeScript</p><section id="typescript" class="section section-subtle">
+  <div class="container">
+    <header class="section-head">
+      <span class="section-eyebrow">04 — TypeScript</span>
+      <h1 class="section-title">DALgo for TypeScript</h1>
+      <p class="section-kicker"><code>@dalgo/core</code> is the browser-neutral TypeScript implementation: hierarchical keys, typed collections, structured queries and transaction-only writes.</p>
+    </header>
+
+    <div class="iface-grid">
+      <div class="iface-prose">
+        <p>Install it from npm with <code>npm install @dalgo/core</code>. The package has no database SDK of its own and does not connect to a database by itself; an adapter does. Source: <a href="https://github.com/dal-go/dalgo-js" rel="noopener">dal-go/dalgo-js</a>.</p>
+        <p>TypeScript adapters live in <a href="https://github.com/dal-go/dalgo-http-adapters">dalgo-http-adapters</a>. Browser-local, browser HTTP and trusted-server adapters have separate requirements. See the <a href="/adapters/">Go/TypeScript and runtime matrix</a> for source status and limitations.</p>
+        <div class="Flash">
+          <svg class="octicon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+          <div>Maturity: <code>@dalgo/core</code> is at 0.x, and several adapters are read-only or query-only. Each adapter's README states what it supports; an operation it cannot do fails explicitly.</div>
+        </div>
+      </div>
+
+      <div class="codeblock" role="figure" aria-label="Example: a typed query in TypeScript">
+        <div class="codeblock-head">
+          <span class="codeblock-name">query.ts</span>
+          <span class="codeblock-lang">TypeScript</span>
+        </div>
+<pre><code><span class="pl-c">// $ npm install @dalgo/core</span>
+<span class="pl-k">import</span> { collection, key } <span class="pl-k">from</span> <span class="pl-s">"@dalgo/core"</span>;
+
+<span class="pl-k">interface</span> Item {
+  title: <span class="pl-t">string</span>;
+  done: <span class="pl-t">boolean</span>;
+  rank: <span class="pl-t">number</span>;
+}
+
+<span class="pl-k">const</span> spaceKey = <span class="pl-en">key</span>(<span class="pl-s">"spaces"</span>, spaceId);
+<span class="pl-k">const</span> items = <span class="pl-en">collection</span>&lt;Item&gt;(<span class="pl-s">"items"</span>).<span class="pl-en">in</span>(spaceKey);
+
+<span class="pl-k">const</span> query = items.<span class="pl-en">query</span>()
+  .<span class="pl-en">where</span>(<span class="pl-s">"done"</span>, <span class="pl-s">"=="</span>, <span class="pl-c1">false</span>)
+  .<span class="pl-en">orderBy</span>(<span class="pl-s">"rank"</span>)
+  .<span class="pl-en">limit</span>(<span class="pl-c1">25</span>)
+  .<span class="pl-en">build</span>();
+
+<span class="pl-c">// Pass query to an adapter updated for @dalgo/core.</span>
+</code></pre>
+      </div>
+    </div>
+  </div>
+</section><h2>Choose a runtime</h2><p>Browser-local adapters and browser HTTP adapters have different requirements from Node.js/server drivers. Use explicit per-adapter lazy imports. Keep server SDKs and service-account credentials on the server. Review CORS, authorization and runtime conditions in the adapter matrix.</p><a href="/adapters/">Adapters and runtime support</a></main>
+
+<footer class="AppFooter">
+  <div class="container AppFooter-inner">
+    <ul role="list">
+      <li>&copy; <span id="year">2026</span> DALgo contributors</li>
+      <li><a href="/">DALgo</a></li>
+      <li><a href="/articles/">Articles</a></li>
+      <li><a href="/tugql/">TugQL</a></li>
+      <li><a href="https://github.com/dal-go/dalgo" rel="noopener">Core repo</a></li>
+      <li><a href="https://github.com/dal-go/dalgo/blob/main/LICENSE" rel="noopener">MIT License</a></li>
+      <li><a href="/privacy/">Privacy</a></li>
+    </ul>
+    <span class="AppFooter-tag">Open-source documentation site. No accounts, no advertising.</span>
+  </div>
+<nav class="topic-footer container" data-topic-footer aria-label="Documentation"><a href="/go/">DALgo for Go</a><a href="/typescript/">DALgo for TypeScript</a><a href="/quickstart/">Quick Start</a><a href="/adapters/">Adapters and runtime support</a><a href="/why/">Why DALgo</a><a href="/collections/">Typed collections</a><a href="/interfaces/">Interfaces</a><a href="/queries/">Queries and schema</a><a href="/film/">Swap the adapter</a><a href="/datatug/">DALgo and DataTug</a><a href="/articles/">Articles</a><a href="/tugql/">TugQL</a></nav></footer>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<div class="site-feedback"><button type="button" data-feedback-launcher aria-haspopup="dialog" hidden><svg class="feedback-mark" aria-hidden="true" focusable="false" viewBox="0 0 64 64"><rect width="64" height="64" rx="18" fill="#d4ef83"/><path d="M18 46 46 18M20 18h26v26" fill="none" stroke="#202c2a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>Suggest an improvement</button></div>
+<script id="site-feedback-widget" src="https://improveit.now/widget.js" data-space="ao58m" data-app="53707531c1e1120447e7673109bb6538" data-lang="en" data-color="#0d63e9" data-launcher="hidden" defer></script>
+<script src="/feedback.js" defer></script>
+</body>
+</html>

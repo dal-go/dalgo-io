@@ -25,6 +25,8 @@ import json
 import re
 import sys
 from pathlib import Path
+from site_shell import enhance_page, theme_styles
+from site_pages import adapter_inventory, home_sections, topic_pages
 
 ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "content" / "site"
@@ -228,9 +230,9 @@ def unused_keys(template: str, catalogs: dict, adapters: dict) -> list[str]:
     return sorted(k for k in flatten(catalogs[DEFAULT_LOCALE]) if k not in named and k not in by_code)
 
 
-def sitemap() -> str:
+def sitemap(planned_paths=()) -> str:
     pages = []
-    for index in sorted(PUBLIC.rglob("index.html")):
+    for index in sorted(set(PUBLIC.rglob("index.html")) | {path for path in planned_paths if path.name == 'index.html'}):
         rel = index.parent.relative_to(PUBLIC)
         parts = rel.parts
         if parts and parts[0] in ("dtql", "ru"):
@@ -247,6 +249,11 @@ def sitemap() -> str:
             ) + f'\n    <xhtml:link rel="alternate" hreflang="x-default" href="{SITE}/"/>'
             for url in (loc, f"{SITE}{LOCALE_INFO['ru']['prefix']}"):
                 entries.append(f"  <url>\n    <loc>{url}</loc>{alt}\n  </url>")
+        elif (PUBLIC / 'ru' / path.strip('/') / 'index.html') in planned_paths:
+            alt = ''.join(f'\n    <xhtml:link rel="alternate" hreflang="{lang}" href="{SITE}{"/ru" if lang == "ru" else ""}{path}"/>' for lang in LOCALES)
+            alt += f'\n    <xhtml:link rel="alternate" hreflang="x-default" href="{loc}"/>'
+            for url in (loc, f'{SITE}/ru{path}'):
+                entries.append(f'  <url>\n    <loc>{url}</loc>{alt}\n  </url>')
         else:
             entries.append(f"  <url>\n    <loc>{loc}</loc>\n  </url>")
     return (
@@ -265,8 +272,18 @@ def build() -> dict[Path, str]:
     stale = unused_keys(template, catalogs, adapters)
     if stale:
         raise SystemExit(f"catalog keys not used by the template: {stale}")
-    outputs = {LOCALE_INFO[loc]["out"]: render_page(loc, template, catalogs, adapters, video) for loc in LOCALES}
-    outputs[PUBLIC / "sitemap.xml"] = sitemap()
+    inventory = adapter_inventory(SRC / 'adapter-status.json')
+    outputs = {}
+    for loc in LOCALES:
+        page = render_page(loc, template, catalogs, adapters, video)
+        outputs.update(topic_pages(page, loc, inventory, SRC, PUBLIC))
+        home, _ = home_sections(page, loc)
+        outputs[LOCALE_INFO[loc]['out']] = enhance_page(home, loc, '')
+    outputs[PUBLIC / 'adapters' / 'status.json'] = json.dumps(inventory, ensure_ascii=False, indent=2) + '\n'
+    outputs[PUBLIC / 'theme.css'] = theme_styles((PUBLIC / 'styles.css').read_text(encoding='utf-8'))
+    for route, filename in [('privacy', 'privacy.html'), ('tugql', 'tugql.html'), ('tugql/examples', 'tugql-examples.html')]:
+        outputs[PUBLIC / route / 'index.html'] = enhance_page((ROOT / 'content' / 'pages' / filename).read_text(encoding='utf-8'))
+    outputs[PUBLIC / "sitemap.xml"] = sitemap(set(outputs))
     return outputs
 
 
