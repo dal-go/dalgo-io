@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<script src="/theme.js"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Типизированные коллекции · DALgo</title>
+<meta name="description" content="Типизированные коллекции" />
+<link rel="canonical" href="https://dalgo.io/ru/collections/" />
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)" />
+<meta property="og:title" content="Типизированные коллекции · DALgo" />
+<meta property="og:description" content="Типизированные коллекции" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://dalgo.io/ru/collections/" />
+<link rel="alternate" hreflang="en" href="https://dalgo.io/collections/" />
+<link rel="alternate" hreflang="ru" href="https://dalgo.io/ru/collections/" />
+<link rel="alternate" hreflang="x-default" href="https://dalgo.io/collections/" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230d1117'/><text x='50%25' y='52%25' text-anchor='middle' dominant-baseline='middle' font-family='ui-monospace,monospace' font-size='28' font-weight='700' fill='%232f81f7'>d/</text></svg>" />
+<link rel="stylesheet" href="/styles.css" />
+<script src="/analytics.js" defer></script>
+<link rel="stylesheet" href="/theme.css" />
+<script src="/site.js" defer></script>
+</head>
+<body>
+
+<header class="AppHeader" role="banner">
+  <div class="AppHeader-inner">
+    <a class="AppHeader-brand" href="/ru/" aria-label="Главная DALgo">
+      <span class="AppHeader-brand-mark" aria-hidden="true">
+        <span class="brand-dal">DAL</span><span class="brand-go">go</span>
+      </span>
+    </a>
+
+
+
+    <nav class="AppHeader-nav" aria-label="Документация"><a href="/ru/go/">Go</a><a href="/ru/typescript/">TypeScript</a><a href="/ru/adapters/">Адаптеры</a><a href="/ru/quickstart/">Быстрый старт</a></nav>
+
+    <div class="AppHeader-actions"><nav class="lang-switch" aria-label="Язык"><a class="lang-switch-item" href="/collections/" hreflang="en" lang="en" data-lang-link>EN</a><span class="lang-switch-item" aria-current="true" lang="ru">RU</span></nav><label class="theme-control" data-theme-control hidden><span aria-hidden="true">◐</span><select data-theme-switch aria-label="Тема"><option value="system">Системная</option><option value="light">Светлая</option><option value="dark">Тёмная</option></select></label>
+
+    </div>
+  </div>
+</header>
+
+<main id="top" class="container topic-page"><p><a href="/ru/">DALgo</a> / Типизированные коллекции</p><section id="collections" class="section">
+  <div class="container">
+    <header class="section-head">
+      <span class="section-eyebrow">05 — Типизированные коллекции</span>
+      <h1 class="section-title">Типизированные коллекции</h1>
+      <p class="section-kicker"><code>dal.Collection[T]</code> возвращает типизированные значения поверх основного API. Поддерживаемые операции зависят от выбранного адаптера.</p>
+    </header>
+
+    <div class="codeblock" role="figure" aria-label="Пример: типизированная коллекция">
+      <div class="codeblock-head">
+        <span class="codeblock-dot" style="background:#ff5f57"></span>
+        <span class="codeblock-dot" style="background:#febc2e"></span>
+        <span class="codeblock-dot" style="background:#28c840"></span>
+        <span class="codeblock-name">collections.go</span>
+        <span class="codeblock-lang">Go</span>
+      </div>
+<pre><code><span class="pl-k">type</span> User <span class="pl-k">struct</span> {
+    Name  <span class="pl-t">string</span> <span class="pl-s">`json:"name"`</span>
+    Email <span class="pl-t">string</span> <span class="pl-s">`json:"email"`</span>
+}
+
+<span class="pl-c">// CollectionName (value receiver) names the collection.</span>
+<span class="pl-k">func</span> (User) <span class="pl-en">CollectionName</span>() <span class="pl-t">string</span> { <span class="pl-k">return</span> <span class="pl-s">"users"</span> }
+
+<span class="pl-c">// A Collection[T] holds no session — declare it once and reuse it.</span>
+<span class="pl-k">var</span> Users <span class="pl-k">=</span> dal.<span class="pl-en">CollectionOf</span>[User]()
+
+<span class="pl-k">func</span> <span class="pl-en">demo</span>(ctx context.<span class="pl-en">Context</span>, db dal.<span class="pl-en">DB</span>) <span class="pl-t">error</span> {
+    <span class="pl-c">// Writes take a WriteSession — only reachable inside a transaction.</span>
+    <span class="pl-k">if</span> err <span class="pl-k">:=</span> db.<span class="pl-en">RunReadwriteTransaction</span>(ctx,
+        <span class="pl-k">func</span>(ctx context.<span class="pl-en">Context</span>, tx dal.<span class="pl-en">ReadwriteTransaction</span>) <span class="pl-t">error</span> {
+            <span class="pl-k">return</span> Users.<span class="pl-en">Set</span>(ctx, tx, <span class="pl-s">"u1"</span>,
+                User{Name: <span class="pl-s">"Ada Lovelace"</span>, Email: <span class="pl-s">"ada@example.com"</span>})
+        }); err <span class="pl-k">!=</span> <span class="pl-c1">nil</span> {
+        <span class="pl-k">return</span> err
+    }
+
+    <span class="pl-c">// Reads take a ReadSession (a plain dal.DB works) and return T.</span>
+    user, err <span class="pl-k">:=</span> Users.<span class="pl-en">Get</span>(ctx, db, <span class="pl-s">"u1"</span>)
+    <span class="pl-k">if</span> err <span class="pl-k">!=</span> <span class="pl-c1">nil</span> { <span class="pl-c">// not-found via dal.IsNotFound(err)</span>
+        <span class="pl-k">return</span> err
+    }
+    fmt.<span class="pl-en">Println</span>(user.Email)
+    <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+}
+</code></pre>
+    </div>
+
+    <p class="section-kicker" style="margin-top:28px">
+      Тот же объект умеет и <code>Insert</code> (с генерацией id), <code>InsertWithID</code>, <code>All</code>, <code>First</code>, <code>Count</code>, <code>Exists</code>, <code>Update</code>, <code>Delete</code>, пакетный <code>InsertMany</code> и <code>In(parentKey)</code> для вложенных коллекций.
+    </p>
+
+    <h3 class="section-title" style="font-size:1.15rem;margin-top:8px">Стандартный <code>database/sql</code> и DALgo</h3>
+    <p class="section-kicker">Одинаковые операции через стандартную библиотеку и DALgo. Примеры используют общий подход; возможность выполнения зависит от адаптера.</p>
+
+    <div class="tabs" role="tablist" aria-label="Примеры сравнения">
+      <button class="tab-btn is-active" id="tabbtn-getuser" type="button" role="tab" aria-selected="true" aria-controls="tab-getuser">GetUser()</button>
+      <button class="tab-btn" id="tabbtn-banuser" type="button" role="tab" aria-selected="false" aria-controls="tab-banuser">BanUser()</button>
+    </div>
+
+    <div class="tab-panel is-active" id="tab-getuser" role="tabpanel" aria-labelledby="tabbtn-getuser">
+    <p class="section-kicker" style="margin-top:0;max-width:none">Прочитать пользователя по id — и сразу вернуть типизированное значение.</p>
+    <div class="compare-grid">
+      <div class="codeblock" role="figure" aria-label="Стандартный database/sql">
+        <div class="codeblock-head">
+          <span class="codeblock-dot" style="background:#ff5f57"></span>
+          <span class="codeblock-dot" style="background:#febc2e"></span>
+          <span class="codeblock-dot" style="background:#28c840"></span>
+          <span class="codeblock-name">database/sql</span>
+          <span class="codeblock-lang">Go</span>
+        </div>
+<pre><code><span class="pl-c">// Standard library: hand-written SQL + Scan.</span>
+<span class="pl-k">type</span> User <span class="pl-k">struct</span> {
+    ID    <span class="pl-t">int</span>
+    Name  <span class="pl-t">string</span>
+    Email <span class="pl-t">string</span>
+}
+
+<span class="pl-k">func</span> <span class="pl-en">GetUser</span>(ctx context.<span class="pl-en">Context</span>, db <span class="pl-k">*</span>sql.<span class="pl-en">DB</span>, id <span class="pl-t">int</span>) (<span class="pl-k">*</span>User, <span class="pl-t">error</span>) {
+    row <span class="pl-k">:=</span> db.<span class="pl-en">QueryRowContext</span>(ctx,
+        <span class="pl-s">"SELECT id, name, email FROM users WHERE id = ?"</span>, id)
+
+    u <span class="pl-k">:=</span> <span class="pl-k">&amp;</span>User{}
+    err <span class="pl-k">:=</span> row.<span class="pl-en">Scan</span>(
+        <span class="pl-k">&amp;</span>u.ID,
+        <span class="pl-k">&amp;</span>u.Name,
+        <span class="pl-k">&amp;</span>u.Email,
+    )
+    <span class="pl-k">if</span> errors.<span class="pl-en">Is</span>(err, sql.ErrNoRows) {
+        <span class="pl-k">return</span> <span class="pl-c1">nil</span>, <span class="pl-c1">nil</span>
+    }
+    <span class="pl-k">if</span> err <span class="pl-k">!=</span> <span class="pl-c1">nil</span> {
+        <span class="pl-k">return</span> <span class="pl-c1">nil</span>, err
+    }
+    <span class="pl-k">return</span> u, <span class="pl-c1">nil</span>
+}
+</code></pre>
+      </div>
+
+      <div class="codeblock" role="figure" aria-label="Типизированная коллекция DALgo">
+        <div class="codeblock-head">
+          <span class="codeblock-dot" style="background:#ff5f57"></span>
+          <span class="codeblock-dot" style="background:#febc2e"></span>
+          <span class="codeblock-dot" style="background:#28c840"></span>
+          <span class="codeblock-name">DALgo</span>
+          <span class="codeblock-lang">Go</span>
+        </div>
+<pre><code><span class="pl-c">// DALgo: one typed call, any backend.</span>
+<span class="pl-k">type</span> User <span class="pl-k">struct</span> {
+    ID    <span class="pl-t">int</span>
+    Name  <span class="pl-t">string</span>
+    Email <span class="pl-t">string</span>
+}
+
+<span class="pl-k">func</span> <span class="pl-en">GetUser</span>(ctx context.<span class="pl-en">Context</span>, db dal.<span class="pl-en">DB</span>, id <span class="pl-t">int</span>) (User, <span class="pl-t">error</span>) {
+    <span class="pl-k">return</span> dal.<span class="pl-en">CollectionAt</span>[User](<span class="pl-s">"users"</span>).<span class="pl-en">Get</span>(ctx, db, id)
+}
+</code></pre>
+      </div>
+    </div>
+    </div><!-- /tab-panel: getuser -->
+
+    <div class="tab-panel" id="tab-banuser" role="tabpanel" aria-labelledby="tabbtn-banuser">
+    <p class="section-kicker" style="margin-top:0;max-width:none">В одной транзакции: загрузить пользователя; если он не заблокирован — пометить его и добавить запись Ban.</p>
+    <div class="compare-grid">
+      <div class="codeblock" role="figure" aria-label="Стандартный database/sql">
+        <div class="codeblock-head">
+          <span class="codeblock-dot" style="background:#ff5f57"></span>
+          <span class="codeblock-dot" style="background:#febc2e"></span>
+          <span class="codeblock-dot" style="background:#28c840"></span>
+          <span class="codeblock-name">database/sql</span>
+          <span class="codeblock-lang">Go</span>
+        </div>
+<pre><code><span class="pl-c">// Standard library: manual BEGIN / COMMIT / ROLLBACK.</span>
+<span class="pl-k">type</span> User <span class="pl-k">struct</span> {
+    ID       <span class="pl-t">int</span>
+    Name     <span class="pl-t">string</span>
+    Email    <span class="pl-t">string</span>
+    IsBanned <span class="pl-t">bool</span>
+}
+
+<span class="pl-k">type</span> Ban <span class="pl-k">struct</span> {
+    UserID       <span class="pl-t">int</span>
+    BanTimestamp time.<span class="pl-en">Time</span>
+}
+
+<span class="pl-k">func</span> <span class="pl-en">BanUser</span>(ctx context.<span class="pl-en">Context</span>, db <span class="pl-k">*</span>sql.<span class="pl-en">DB</span>, id <span class="pl-t">int</span>) <span class="pl-t">error</span> {
+    tx, err <span class="pl-k">:=</span> db.<span class="pl-en">BeginTx</span>(ctx, <span class="pl-c1">nil</span>)
+    <span class="pl-k">if</span> err <span class="pl-k">!=</span> <span class="pl-c1">nil</span> {
+        <span class="pl-k">return</span> err
+    }
+    <span class="pl-k">defer</span> tx.<span class="pl-en">Rollback</span>()
+
+    <span class="pl-k">var</span> u User
+    err <span class="pl-k">=</span> tx.<span class="pl-en">QueryRowContext</span>(ctx,
+        <span class="pl-s">"SELECT id, name, email, is_banned FROM users WHERE id = ?"</span>, id).
+        <span class="pl-en">Scan</span>(<span class="pl-k">&amp;</span>u.ID, <span class="pl-k">&amp;</span>u.Name, <span class="pl-k">&amp;</span>u.Email, <span class="pl-k">&amp;</span>u.IsBanned)
+    <span class="pl-k">if</span> err <span class="pl-k">!=</span> <span class="pl-c1">nil</span> {
+        <span class="pl-k">return</span> err
+    }
+    <span class="pl-k">if</span> u.IsBanned {
+        <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+    }
+
+    <span class="pl-k">if</span> _, err <span class="pl-k">=</span> tx.<span class="pl-en">ExecContext</span>(ctx,
+        <span class="pl-s">"UPDATE users SET is_banned = TRUE WHERE id = ?"</span>, id); err <span class="pl-k">!=</span> <span class="pl-c1">nil</span> {
+        <span class="pl-k">return</span> err
+    }
+    <span class="pl-k">if</span> _, err <span class="pl-k">=</span> tx.<span class="pl-en">ExecContext</span>(ctx,
+        <span class="pl-s">"INSERT INTO bans (user_id, ban_timestamp) VALUES (?, ?)"</span>,
+        id, time.<span class="pl-en">Now</span>()); err <span class="pl-k">!=</span> <span class="pl-c1">nil</span> {
+        <span class="pl-k">return</span> err
+    }
+    <span class="pl-k">return</span> tx.<span class="pl-en">Commit</span>()
+}
+</code></pre>
+      </div>
+
+      <div class="codeblock" role="figure" aria-label="Типизированная коллекция DALgo">
+        <div class="codeblock-head">
+          <span class="codeblock-dot" style="background:#ff5f57"></span>
+          <span class="codeblock-dot" style="background:#febc2e"></span>
+          <span class="codeblock-dot" style="background:#28c840"></span>
+          <span class="codeblock-name">DALgo</span>
+          <span class="codeblock-lang">Go</span>
+        </div>
+<pre><code><span class="pl-c">// DALgo: one closure, the driver runs the transaction.</span>
+<span class="pl-k">type</span> User <span class="pl-k">struct</span> {
+    ID       <span class="pl-t">int</span>
+    Name     <span class="pl-t">string</span>
+    Email    <span class="pl-t">string</span>
+    IsBanned <span class="pl-t">bool</span>
+}
+
+<span class="pl-k">type</span> Ban <span class="pl-k">struct</span> {
+    UserID       <span class="pl-t">int</span>
+    BanTimestamp time.<span class="pl-en">Time</span>
+}
+
+<span class="pl-k">func</span> <span class="pl-en">BanUser</span>(ctx context.<span class="pl-en">Context</span>, db dal.<span class="pl-en">DB</span>, id <span class="pl-t">int</span>) <span class="pl-t">error</span> {
+    <span class="pl-k">return</span> db.<span class="pl-en">RunReadwriteTransaction</span>(ctx,
+        <span class="pl-k">func</span>(ctx context.<span class="pl-en">Context</span>, tx dal.<span class="pl-en">ReadwriteTransaction</span>) <span class="pl-t">error</span> {
+            users <span class="pl-k">:=</span> dal.<span class="pl-en">CollectionAt</span>[User](<span class="pl-s">"users"</span>)
+            user, err <span class="pl-k">:=</span> users.<span class="pl-en">Get</span>(ctx, tx, id)
+            <span class="pl-k">if</span> err <span class="pl-k">!=</span> <span class="pl-c1">nil</span> {
+                <span class="pl-k">return</span> err
+            }
+            <span class="pl-k">if</span> user.IsBanned {
+                <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+            }
+            <span class="pl-k">if</span> err <span class="pl-k">=</span> users.<span class="pl-en">Update</span>(ctx, tx, id,
+                []update.<span class="pl-en">Update</span>{update.<span class="pl-en">ByFieldName</span>(<span class="pl-s">"IsBanned"</span>, <span class="pl-c1">true</span>)}); err <span class="pl-k">!=</span> <span class="pl-c1">nil</span> {
+                <span class="pl-k">return</span> err
+            }
+            bans <span class="pl-k">:=</span> dal.<span class="pl-en">CollectionAt</span>[Ban](<span class="pl-s">"bans"</span>)
+            _, err <span class="pl-k">=</span> bans.<span class="pl-en">Insert</span>(ctx, tx, Ban{UserID: id, BanTimestamp: time.<span class="pl-en">Now</span>()})
+            <span class="pl-k">return</span> err
+        })
+}
+</code></pre>
+      </div>
+    </div>
+    </div><!-- /tab-panel: banuser -->
+  </div>
+</section></main>
+
+<footer class="AppFooter">
+  <div class="container AppFooter-inner">
+    <ul role="list">
+      <li>&copy; <span id="year">2026</span> DALgo contributors</li>
+      <li><a href="/">DALgo</a></li>
+      <li><a href="/articles/">Articles</a></li>
+      <li><a href="/tugql/">TugQL</a></li>
+      <li><a href="https://github.com/dal-go/dalgo" rel="noopener">Core repo</a></li>
+      <li><a href="https://github.com/dal-go/dalgo/blob/main/LICENSE" rel="noopener">MIT License</a></li>
+      <li><a href="/privacy/">Privacy</a></li>
+    </ul>
+    <span class="AppFooter-tag">Open-source documentation site. No accounts, no advertising.</span>
+  </div>
+<nav class="topic-footer container" data-topic-footer aria-label="Документация"><a href="/ru/go/">DALgo для Go</a><a href="/ru/typescript/">DALgo для TypeScript</a><a href="/ru/quickstart/">Быстрый старт</a><a href="/ru/adapters/">Адаптеры и среды выполнения</a><a href="/ru/why/">Зачем DALgo</a><a href="/ru/collections/">Типизированные коллекции</a><a href="/ru/interfaces/">Интерфейсы</a><a href="/ru/queries/">Запросы и схема</a><a href="/ru/film/">Смените адаптер</a><a href="/ru/datatug/">DALgo и DataTug</a><a href="/articles/">Articles</a><a href="/tugql/">TugQL</a></nav></footer>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<div class="site-feedback"><button type="button" data-feedback-launcher aria-haspopup="dialog" hidden><svg class="feedback-mark" aria-hidden="true" focusable="false" viewBox="0 0 64 64"><rect width="64" height="64" rx="18" fill="#d4ef83"/><path d="M18 46 46 18M20 18h26v26" fill="none" stroke="#202c2a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>Suggest an improvement</button></div>
+<script id="site-feedback-widget" src="https://improveit.now/widget.js" data-space="ao58m" data-app="53707531c1e1120447e7673109bb6538" data-lang="ru" data-color="#0d63e9" data-launcher="hidden" defer></script>
+<script src="/feedback.js" defer></script>
+</body>
+</html>

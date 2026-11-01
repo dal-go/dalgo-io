@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
+<script src="/theme.js"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>DALgo — database abstraction layer for Go and TypeScript</title>
 <meta name="description" content="DALgo is a database abstraction layer for Go and TypeScript. One interface, many databases — in-memory, SQL, Firestore, files, inGitDB, OpenVaultDB. The Go module is the main implementation; the TypeScript package @dalgo/core is on npm." />
@@ -21,6 +22,8 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230d1117'/><text x='50%25' y='52%25' text-anchor='middle' dominant-baseline='middle' font-family='ui-monospace,monospace' font-size='28' font-weight='700' fill='%232f81f7'>d/</text></svg>" />
 <link rel="stylesheet" href="/styles.css" />
 <script src="/analytics.js" defer></script>
+<link rel="stylesheet" href="/theme.css" />
+<script src="/site.js" defer></script>
 </head>
 <body>
 
@@ -33,31 +36,13 @@
       </span>
     </a>
 
-    <nav class="AppHeader-context" aria-label="Context">
-      <span class="AppHeader-context-slash" aria-hidden="true">/</span>
-      <a class="AppHeader-context-item" href="https://github.com/dal-go" rel="noopener">
-        dal-go on GitHub
-      </a>
-    </nav>
 
-    <nav class="AppHeader-nav" aria-label="Primary">
-      <a href="#why">Why</a>
-      <a href="#adapters">Adapters</a>
-      <a href="#quickstart">Quick start</a>
-      <a href="#typescript">TypeScript</a>
-      <a href="#collections">Collections</a>
-      <a href="#interfaces">Interfaces</a>
-      <a href="#queries">Queries</a>
-      <a href="/articles/">Articles</a>
-      <a href="/tugql/">TugQL</a>
-    </nav>
 
-    <div class="AppHeader-actions">
+    <nav class="AppHeader-nav" aria-label="Documentation"><a href="/go/">Go</a><a href="/typescript/">TypeScript</a><a href="/adapters/">Adapters</a><a href="/quickstart/">Quick Start</a></nav>
+
+    <div class="AppHeader-actions"><label class="theme-control" data-theme-control hidden><span aria-hidden="true">◐</span><select data-theme-switch aria-label="Theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label>
       <nav class="lang-switch" aria-label="Language"><span class="lang-switch-item" aria-current="true" lang="en">EN</span><a class="lang-switch-item" href="/ru/" hreflang="ru" lang="ru" data-lang-link>RU</a></nav>
-      <a class="btn btn-default btn-sm" href="https://github.com/dal-go/dalgo" rel="noopener">
-        <svg class="octicon" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></svg>
-        <span>Star</span>
-      </a>
+
     </div>
   </div>
 </header>
@@ -135,7 +120,7 @@
     </div>
     <p class="film-note">Pressing play loads the video from YouTube (youtube-nocookie.com). Until then, the page makes no request to YouTube.</p>
   </div>
-</section>
+<div class="container"><a class="topic-link" href="/film/">Read more: Swap the adapter →</a></div></section>
 <script src="/video.js" defer></script>
 
 <!-- ============================ WHY ============================ -->
@@ -162,7 +147,7 @@
           <svg class="octicon" viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M4.72 3.22a.75.75 0 0 1 1.06 1.06L2.06 8l3.72 3.72a.749.749 0 1 1-1.06 1.06L.47 8.53a.75.75 0 0 1 0-1.06l4.25-4.25Zm6.56 0a.75.75 0 1 0-1.06 1.06L13.94 8l-3.72 3.72a.749.749 0 1 0 1.06 1.06l4.25-4.25a.75.75 0 0 0 0-1.06l-4.25-4.25Z"/></svg>
         </div>
         <h3>Less code, more readable</h3>
-        <p>One small, opinionated API replaces piles of driver-specific boilerplate. Records, keys, queries, transactions — uniform across every adapter.</p>
+        <p>A common contract for keys, records, queries and transactions. Supported operations depend on the adapter.</p>
       </article>
 
       <article class="Box why-card">
@@ -186,7 +171,7 @@
           <svg class="octicon" viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"/><path fill="currentColor" d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Z"/></svg>
         </div>
         <h3>One end-to-end test suite</h3>
-        <p>Ten Go adapters pass the same <a href="https://github.com/dal-go/dalgo/tree/main/dalgotest" rel="noopener">shared conformance suite</a> in CI. Conformance is the contract; the others are listed below with what they do and do not support.</p>
+        <p>The shared <a href="https://github.com/dal-go/dalgo/tree/main/dalgotest">conformance suite</a> tests common behavior. See the <a href="/adapters/">adapter matrix</a> for implementation limits and runtime requirements.</p>
       </article>
 
       <article class="Box why-card">
@@ -199,7 +184,7 @@
 
     </div>
   </div>
-</section>
+<div class="container"><a class="topic-link" href="/why/">Read more: Why DALgo →</a></div></section>
 
 <!-- ============================ ADAPTERS ============================ -->
 <section id="adapters" class="section section-subtle">
@@ -207,10 +192,10 @@
     <header class="section-head">
       <span class="section-eyebrow">02 — Adapters</span>
       <h2 class="section-title">Same interface. Different stores.</h2>
-      <p class="section-kicker">Two adapters ship inside the core module. Ten Go adapters pass the shared conformance suite; the rest are listed below with their limits.</p>
+      <p class="section-kicker">Browse implementation status, limits and browser/server requirements in the dedicated adapter matrix.</p>
     </header>
 
-    <ul class="adapter-grid" role="list" aria-label="Adapters that pass the shared conformance suite">
+    <ul class="adapter-grid" role="list" aria-label="Selected Go modules">
       <li>
         <a class="Box adapter adapter-core" href="https://github.com/dal-go/dalgo" rel="noopener">
           <span class="adapter-kind">
@@ -240,7 +225,7 @@
             Built-in · Filesystem
           </span>
           <h3>dalgo2fs</h3>
-          <p>Built-in adapter mapping the OS file system to DALgo records — handy for demos and simple local persistence.</p>
+          <p>Filesystem metadata exposed as DALgo records. Point reads only; structured queries, writes and transactions are not supported.</p>
           <span class="adapter-go">github.com/dal-go/dalgo<wbr/>/adapters/dalgo2fs</span>
         </a>
       </li>
@@ -335,13 +320,13 @@
     </ul>
 
     <aside class="Box companion adapters-more">
-      <h3>Also available: read-only or partial</h3>
-      <p>These Go adapters have their own tests but do not pass the shared conformance suite. Most are read-only or cover part of the interface by design.</p>
+      <h3>More adapters and integrations</h3>
+      <p>Adapters have different capabilities. The complete Go/TypeScript matrix links to pinned implementation sources and runtime conditions.</p>
       <ul role="list">
         <li><a href="https://github.com/dal-go/dalgo2files" rel="noopener"><strong>dalgo2files</strong></a> — JSON files, read-only</li>
         <li><a href="https://github.com/dal-go/dalgo2logs" rel="noopener"><strong>dalgo2logs</strong></a> — log files, read-only</li>
-        <li><a href="https://github.com/dal-go/dalgo2mssql" rel="noopener"><strong>dalgo2mssql</strong></a> — SQL Server, no structured-query compiler yet</li>
-        <li><a href="https://github.com/dal-go/dalgo2oracle" rel="noopener"><strong>dalgo2oracle</strong></a> — Oracle, no structured-query compiler yet</li>
+        <li><a href="https://github.com/dal-go/dalgo2mssql" rel="noopener"><strong>dalgo2mssql</strong></a> — SQL Server query dialect</li>
+        <li><a href="https://github.com/dal-go/dalgo2oracle" rel="noopener"><strong>dalgo2oracle</strong></a> — Oracle query dialect</li>
         <li><a href="https://github.com/dal-go/dalgo2duckdb" rel="noopener"><strong>dalgo2duckdb</strong></a> — DuckDB, no schema introspection or DDL yet</li>
         <li><a href="https://github.com/dal-go/dalgo2libsql" rel="noopener"><strong>dalgo2libsql</strong></a> — libSQL / Turso, read-only</li>
         <li><a href="https://github.com/dal-go/dalgo2postgrest" rel="noopener"><strong>dalgo2postgrest</strong></a> — PostgREST, read-only</li>
@@ -366,7 +351,7 @@
       </ul>
     </aside>
   </div>
-</section>
+<div class="container"><a class="topic-link" href="/adapters/">Read more: Adapters and runtime support →</a></div></section>
 
 <!-- ============================ QUICKSTART ============================ -->
 <section id="quickstart" class="section">
@@ -433,9 +418,10 @@
       </div>
     </div>
   </div>
-</section>
+<div class="container"><a class="topic-link" href="/quickstart/">Read more: Quick Start →</a></div></section>
 
 <!-- ============================ TYPESCRIPT ============================ -->
+<section id="go" class="section"><div class="container"><h2 class="section-title">DALgo for Go</h2><p>Use typed keys, records, collections and structured queries in Go. Start locally with the built-in in-memory adapter, then choose a database adapter by its supported operations.</p><p><a href="https://github.com/dal-go/dalgo">Go source</a> · <a href="https://pkg.go.dev/github.com/dal-go/dalgo">Go API</a> · <a href="/quickstart/">Quick Start</a></p></div><div class="container"><a class="topic-link" href="/go/">Read more: DALgo for Go →</a></div></section>
 <section id="typescript" class="section section-subtle">
   <div class="container">
     <header class="section-head">
@@ -447,7 +433,7 @@
     <div class="iface-grid">
       <div class="iface-prose">
         <p>Install it from npm with <code>npm install @dalgo/core</code>. The package has no database SDK of its own and does not connect to a database by itself; an adapter does. Source: <a href="https://github.com/dal-go/dalgo-js" rel="noopener">dal-go/dalgo-js</a>.</p>
-        <p>The TypeScript adapters live in <a href="https://github.com/dal-go/dalgo-http-adapters" rel="noopener">dal-go/dalgo-http-adapters</a>. Seven are published on npm. Read-write: <code>@dalgo/firestore</code> (the reference adapter), <code>@dalgo/indexeddb</code> and <code>@dalgo/sqlite-wasm</code>. Read-only or query-only: <code>@dalgo/ovdb</code>, <code>@dalgo/bigquery</code>, <code>@dalgo/d1</code> and <code>@dalgo/http</code>. More are in development and not yet on npm.</p>
+        <p>TypeScript adapters live in <a href="https://github.com/dal-go/dalgo-http-adapters">dalgo-http-adapters</a>. Browser-local, browser HTTP and trusted-server adapters have separate requirements. See the <a href="/adapters/">Go/TypeScript and runtime matrix</a> for source status and limitations.</p>
         <div class="Flash">
           <svg class="octicon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
           <div>Maturity: <code>@dalgo/core</code> is at 0.x, and several adapters are read-only or query-only. Each adapter's README states what it supports; an operation it cannot do fails explicitly.</div>
@@ -482,7 +468,7 @@
       </div>
     </div>
   </div>
-</section>
+<div class="container"><a class="topic-link" href="/typescript/">Read more: DALgo for TypeScript →</a></div></section>
 
 <!-- ============================ TYPED COLLECTIONS ============================ -->
 <section id="collections" class="section">
@@ -490,7 +476,7 @@
     <header class="section-head">
       <span class="section-eyebrow">05 — Typed collections</span>
       <h2 class="section-title">Less ceremony for everyday CRUD.</h2>
-      <p class="section-kicker">A generic, session-less <code>dal.Collection[T]</code> handle returns typed values directly — no key wrangling, no record wrapping, no type assertions. It is additive over the core API and works with every Go adapter.</p>
+      <p class="section-kicker">A generic <code>dal.Collection[T]</code> handle returns typed values. It layers typed helpers over the core API; supported operations depend on the selected adapter.</p>
     </header>
 
     <div class="codeblock" role="figure" aria-label="Example: typed collection">
@@ -538,7 +524,7 @@
     </p>
 
     <h3 class="section-title" style="font-size:1.15rem;margin-top:8px">Standard <code>database/sql</code> vs DALgo</h3>
-    <p class="section-kicker">The same operations written against the standard library and against DALgo. The DALgo version is backend-agnostic — identical code runs on Firestore, SQL, the filesystem, or the in-memory adapter.</p>
+    <p class="section-kicker">The same operations against the standard library and DALgo. The examples share a common shape; adapter capabilities determine which operations can run.</p>
 
     <div class="tabs" role="tablist" aria-label="Comparison examples">
       <button class="tab-btn is-active" id="tabbtn-getuser" type="button" role="tab" aria-selected="true" aria-controls="tab-getuser">GetUser()</button>
@@ -709,7 +695,7 @@
     </div>
     </div><!-- /tab-panel: banuser -->
   </div>
-</section>
+<div class="container"><a class="topic-link" href="/collections/">Read more: Typed collections →</a></div></section>
 
 <!-- ============================ INTERFACES ============================ -->
 <section id="interfaces" class="section section-subtle">
@@ -727,7 +713,7 @@
         </p>
         <div class="Flash">
           <svg class="octicon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
-          <div>Drivers that can't implement an operation return <code>dal.ErrNotSupported</code> — explicit failure beats silent nonsense.</div>
+          <div>Review supported operations and error behavior in the adapter matrix before changing backends.</div>
         </div>
       </div>
 
@@ -777,7 +763,7 @@
       </div>
     </div>
   </div>
-</section>
+<div class="container"><a class="topic-link" href="/interfaces/">Read more: Interfaces →</a></div></section>
 
 <!-- ============================ QUERIES ============================ -->
 <section id="queries" class="section">
@@ -824,14 +810,14 @@ records, err <span class="pl-k">:=</span> dal.<span class="pl-en">ExecuteQueryAn
       </div>
     </div>
   </div>
-</section>
+<div class="container"><a class="topic-link" href="/queries/">Read more: Queries and schema →</a></div></section>
 
 <section class="section section-subtle" aria-labelledby="datatug-heading">
   <div class="container">
     <h2 class="section-title" id="datatug-heading">Used in DataTug development</h2>
     <p><a href="https://datatug.app">DataTug</a> helps developers explore database schemas, write and run queries, and understand their results. DALgo provides a data-access seam in DataTug’s development ecosystem. Read <a href="https://datatug.app/en/under-the-hood/tools-we-built/">how DataTug’s development tools were built</a>.</p>
   </div>
-</section>
+<div class="container"><a class="topic-link" href="/datatug/">Read more: DALgo and DataTug →</a></div></section>
 
 <!-- ============================ CLOSING ============================ -->
 <section class="section closing">
@@ -866,41 +852,9 @@ records, err <span class="pl-k">:=</span> dal.<span class="pl-en">ExecuteQueryAn
     </ul>
     <span class="AppFooter-tag">Inspired by GitHub's Primer design system. Not affiliated with GitHub.</span>
   </div>
-</footer>
+<nav class="topic-footer container" data-topic-footer aria-label="Documentation"><a href="/go/">DALgo for Go</a><a href="/typescript/">DALgo for TypeScript</a><a href="/quickstart/">Quick Start</a><a href="/adapters/">Adapters and runtime support</a><a href="/why/">Why DALgo</a><a href="/collections/">Typed collections</a><a href="/interfaces/">Interfaces</a><a href="/queries/">Queries and schema</a><a href="/film/">Swap the adapter</a><a href="/datatug/">DALgo and DataTug</a><a href="/articles/">Articles</a><a href="/tugql/">TugQL</a></nav></footer>
 
-<script>
-  document.getElementById('year').textContent = new Date().getFullYear();
-  // Keep the visitor's place when switching language: /#adapters -> /ru/#adapters.
-  document.querySelectorAll('[data-lang-link]').forEach(function (a) {
-    a.addEventListener('click', function () {
-      if (location.hash) a.setAttribute('href', a.getAttribute('href').split('#')[0] + location.hash);
-    });
-  });
-</script>
-
-<script>
-  // Tabbed comparison examples: toggle .is-active on the clicked button and
-  // the panel it controls (aria-controls -> panel id).
-  document.querySelectorAll('.tabs').forEach(function (tabs) {
-    var btns = Array.prototype.slice.call(tabs.querySelectorAll('.tab-btn'));
-    var panels = tabs.parentNode.querySelectorAll('.tab-panel');
-    btns.forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var target = btn.getAttribute('aria-controls');
-        btns.forEach(function (b) {
-          var on = b === btn;
-          b.classList.toggle('is-active', on);
-          b.setAttribute('aria-selected', on ? 'true' : 'false');
-        });
-        panels.forEach(function (p) {
-          p.classList.toggle('is-active', p.id === target);
-        });
-      });
-    });
-  });
-</script>
-
-<script src="https://unpkg.com/cytoscape@3.30.2/dist/cytoscape.min.js" defer></script>
+<script src="/vendor/cytoscape-3.30.2.min.js" defer></script>
 <script defer>
   window.addEventListener('load', function () {
     if (!window.cytoscape) return;
@@ -1000,18 +954,17 @@ records, err <span class="pl-k">:=</span> dal.<span class="pl-en">ExecuteQueryAn
 
     var monoFont = 'ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace';
 
-    var cy = cytoscape({
-      container: container,
-      elements: elements,
-      wheelSensitivity: 0.2,
-      userZoomingEnabled: false,
-      userPanningEnabled: false,
-      boxSelectionEnabled: false,
-      autoungrabify: true,
-      autounselectify: true,
-      minZoom: 0.4,
-      maxZoom: 1.2,
-      style: [
+    function diagramStyles() {
+      css = getComputedStyle(document.documentElement);
+      accent = v('--accent-fg', '#0969da');
+      accentSubtle = v('--accent-subtle', '#ddf4ff');
+      canvas = v('--canvas-default', '#ffffff');
+      subtle = v('--canvas-subtle', '#f6f8fa');
+      border = v('--border-default', '#d1d9e0');
+      fg = v('--fg-default', '#1f2328');
+      muted = v('--fg-muted', '#59636e');
+      done = v('--done-fg', '#8250df');
+      return [
         // Base node style (overridden per kind below)
         {
           selector: 'node',
@@ -1163,8 +1116,25 @@ records, err <span class="pl-k">:=</span> dal.<span class="pl-en">ExecuteQueryAn
         { selector: 'edge.dim',  style: { 'opacity': 0.08 } },
         { selector: 'edge.hi',   style: { 'opacity': 1, 'width': 2, 'line-color': goCyan } },
         { selector: 'node.hi',   style: { 'border-color': goCyan, 'border-width': 2 } }
-      ],
+      ];
+    }
+
+    var cy = cytoscape({
+      container: container,
+      elements: elements,
+      wheelSensitivity: 0.2,
+      userZoomingEnabled: false,
+      userPanningEnabled: false,
+      boxSelectionEnabled: false,
+      autoungrabify: true,
+      autounselectify: true,
+      minZoom: 0.4,
+      maxZoom: 1.2,
+      style: diagramStyles(),
       layout: { name: 'preset', fit: true, padding: 18 }
+    });
+    document.addEventListener('dalgo-theme-change', function () {
+      cy.style().fromJson(diagramStyles()).update();
     });
 
     // Hover highlight: light the upstream path back to "Your Go code"

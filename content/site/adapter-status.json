@@ -1,0 +1,2439 @@
+{
+  "schemaVersion": 1,
+  "auditDate": "2026-11-01",
+  "scope": "Committed implementation and documented runtime contracts; not a release, conformance, live-service or DataTug-readiness guarantee.",
+  "publicationPolicy": "Source presence and non-private manifests do not establish registry availability.",
+  "adapters": [
+    {
+      "id": "algolia",
+      "name": "Algolia",
+      "go": {
+        "status": "absent",
+        "capabilities": [],
+        "limits": [
+          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        ],
+        "sources": [],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "source-only",
+        "implementation_status": "partial",
+        "package": "@dal-go/dalgo2algolia",
+        "manifest_private": true,
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "set",
+          "delete"
+        ],
+        "limits": [
+          "Writes opt in; no atomic insert/update or callback transactions. Ordering uses configured replicas."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/algolia/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/algolia/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "browser-direct-http-conditional",
+          "browser": {
+            "status": "conditional-not-qualified",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "Browser search only with restricted search key; admin/write keys stay trusted-server-side."
+          },
+          "node": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No Node runtime receipt inspected; Fetch/no Node imports does not establish compatibility or verification."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/algolia/README.md#L3",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/algolia/README.md#L29"
+          ]
+        }
+      }
+    },
+    {
+      "id": "appwrite",
+      "name": "Appwrite",
+      "go": {
+        "status": "absent",
+        "capabilities": [],
+        "limits": [
+          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        ],
+        "sources": [],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "source-only",
+        "implementation_status": "partial",
+        "package": "@dal-go/dalgo2appwrite",
+        "manifest_private": true,
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "crud"
+        ],
+        "limits": [
+          "Callback transactions rejected; authenticated browser session/CORS required."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/appwrite/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/appwrite/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "browser-direct-http-conditional",
+          "browser": {
+            "status": "conditional-not-qualified",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "Browser-session mode uses signed-in user session, configured Web platform/CORS and collection permissions; server key mode stays trusted."
+          },
+          "node": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No Node runtime receipt inspected; Fetch/no Node imports does not establish compatibility or verification."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/appwrite/README.md#L7",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/appwrite/README.md#L11"
+          ]
+        }
+      }
+    },
+    {
+      "id": "azure-table",
+      "name": "Azure Table",
+      "go": {
+        "status": "absent",
+        "capabilities": [],
+        "limits": [
+          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        ],
+        "sources": [],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "source-only",
+        "implementation_status": "partial",
+        "package": "@dal-go/dalgo2azure-table",
+        "manifest_private": true,
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "crud"
+        ],
+        "limits": [
+          "Ordering/offset/cursor restrictions; scoped authentication and CORS supplied by caller."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/azure-table/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/azure-table/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "browser-direct-http-conditional",
+          "browser": {
+            "status": "conditional-not-qualified",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "Exact-origin Storage CORS + authenticated broker-issued ephemeral OAuth bearer; account keys/SAS stay server-side."
+          },
+          "node": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No Node runtime receipt inspected; Fetch/no Node imports does not establish compatibility or verification."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/azure-table/README.md#L7",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/azure-table/README.md#L9"
+          ]
+        }
+      }
+    },
+    {
+      "id": "bigquery",
+      "name": "BigQuery",
+      "go": {
+        "status": "readonly",
+        "capabilities": [
+          "analytical-query",
+          "dry-run",
+          "budgeted-jobs",
+          "paging",
+          "cancellation"
+        ],
+        "limits": [
+          "Analytical read protocol requires explicit approval/dry-run/budgets/ledger. Generic records-reader unsupported. Separate explicit load surface is not general record CRUD."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo2bigquery/blob/89723846e27ca1d14a439c2cbdfb819eb9254c42/plan.go",
+          "https://github.com/dal-go/dalgo2bigquery/blob/89723846e27ca1d14a439c2cbdfb819eb9254c42/jobs.go"
+        ],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "readonly",
+        "implementation_status": "readonly",
+        "package": "@dalgo/bigquery",
+        "manifest_private": false,
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "analytical-query"
+        ],
+        "limits": [
+          "Named-parameter bounded reads and separate /analytical export. CRUD rejected; identity/consent/budgets separate."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/bigquery/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/bigquery/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "browser-direct-http-conditional",
+          "browser": {
+            "status": "conditional-not-qualified",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "Analytical and metadata subpaths require user OAuth, protected current host/owner binding, explicit read/cost admission; no blanket browser database readiness."
+          },
+          "node": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No Node runtime receipt inspected; Fetch/no Node imports does not establish compatibility or verification."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/bigquery/README.md#L4",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/bigquery/README.md#L17"
+          ]
+        }
+      }
+    },
+    {
+      "id": "clickhouse",
+      "name": "ClickHouse",
+      "go": {
+        "status": "readonly",
+        "capabilities": [
+          "structured-query",
+          "native-sql",
+          "schema"
+        ],
+        "limits": [
+          "Server-enforced readonly account and allowlist required. Get/Exists and writes/transactions unsupported."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo2clickhouse/blob/99a44064132e9e3ca603e2c2bb04afb7b8b1986a/database.go",
+          "https://github.com/dal-go/dalgo2clickhouse/blob/99a44064132e9e3ca603e2c2bb04afb7b8b1986a/query.go"
+        ],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "readonly",
+        "implementation_status": "readonly",
+        "package": "@dalgo/dalgo2clickhouse",
+        "manifest_private": false,
+        "capabilities": [
+          "ordinal-structured-query",
+          "ordinal-native-query"
+        ],
+        "limits": [
+          "Public NativeClickHouseDatabase/OrdinalQueryExecutor. No record keys, point reads, CRUD or callback transactions."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/clickhouse/src/native.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/clickhouse/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "browser-direct-http-conditional",
+          "browser": {
+            "status": "conditional-not-qualified",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "Read-only ordinal HTTP executor; exact-origin CORS + per-request scoped SELECT credentials/resource policy; native SQL separately opts in. Tests exist, no receipt inspected."
+          },
+          "node": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No Node runtime receipt inspected; Fetch/no Node imports does not establish compatibility or verification."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/clickhouse/README.md#L14",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/clickhouse/README.md#L15"
+          ]
+        }
+      }
+    },
+    {
+      "id": "cloudflare-d1",
+      "name": "Cloudflare D1",
+      "go": {
+        "status": "readonly",
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "schema"
+        ],
+        "limits": [
+          "Trusted Worker owns SQL/D1 access; typed bounded leaf-query protocol, not arbitrary SQL or Cloudflare KV."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo2d1/blob/b3d857b761674d2af2ef86a9d3945ef24444b707/d1.go",
+          "https://github.com/dal-go/dalgo2d1/blob/b3d857b761674d2af2ef86a9d3945ef24444b707/query.go"
+        ],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "readonly",
+        "implementation_status": "readonly",
+        "package": "@dalgo/d1",
+        "manifest_private": false,
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "http-query-protocol"
+        ],
+        "limits": [
+          "D1 binding and trusted Worker HTTP reads; not Cloudflare KV."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/d1/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/d1/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "worker-binding-and-conditional-browser-http",
+          "browser": {
+            "status": "conditional-not-qualified",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "Actual Cloudflare Worker binding API plus D1HttpDatabase and createD1ReadHandler exports. Browser HTTP needs an intentionally deployed authorized handler/CORS; no DataTug bridge inferred."
+          },
+          "node": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No Node runtime receipt inspected; Fetch/no Node imports does not establish compatibility or verification."
+          },
+          "edge": {
+            "status": "cloudflare-worker-binding-source-implemented",
+            "execution_verified_in_this_audit": false,
+            "note": "Actual D1 binding/client/handler exports exist; no execution receipt checked."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/d1/README.md#L4",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/d1/README.md#L5"
+          ]
+        }
+      }
+    },
+    {
+      "id": "cosmosdb",
+      "name": "Cosmos DB",
+      "go": {
+        "status": "absent",
+        "capabilities": [],
+        "limits": [
+          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        ],
+        "sources": [],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "source-only",
+        "implementation_status": "partial",
+        "package": "@dal-go/dalgo2cosmosdb",
+        "manifest_private": true,
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "insert",
+          "set",
+          "delete"
+        ],
+        "limits": [
+          "One mapped partition. Update/transaction and query ordering/cursor gaps; scoped ephemeral browser token."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/cosmosdb/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/cosmosdb/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "browser-direct-http-conditional",
+          "browser": {
+            "status": "conditional-not-qualified",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "Browser only with broker-minted short-lived least-privilege resource token and CORS; no master key."
+          },
+          "node": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No Node runtime receipt inspected; Fetch/no Node imports does not establish compatibility or verification."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/cosmosdb/README.md#L8",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/cosmosdb/README.md#L10"
+          ]
+        }
+      }
+    },
+    {
+      "id": "couchbase",
+      "name": "Couchbase",
+      "go": {
+        "status": "absent",
+        "capabilities": [],
+        "limits": [
+          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        ],
+        "sources": [],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "source-only",
+        "implementation_status": "partial",
+        "package": "@dal-go/dalgo2couchbase",
+        "manifest_private": true,
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "insert",
+          "set",
+          "delete"
+        ],
+        "limits": [
+          "Data API and bounded SQL++; trusted runtime; no callback transactions or management API use."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/couchbase/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/couchbase/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "trusted-server-http-default",
+          "browser": {
+            "status": "trusted-runtime-default-browser-unqualified",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "Trusted backend default. Capella Basic/cluster credentials must not reach browser. A user-authorized proxy/broker is an extra deployment, not existing DataTug bridge."
+          },
+          "node": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No Node runtime receipt inspected; Fetch/no Node imports does not establish compatibility or verification."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/couchbase/README.md#L5",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/couchbase/README.md#L7"
+          ]
+        }
+      }
+    },
+    {
+      "id": "couchdb",
+      "name": "CouchDB",
+      "go": {
+        "status": "readonly",
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "schema"
+        ],
+        "limits": [
+          "Native bounded document/Mango reads. No writes or read-write transactions."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo2couchdb/blob/2c03679be8a767c6292480eed709a40a290a5b83/couchdb.go",
+          "https://github.com/dal-go/dalgo2couchdb/blob/2c03679be8a767c6292480eed709a40a290a5b83/plan.go"
+        ],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "partial",
+        "implementation_status": "partial",
+        "package": "@dalgo/dalgo2couchdb",
+        "manifest_private": false,
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "envelope-crud",
+          "native-readonly"
+        ],
+        "limits": [
+          "Generic envelope CRUD differs from readonly native application-document mode. No generic callback transaction equivalent."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/couchdb/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/couchdb/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "browser-direct-http-conditional",
+          "browser": {
+            "status": "conditional-not-qualified",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "Direct HTTP conditional on deliberate CouchDB CORS and current user-scoped authorization; no URL credentials."
+          },
+          "node": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No Node runtime receipt inspected; Fetch/no Node imports does not establish compatibility or verification."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/couchdb/README.md#L10",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/couchdb/README.md#L16"
+          ]
+        }
+      }
+    },
+    {
+      "id": "databricks",
+      "name": "Databricks",
+      "go": {
+        "status": "absent",
+        "capabilities": [],
+        "limits": [
+          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        ],
+        "sources": [],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "source-only",
+        "implementation_status": "readonly",
+        "package": "@dal-go/dalgo2databricks",
+        "manifest_private": true,
+        "capabilities": [
+          "point-read",
+          "structured-query"
+        ],
+        "limits": [
+          "SQL Statement Execution API; bounded polling/results; trusted runtime, not automatically browser-ready."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/databricks/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/databricks/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "trusted-server-http-default",
+          "browser": {
+            "status": "trusted-runtime-default-browser-unqualified",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "README explicitly HTTP-capable NOT browser-ready; OAuth/PAT provider in trusted runtime; workspace CORS/auth not a supported browser contract."
+          },
+          "node": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No Node runtime receipt inspected; Fetch/no Node imports does not establish compatibility or verification."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/databricks/README.md#L7",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/databricks/README.md#L9"
+          ]
+        }
+      }
+    },
+    {
+      "id": "datastore",
+      "name": "Google Datastore",
+      "go": {
+        "status": "partial",
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "crud-paths"
+        ],
+        "limits": [
+          "Upsert panics; constructor uses WithoutAuthentication. Production authentication needs qualification; recordset reader unsupported."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo2datastore/blob/f73b0a8041ed0b9cd137f10aefc162765ce76b3a/database.go",
+          "https://github.com/dal-go/dalgo2datastore/blob/f73b0a8041ed0b9cd137f10aefc162765ce76b3a/select_all.go"
+        ],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "source-only",
+        "implementation_status": "partial",
+        "package": "@dal-go/dalgo2datastore",
+        "manifest_private": true,
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "crud"
+        ],
+        "limits": [
+          "Callback transactions rejected; explicit Google token/network configuration required."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/datastore/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/datastore/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "browser-direct-http-conditional",
+          "browser": {
+            "status": "conditional-not-qualified",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "HTTP-capable, browser-ready not default; needs intentional OAuth/broker, exact deployed CORS and least-privilege IAM."
+          },
+          "node": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No Node runtime receipt inspected; Fetch/no Node imports does not establish compatibility or verification."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/datastore/README.md#L8",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/datastore/README.md#L10"
+          ]
+        }
+      }
+    },
+    {
+      "id": "duckdb",
+      "name": "DuckDB",
+      "go": {
+        "status": "partial",
+        "capabilities": [
+          "native-sql",
+          "parquet-read",
+          "transactions"
+        ],
+        "limits": [
+          "Requires CGO. DuckDB-specific schema/DDL interfaces absent. Read-only SQL validation and external-resource authorization are separate."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo2duckdb/blob/f1a17f24faeafa12fe23b28818a781ed032fc95d/database.go",
+          "https://github.com/dal-go/dalgo2duckdb/blob/f1a17f24faeafa12fe23b28818a781ed032fc95d/connector.go"
+        ],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "absent",
+        "capabilities": [],
+        "limits": [
+          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        ],
+        "sources": [],
+        "publication": "not-verified"
+      }
+    },
+    {
+      "id": "dynamodb",
+      "name": "DynamoDB",
+      "go": {
+        "status": "absent",
+        "capabilities": [],
+        "limits": [
+          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        ],
+        "sources": [],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "source-only",
+        "implementation_status": "partial",
+        "package": "@dal-go/dalgo2dynamodb",
+        "manifest_private": true,
+        "capabilities": [
+          "point-read",
+          "partition-key-query",
+          "conditional-crud"
+        ],
+        "limits": [
+          "Adapter-owned pk/sk/data layout. No callback transactions/aggregation; browser requires temporary least-privilege credentials."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/dynamodb/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/dynamodb/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "browser-direct-http-conditional",
+          "browser": {
+            "status": "conditional-not-qualified",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "Modular AWS document SDK; browser only temporary least-privilege Cognito/web-identity credentials, never long-lived IAM keys."
+          },
+          "node": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No Node runtime receipt inspected; Fetch/no Node imports does not establish compatibility or verification."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/dynamodb/README.md#L5",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/dynamodb/README.md#L7"
+          ]
+        }
+      }
+    },
+    {
+      "id": "elasticsearch",
+      "name": "Elasticsearch",
+      "go": {
+        "status": "bootstrap",
+        "capabilities": [],
+        "limits": [
+          "Remote exact tree has only LICENSE and README; no Go adapter code."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo2elasticsearch/blob/06e2ff7dde0126d32697302ea6f8f7a5a87705b5/README.md"
+        ],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "source-only",
+        "implementation_status": "partial",
+        "package": "@dal-go/dalgo2elasticsearch",
+        "manifest_private": true,
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "crud"
+        ],
+        "limits": [
+          "No callback transactions or document-ID ordering; normally behind trusted application proxy."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/elasticsearch/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/elasticsearch/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "trusted-server-http-default",
+          "browser": {
+            "status": "trusted-runtime-default-browser-unqualified",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "HTTP-capable not general browser-ready; exposing cluster credentials/endpoints requires trusted authorization boundary, no browser flow supplied."
+          },
+          "node": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No Node runtime receipt inspected; Fetch/no Node imports does not establish compatibility or verification."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/elasticsearch/README.md#L7",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/elasticsearch/README.md#L61"
+          ]
+        }
+      }
+    },
+    {
+      "id": "filesystem",
+      "name": "Filesystem metadata",
+      "go": {
+        "status": "partial",
+        "capabilities": [
+          "filesystem-point-read"
+        ],
+        "limits": [
+          "Limited metadata Get/Exists. Query methods return ErrNotSupported; writes are stubs."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo/blob/d4af7106017e585cd4241ea8d1ebfcc7e2cc5293/adapters/dalgo2fs/database.go",
+          "https://github.com/dal-go/dalgo/blob/d4af7106017e585cd4241ea8d1ebfcc7e2cc5293/adapters/dalgo2fs/transaction.go"
+        ],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "absent",
+        "capabilities": [],
+        "limits": [
+          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        ],
+        "sources": [],
+        "publication": "not-verified"
+      }
+    },
+    {
+      "id": "firebase-rtdb",
+      "name": "Firebase Realtime Database",
+      "go": {
+        "status": "absent",
+        "capabilities": [],
+        "limits": [
+          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        ],
+        "sources": [],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "source-only",
+        "implementation_status": "partial",
+        "package": "@dal-go/dalgo2firebase-rtdb",
+        "manifest_private": true,
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "crud"
+        ],
+        "limits": [
+          "Firebase authentication/rules are authorization boundary; RTDB native ordering/transaction semantics restrict mapping."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/firebase-rtdb/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/firebase-rtdb/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "browser-web-sdk",
+          "browser": {
+            "status": "source-intended-browser",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "Firebase modular RTDB WEB SDK; Firebase Authentication + RTDB Security Rules, not Admin SDK."
+          },
+          "node": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No Node runtime receipt inspected; Fetch/no Node imports does not establish compatibility or verification."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/firebase-rtdb/README.md#L5",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/firebase-rtdb/README.md#L6"
+          ]
+        }
+      }
+    },
+    {
+      "id": "firestore",
+      "name": "Firestore",
+      "go": {
+        "status": "implemented",
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "crud",
+          "transactions"
+        ],
+        "limits": [
+          "Unsupported grouping/join shapes refuse; transaction queries use the exact transaction."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo2firestore/blob/9ecc3a589e4bc1820f075e042d595fb36fcc28f5/database.go",
+          "https://github.com/dal-go/dalgo2firestore/blob/9ecc3a589e4bc1820f075e042d595fb36fcc28f5/query.go"
+        ],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "implemented",
+        "implementation_status": "implemented",
+        "package": "@dalgo/firestore",
+        "manifest_private": false,
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "crud",
+          "transactions",
+          "bounded-tugql"
+        ],
+        "limits": [
+          "Firebase Web SDK/auth/rules. Unsupported offset/group/join shapes refuse; TugQL entry is bounded readonly."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/firestore/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/firestore/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "browser-web-sdk",
+          "browser": {
+            "status": "source-intended-browser",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "Firebase modular Cloud Firestore WEB SDK; signed-in user/security rules, not Admin SDK. Browser integration and publication are separate gates."
+          },
+          "node": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No Node runtime receipt inspected; Fetch/no Node imports does not establish compatibility or verification."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/firestore/README.md#L5",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/firestore/README.md#L21"
+          ]
+        }
+      }
+    },
+    {
+      "id": "http",
+      "name": "HTTP / JSON / XML / CSV",
+      "go": {
+        "status": "readonly",
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "named-resource-decoders"
+        ],
+        "limits": [
+          "Descriptor-driven GET-only endpoints; unsupported pushdown refuses; recordset reader unsupported."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo2http/blob/3c9ff0be00d0aa9f16197971511af1a1a692b536/database.go",
+          "https://github.com/dal-go/dalgo2http/blob/3c9ff0be00d0aa9f16197971511af1a1a692b536/descriptor.go"
+        ],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "readonly",
+        "implementation_status": "readonly",
+        "package": "@dalgo/http",
+        "manifest_private": false,
+        "capabilities": [
+          "bounded-ecb-query"
+        ],
+        "limits": [
+          "ECB-specific completed executor; narrower than generic Go HTTP adapter."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/http/src/query.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/http/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "browser-direct-http-conditional",
+          "browser": {
+            "status": "conditional-not-qualified",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "ECB XML slice REQUIRES Window DOMParser and separately admitted read plan/rights, exact public CORS; not arbitrary HTTP database adapter or default Node/edge runtime."
+          },
+          "node": {
+            "status": "not-available-with-default-node-runtime",
+            "execution_verified_in_this_audit": false,
+            "note": "Production ECB entry requires Window DOMParser; no DOM polyfill shipped."
+          },
+          "edge": {
+            "status": "not-default-edge-compatible",
+            "execution_verified_in_this_audit": false,
+            "note": "Window DOMParser required; no default edge DOM implementation supplied."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/http/README.md#L14",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/http/README.md#L15"
+          ]
+        }
+      }
+    },
+    {
+      "id": "indexeddb",
+      "name": "IndexedDB",
+      "go": {
+        "status": "absent",
+        "capabilities": [],
+        "limits": [
+          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        ],
+        "sources": [],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "implemented",
+        "implementation_status": "implemented",
+        "package": "@dalgo/indexeddb",
+        "manifest_private": false,
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "crud",
+          "transactions"
+        ],
+        "limits": [
+          "Real IndexedDB transactions; callback should await only DALgo operations."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/indexeddb/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/indexeddb/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "browser-local",
+          "browser": {
+            "status": "source-intended-browser",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "Native same-origin browser IndexedDB storage; Node requires an injected IDBFactory/polyfill, not built-in server support."
+          },
+          "node": {
+            "status": "requires-injected-non-native-idbfactory",
+            "execution_verified_in_this_audit": false,
+            "note": "Node does not receive native IndexedDB from this package; injected test/polyfill is separate."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/indexeddb/README.md#L3",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/indexeddb/README.md#L5"
+          ]
+        }
+      }
+    },
+    {
+      "id": "influxdb",
+      "name": "InfluxDB 3",
+      "go": {
+        "status": "absent",
+        "capabilities": [],
+        "limits": [
+          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        ],
+        "sources": [],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "source-only",
+        "implementation_status": "partial",
+        "package": "@dal-go/dalgo2influxdb",
+        "manifest_private": true,
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "native-line-protocol-append"
+        ],
+        "limits": [
+          "DALgo point mutations/transactions rejected; appendLineProtocol is a separate native write API."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/influxdb/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/influxdb/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "browser-direct-http-conditional",
+          "browser": {
+            "status": "conditional-not-qualified",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "HTTP conditional on endpoint CORS and current scoped short-lived token; broad/org/shared-write tokens stay server-side."
+          },
+          "node": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No Node runtime receipt inspected; Fetch/no Node imports does not establish compatibility or verification."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/influxdb/README.md#L8",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/influxdb/README.md#L9"
+          ]
+        }
+      }
+    },
+    {
+      "id": "ingitdb",
+      "name": "inGitDB",
+      "go": {
+        "status": "implemented",
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "crud",
+          "transactions"
+        ],
+        "limits": [
+          "Modern adapter. Older 4local/4github repositories are variants with incomplete paths, not separate supported databases."
+        ],
+        "sources": [
+          "https://github.com/ingitdb/dalgo2ingitdb/blob/a4743689ab5c73653550abae6974f45c15c27a3b/database.go",
+          "https://github.com/ingitdb/dalgo2ingitdb/blob/a4743689ab5c73653550abae6974f45c15c27a3b/query.go"
+        ],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "absent",
+        "capabilities": [],
+        "limits": [
+          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        ],
+        "sources": [],
+        "publication": "not-verified"
+      }
+    },
+    {
+      "id": "json-files",
+      "name": "JSON files",
+      "go": {
+        "status": "partial",
+        "capabilities": [
+          "point-read"
+        ],
+        "limits": [
+          "Configured JSON Get/Exists. Query methods return ErrNotImplementedYet; writes/transactions absent."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo2files/blob/652d30577bff96cd6ed55ff759ec42eec2a7ddbb/database.go"
+        ],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "absent",
+        "capabilities": [],
+        "limits": [
+          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        ],
+        "sources": [],
+        "publication": "not-verified"
+      }
+    },
+    {
+      "id": "kusto",
+      "name": "Azure Data Explorer / Kusto",
+      "go": {
+        "status": "absent",
+        "capabilities": [],
+        "limits": [
+          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        ],
+        "sources": [],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "source-only",
+        "implementation_status": "readonly",
+        "package": "@dal-go/dalgo2kusto",
+        "manifest_private": true,
+        "capabilities": [
+          "point-read",
+          "bounded-collection-query",
+          "native-readonly-kql"
+        ],
+        "limits": [
+          "Generic filters/order/offset/cursors and CRUD rejected; explicit typed readonly KQL, trusted runtime."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/kusto/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/kusto/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "browser-direct-http-conditional",
+          "browser": {
+            "status": "conditional-not-qualified",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "HTTP conditional on short-lived delegated Entra token and deliberate deployed CORS/authorization; no browser auth flow supplied."
+          },
+          "node": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No Node runtime receipt inspected; Fetch/no Node imports does not establish compatibility or verification."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/kusto/README.md#L5",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/kusto/README.md#L7"
+          ]
+        }
+      }
+    },
+    {
+      "id": "libsql",
+      "name": "libSQL / Turso",
+      "go": {
+        "status": "readonly",
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "schema"
+        ],
+        "limits": [
+          "Existing database over bounded Hrana/SQLite compilation. No writes or real readonly callback transaction lifecycle."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo2libsql/blob/7d8187759a518f87e3aed2cfd960f2d7f93bbd2a/database.go",
+          "https://github.com/dal-go/dalgo2libsql/blob/7d8187759a518f87e3aed2cfd960f2d7f93bbd2a/driver.go"
+        ],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "partial",
+        "implementation_status": "partial",
+        "package": "@dalgo/dalgo2libsql",
+        "manifest_private": false,
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "native-readonly",
+          "mapped-crud"
+        ],
+        "limits": [
+          "Writes require uniqueKey mapping; callback transactions absent; native readonly and generic surfaces differ."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/libsql/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/libsql/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "browser-direct-http-conditional",
+          "browser": {
+            "status": "conditional-not-qualified",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "Fetch Hrana HTTP protocol, constrained authorized endpoint/CORS and scoped credentials; fixture/browser test source is not current deployed proof."
+          },
+          "node": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No Node runtime receipt inspected; Fetch/no Node imports does not establish compatibility or verification."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/libsql/README.md#L19",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/libsql/README.md#L21"
+          ]
+        }
+      }
+    },
+    {
+      "id": "logs",
+      "name": "Local logs / Cloud Logging",
+      "go": {
+        "status": "readonly",
+        "capabilities": [
+          "structured-query",
+          "bounded-log-scans"
+        ],
+        "limits": [
+          "Configured JSONL/timestamped files or Cloud Logging project. No generic point reads/writes/recordset reader."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo2logs/blob/a3da946107390ec97ac72993e391eefc38c3be27/database.go",
+          "https://github.com/dal-go/dalgo2logs/blob/a3da946107390ec97ac72993e391eefc38c3be27/cloudlogging/cloud.go"
+        ],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "absent",
+        "capabilities": [],
+        "limits": [
+          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        ],
+        "sources": [],
+        "publication": "not-verified"
+      }
+    },
+    {
+      "id": "memory",
+      "name": "In-memory",
+      "go": {
+        "status": "implemented",
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "crud",
+          "transactions"
+        ],
+        "limits": [
+          "Built into Go core, not a separate repository or external database."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo/blob/d4af7106017e585cd4241ea8d1ebfcc7e2cc5293/adapters/dalgo2memory/database.go",
+          "https://github.com/dal-go/dalgo/blob/d4af7106017e585cd4241ea8d1ebfcc7e2cc5293/adapters/dalgo2memory/conformance_test.go"
+        ],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "absent",
+        "capabilities": [],
+        "limits": [
+          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        ],
+        "sources": [],
+        "publication": "not-verified"
+      }
+    },
+    {
+      "id": "mongodb",
+      "name": "MongoDB",
+      "go": {
+        "status": "readonly",
+        "capabilities": [
+          "point-read",
+          "structured-query"
+        ],
+        "limits": [
+          "Bounded root collection/top-level scalar filters, projection and order. No writes, joins, grouping, cursors, native commands or recordset reader."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo2mongodb/blob/505815e3caf4e894230c26df5b33e547d54dd44e/mongodb.go",
+          "https://github.com/dal-go/dalgo2mongodb/blob/505815e3caf4e894230c26df5b33e547d54dd44e/query.go"
+        ],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "absent",
+        "capabilities": [],
+        "limits": [
+          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        ],
+        "sources": [],
+        "publication": "not-verified"
+      }
+    },
+    {
+      "id": "mysql",
+      "name": "MySQL",
+      "go": {
+        "status": "implemented",
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "native-sql",
+          "crud",
+          "transactions",
+          "schema"
+        ],
+        "limits": [
+          "MySQL DDL is non-transactional."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo2mysql/blob/6682f05aa937e67b1a9148973efb65f1c38beb8c/database_dal.go",
+          "https://github.com/dal-go/dalgo2mysql/blob/6682f05aa937e67b1a9148973efb65f1c38beb8c/schema_modifier.go"
+        ],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "absent",
+        "capabilities": [],
+        "limits": [
+          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        ],
+        "sources": [],
+        "publication": "not-verified"
+      }
+    },
+    {
+      "id": "namecheap",
+      "name": "Namecheap DNS",
+      "go": {
+        "status": "partial",
+        "capabilities": [
+          "domain-point-read",
+          "domain-query",
+          "dns-write"
+        ],
+        "limits": [
+          "Collection/API adapter, not a general database. Domain listing is readonly; DNS hosts have Set."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo2namecheap/blob/b0bc8b665ab983ca03557137733061b66230658a/domains.go",
+          "https://github.com/dal-go/dalgo2namecheap/blob/b0bc8b665ab983ca03557137733061b66230658a/dns.go"
+        ],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "absent",
+        "capabilities": [],
+        "limits": [
+          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        ],
+        "sources": [],
+        "publication": "not-verified"
+      }
+    },
+    {
+      "id": "neo4j",
+      "name": "Neo4j",
+      "go": {
+        "status": "absent",
+        "capabilities": [],
+        "limits": [
+          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        ],
+        "sources": [],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "source-only",
+        "implementation_status": "partial",
+        "package": "@dal-go/dalgo2neo4j",
+        "manifest_private": true,
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "mapped-crud",
+          "explicit-transactions"
+        ],
+        "limits": [
+          "Transactions only opt-in Aura/single-instance topology; no general realtime/streaming."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/neo4j/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/neo4j/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "browser-direct-http-conditional",
+          "browser": {
+            "status": "conditional-not-qualified",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "HTTP Query API, not Bolt driver; browser conditional on endpoint CORS and least-privilege authentication. Transactions limited by deployment."
+          },
+          "node": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No Node runtime receipt inspected; Fetch/no Node imports does not establish compatibility or verification."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/neo4j/README.md#L5",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/neo4j/README.md#L17"
+          ]
+        }
+      }
+    },
+    {
+      "id": "neptune",
+      "name": "Amazon Neptune",
+      "go": {
+        "status": "absent",
+        "capabilities": [],
+        "limits": [
+          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        ],
+        "sources": [],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "source-only",
+        "implementation_status": "partial",
+        "package": "@dal-go/dalgo2neptune",
+        "manifest_private": true,
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "mapped-node-crud"
+        ],
+        "limits": [
+          "openCypher HTTPS node mapping/custom IDs; required engine; VPC/trusted runtime; no callback transactions."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/neptune/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/neptune/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "trusted-server-http-default",
+          "browser": {
+            "status": "trusted-runtime-default-browser-unqualified",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "Direct openCypher endpoint is VPC-scoped and IAM SigV4; no ordinary browser endpoint/credential flow provided."
+          },
+          "node": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No Node runtime receipt inspected; Fetch/no Node imports does not establish compatibility or verification."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/neptune/README.md#L4",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/neptune/README.md#L8"
+          ]
+        }
+      }
+    },
+    {
+      "id": "opensearch",
+      "name": "OpenSearch",
+      "go": {
+        "status": "absent",
+        "capabilities": [],
+        "limits": [
+          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        ],
+        "sources": [],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "source-only",
+        "implementation_status": "partial",
+        "package": "@dal-go/dalgo2opensearch",
+        "manifest_private": true,
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "crud"
+        ],
+        "limits": [
+          "No callback transactions; trusted endpoint/authentication required."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/opensearch/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/opensearch/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "trusted-server-http-default",
+          "browser": {
+            "status": "trusted-runtime-default-browser-unqualified",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "Explicit server/runtime HTTP-capable, no browser/cloud credential flow; AWS SigV4 support not bundled."
+          },
+          "node": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No Node runtime receipt inspected; Fetch/no Node imports does not establish compatibility or verification."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/opensearch/README.md#L7",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/opensearch/README.md#L31"
+          ]
+        }
+      }
+    },
+    {
+      "id": "openvaultdb",
+      "name": "OpenVaultDB",
+      "go": {
+        "status": "implemented",
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "crud",
+          "transactions"
+        ],
+        "limits": [
+          "Bounded protocol; recordset readers unsupported; protected provider-read/write variants have additional restrictions."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo2openvaultdb/blob/5430ad0424455f78700fdbff9ca79b60d2325968/db.go",
+          "https://github.com/dal-go/dalgo2openvaultdb/blob/5430ad0424455f78700fdbff9ca79b60d2325968/tx.go"
+        ],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "partial",
+        "implementation_status": "partial",
+        "package": "@dalgo/ovdb",
+        "manifest_private": false,
+        "capabilities": [
+          "bounded-tugql",
+          "separate-crud-client-source"
+        ],
+        "limits": [
+          "Root is readonly TugQL with explicit admission/rights/budget. Separate ./client source/export exists; registry availability unverified."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/ovdb/src/tugql/executor.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/ovdb/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "browser-direct-http-conditional",
+          "browser": {
+            "status": "conditional-not-qualified",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "Published-intent query-only /tugql entry needs trusted-host admission/rights/plan, Fetch+WebCrypto; workspace CRUD subpath is separate and not public tarball API."
+          },
+          "node": {
+            "status": "declared-compatible-not-runtime-verified",
+            "execution_verified_in_this_audit": false,
+            "note": "README explicitly describes Node/server use; this audit inspects source only."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/ovdb/README.md#L3",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/ovdb/README.md#L7"
+          ]
+        }
+      }
+    },
+    {
+      "id": "oracle",
+      "name": "Oracle",
+      "go": {
+        "status": "partial",
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "native-sql",
+          "crud",
+          "schema"
+        ],
+        "limits": [
+          "Oracle type/transaction restrictions and read-only workaround; typed dialect exists in current dalgo2sql."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo2oracle/blob/ec60f134358b34a4d64ad25b23f95689e630db2e/database.go",
+          "https://github.com/dal-go/dalgo2oracle/blob/ec60f134358b34a4d64ad25b23f95689e630db2e/driver.go"
+        ],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "absent",
+        "capabilities": [],
+        "limits": [
+          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        ],
+        "sources": [],
+        "publication": "not-verified"
+      }
+    },
+    {
+      "id": "pinecone",
+      "name": "Pinecone",
+      "go": {
+        "status": "absent",
+        "capabilities": [],
+        "limits": [
+          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        ],
+        "sources": [],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "source-only",
+        "implementation_status": "partial",
+        "package": "@dal-go/dalgo2pinecone",
+        "manifest_private": true,
+        "capabilities": [
+          "point-read",
+          "set",
+          "delete",
+          "vector-search"
+        ],
+        "limits": [
+          "Ordinary DALgo query rejected; use explicit vectorSearch. No atomic insert/update or callback transactions."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/pinecone/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/pinecone/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "trusted-server-http-default",
+          "browser": {
+            "status": "trusted-runtime-default-browser-unqualified",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "Api-Key treated as server credential; trusted server/worker unless intentionally public index with separately confirmed CORS/auth."
+          },
+          "node": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No Node runtime receipt inspected; Fetch/no Node imports does not establish compatibility or verification."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/pinecone/README.md#L11",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/pinecone/README.md#L30"
+          ]
+        }
+      }
+    },
+    {
+      "id": "pocketbase",
+      "name": "PocketBase",
+      "go": {
+        "status": "absent",
+        "capabilities": [],
+        "limits": [
+          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        ],
+        "sources": [],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "source-only",
+        "implementation_status": "partial",
+        "package": "@dal-go/dalgo2pocketbase",
+        "manifest_private": true,
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "crud"
+        ],
+        "limits": [
+          "Callback transactions rejected; browser auth-record-user token/rules required."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/pocketbase/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/pocketbase/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "browser-direct-http-conditional",
+          "browser": {
+            "status": "conditional-not-qualified",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "Current signed-in auth-record USER token plus endpoint CORS and tested collection rules; never superuser credential."
+          },
+          "node": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No Node runtime receipt inspected; Fetch/no Node imports does not establish compatibility or verification."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/pocketbase/README.md#L8",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/pocketbase/README.md#L11"
+          ]
+        }
+      }
+    },
+    {
+      "id": "postgresql",
+      "name": "PostgreSQL",
+      "go": {
+        "status": "implemented",
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "native-sql",
+          "crud",
+          "transactions",
+          "schema"
+        ],
+        "limits": [
+          "Native PostgreSQL dialect and server semantics apply."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo2postgres/blob/b359dfa0623499db2e4de27c4b7bf297a3bf103e/database_dal.go",
+          "https://github.com/dal-go/dalgo2postgres/blob/b359dfa0623499db2e4de27c4b7bf297a3bf103e/schema_reader.go"
+        ],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "absent",
+        "capabilities": [],
+        "limits": [
+          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        ],
+        "sources": [],
+        "publication": "not-verified"
+      }
+    },
+    {
+      "id": "postgrest",
+      "name": "PostgREST / Supabase",
+      "go": {
+        "status": "readonly",
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "schema"
+        ],
+        "limits": [
+          "Bounded HTTP read subset; positive limit required. Supabase is a protocol use case, not another adapter."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo2postgrest/blob/b8d31e8c335cfd1dea2993d68b438eb0e8329d05/database.go",
+          "https://github.com/dal-go/dalgo2postgrest/blob/b8d31e8c335cfd1dea2993d68b438eb0e8329d05/query.go"
+        ],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "partial",
+        "implementation_status": "partial",
+        "package": "@dalgo/dalgo2postgrest",
+        "manifest_private": false,
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "crud",
+          "schema-discovery"
+        ],
+        "limits": [
+          "Callback transactions rejected; mapping/native HTTP semantics apply. Supabase not a second adapter."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/postgrest/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/postgrest/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "browser-direct-http-conditional",
+          "browser": {
+            "status": "conditional-not-qualified",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "CORS + user JWT/anonymous intentionally public role with database authorization/RLS; no service-role credentials."
+          },
+          "node": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No Node runtime receipt inspected; Fetch/no Node imports does not establish compatibility or verification."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/postgrest/README.md#L10",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/postgrest/README.md#L21"
+          ]
+        }
+      }
+    },
+    {
+      "id": "qdrant",
+      "name": "Qdrant",
+      "go": {
+        "status": "absent",
+        "capabilities": [],
+        "limits": [
+          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        ],
+        "sources": [],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "source-only",
+        "implementation_status": "partial",
+        "package": "@dal-go/dalgo2qdrant",
+        "manifest_private": true,
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "vector-search",
+          "set",
+          "delete"
+        ],
+        "limits": [
+          "Atomic insert/update, generic ordering and callback transactions rejected."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/qdrant/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/qdrant/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "trusted-server-http-default",
+          "browser": {
+            "status": "trusted-runtime-default-browser-unqualified",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "README says browser use normally unsafe; API key/CORS require trusted server/worker or separately designed scoped boundary."
+          },
+          "node": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No Node runtime receipt inspected; Fetch/no Node imports does not establish compatibility or verification."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/qdrant/README.md#L14",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/qdrant/README.md#L34"
+          ]
+        }
+      }
+    },
+    {
+      "id": "rds-data",
+      "name": "Amazon Aurora RDS Data API",
+      "go": {
+        "status": "absent",
+        "capabilities": [],
+        "limits": [
+          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        ],
+        "sources": [],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "source-only",
+        "implementation_status": "partial",
+        "package": "@dal-go/dalgo2rds-data",
+        "manifest_private": true,
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "conditional-update",
+          "delete"
+        ],
+        "limits": [
+          "Only Aurora Data API. Unique-key update/delete; insert/set/callback transactions rejected."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/rds-data/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/rds-data/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "trusted-server-http-default",
+          "browser": {
+            "status": "trusted-runtime-default-browser-unqualified",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "SigV4 and Secrets Manager DB-user secret ARN; HTTP-capable NOT browser-ready, no browser credential flow supplied."
+          },
+          "node": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No Node runtime receipt inspected; Fetch/no Node imports does not establish compatibility or verification."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/rds-data/README.md#L7",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/rds-data/README.md#L40"
+          ]
+        }
+      }
+    },
+    {
+      "id": "redis",
+      "name": "Redis",
+      "go": {
+        "status": "readonly",
+        "capabilities": [
+          "point-read",
+          "native-allowlisted-commands"
+        ],
+        "limits": [
+          "No SQL/TugQL/structured queries, scans, writes, schema or transactions. Bounded native GET/MGET/hash/metadata commands."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo2redis/blob/4c7b26799cc80ce22e8f85381609785104383099/redis.go",
+          "https://github.com/dal-go/dalgo2redis/blob/4c7b26799cc80ce22e8f85381609785104383099/bounded.go"
+        ],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "absent",
+        "capabilities": [],
+        "limits": [
+          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        ],
+        "sources": [],
+        "publication": "not-verified"
+      }
+    },
+    {
+      "id": "redshift",
+      "name": "Amazon Redshift",
+      "go": {
+        "status": "absent",
+        "capabilities": [],
+        "limits": [
+          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        ],
+        "sources": [],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "source-only",
+        "implementation_status": "readonly",
+        "package": "@dal-go/dalgo2redshift",
+        "manifest_private": true,
+        "capabilities": [
+          "point-read",
+          "structured-query"
+        ],
+        "limits": [
+          "Readonly Data API with bounded polling/pages; no generic writes/transactions."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/redshift/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/redshift/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "trusted-server-http-default",
+          "browser": {
+            "status": "trusted-runtime-default-browser-unqualified",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "Node/server default; actual source rejects browser unless allowBrowser:true; exceptional scoped credentials/CORS opt-in is not browser qualification."
+          },
+          "node": {
+            "status": "declared-compatible-not-runtime-verified",
+            "execution_verified_in_this_audit": false,
+            "note": "README explicitly describes Node/server use; this audit inspects source only."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/redshift/README.md#L43",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/redshift/package.json#L1"
+          ]
+        }
+      }
+    },
+    {
+      "id": "snowflake",
+      "name": "Snowflake",
+      "go": {
+        "status": "absent",
+        "capabilities": [],
+        "limits": [
+          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        ],
+        "sources": [],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "source-only",
+        "implementation_status": "readonly",
+        "package": "@dal-go/dalgo2snowflake",
+        "manifest_private": true,
+        "capabilities": [
+          "point-read",
+          "structured-query"
+        ],
+        "limits": [
+          "Readonly SQL API; trusted runtime; no generic CRUD/transactions."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/snowflake/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/snowflake/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "trusted-server-http-default",
+          "browser": {
+            "status": "trusted-runtime-default-browser-unqualified",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "README HTTP-capable NOT browser-ready; trusted Fetch runtime with OAuth or pre-generated JWT provider."
+          },
+          "node": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No Node runtime receipt inspected; Fetch/no Node imports does not establish compatibility or verification."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/snowflake/README.md#L3",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/snowflake/README.md#L22"
+          ]
+        }
+      }
+    },
+    {
+      "id": "solr",
+      "name": "Apache Solr",
+      "go": {
+        "status": "absent",
+        "capabilities": [],
+        "limits": [
+          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        ],
+        "sources": [],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "source-only",
+        "implementation_status": "partial",
+        "package": "@dal-go/dalgo2solr",
+        "manifest_private": true,
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "crud"
+        ],
+        "limits": [
+          "Bounded top-level subset; no callback transactions; trusted runtime."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/solr/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/solr/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "trusted-server-http-default",
+          "browser": {
+            "status": "trusted-runtime-default-browser-unqualified",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "Explicit trusted-runtime HTTP adapter, not safe browser exposure of Solr. CORS/auth alone do not supply user authorization design."
+          },
+          "node": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No Node runtime receipt inspected; Fetch/no Node imports does not establish compatibility or verification."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/solr/README.md#L5",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/solr/README.md#L6"
+          ]
+        }
+      }
+    },
+    {
+      "id": "spanner",
+      "name": "Google Cloud Spanner",
+      "go": {
+        "status": "absent",
+        "capabilities": [],
+        "limits": [
+          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        ],
+        "sources": [],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "source-only",
+        "implementation_status": "partial",
+        "package": "@dal-go/dalgo2spanner",
+        "manifest_private": true,
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "crud"
+        ],
+        "limits": [
+          "Single-request write commits; callback transaction/retry lifecycle rejected; scoped token/network required."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/spanner/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/spanner/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "browser-direct-http-conditional",
+          "browser": {
+            "status": "conditional-not-qualified",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "HTTP conditional on expiring least-privilege OAuth and verified deployed CORS; server broker/proxy often appropriate, never service-account keys."
+          },
+          "node": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No Node runtime receipt inspected; Fetch/no Node imports does not establish compatibility or verification."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/spanner/README.md#L6",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/spanner/README.md#L8"
+          ]
+        }
+      }
+    },
+    {
+      "id": "sqlite",
+      "name": "SQLite",
+      "go": {
+        "status": "implemented",
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "native-sql",
+          "crud",
+          "transactions",
+          "schema"
+        ],
+        "limits": [
+          "Backend/dialect restrictions apply."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo2sqlite/blob/f4645088efb5c056b71de93816b4425a87e11ed0/database_dal.go",
+          "https://github.com/dal-go/dalgo2sqlite/blob/f4645088efb5c056b71de93816b4425a87e11ed0/schema_reader.go"
+        ],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "implemented",
+        "implementation_status": "implemented",
+        "package": "@dalgo/sqlite-wasm",
+        "manifest_private": false,
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "crud",
+          "transactions"
+        ],
+        "limits": [
+          "Browser/Node WASM setup required; composite-primary-key tables have restricted point operations."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/sqlite-wasm/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/sqlite-wasm/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "browser-local",
+          "browser": {
+            "status": "source-intended-browser",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "Root is driver-injected/Node-compatible per README; browser WASM/OPFS/worker entrypoints are distinct and must load lazily. OPFS Worker is not Cloudflare edge."
+          },
+          "node": {
+            "status": "declared-compatible-not-runtime-verified",
+            "execution_verified_in_this_audit": false,
+            "note": "README explicitly describes Node/server use; this audit inspects source only."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/sqlite-wasm/README.md#L1",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/sqlite-wasm/README.md#L21"
+          ]
+        }
+      }
+    },
+    {
+      "id": "sqlserver",
+      "name": "SQL Server",
+      "go": {
+        "status": "partial",
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "native-sql",
+          "crud",
+          "schema"
+        ],
+        "limits": [
+          "Driver read-only transaction limitations; use restricted server credentials. Typed SQL Server dialect exists in current dalgo2sql."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo2mssql/blob/9fab4156e1b24ae454591e3b36f85cca243d4e51/database.go",
+          "https://github.com/dal-go/dalgo2mssql/blob/9fab4156e1b24ae454591e3b36f85cca243d4e51/driver.go"
+        ],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "absent",
+        "capabilities": [],
+        "limits": [
+          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        ],
+        "sources": [],
+        "publication": "not-verified"
+      }
+    },
+    {
+      "id": "timestream",
+      "name": "Amazon Timestream",
+      "go": {
+        "status": "absent",
+        "capabilities": [],
+        "limits": [
+          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        ],
+        "sources": [],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "source-only",
+        "implementation_status": "partial",
+        "package": "@dal-go/dalgo2timestream",
+        "manifest_private": true,
+        "capabilities": [
+          "point-read",
+          "bounded-collection-query",
+          "native-sql",
+          "native-write-records"
+        ],
+        "limits": [
+          "Generic filters/order/cursors/DALgo mutations/transactions rejected; separate querySql/writeRecords and service tokens."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/timestream/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/timestream/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "trusted-server-http-default",
+          "browser": {
+            "status": "trusted-runtime-default-browser-unqualified",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "WebCrypto SigV4 HTTP; actual window guard requires trustedRuntime:true, not evidence AWS endpoints are CORS-safe or credentials safe for public browser."
+          },
+          "node": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No Node runtime receipt inspected; Fetch/no Node imports does not establish compatibility or verification."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/timestream/README.md#L32",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/timestream/package.json#L1"
+          ]
+        }
+      }
+    },
+    {
+      "id": "typesense",
+      "name": "Typesense",
+      "go": {
+        "status": "readonly",
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "native-search",
+          "schema"
+        ],
+        "limits": [
+          "Safe bounded structured subset; richer native search is separate. No writes/transactions; metadata/search authorization scopes can differ."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo2typesense/blob/b1ba445d343449b0c29a8c0561ed4d6aaccea85b/database.go",
+          "https://github.com/dal-go/dalgo2typesense/blob/b1ba445d343449b0c29a8c0561ed4d6aaccea85b/search.go"
+        ],
+        "publication": "not-verified"
+      },
+      "typescript": {
+        "status": "readonly",
+        "implementation_status": "readonly",
+        "package": "@dalgo/dalgo2typesense",
+        "manifest_private": false,
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "native-search",
+          "schema-discovery"
+        ],
+        "limits": [
+          "Bounded native/structured reads; metadata/search scopes differ; no writes/callback transactions."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/typesense/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/typesense/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "browser-direct-http-conditional",
+          "browser": {
+            "status": "conditional-not-qualified",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "Read-only HTTP/search, restricted search credential and exact-origin CORS; metadata needs separately scoped permission. Native browser fixture source exists."
+          },
+          "node": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No Node runtime receipt inspected; Fetch/no Node imports does not establish compatibility or verification."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/typesense/README.md#L12",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/typesense/README.md#L13"
+          ]
+        }
+      }
+    }
+  ]
+}

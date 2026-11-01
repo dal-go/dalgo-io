@@ -12,7 +12,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - name: Verify static entrypoint
@@ -23,6 +23,27 @@ jobs:
         run: python3 scripts/render_articles.py --check
       - name: Verify feedback routing on static and generated pages
         run: python3 -m unittest discover -s scripts -p 'test_*.py'
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 26
+      - name: Verify saved and system theme preferences
+        run: node --test scripts/test_theme.cjs
+      - name: Install browser acceptance runtime
+        run: |
+          npm install --prefix "$RUNNER_TEMP/dalgo-browser-check" --ignore-scripts --no-audit --no-fund --save-exact playwright@1.64.1
+          node "$RUNNER_TEMP/dalgo-browser-check/node_modules/playwright/cli.js" install --with-deps --only-shell chromium
+      - name: Verify routes, runtime catalogue, themes and mobile layout in Chromium
+        env:
+          DALGO_PLAYWRIGHT_DIR: ${{ runner.temp }}/dalgo-browser-check
+        run: node scripts/check_browser.cjs
+      - name: Upload browser review screenshots
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: browser-review-${{ github.sha }}
+          path: ${{ runner.temp }}/dalgo-screenshots
+          if-no-files-found: ignore
+          retention-days: 7
       - name: Package verified release
         # tar preserves dotfiles, _headers, _redirects, and file permissions.
         run: tar -czf site.tar.gz public wrangler.jsonc

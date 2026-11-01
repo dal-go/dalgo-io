@@ -85,12 +85,15 @@ class LandingPages(unittest.TestCase):
             self.assertIn("https://github.com/dal-go/dalgo/tree/main/dalgotest", page)
             self.assertIn("https://github.com/dal-go/dalgo-http-adapters", page)
             self.assertIn("@dalgo/core", page)
-        for page, rw in ((EN, "Read-write: "), (RU, "Чтение и запись: ")):
-            m = re.search(re.escape(rw) + r"(.*?)\. ", page)
-            self.assertIn("@dalgo/sqlite-wasm", m.group(1))
-            self.assertIn("@dalgo/indexeddb", m.group(1))
-            for ro in ("ovdb", "bigquery", "d1", "http"):
-                self.assertNotIn(f"@dalgo/{ro}<", m.group(1))
+        # Full capabilities live in the runtime-aware catalogue, not a home
+        # paragraph that implicitly equates an implementation with availability.
+        inventory = rs.load_json(rs.SRC / 'adapter-status.json')
+        packages = {row['typescript'].get('package'): row['typescript'] for row in inventory['adapters']}
+        for package in ('@dalgo/sqlite-wasm', '@dalgo/indexeddb'):
+            self.assertIn('crud', packages[package]['capabilities'])
+            self.assertEqual(packages[package]['runtime']['classification'], 'browser-local')
+        for package in ('@dalgo/ovdb', '@dalgo/bigquery', '@dalgo/d1', '@dalgo/http'):
+            self.assertNotIn('crud', packages[package]['capabilities'])
         files = re.search(r"dalgo2files</strong></a> — ([^<]*)", EN).group(1)
         self.assertIn("read-only", files)
         self.assertIn("JSON", files)

@@ -13,6 +13,18 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://dalgo.io/"/>
   </url>
   <url>
+    <loc>https://dalgo.io/adapters/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dalgo.io/adapters/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dalgo.io/ru/adapters/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dalgo.io/adapters/"/>
+  </url>
+  <url>
+    <loc>https://dalgo.io/ru/adapters/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dalgo.io/adapters/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dalgo.io/ru/adapters/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dalgo.io/adapters/"/>
+  </url>
+  <url>
     <loc>https://dalgo.io/articles/</loc>
   </url>
   <url>
@@ -22,12 +34,120 @@
     <loc>https://dalgo.io/articles/why-use-dalgo/</loc>
   </url>
   <url>
+    <loc>https://dalgo.io/collections/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dalgo.io/collections/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dalgo.io/ru/collections/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dalgo.io/collections/"/>
+  </url>
+  <url>
+    <loc>https://dalgo.io/ru/collections/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dalgo.io/collections/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dalgo.io/ru/collections/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dalgo.io/collections/"/>
+  </url>
+  <url>
+    <loc>https://dalgo.io/datatug/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dalgo.io/datatug/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dalgo.io/ru/datatug/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dalgo.io/datatug/"/>
+  </url>
+  <url>
+    <loc>https://dalgo.io/ru/datatug/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dalgo.io/datatug/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dalgo.io/ru/datatug/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dalgo.io/datatug/"/>
+  </url>
+  <url>
+    <loc>https://dalgo.io/film/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dalgo.io/film/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dalgo.io/ru/film/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dalgo.io/film/"/>
+  </url>
+  <url>
+    <loc>https://dalgo.io/ru/film/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dalgo.io/film/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dalgo.io/ru/film/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dalgo.io/film/"/>
+  </url>
+  <url>
+    <loc>https://dalgo.io/go/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dalgo.io/go/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dalgo.io/ru/go/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dalgo.io/go/"/>
+  </url>
+  <url>
+    <loc>https://dalgo.io/ru/go/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dalgo.io/go/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dalgo.io/ru/go/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dalgo.io/go/"/>
+  </url>
+  <url>
+    <loc>https://dalgo.io/interfaces/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dalgo.io/interfaces/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dalgo.io/ru/interfaces/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dalgo.io/interfaces/"/>
+  </url>
+  <url>
+    <loc>https://dalgo.io/ru/interfaces/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dalgo.io/interfaces/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dalgo.io/ru/interfaces/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dalgo.io/interfaces/"/>
+  </url>
+  <url>
     <loc>https://dalgo.io/privacy/</loc>
+  </url>
+  <url>
+    <loc>https://dalgo.io/queries/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dalgo.io/queries/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dalgo.io/ru/queries/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dalgo.io/queries/"/>
+  </url>
+  <url>
+    <loc>https://dalgo.io/ru/queries/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dalgo.io/queries/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dalgo.io/ru/queries/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dalgo.io/queries/"/>
+  </url>
+  <url>
+    <loc>https://dalgo.io/quickstart/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dalgo.io/quickstart/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dalgo.io/ru/quickstart/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dalgo.io/quickstart/"/>
+  </url>
+  <url>
+    <loc>https://dalgo.io/ru/quickstart/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dalgo.io/quickstart/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dalgo.io/ru/quickstart/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dalgo.io/quickstart/"/>
   </url>
   <url>
     <loc>https://dalgo.io/tugql/</loc>
   </url>
   <url>
     <loc>https://dalgo.io/tugql/examples/</loc>
+  </url>
+  <url>
+    <loc>https://dalgo.io/typescript/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dalgo.io/typescript/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dalgo.io/ru/typescript/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dalgo.io/typescript/"/>
+  </url>
+  <url>
+    <loc>https://dalgo.io/ru/typescript/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dalgo.io/typescript/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dalgo.io/ru/typescript/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dalgo.io/typescript/"/>
+  </url>
+  <url>
+    <loc>https://dalgo.io/why/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dalgo.io/why/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dalgo.io/ru/why/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dalgo.io/why/"/>
+  </url>
+  <url>
+    <loc>https://dalgo.io/ru/why/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dalgo.io/why/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dalgo.io/ru/why/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dalgo.io/why/"/>
   </url>
 </urlset>

@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<script src="/theme.js"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Запросы и схема · DALgo</title>
+<meta name="description" content="Запросы и схема" />
+<link rel="canonical" href="https://dalgo.io/ru/queries/" />
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)" />
+<meta property="og:title" content="Запросы и схема · DALgo" />
+<meta property="og:description" content="Запросы и схема" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://dalgo.io/ru/queries/" />
+<link rel="alternate" hreflang="en" href="https://dalgo.io/queries/" />
+<link rel="alternate" hreflang="ru" href="https://dalgo.io/ru/queries/" />
+<link rel="alternate" hreflang="x-default" href="https://dalgo.io/queries/" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230d1117'/><text x='50%25' y='52%25' text-anchor='middle' dominant-baseline='middle' font-family='ui-monospace,monospace' font-size='28' font-weight='700' fill='%232f81f7'>d/</text></svg>" />
+<link rel="stylesheet" href="/styles.css" />
+<script src="/analytics.js" defer></script>
+<link rel="stylesheet" href="/theme.css" />
+<script src="/site.js" defer></script>
+</head>
+<body>
+
+<header class="AppHeader" role="banner">
+  <div class="AppHeader-inner">
+    <a class="AppHeader-brand" href="/ru/" aria-label="Главная DALgo">
+      <span class="AppHeader-brand-mark" aria-hidden="true">
+        <span class="brand-dal">DAL</span><span class="brand-go">go</span>
+      </span>
+    </a>
+
+
+
+    <nav class="AppHeader-nav" aria-label="Документация"><a href="/ru/go/">Go</a><a href="/ru/typescript/">TypeScript</a><a href="/ru/adapters/">Адаптеры</a><a href="/ru/quickstart/">Быстрый старт</a></nav>
+
+    <div class="AppHeader-actions"><nav class="lang-switch" aria-label="Язык"><a class="lang-switch-item" href="/queries/" hreflang="en" lang="en" data-lang-link>EN</a><span class="lang-switch-item" aria-current="true" lang="ru">RU</span></nav><label class="theme-control" data-theme-control hidden><span aria-hidden="true">◐</span><select data-theme-switch aria-label="Тема"><option value="system">Системная</option><option value="light">Светлая</option><option value="dark">Тёмная</option></select></label>
+
+    </div>
+  </div>
+</header>
+
+<main id="top" class="container topic-page"><p><a href="/ru/">DALgo</a> / Запросы и схема</p><section id="queries" class="section">
+  <div class="container">
+    <header class="section-head">
+      <span class="section-eyebrow">07 — Запросы и схема</span>
+      <h1 class="section-title">Запросы и схема</h1>
+      <p class="section-kicker">Построитель структурированных запросов, иерархические коллекции и ключи с учётом схемы — с поддержкой по возможностям адаптера.</p>
+    </header>
+
+    <div class="iface-grid">
+      <div class="iface-prose">
+        <p>
+          DALgo включает построитель структурированных запросов для типичных чтений: фильтры, сортировка, <code>LIMIT</code>, выбор столбцов, <code>GROUP BY</code> / <code>HAVING</code>, агрегаты вроде <code>COUNT(*)</code> и <code>SUM</code>, а также внутренние и левые соединения по равенству. Ключи могут описывать вложенные пути документов, например <code>countries/ireland/cities/dublin</code>, а родительский ключ ограничивает запрос вложенной коллекцией.
+        </p>
+        <div class="Flash">
+          <svg class="octicon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+          <div>Поддержка зависит от возможностей адаптера: бэкенд, который не умеет выполнять часть запроса, возвращает <code>dal.ErrNotSupported</code>, поэтому тесты используют одну форму запроса и корректно пропускают недоступное. Сериализованный формат запросов описан в <a href="/tugql/">TugQL</a> (на английском).</div>
+        </div>
+      </div>
+
+      <div class="codeblock">
+        <div class="codeblock-head">
+          <span class="codeblock-dot" style="background:#ff5f57"></span>
+          <span class="codeblock-dot" style="background:#febc2e"></span>
+          <span class="codeblock-dot" style="background:#28c840"></span>
+          <span class="codeblock-name">query.go</span>
+          <span class="codeblock-lang">Go</span>
+        </div>
+<pre><code><span class="pl-c">// Query the largest cities, projecting two columns.</span>
+cities <span class="pl-k">:=</span> dal.<span class="pl-en">NewRootCollectionRef</span>(<span class="pl-s">"cities"</span>, <span class="pl-s">""</span>)
+
+q <span class="pl-k">:=</span> dal.<span class="pl-en">From</span>(cities).<span class="pl-en">NewQuery</span>().
+    <span class="pl-en">WhereField</span>(<span class="pl-s">"Country"</span>, dal.Equal, <span class="pl-s">"IE"</span>).
+    <span class="pl-en">OrderBy</span>(dal.<span class="pl-en">DescendingField</span>(<span class="pl-s">"Population"</span>)).
+    <span class="pl-en">Limit</span>(<span class="pl-c1">10</span>).
+    <span class="pl-en">SelectColumns</span>(
+        dal.Column{Expression: dal.<span class="pl-en">Field</span>(<span class="pl-s">"Name"</span>)},
+        dal.Column{Expression: dal.<span class="pl-en">Field</span>(<span class="pl-s">"Population"</span>)},
+    )
+
+records, err <span class="pl-k">:=</span> dal.<span class="pl-en">ExecuteQueryAndReadAllToRecords</span>(ctx, q, db)
+</code></pre>
+      </div>
+    </div>
+  </div>
+</section></main>
+
+<footer class="AppFooter">
+  <div class="container AppFooter-inner">
+    <ul role="list">
+      <li>&copy; <span id="year">2026</span> DALgo contributors</li>
+      <li><a href="/">DALgo</a></li>
+      <li><a href="/articles/">Articles</a></li>
+      <li><a href="/tugql/">TugQL</a></li>
+      <li><a href="https://github.com/dal-go/dalgo" rel="noopener">Core repo</a></li>
+      <li><a href="https://github.com/dal-go/dalgo/blob/main/LICENSE" rel="noopener">MIT License</a></li>
+      <li><a href="/privacy/">Privacy</a></li>
+    </ul>
+    <span class="AppFooter-tag">Open-source documentation site. No accounts, no advertising.</span>
+  </div>
+<nav class="topic-footer container" data-topic-footer aria-label="Документация"><a href="/ru/go/">DALgo для Go</a><a href="/ru/typescript/">DALgo для TypeScript</a><a href="/ru/quickstart/">Быстрый старт</a><a href="/ru/adapters/">Адаптеры и среды выполнения</a><a href="/ru/why/">Зачем DALgo</a><a href="/ru/collections/">Типизированные коллекции</a><a href="/ru/interfaces/">Интерфейсы</a><a href="/ru/queries/">Запросы и схема</a><a href="/ru/film/">Смените адаптер</a><a href="/ru/datatug/">DALgo и DataTug</a><a href="/articles/">Articles</a><a href="/tugql/">TugQL</a></nav></footer>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<div class="site-feedback"><button type="button" data-feedback-launcher aria-haspopup="dialog" hidden><svg class="feedback-mark" aria-hidden="true" focusable="false" viewBox="0 0 64 64"><rect width="64" height="64" rx="18" fill="#d4ef83"/><path d="M18 46 46 18M20 18h26v26" fill="none" stroke="#202c2a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>Suggest an improvement</button></div>
+<script id="site-feedback-widget" src="https://improveit.now/widget.js" data-space="ao58m" data-app="53707531c1e1120447e7673109bb6538" data-lang="ru" data-color="#0d63e9" data-launcher="hidden" defer></script>
+<script src="/feedback.js" defer></script>
+</body>
+</html>
