@@ -659,13 +659,46 @@
         "publication": "not-verified"
       },
       "typescript": {
-        "status": "absent",
-        "capabilities": [],
-        "limits": [
-          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        "status": "readonly",
+        "implementation_status": "readonly",
+        "package": "@dalgo/dalgo2duckdb",
+        "manifest_private": false,
+        "capabilities": [
+          "ordinal-native-query",
+          "parquet-read",
+          "bounded-results"
         ],
-        "sources": [],
-        "publication": "not-verified"
+        "limits": [
+          "Read-only anonymous ordinal native SQL results, explicit local/registered Parquet grants and locked filesystem/network/extension settings. No fabricated record keys, generic point-read facade, structured/parameterized query, writes, callback transactions or automatic schema discovery. Result column metadata is not database discovery.",
+          "Public unmerged source branch d5abba45363b92ac875ad76a9e414dba07e008a5 (PR93); main remains a separate revision. Requires pending adapter-runtime0.2 ordinal declarations; npm publication, installed CLI, Apps and deployed web acceptance are unverified."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/duckdb/src/node.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/duckdb/README.md",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/duckdb/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "browser-local-wasm-conditional",
+          "browser": {
+            "status": "conditional-not-qualified",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "A local standalone Chromium fixture passed with WASM1.32/core1.4.3, registered Parquet, exact bool/null/int64/decimal values, locked resource settings, cancellation and reopen. Linked public source/tests document this scope; no public execution link, Apps or deployed web proof is claimed."
+          },
+          "node": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "The Node entry and its execution dependencies passed a local pinned DuckDB 1.4.5-r.1 Parquet fixture with exact integers/decimals, bounds, resource policy, cancellation and reopen. Source/tests are linked here; no public real-runtime receipt or released clean consumer is claimed."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification is inferred from Node, Fetch, browser or WASM source."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/duckdb/README.md"
+          ]
+        }
       }
     },
     {
@@ -1328,25 +1361,63 @@
         "status": "readonly",
         "capabilities": [
           "point-read",
-          "structured-query"
+          "structured-query",
+          "cancellation"
         ],
         "limits": [
-          "Bounded root collection/top-level scalar filters, projection and order. No writes, joins, grouping, cursors, native commands or recordset reader."
+          "Bounded root collection/top-level scalar filters, projection and order. No writes, joins, grouping, cursors, native commands or recordset reader.",
+          "Source is a public unmerged branch revision; Go pseudo-version availability is separate from a tagged release, installed CLI or application acceptance.",
+          "Context cancellation/deadline failures preserve safe standard sentinels and final delivery checks; custom causes and raw driver failures are redacted. Native commands, aggregation, keyset continuations and automatic schema discovery remain outside this Go slice."
         ],
         "sources": [
-          "https://github.com/dal-go/dalgo2mongodb/blob/505815e3caf4e894230c26df5b33e547d54dd44e/mongodb.go",
-          "https://github.com/dal-go/dalgo2mongodb/blob/505815e3caf4e894230c26df5b33e547d54dd44e/query.go"
+          "https://github.com/dal-go/dalgo2mongodb/blob/4aa0be74adc7d3d35699d1087908cb53bdc66de1/mongodb.go",
+          "https://github.com/dal-go/dalgo2mongodb/blob/4aa0be74adc7d3d35699d1087908cb53bdc66de1/query.go"
         ],
         "publication": "not-verified"
       },
       "typescript": {
-        "status": "absent",
-        "capabilities": [],
-        "limits": [
-          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        "status": "readonly",
+        "implementation_status": "readonly",
+        "package": "@dalgo/dalgo2mongodb",
+        "manifest_private": false,
+        "capabilities": [
+          "point-read",
+          "structured-query",
+          "bounded-native-find",
+          "readonly-aggregation",
+          "signed-keyset-pages"
         ],
-        "sources": [],
-        "publication": "not-verified"
+        "limits": [
+          "Read-only ObjectId/string core record facade plus native canonical EJSON reads, bounded predicates, signed query-bound keyset pages and allowlisted aggregation. No writes or callback transactions. discover() returns configured logical collection names, not automatic server schema discovery.",
+          "Public unmerged source branch d5abba45363b92ac875ad76a9e414dba07e008a5 (PR93); main remains a separate revision. npm publication, installed CLI, Apps and deployed web acceptance are unverified."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/mongodb/src/node-executor.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/mongodb/README.md",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/mongodb/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "browser-trusted-http-bridge-conditional",
+          "browser": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "Trusted authorized HTTP bridge source exists. Actual Chromium/Mongo acceptance remains UNVERIFIED after a resource-blocked attempt at the fixed 128 PID cap; this is not intrinsic protocol impossibility."
+          },
+          "node": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "The exact Node executor source passed a local authenticated MongoDB 8.0.17 service fixture with native BSON/EJSON, paging, least privilege, cancellation and reopen. This site links source/tests, not a public real-service execution receipt."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification is inferred from Node, Fetch, browser or WASM source."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/mongodb/README.md"
+          ]
+        }
       }
     },
     {
@@ -1986,25 +2057,63 @@
         "status": "readonly",
         "capabilities": [
           "point-read",
-          "native-allowlisted-commands"
+          "native-allowlisted-commands",
+          "scoped-scan",
+          "lossless-native-values",
+          "cancellation"
         ],
         "limits": [
-          "No SQL/TugQL/structured queries, scans, writes, schema or transactions. Bounded native GET/MGET/hash/metadata commands."
+          "No SQL/TugQL/structured queries, writes, schema or transactions. Bounded native reads include ZSCORE and server-owned literal-prefix SCAN. COUNT is a hint; 256-key reply cap, duplicates and empty pages are possible; no snapshot or whole-scan-work guarantee. Redis ACLs remain authoritative.",
+          "Source is a public unmerged branch revision; Go pseudo-version availability is separate from a tagged release, installed CLI or application acceptance."
         ],
         "sources": [
-          "https://github.com/dal-go/dalgo2redis/blob/4c7b26799cc80ce22e8f85381609785104383099/redis.go",
-          "https://github.com/dal-go/dalgo2redis/blob/4c7b26799cc80ce22e8f85381609785104383099/bounded.go"
+          "https://github.com/dal-go/dalgo2redis/blob/5a0bddba46205de08afb1493914e027d2c789b83/redis.go",
+          "https://github.com/dal-go/dalgo2redis/blob/5a0bddba46205de08afb1493914e027d2c789b83/bounded.go",
+          "https://github.com/dal-go/dalgo2redis/blob/5a0bddba46205de08afb1493914e027d2c789b83/native.go"
         ],
         "publication": "not-verified"
       },
       "typescript": {
-        "status": "absent",
-        "capabilities": [],
-        "limits": [
-          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        "status": "readonly",
+        "implementation_status": "readonly",
+        "package": "@dalgo/dalgo2redis-resp",
+        "manifest_private": false,
+        "capabilities": [
+          "native-allowlisted-commands",
+          "scoped-scan",
+          "lossless-native-values"
         ],
-        "sources": [],
-        "publication": "not-verified"
+        "limits": [
+          "Read-only native RESP2 commands over trusted Node TCP/TLS; the browser uses an authorized HTTP bridge. No SQL/TugQL, keyed Database facade, writes, schema discovery or transactions. SCAN needs server-owned literal prefix plus provider ACLs; COUNT is a hint, replies are capped, duplicates/empty pages are possible.",
+          "Public unmerged source branch d5abba45363b92ac875ad76a9e414dba07e008a5 (PR93); main remains a separate revision. npm publication, installed CLI, Apps and deployed web acceptance are unverified."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/redis-resp/src/node.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/redis-resp/README.md",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/redis-resp/package.json"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "browser-trusted-http-bridge-conditional",
+          "browser": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "Browser-safe authorized HTTP client source and bundle checks exist; actual Redis Chromium acceptance is unverified. Node HTTP tests do not establish browser execution."
+          },
+          "node": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "The exact Node executor source passed a local Redis 7.2.17 fixture, including bytes/int64, scoped SCAN, cancellation and reopen. This site links source/tests, not a public real-service execution receipt; package release and Apps are separate."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification is inferred from Node, Fetch, browser or WASM source."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/redis-resp/README.md"
+          ]
+        }
       }
     },
     {
@@ -2683,28 +2792,28 @@
         "runtimes": [
           "go"
         ],
-        "url": "https://github.com/dal-go/dalgo2mongodb/blob/505815e3caf4e894230c26df5b33e547d54dd44e/mongodb.go"
+        "url": "https://github.com/dal-go/dalgo2mongodb/blob/4aa0be74adc7d3d35699d1087908cb53bdc66de1/mongodb.go"
       },
       "mongodb-go-contract": {
         "kind": "documentation",
         "runtimes": [
           "go"
         ],
-        "url": "https://github.com/dal-go/dalgo2mongodb/blob/505815e3caf4e894230c26df5b33e547d54dd44e/README.md"
+        "url": "https://github.com/dal-go/dalgo2mongodb/blob/4aa0be74adc7d3d35699d1087908cb53bdc66de1/README.md"
       },
       "redis-go-source": {
         "kind": "source",
         "runtimes": [
           "go"
         ],
-        "url": "https://github.com/dal-go/dalgo2redis/blob/4c7b26799cc80ce22e8f85381609785104383099/redis.go"
+        "url": "https://github.com/dal-go/dalgo2redis/blob/5a0bddba46205de08afb1493914e027d2c789b83/redis.go"
       },
       "redis-go-contract": {
         "kind": "documentation",
         "runtimes": [
           "go"
         ],
-        "url": "https://github.com/dal-go/dalgo2redis/blob/4c7b26799cc80ce22e8f85381609785104383099/README.md"
+        "url": "https://github.com/dal-go/dalgo2redis/blob/5a0bddba46205de08afb1493914e027d2c789b83/README.md"
       },
       "duckdb-go-source": {
         "kind": "source",
@@ -2762,30 +2871,6 @@
         ],
         "url": "https://github.com/dal-go/dalgo2postgrest/blob/b8d31e8c335cfd1dea2993d68b438eb0e8329d05/README.md"
       },
-      "mongodb-ts-public-tree": {
-        "kind": "inventory-audit",
-        "runtimes": [
-          "ts-browser",
-          "ts-node"
-        ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/tree/31ad826e925348826e9a47ad962e897d7ece60d0/packages"
-      },
-      "redis-ts-public-tree": {
-        "kind": "inventory-audit",
-        "runtimes": [
-          "ts-browser",
-          "ts-node"
-        ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/tree/31ad826e925348826e9a47ad962e897d7ece60d0/packages"
-      },
-      "duckdb-ts-public-tree": {
-        "kind": "inventory-audit",
-        "runtimes": [
-          "ts-browser",
-          "ts-node"
-        ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/tree/31ad826e925348826e9a47ad962e897d7ece60d0/packages"
-      },
       "bq-node-source": {
         "kind": "source",
         "runtimes": [
@@ -2806,6 +2891,122 @@
           "ts-node"
         ],
         "url": "https://github.com/dal-go/dalgo-http-adapters/actions/runs/41315531049"
+      },
+      "redis-go-native-source": {
+        "kind": "source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2redis/blob/5a0bddba46205de08afb1493914e027d2c789b83/native.go"
+      },
+      "redis-go-native-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2redis/blob/5a0bddba46205de08afb1493914e027d2c789b83/parity_test.go"
+      },
+      "redis-ts-node-source": {
+        "kind": "source",
+        "runtimes": [
+          "ts-node"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/redis-resp/src/node.ts"
+      },
+      "redis-ts-browser-source": {
+        "kind": "source",
+        "runtimes": [
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/redis-resp/src/http.ts"
+      },
+      "redis-ts-contract": {
+        "kind": "documentation",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/redis-resp/README.md"
+      },
+      "redis-ts-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/redis-resp/test/redis.test.ts"
+      },
+      "mongodb-ts-node-source": {
+        "kind": "source",
+        "runtimes": [
+          "ts-node"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/mongodb/src/node-executor.ts"
+      },
+      "mongodb-ts-browser-source": {
+        "kind": "source",
+        "runtimes": [
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/mongodb/src/http.ts"
+      },
+      "mongodb-ts-contract": {
+        "kind": "documentation",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/mongodb/README.md"
+      },
+      "mongodb-ts-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-node"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/mongodb/test/node.test.ts"
+      },
+      "duckdb-ts-node-source": {
+        "kind": "source",
+        "runtimes": [
+          "ts-node"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/duckdb/src/node.ts"
+      },
+      "duckdb-ts-browser-source": {
+        "kind": "source",
+        "runtimes": [
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/duckdb/src/browser.ts"
+      },
+      "duckdb-ts-contract": {
+        "kind": "documentation",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/duckdb/README.md"
+      },
+      "duckdb-ts-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-node"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/duckdb/test/executor.test.ts"
+      },
+      "mongodb-ts-browser-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/mongodb/test/http.test.ts"
+      },
+      "duckdb-ts-browser-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/duckdb/scripts/real-browser.mjs"
       }
     },
     "overrides": {
@@ -2879,114 +3080,134 @@
         },
         "ts-browser": {
           "read": {
-            "status": "NOT_IMPLEMENTED",
+            "status": "UNVERIFIED",
             "reason": {
-              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
-              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+              "en": "Trusted authorized HTTP bridge source exists. Actual Chromium/Mongo acceptance remains UNVERIFIED after a resource-blocked attempt at the fixed 128 PID cap; this is not intrinsic protocol impossibility. Public branch source is present; browser execution is not established.",
+              "ru": "Код клиента для доверенного HTTP-моста опубликован в отдельной ветке. Выполнение в браузере не подтверждено; проверки Node и сборки не заменяют браузерную проверку. Попытка Chromium/Mongo упёрлась в фиксированный лимит 128 PID."
             },
             "evidence": [
-              "mongodb-ts-public-tree"
+              "mongodb-ts-browser-source",
+              "mongodb-ts-contract",
+              "mongodb-ts-browser-test"
             ],
             "verification": "source-only"
           },
           "write": {
             "status": "NOT_IMPLEMENTED",
             "reason": {
-              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
-              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+              "en": "This public adapter is intentionally read-only; provider writes are not intrinsically impossible.",
+              "ru": "Публичный адаптер предоставляет только чтение; это не ограничение самой базы данных."
             },
             "evidence": [
-              "mongodb-ts-public-tree"
+              "mongodb-ts-browser-source",
+              "mongodb-ts-contract",
+              "mongodb-ts-browser-test"
             ],
             "verification": "source-only"
           },
           "query": {
-            "status": "NOT_IMPLEMENTED",
+            "status": "UNVERIFIED",
             "reason": {
-              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
-              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+              "en": "Trusted authorized HTTP bridge source exists. Actual Chromium/Mongo acceptance remains UNVERIFIED after a resource-blocked attempt at the fixed 128 PID cap; this is not intrinsic protocol impossibility. Public branch source is present; browser execution is not established.",
+              "ru": "Код клиента для доверенного HTTP-моста опубликован в отдельной ветке. Выполнение в браузере не подтверждено; проверки Node и сборки не заменяют браузерную проверку. Попытка Chromium/Mongo упёрлась в фиксированный лимит 128 PID."
             },
             "evidence": [
-              "mongodb-ts-public-tree"
+              "mongodb-ts-browser-source",
+              "mongodb-ts-contract",
+              "mongodb-ts-browser-test"
             ],
             "verification": "source-only"
           },
           "transactions": {
             "status": "NOT_IMPLEMENTED",
             "reason": {
-              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
-              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+              "en": "No native callback transaction contract is implemented by this adapter.",
+              "ru": "Адаптер не реализует контракт нативных транзакций с обратным вызовом."
             },
             "evidence": [
-              "mongodb-ts-public-tree"
+              "mongodb-ts-browser-source",
+              "mongodb-ts-contract",
+              "mongodb-ts-browser-test"
             ],
             "verification": "source-only"
           },
           "schema": {
             "status": "NOT_IMPLEMENTED",
             "reason": {
-              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
-              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+              "en": "discover() lists configured logical collections only; automatic server schema discovery is not implemented.",
+              "ru": "Автоматическое получение схемы базы не реализовано; настроенные имена коллекций и типы ячеек результата — отдельные сведения."
             },
             "evidence": [
-              "mongodb-ts-public-tree"
+              "mongodb-ts-browser-source",
+              "mongodb-ts-contract",
+              "mongodb-ts-browser-test"
             ],
             "verification": "source-only"
           }
         },
         "ts-node": {
           "read": {
-            "status": "NOT_IMPLEMENTED",
+            "status": "PARTIAL",
             "reason": {
-              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
-              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+              "en": "Read-only ObjectId/string core facade plus bounded native EJSON find, signed query-bound keyset pages and allowlisted aggregation. No arbitrary native commands, offsets, joins or callback transactions.",
+              "ru": "Фасад чтения с ключами ObjectId/строками, ограниченный поиск EJSON, подписанные курсоры и разрешённое подмножество агрегации. Произвольные команды, смещения, соединения и транзакции с обратным вызовом отсутствуют."
             },
             "evidence": [
-              "mongodb-ts-public-tree"
+              "mongodb-ts-node-source",
+              "mongodb-ts-contract",
+              "mongodb-ts-test"
             ],
             "verification": "source-only"
           },
           "write": {
             "status": "NOT_IMPLEMENTED",
             "reason": {
-              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
-              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+              "en": "This public adapter is intentionally read-only; provider writes are not intrinsically impossible.",
+              "ru": "Публичный адаптер предоставляет только чтение; это не ограничение самой базы данных."
             },
             "evidence": [
-              "mongodb-ts-public-tree"
+              "mongodb-ts-node-source",
+              "mongodb-ts-contract",
+              "mongodb-ts-test"
             ],
             "verification": "source-only"
           },
           "query": {
-            "status": "NOT_IMPLEMENTED",
+            "status": "PARTIAL",
             "reason": {
-              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
-              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+              "en": "Read-only ObjectId/string core facade plus bounded native EJSON find, signed query-bound keyset pages and allowlisted aggregation. No arbitrary native commands, offsets, joins or callback transactions.",
+              "ru": "Фасад чтения с ключами ObjectId/строками, ограниченный поиск EJSON, подписанные курсоры и разрешённое подмножество агрегации. Произвольные команды, смещения, соединения и транзакции с обратным вызовом отсутствуют."
             },
             "evidence": [
-              "mongodb-ts-public-tree"
+              "mongodb-ts-node-source",
+              "mongodb-ts-contract",
+              "mongodb-ts-test"
             ],
             "verification": "source-only"
           },
           "transactions": {
             "status": "NOT_IMPLEMENTED",
             "reason": {
-              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
-              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+              "en": "No native callback transaction contract is implemented by this adapter.",
+              "ru": "Адаптер не реализует контракт нативных транзакций с обратным вызовом."
             },
             "evidence": [
-              "mongodb-ts-public-tree"
+              "mongodb-ts-node-source",
+              "mongodb-ts-contract",
+              "mongodb-ts-test"
             ],
             "verification": "source-only"
           },
           "schema": {
             "status": "NOT_IMPLEMENTED",
             "reason": {
-              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
-              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+              "en": "discover() lists configured logical collections only; automatic server schema discovery is not implemented.",
+              "ru": "Автоматическое получение схемы базы не реализовано; настроенные имена коллекций и типы ячеек результата — отдельные сведения."
             },
             "evidence": [
-              "mongodb-ts-public-tree"
+              "mongodb-ts-node-source",
+              "mongodb-ts-contract",
+              "mongodb-ts-test"
             ],
             "verification": "source-only"
           }
@@ -3023,13 +3244,15 @@
           "query": {
             "status": "PARTIAL",
             "reason": {
-              "en": "GET/MGET/HGET/HMGET/HEXISTS/EXISTS/TYPE/TTL/PTTL/STRLEN/HLEN/LLEN/SCARD/ZCARD. No SCAN, generic structured query or SQL/TugQL.",
-              "ru": "Реализовано ограниченное подмножество; точная область приведена ниже. Это не полная поддержка."
+              "en": "Bounded native read allowlist includes ZSCORE and literal-prefix SCAN with fail-closed reply/cursor checks. COUNT is a hint and pages can be empty or duplicate keys; no SQL/TugQL, structured queries or whole-scan snapshot guarantee.",
+              "ru": "Ограниченный API чтения включает ZSCORE и SCAN с заданным сервером буквальным префиксом и проверкой ответа/курсора. COUNT — подсказка; страницы могут быть пустыми, ключи — повторяться. SQL/TugQL, структурированных запросов и гарантии снимка всего обхода нет."
             },
-            "detail": "GET/MGET/HGET/HMGET/HEXISTS/EXISTS/TYPE/TTL/PTTL/STRLEN/HLEN/LLEN/SCARD/ZCARD. No SCAN, generic structured query or SQL/TugQL.",
+            "detail": "Bounded native read allowlist includes ZSCORE and literal-prefix SCAN with fail-closed reply/cursor checks. COUNT is a hint and pages can be empty or duplicate keys; no SQL/TugQL, structured queries or whole-scan snapshot guarantee.",
             "evidence": [
               "redis-go-source",
-              "redis-go-contract"
+              "redis-go-contract",
+              "redis-go-native-source",
+              "redis-go-native-test"
             ],
             "verification": "source-only"
           },
@@ -3049,10 +3272,10 @@
           "schema": {
             "status": "NOT_IMPLEMENTED",
             "reason": {
-              "en": "Schema nil; no key/type discovery API.",
-              "ru": "В проверенном публичном API возможность не реализована. Это не ограничение самой базы данных."
+              "en": "No generic schema discovery contract. Scoped SCAN and TYPE expose native key/type facts only.",
+              "ru": "Общего API получения схемы нет. SCAN и TYPE сообщают только сведения о нативных ключах и типах в разрешённой области."
             },
-            "detail": "Schema nil; no key/type discovery API.",
+            "detail": "No generic schema discovery contract. Scoped SCAN and TYPE expose native key/type facts only.",
             "evidence": [
               "redis-go-source",
               "redis-go-contract"
@@ -3062,114 +3285,134 @@
         },
         "ts-browser": {
           "read": {
-            "status": "NOT_IMPLEMENTED",
+            "status": "UNVERIFIED",
             "reason": {
-              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
-              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+              "en": "Browser-safe authorized HTTP client source and bundle checks exist; actual Redis Chromium acceptance is unverified. Node HTTP tests do not establish browser execution. Public branch source is present; browser execution is not established.",
+              "ru": "Код клиента для доверенного HTTP-моста опубликован в отдельной ветке. Выполнение в браузере не подтверждено; проверки Node и сборки не заменяют браузерную проверку."
             },
             "evidence": [
-              "redis-ts-public-tree"
+              "redis-ts-browser-source",
+              "redis-ts-contract",
+              "redis-ts-test"
             ],
             "verification": "source-only"
           },
           "write": {
             "status": "NOT_IMPLEMENTED",
             "reason": {
-              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
-              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+              "en": "This public adapter is intentionally read-only; provider writes are not intrinsically impossible.",
+              "ru": "Публичный адаптер предоставляет только чтение; это не ограничение самой базы данных."
             },
             "evidence": [
-              "redis-ts-public-tree"
+              "redis-ts-browser-source",
+              "redis-ts-contract",
+              "redis-ts-test"
             ],
             "verification": "source-only"
           },
           "query": {
-            "status": "NOT_IMPLEMENTED",
+            "status": "UNVERIFIED",
             "reason": {
-              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
-              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+              "en": "Browser-safe authorized HTTP client source and bundle checks exist; actual Redis Chromium acceptance is unverified. Node HTTP tests do not establish browser execution. Public branch source is present; browser execution is not established.",
+              "ru": "Код клиента для доверенного HTTP-моста опубликован в отдельной ветке. Выполнение в браузере не подтверждено; проверки Node и сборки не заменяют браузерную проверку."
             },
             "evidence": [
-              "redis-ts-public-tree"
+              "redis-ts-browser-source",
+              "redis-ts-contract",
+              "redis-ts-test"
             ],
             "verification": "source-only"
           },
           "transactions": {
             "status": "NOT_IMPLEMENTED",
             "reason": {
-              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
-              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+              "en": "No native callback transaction contract is implemented by this adapter.",
+              "ru": "Адаптер не реализует контракт нативных транзакций с обратным вызовом."
             },
             "evidence": [
-              "redis-ts-public-tree"
+              "redis-ts-browser-source",
+              "redis-ts-contract",
+              "redis-ts-test"
             ],
             "verification": "source-only"
           },
           "schema": {
             "status": "NOT_IMPLEMENTED",
             "reason": {
-              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
-              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+              "en": "No automatic database schema discovery API is implemented; native values/result column types are separate.",
+              "ru": "Автоматическое получение схемы базы не реализовано; настроенные имена коллекций и типы ячеек результата — отдельные сведения."
             },
             "evidence": [
-              "redis-ts-public-tree"
+              "redis-ts-browser-source",
+              "redis-ts-contract",
+              "redis-ts-test"
             ],
             "verification": "source-only"
           }
         },
         "ts-node": {
           "read": {
-            "status": "NOT_IMPLEMENTED",
+            "status": "PARTIAL",
             "reason": {
-              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
-              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+              "en": "Read-only native RESP command allowlist with lossless bytes/int64 and scoped single-page SCAN; no keyed Database or SQL/TugQL API. Trusted Node configuration and Redis ACLs are required.",
+              "ru": "Ограниченный API нативных команд RESP: байты/int64 без потерь и одна страница SCAN в заданной области. API Database с ключами и SQL/TugQL нет; нужны доверенная конфигурация Node и ACL Redis."
             },
             "evidence": [
-              "redis-ts-public-tree"
+              "redis-ts-node-source",
+              "redis-ts-contract",
+              "redis-ts-test"
             ],
             "verification": "source-only"
           },
           "write": {
             "status": "NOT_IMPLEMENTED",
             "reason": {
-              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
-              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+              "en": "This public adapter is intentionally read-only; provider writes are not intrinsically impossible.",
+              "ru": "Публичный адаптер предоставляет только чтение; это не ограничение самой базы данных."
             },
             "evidence": [
-              "redis-ts-public-tree"
+              "redis-ts-node-source",
+              "redis-ts-contract",
+              "redis-ts-test"
             ],
             "verification": "source-only"
           },
           "query": {
-            "status": "NOT_IMPLEMENTED",
+            "status": "PARTIAL",
             "reason": {
-              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
-              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+              "en": "Read-only native RESP command allowlist with lossless bytes/int64 and scoped single-page SCAN; no keyed Database or SQL/TugQL API. Trusted Node configuration and Redis ACLs are required.",
+              "ru": "Ограниченный API нативных команд RESP: байты/int64 без потерь и одна страница SCAN в заданной области. API Database с ключами и SQL/TugQL нет; нужны доверенная конфигурация Node и ACL Redis."
             },
             "evidence": [
-              "redis-ts-public-tree"
+              "redis-ts-node-source",
+              "redis-ts-contract",
+              "redis-ts-test"
             ],
             "verification": "source-only"
           },
           "transactions": {
             "status": "NOT_IMPLEMENTED",
             "reason": {
-              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
-              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+              "en": "No native callback transaction contract is implemented by this adapter.",
+              "ru": "Адаптер не реализует контракт нативных транзакций с обратным вызовом."
             },
             "evidence": [
-              "redis-ts-public-tree"
+              "redis-ts-node-source",
+              "redis-ts-contract",
+              "redis-ts-test"
             ],
             "verification": "source-only"
           },
           "schema": {
             "status": "NOT_IMPLEMENTED",
             "reason": {
-              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
-              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+              "en": "No automatic database schema discovery API is implemented; native values/result column types are separate.",
+              "ru": "Автоматическое получение схемы базы не реализовано; настроенные имена коллекций и типы ячеек результата — отдельные сведения."
             },
             "evidence": [
-              "redis-ts-public-tree"
+              "redis-ts-node-source",
+              "redis-ts-contract",
+              "redis-ts-test"
             ],
             "verification": "source-only"
           }
@@ -3227,114 +3470,134 @@
         },
         "ts-browser": {
           "read": {
-            "status": "NOT_IMPLEMENTED",
+            "status": "PARTIAL",
             "reason": {
-              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
-              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+              "en": "Read-only anonymous ordinal native SQL and explicitly granted Parquet; no keyed point reads, structured queries or bound parameters. Local standalone Chromium/WASM fixture passed; public execution receipt, npm release and Apps acceptance are separate.",
+              "ru": "Анонимные результаты SQL по порядковым номерам столбцов и явно разрешённые Parquet-файлы, только чтение. Чтения по ключу, структурированных запросов и связанных параметров нет. Локальная изолированная проверка пройдена; публичный результат выполнения, выпуск npm и приёмка Apps — отдельные факты."
             },
             "evidence": [
-              "duckdb-ts-public-tree"
+              "duckdb-ts-browser-source",
+              "duckdb-ts-contract",
+              "duckdb-ts-browser-test"
             ],
             "verification": "source-only"
           },
           "write": {
             "status": "NOT_IMPLEMENTED",
             "reason": {
-              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
-              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+              "en": "This public adapter is intentionally read-only; provider writes are not intrinsically impossible.",
+              "ru": "Публичный адаптер предоставляет только чтение; это не ограничение самой базы данных."
             },
             "evidence": [
-              "duckdb-ts-public-tree"
+              "duckdb-ts-browser-source",
+              "duckdb-ts-contract",
+              "duckdb-ts-browser-test"
             ],
             "verification": "source-only"
           },
           "query": {
-            "status": "NOT_IMPLEMENTED",
+            "status": "PARTIAL",
             "reason": {
-              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
-              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+              "en": "Read-only anonymous ordinal native SQL and explicitly granted Parquet; no keyed point reads, structured queries or bound parameters. Local standalone Chromium/WASM fixture passed; public execution receipt, npm release and Apps acceptance are separate.",
+              "ru": "Анонимные результаты SQL по порядковым номерам столбцов и явно разрешённые Parquet-файлы, только чтение. Чтения по ключу, структурированных запросов и связанных параметров нет. Локальная изолированная проверка пройдена; публичный результат выполнения, выпуск npm и приёмка Apps — отдельные факты."
             },
             "evidence": [
-              "duckdb-ts-public-tree"
+              "duckdb-ts-browser-source",
+              "duckdb-ts-contract",
+              "duckdb-ts-browser-test"
             ],
             "verification": "source-only"
           },
           "transactions": {
             "status": "NOT_IMPLEMENTED",
             "reason": {
-              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
-              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+              "en": "No native callback transaction contract is implemented by this adapter.",
+              "ru": "Адаптер не реализует контракт нативных транзакций с обратным вызовом."
             },
             "evidence": [
-              "duckdb-ts-public-tree"
+              "duckdb-ts-browser-source",
+              "duckdb-ts-contract",
+              "duckdb-ts-browser-test"
             ],
             "verification": "source-only"
           },
           "schema": {
             "status": "NOT_IMPLEMENTED",
             "reason": {
-              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
-              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+              "en": "No automatic database schema discovery API is implemented; native values/result column types are separate.",
+              "ru": "Автоматическое получение схемы базы не реализовано; настроенные имена коллекций и типы ячеек результата — отдельные сведения."
             },
             "evidence": [
-              "duckdb-ts-public-tree"
+              "duckdb-ts-browser-source",
+              "duckdb-ts-contract",
+              "duckdb-ts-browser-test"
             ],
             "verification": "source-only"
           }
         },
         "ts-node": {
           "read": {
-            "status": "NOT_IMPLEMENTED",
+            "status": "PARTIAL",
             "reason": {
-              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
-              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+              "en": "Read-only anonymous ordinal native SQL and explicitly granted Parquet; no keyed point reads, structured queries or bound parameters. Local standalone Node fixture passed; public execution receipt, npm release and Apps acceptance are separate.",
+              "ru": "Анонимные результаты SQL по порядковым номерам столбцов и явно разрешённые Parquet-файлы, только чтение. Чтения по ключу, структурированных запросов и связанных параметров нет. Локальная изолированная проверка пройдена; публичный результат выполнения, выпуск npm и приёмка Apps — отдельные факты."
             },
             "evidence": [
-              "duckdb-ts-public-tree"
+              "duckdb-ts-node-source",
+              "duckdb-ts-contract",
+              "duckdb-ts-test"
             ],
             "verification": "source-only"
           },
           "write": {
             "status": "NOT_IMPLEMENTED",
             "reason": {
-              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
-              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+              "en": "This public adapter is intentionally read-only; provider writes are not intrinsically impossible.",
+              "ru": "Публичный адаптер предоставляет только чтение; это не ограничение самой базы данных."
             },
             "evidence": [
-              "duckdb-ts-public-tree"
+              "duckdb-ts-node-source",
+              "duckdb-ts-contract",
+              "duckdb-ts-test"
             ],
             "verification": "source-only"
           },
           "query": {
-            "status": "NOT_IMPLEMENTED",
+            "status": "PARTIAL",
             "reason": {
-              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
-              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+              "en": "Read-only anonymous ordinal native SQL and explicitly granted Parquet; no keyed point reads, structured queries or bound parameters. Local standalone Node fixture passed; public execution receipt, npm release and Apps acceptance are separate.",
+              "ru": "Анонимные результаты SQL по порядковым номерам столбцов и явно разрешённые Parquet-файлы, только чтение. Чтения по ключу, структурированных запросов и связанных параметров нет. Локальная изолированная проверка пройдена; публичный результат выполнения, выпуск npm и приёмка Apps — отдельные факты."
             },
             "evidence": [
-              "duckdb-ts-public-tree"
+              "duckdb-ts-node-source",
+              "duckdb-ts-contract",
+              "duckdb-ts-test"
             ],
             "verification": "source-only"
           },
           "transactions": {
             "status": "NOT_IMPLEMENTED",
             "reason": {
-              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
-              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+              "en": "No native callback transaction contract is implemented by this adapter.",
+              "ru": "Адаптер не реализует контракт нативных транзакций с обратным вызовом."
             },
             "evidence": [
-              "duckdb-ts-public-tree"
+              "duckdb-ts-node-source",
+              "duckdb-ts-contract",
+              "duckdb-ts-test"
             ],
             "verification": "source-only"
           },
           "schema": {
             "status": "NOT_IMPLEMENTED",
             "reason": {
-              "en": "No package is present at the audited public main revision. Frozen unpublished implementation and local fixture proofs are separate.",
-              "ru": "В проверенной публичной ревизии пакета нет. Сохранённый неопубликованный код и локальные проверки учитываются отдельно."
+              "en": "No automatic database schema discovery API is implemented; native values/result column types are separate.",
+              "ru": "Автоматическое получение схемы базы не реализовано; настроенные имена коллекций и типы ячеек результата — отдельные сведения."
             },
             "evidence": [
-              "duckdb-ts-public-tree"
+              "duckdb-ts-node-source",
+              "duckdb-ts-contract",
+              "duckdb-ts-test"
             ],
             "verification": "source-only"
           }
