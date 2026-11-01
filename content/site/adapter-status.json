@@ -705,12 +705,19 @@
       "id": "dynamodb",
       "name": "DynamoDB",
       "go": {
-        "status": "absent",
-        "capabilities": [],
-        "limits": [
-          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        "status": "source-only",
+        "implementation_status": "partial",
+        "capabilities": [
+          "point-read",
+          "bounded-native-query"
         ],
-        "sources": [],
+        "limits": [
+          "Source branch with owned protocol fixtures; real engine/hosted, installed CLI and release acceptance are separate. Writes/transactions/schema discovery are not implemented."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo2dynamodb/blob/46c9938f48efe9d9e4232d3e47682ea5051bb56a/README.md",
+          "https://github.com/dal-go/dalgo2dynamodb/blob/46c9938f48efe9d9e4232d3e47682ea5051bb56a/client.go"
+        ],
         "publication": "not-verified"
       },
       "typescript": {
@@ -727,21 +734,22 @@
           "Adapter-owned pk/sk/data layout. No callback transactions/aggregation; browser requires temporary least-privilege credentials."
         ],
         "sources": [
-          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/dynamodb/src/database.ts",
-          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/dynamodb/package.json"
+          "https://github.com/dal-go/dalgo-http-adapters/blob/cceec308302d9cd66f72b63858a4ac5995b527c6/packages/dynamodb/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/cceec308302d9cd66f72b63858a4ac5995b527c6/packages/dynamodb/README.md"
         ],
         "publication": "not-verified",
         "runtime": {
           "classification": "browser-direct-http-conditional",
           "browser": {
-            "status": "conditional-not-qualified",
+            "status": "source-and-fixtures-only",
             "execution_verified_in_this_audit": false,
-            "conditions_and_limits": "Modular AWS document SDK; browser only temporary least-privilege Cognito/web-identity credentials, never long-lived IAM keys."
+            "conditions_and_limits": "Modular AWS document SDK; browser only temporary least-privilege Cognito/web-identity credentials, never long-lived IAM keys.",
+            "note": "See runtime-specific capability evidence; hosted/browser/installed release acceptance is not inferred."
           },
           "node": {
-            "status": "unverified",
+            "status": "source-and-fixtures-only",
             "execution_verified_in_this_audit": false,
-            "note": "No Node runtime receipt inspected; Fetch/no Node imports does not establish compatibility or verification."
+            "note": "See runtime-specific capability evidence; hosted/browser/installed release acceptance is not inferred."
           },
           "edge": {
             "status": "unverified",
@@ -1074,12 +1082,19 @@
       "id": "influxdb",
       "name": "InfluxDB 3",
       "go": {
-        "status": "absent",
-        "capabilities": [],
-        "limits": [
-          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        "status": "source-only",
+        "implementation_status": "partial",
+        "capabilities": [
+          "point-read",
+          "bounded-native-query"
         ],
-        "sources": [],
+        "limits": [
+          "Source branch with owned protocol fixtures; real engine/hosted, installed CLI and release acceptance are separate. Writes/transactions/schema discovery are not implemented."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo2influxdb/blob/deba4dd49915c94c8a1f258394c2bce7e8496823/README.md",
+          "https://github.com/dal-go/dalgo2influxdb/blob/deba4dd49915c94c8a1f258394c2bce7e8496823/client.go"
+        ],
         "publication": "not-verified"
       },
       "typescript": {
@@ -1096,21 +1111,22 @@
           "DALgo point mutations/transactions rejected; appendLineProtocol is a separate native write API."
         ],
         "sources": [
-          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/influxdb/src/database.ts",
-          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/influxdb/package.json"
+          "https://github.com/dal-go/dalgo-http-adapters/blob/81c99b52192c0ee4d25a9eca305c006c148965fb/packages/influxdb/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/81c99b52192c0ee4d25a9eca305c006c148965fb/packages/influxdb/README.md"
         ],
         "publication": "not-verified",
         "runtime": {
           "classification": "browser-direct-http-conditional",
           "browser": {
-            "status": "conditional-not-qualified",
+            "status": "source-and-fixtures-only",
             "execution_verified_in_this_audit": false,
-            "conditions_and_limits": "HTTP conditional on endpoint CORS and current scoped short-lived token; broad/org/shared-write tokens stay server-side."
+            "conditions_and_limits": "HTTP conditional on endpoint CORS and current scoped short-lived token; broad/org/shared-write tokens stay server-side.",
+            "note": "See runtime-specific capability evidence; hosted/browser/installed release acceptance is not inferred."
           },
           "node": {
-            "status": "unverified",
+            "status": "source-and-fixtures-only",
             "execution_verified_in_this_audit": false,
-            "note": "No Node runtime receipt inspected; Fetch/no Node imports does not establish compatibility or verification."
+            "note": "See runtime-specific capability evidence; hosted/browser/installed release acceptance is not inferred."
           },
           "edge": {
             "status": "unverified",
@@ -3133,6 +3149,122 @@
           "ts-node"
         ],
         "url": "https://github.com/dal-go/dalgo-http-adapters/actions/runs/41351717437/job/124983143877"
+      },
+      "dynamo-go-source": {
+        "kind": "source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2dynamodb/blob/46c9938f48efe9d9e4232d3e47682ea5051bb56a/client.go"
+      },
+      "dynamo-go-contract": {
+        "kind": "documentation",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2dynamodb/blob/46c9938f48efe9d9e4232d3e47682ea5051bb56a/README.md"
+      },
+      "dynamo-go-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2dynamodb/blob/46c9938f48efe9d9e4232d3e47682ea5051bb56a/sdk_test.go"
+      },
+      "influx-go-source": {
+        "kind": "source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2influxdb/blob/deba4dd49915c94c8a1f258394c2bce7e8496823/client.go"
+      },
+      "influx-go-contract": {
+        "kind": "documentation",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2influxdb/blob/deba4dd49915c94c8a1f258394c2bce7e8496823/README.md"
+      },
+      "influx-go-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2influxdb/blob/deba4dd49915c94c8a1f258394c2bce7e8496823/client_test.go"
+      },
+      "dynamo-ts-source": {
+        "kind": "source",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/cceec308302d9cd66f72b63858a4ac5995b527c6/packages/dynamodb/src/database.ts"
+      },
+      "dynamo-ts-contract": {
+        "kind": "documentation",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/cceec308302d9cd66f72b63858a4ac5995b527c6/packages/dynamodb/README.md"
+      },
+      "dynamo-ts-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-node"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/cceec308302d9cd66f72b63858a4ac5995b527c6/.github/fixtures/dynamodb-packed-consumer/runtime.mjs"
+      },
+      "influx-ts-source": {
+        "kind": "source",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/81c99b52192c0ee4d25a9eca305c006c148965fb/packages/influxdb/src/database.ts"
+      },
+      "influx-ts-contract": {
+        "kind": "documentation",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/81c99b52192c0ee4d25a9eca305c006c148965fb/packages/influxdb/README.md"
+      },
+      "influx-ts-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-node"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/81c99b52192c0ee4d25a9eca305c006c148965fb/.github/fixtures/influx-packed-consumer/runtime.mjs"
+      },
+      "dynamo-ts-browser-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/cceec308302d9cd66f72b63858a4ac5995b527c6/.github/fixtures/dynamodb-packed-consumer/browser-entry.mjs"
+      },
+      "dynamo-ts-write-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-node"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/cceec308302d9cd66f72b63858a4ac5995b527c6/packages/dynamodb/test/database.test.ts"
+      },
+      "influx-ts-browser-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/81c99b52192c0ee4d25a9eca305c006c148965fb/.github/fixtures/influx-packed-consumer/browser-entry.mjs"
+      },
+      "influx-ts-write-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-node"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/81c99b52192c0ee4d25a9eca305c006c148965fb/packages/influxdb/test/database.test.ts"
       }
     },
     "overrides": {
@@ -4153,6 +4285,412 @@
               "upstash-ts-browser-source",
               "upstash-ts-contract",
               "upstash-ts-browser-test"
+            ],
+            "verification": "source-only"
+          }
+        }
+      },
+      "dynamodb": {
+        "go": {
+          "read": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Existing-table native string/composite keys and bounded QueryPartition preserve AWS numbers/binary/sets. Generic DALgo query, Scan and discovery are not implemented; cursors are process-local. Owned TLS fixtures do not qualify DynamoDB Local or hosted IAM.",
+              "ru": "Нативные строковые и составные ключи существующих таблиц и ограниченный QueryPartition сохраняют числа, байты и наборы AWS. Общий DALgo-запрос, Scan и метаданные не реализованы; курсоры действуют в процессе. TLS-фикстуры не подтверждают DynamoDB Local или облачный IAM."
+            },
+            "evidence": [
+              "dynamo-go-source",
+              "dynamo-go-contract",
+              "dynamo-go-test"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Existing-table native string/composite keys and bounded QueryPartition preserve AWS numbers/binary/sets. Generic DALgo query, Scan and discovery are not implemented; cursors are process-local. Owned TLS fixtures do not qualify DynamoDB Local or hosted IAM.",
+              "ru": "Нативные строковые и составные ключи существующих таблиц и ограниченный QueryPartition сохраняют числа, байты и наборы AWS. Общий DALgo-запрос, Scan и метаданные не реализованы; курсоры действуют в процессе. TLS-фикстуры не подтверждают DynamoDB Local или облачный IAM."
+            },
+            "evidence": [
+              "dynamo-go-source",
+              "dynamo-go-contract",
+              "dynamo-go-test"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Read-only Go facade; DynamoDB supports writes, but this adapter does not implement them.",
+              "ru": "Go-адаптер реализует только чтение; DynamoDB поддерживает запись, но в адаптере её нет."
+            },
+            "evidence": [
+              "dynamo-go-source",
+              "dynamo-go-contract",
+              "dynamo-go-test"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No Go transaction adapter surface is implemented; DynamoDB transactional APIs are a separate integration.",
+              "ru": "API транзакций в Go-адаптере не реализован; транзакционные API DynamoDB требуют отдельной интеграции."
+            },
+            "evidence": [
+              "dynamo-go-source",
+              "dynamo-go-contract",
+              "dynamo-go-test"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Explicit existing table/key mappings only; table/index discovery is not implemented.",
+              "ru": "Только явные привязки существующих таблиц и ключей; получение метаданных таблиц и индексов не реализовано."
+            },
+            "evidence": [
+              "dynamo-go-source",
+              "dynamo-go-contract",
+              "dynamo-go-test"
+            ],
+            "verification": "source-only"
+          }
+        },
+        "ts-node": {
+          "read": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Managed pk/sk/data point and batch reads plus partition queries have whole-operation cancellation and parsed-value/work bounds. Native existing-table mode is not implemented. Official-SDK handler fixtures do not qualify hosted IAM.",
+              "ru": "Чтение ключей и пакетов и запросы разделов со структурой pk/sk/data имеют общую отмену и ограничения данных и работы. Режим произвольных существующих таблиц не реализован. Фикстуры AWS SDK не подтверждают облачный IAM."
+            },
+            "evidence": [
+              "dynamo-ts-source",
+              "dynamo-ts-contract",
+              "dynamo-ts-test"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Managed pk/sk/data point and batch reads plus partition queries have whole-operation cancellation and parsed-value/work bounds. Native existing-table mode is not implemented. Official-SDK handler fixtures do not qualify hosted IAM.",
+              "ru": "Чтение ключей и пакетов и запросы разделов со структурой pk/sk/data имеют общую отмену и ограничения данных и работы. Режим произвольных существующих таблиц не реализован. Фикстуры AWS SDK не подтверждают облачный IAM."
+            },
+            "evidence": [
+              "dynamo-ts-source",
+              "dynamo-ts-contract",
+              "dynamo-ts-test"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Existing managed-layout conditional create/upsert/delete remain implemented; this read-lifecycle slice does not newly qualify hosted write authorization.",
+              "ru": "Условные create/upsert/delete в управляемой структуре сохранены; проверка жизненного цикла чтения не подтверждает облачные права записи."
+            },
+            "evidence": [
+              "dynamo-ts-source",
+              "dynamo-ts-contract",
+              "dynamo-ts-write-test"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Callback transactions are not implemented by this adapter; no intrinsic DynamoDB transaction limitation is claimed.",
+              "ru": "Транзакции с обратным вызовом не реализованы в адаптере; общий запрет транзакций DynamoDB не утверждается."
+            },
+            "evidence": [
+              "dynamo-ts-source",
+              "dynamo-ts-contract",
+              "dynamo-ts-test"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Managed pk/sk/data layout only; native existing-table/index mapping and discovery are not implemented.",
+              "ru": "Только управляемая структура pk/sk/data; привязка произвольных существующих таблиц и индексов и их метаданные не реализованы."
+            },
+            "evidence": [
+              "dynamo-ts-source",
+              "dynamo-ts-contract",
+              "dynamo-ts-test"
+            ],
+            "verification": "source-only"
+          }
+        },
+        "ts-browser": {
+          "read": {
+            "status": "UNVERIFIED",
+            "reason": {
+              "en": "Adapter-only DOM types and browser graph/VM fixtures exist, but actual browser execution/CORS/temporary IAM are unverified. Direct official AWS SDK DOM imports separately fail upstream Node ambient declarations; no Node-type workaround is counted as browser proof.",
+              "ru": "Есть типы DOM самого адаптера и проверки графа/VM; реальные браузерные запросы, CORS и временный IAM не подтверждены. Прямые импорты AWS SDK в DOM требуют типов Node; обход не считается браузерной проверкой."
+            },
+            "evidence": [
+              "dynamo-ts-source",
+              "dynamo-ts-contract",
+              "dynamo-ts-browser-test"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "UNVERIFIED",
+            "reason": {
+              "en": "Adapter-only DOM types and browser graph/VM fixtures exist, but actual browser execution/CORS/temporary IAM are unverified. Direct official AWS SDK DOM imports separately fail upstream Node ambient declarations; no Node-type workaround is counted as browser proof.",
+              "ru": "Есть типы DOM самого адаптера и проверки графа/VM; реальные браузерные запросы, CORS и временный IAM не подтверждены. Прямые импорты AWS SDK в DOM требуют типов Node; обход не считается браузерной проверкой."
+            },
+            "evidence": [
+              "dynamo-ts-source",
+              "dynamo-ts-contract",
+              "dynamo-ts-browser-test"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "UNVERIFIED",
+            "reason": {
+              "en": "Adapter-only DOM types and browser graph/VM fixtures exist, but actual browser execution/CORS/temporary IAM are unverified. Direct official AWS SDK DOM imports separately fail upstream Node ambient declarations; no Node-type workaround is counted as browser proof.",
+              "ru": "Есть типы DOM самого адаптера и проверки графа/VM; реальные браузерные запросы, CORS и временный IAM не подтверждены. Прямые импорты AWS SDK в DOM требуют типов Node; обход не считается браузерной проверкой."
+            },
+            "evidence": [
+              "dynamo-ts-source",
+              "dynamo-ts-contract",
+              "dynamo-ts-browser-test"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Callback transactions are not implemented by this adapter; no intrinsic DynamoDB transaction limitation is claimed.",
+              "ru": "Транзакции с обратным вызовом не реализованы в адаптере; общий запрет транзакций DynamoDB не утверждается."
+            },
+            "evidence": [
+              "dynamo-ts-source",
+              "dynamo-ts-contract",
+              "dynamo-ts-browser-test"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Managed pk/sk/data layout only; native existing-table/index mapping and discovery are not implemented.",
+              "ru": "Только управляемая структура pk/sk/data; привязка произвольных существующих таблиц и индексов и их метаданные не реализованы."
+            },
+            "evidence": [
+              "dynamo-ts-source",
+              "dynamo-ts-contract",
+              "dynamo-ts-browser-test"
+            ],
+            "verification": "source-only"
+          }
+        }
+      },
+      "influxdb": {
+        "go": {
+          "read": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Mapped InfluxDB3 SQL string-key reads and bounded scalar/keyset queries. Generic DALgo queries are partial; aggregates and metadata discovery are not implemented. Owned HTTP fixtures do not qualify a real engine or any Cloud generation.",
+              "ru": "Чтение строковых ключей и ограниченные скалярные запросы с keyset через SQL InfluxDB3. Общие DALgo-запросы реализованы частично; агрегаты и метаданные не реализованы. HTTP-фикстуры не подтверждают реальный сервер или поколение Cloud."
+            },
+            "evidence": [
+              "influx-go-source",
+              "influx-go-contract",
+              "influx-go-test"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Mapped InfluxDB3 SQL string-key reads and bounded scalar/keyset queries. Generic DALgo queries are partial; aggregates and metadata discovery are not implemented. Owned HTTP fixtures do not qualify a real engine or any Cloud generation.",
+              "ru": "Чтение строковых ключей и ограниченные скалярные запросы с keyset через SQL InfluxDB3. Общие DALgo-запросы реализованы частично; агрегаты и метаданные не реализованы. HTTP-фикстуры не подтверждают реальный сервер или поколение Cloud."
+            },
+            "evidence": [
+              "influx-go-source",
+              "influx-go-contract",
+              "influx-go-test"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "This Go adapter does not implement append/write; InfluxDB itself supports writes.",
+              "ru": "Go-адаптер не реализует добавление и запись; сама InfluxDB поддерживает запись."
+            },
+            "evidence": [
+              "influx-go-source",
+              "influx-go-contract",
+              "influx-go-test"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No transaction facade or cross-page snapshot is implemented; pages are independent reads.",
+              "ru": "API транзакций и снимок между страницами не реализованы; страницы читаются независимо."
+            },
+            "evidence": [
+              "influx-go-source",
+              "influx-go-contract",
+              "influx-go-test"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Configured table/column mappings only; automatic metadata discovery is not implemented.",
+              "ru": "Только заданные привязки таблиц и столбцов; автоматическое получение метаданных не реализовано."
+            },
+            "evidence": [
+              "influx-go-source",
+              "influx-go-contract",
+              "influx-go-test"
+            ],
+            "verification": "source-only"
+          }
+        },
+        "ts-node": {
+          "read": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Mapped InfluxDB3 SQL reads and keyset queries share caller/deadline and whole-operation byte limits. Strict packed Node source and owned HTTP fixtures are separate from real InfluxDB/Cloud acceptance; v2/Flux/InfluxQL are not qualified.",
+              "ru": "Чтение и keyset-запросы SQL InfluxDB3 имеют общую отмену, срок и байтовые ограничения. Строгие проверки Node и HTTP-фикстуры не заменяют проверку InfluxDB/Cloud; v2/Flux/InfluxQL не подтверждены."
+            },
+            "evidence": [
+              "influx-ts-source",
+              "influx-ts-contract",
+              "influx-ts-test"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Mapped InfluxDB3 SQL reads and keyset queries share caller/deadline and whole-operation byte limits. Strict packed Node source and owned HTTP fixtures are separate from real InfluxDB/Cloud acceptance; v2/Flux/InfluxQL are not qualified.",
+              "ru": "Чтение и keyset-запросы SQL InfluxDB3 имеют общую отмену, срок и байтовые ограничения. Строгие проверки Node и HTTP-фикстуры не заменяют проверку InfluxDB/Cloud; v2/Flux/InfluxQL не подтверждены."
+            },
+            "evidence": [
+              "influx-ts-source",
+              "influx-ts-contract",
+              "influx-ts-test"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Explicit native appendLineProtocol only, with bounded caller/deadline handling and no automatic retry or rollback; generic DALgo CRUD is not implemented. Hosted writes are unverified.",
+              "ru": "Только явный нативный appendLineProtocol с ограничениями и отменой, без автоматических повторов и отката; общий DALgo CRUD не реализован. Облачная запись не подтверждена."
+            },
+            "evidence": [
+              "influx-ts-source",
+              "influx-ts-contract",
+              "influx-ts-write-test"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Callback transactions and cross-request snapshots are not implemented by the adapter.",
+              "ru": "Транзакции с обратным вызовом и снимки между запросами не реализованы в адаптере."
+            },
+            "evidence": [
+              "influx-ts-source",
+              "influx-ts-contract",
+              "influx-ts-test"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Configured mappings only; automatic schema discovery is not implemented.",
+              "ru": "Только заданные привязки; автоматическое получение схемы не реализовано."
+            },
+            "evidence": [
+              "influx-ts-source",
+              "influx-ts-contract",
+              "influx-ts-test"
+            ],
+            "verification": "source-only"
+          }
+        },
+        "ts-browser": {
+          "read": {
+            "status": "UNVERIFIED",
+            "reason": {
+              "en": "DOM declarations and browser graph/VM fixtures exist; actual Chromium/Cloud CORS/query/append execution is unverified. InfluxDB3 source does not qualify v2/Flux/InfluxQL or a Cloud product generation.",
+              "ru": "Есть типы DOM и проверки графа/VM; реальные запросы и добавление данных в Chromium/Cloud с CORS не подтверждены. Код InfluxDB3 не подтверждает v2/Flux/InfluxQL или поколение Cloud."
+            },
+            "evidence": [
+              "influx-ts-source",
+              "influx-ts-contract",
+              "influx-ts-browser-test"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "UNVERIFIED",
+            "reason": {
+              "en": "DOM declarations and browser graph/VM fixtures exist; actual Chromium/Cloud CORS/query/append execution is unverified. InfluxDB3 source does not qualify v2/Flux/InfluxQL or a Cloud product generation.",
+              "ru": "Есть типы DOM и проверки графа/VM; реальные запросы и добавление данных в Chromium/Cloud с CORS не подтверждены. Код InfluxDB3 не подтверждает v2/Flux/InfluxQL или поколение Cloud."
+            },
+            "evidence": [
+              "influx-ts-source",
+              "influx-ts-contract",
+              "influx-ts-browser-test"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "UNVERIFIED",
+            "reason": {
+              "en": "DOM declarations and browser graph/VM fixtures exist; actual Chromium/Cloud CORS/query/append execution is unverified. InfluxDB3 source does not qualify v2/Flux/InfluxQL or a Cloud product generation.",
+              "ru": "Есть типы DOM и проверки графа/VM; реальные запросы и добавление данных в Chromium/Cloud с CORS не подтверждены. Код InfluxDB3 не подтверждает v2/Flux/InfluxQL или поколение Cloud."
+            },
+            "evidence": [
+              "influx-ts-source",
+              "influx-ts-contract",
+              "influx-ts-browser-test"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Callback transactions and cross-request snapshots are not implemented by the adapter.",
+              "ru": "Транзакции с обратным вызовом и снимки между запросами не реализованы в адаптере."
+            },
+            "evidence": [
+              "influx-ts-source",
+              "influx-ts-contract",
+              "influx-ts-browser-test"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Configured mappings only; automatic schema discovery is not implemented.",
+              "ru": "Только заданные привязки; автоматическое получение схемы не реализовано."
+            },
+            "evidence": [
+              "influx-ts-source",
+              "influx-ts-contract",
+              "influx-ts-browser-test"
             ],
             "verification": "source-only"
           }
