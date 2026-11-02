@@ -83,6 +83,44 @@ class CapabilityMatrix(unittest.TestCase):
         self.assertEqual(capability_cell(self.inventory, 'cloudflare-kv', 'go', 'write')['status'], 'NOT_IMPLEMENTED')
         self.assertEqual(capability_cell(self.inventory, 'cloudflare-kv', 'go', 'transactions')['status'], 'UNSUPPORTED')
 
+    def test_snowflake_native_source_does_not_imply_browser_execution_or_release(self):
+        matrix = self.inventory['capabilityMatrix']
+        row = next(row for row in self.inventory['adapters'] if row['id'] == 'snowflake')
+        pins = {
+            'go': '726e8a6a5014896749579dd2769a93c65f4f5669',
+            'ts-node': '21167ea040d487d442cdcb6534092b7d6ed446a9',
+        }
+        for runtime, pin in pins.items():
+            for capability in ('read', 'query'):
+                cell = capability_cell(self.inventory, 'snowflake', runtime, capability)
+                self.assertEqual(cell['status'], 'PARTIAL')
+                self.assertEqual(cell['verification'], 'source-only')
+                for reference in cell['evidence']:
+                    evidence = matrix['evidence'][reference]
+                    self.assertIn('/' + pin + '/', evidence['url'])
+                    self.assertNotEqual(evidence['kind'], 'execution')
+            language = 'go' if runtime == 'go' else 'typescript'
+            self.assertEqual(row[language]['status'], 'source-only')
+            self.assertEqual(row[language]['publication'], 'not-verified')
+        self.assertEqual(row['typescript']['package'], '@dal-go/dalgo2snowflake')
+        self.assertTrue(row['typescript']['manifest_private'])
+        for capability in ('read', 'query'):
+            browser = capability_cell(self.inventory, 'snowflake', 'ts-browser', capability)
+            self.assertEqual(browser['status'], 'UNVERIFIED')
+            self.assertEqual(browser['verification'], 'source-only')
+            self.assertIn('pre-abort only', browser['reason']['en'])
+        for runtime in RUNTIMES:
+            for capability in ('write', 'transactions', 'schema'):
+                self.assertEqual(capability_cell(self.inventory, 'snowflake', runtime, capability)['status'], 'NOT_IMPLEMENTED')
+        self.assertEqual(matrix['evidence']['snowflake-ts-packed-fixture']['kind'], 'test-source')
+        self.assertEqual(matrix['evidence']['snowflake-ts-packed-fixture']['runtimes'], ['ts-node'])
+        # A Node protocol fixture must not qualify the browser, even while that
+        # browser capability remains explicitly unverified.
+        candidate = copy.deepcopy(self.inventory)
+        candidate['capabilityMatrix']['overrides']['snowflake']['ts-browser']['read']['evidence'] = ['snowflake-ts-packed-fixture']
+        with self.assertRaises(ValueError):
+            validate_inventory(candidate)
+
     def test_schema_is_discovery_and_bigquery_execution_is_synthetic_only(self):
         schema = capability_cell(self.inventory, 'postgrest', 'go', 'schema')
         self.assertEqual(schema['status'], 'PARTIAL')

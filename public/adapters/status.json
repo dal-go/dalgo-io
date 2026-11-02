@@ -2215,12 +2215,28 @@
       "id": "snowflake",
       "name": "Snowflake",
       "go": {
-        "status": "absent",
-        "capabilities": [],
-        "limits": [
-          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        "status": "source-only",
+        "implementation_status": "partial",
+        "capabilities": [
+          "native-point-read",
+          "ordered-batch-read",
+          "structured-query",
+          "recordset-readers",
+          "lossless-native-values"
         ],
-        "sources": [],
+        "limits": [
+          "Native SQL API reads use trusted existing-table/ID mappings and preserve original string IDs, JSONv2 STRING/null cells and observed column descriptors. Get/Exists/ordered GetMany and real DALgo records/recordset readers use a closed parameterized SELECT subset; arbitrary SQL and wider typed decoding are not implemented.",
+          "Public unmerged Go source PR1 and its resolved public pseudo-version are separate from main, tagged/installed release and CLI availability. Owned verified-TLS protocol fixtures and public-consumer checks do not establish actual Snowflake execution, hosted auth, warehouse behavior, cancellation outcome or credit bounds.",
+          "Configured table mappings and observed result metadata are not live schema discovery. Writes, callback transactions and discovery are not implemented by this adapter; this is not an engine-wide limitation."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo2snowflake/blob/726e8a6a5014896749579dd2769a93c65f4f5669/README.md",
+          "https://github.com/dal-go/dalgo2snowflake/blob/726e8a6a5014896749579dd2769a93c65f4f5669/reads.go",
+          "https://github.com/dal-go/dalgo2snowflake/blob/726e8a6a5014896749579dd2769a93c65f4f5669/compiler.go",
+          "https://github.com/dal-go/dalgo2snowflake/blob/726e8a6a5014896749579dd2769a93c65f4f5669/dal.go",
+          "https://github.com/dal-go/dalgo2snowflake/blob/726e8a6a5014896749579dd2769a93c65f4f5669/types.go",
+          "https://github.com/dal-go/dalgo2snowflake/blob/726e8a6a5014896749579dd2769a93c65f4f5669/go.mod"
+        ],
         "publication": "not-verified"
       },
       "typescript": {
@@ -2233,11 +2249,15 @@
           "structured-query"
         ],
         "limits": [
-          "Readonly SQL API; trusted runtime; no generic CRUD/transactions."
+          "Mapped existing-table SQL API point and ordered batch reads plus a bounded closed SELECT subset preserve native JSONv2 STRING/null values. Query filters are ANDed; numeric-looking cells are not silently converted to JavaScript numbers.",
+          "Public unmerged source PR103 retains the private @dal-go/dalgo2snowflake package at source version 0.1.0 with canonical @dalgo/core 0.8.1 and @dalgo/adapter-runtime 0.1.2 APIs. Source-pack Node/DOM and owned HTTP fixtures are separate from npm publication, main, installed release or Apps readiness.",
+          "Trusted OAuth/pre-generated JWT and same-account HTTPS are required. Browser graph/VM import, laziness and pre-abort checks do not qualify browser SQL execution or CORS. Actual hosted Snowflake/auth/warehouse/credit behavior remains unverified; writes, callback transactions and live schema discovery are not implemented."
         ],
         "sources": [
-          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/snowflake/src/database.ts",
-          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/snowflake/package.json"
+          "https://github.com/dal-go/dalgo-http-adapters/blob/21167ea040d487d442cdcb6534092b7d6ed446a9/packages/snowflake/README.md",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/21167ea040d487d442cdcb6534092b7d6ed446a9/packages/snowflake/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/21167ea040d487d442cdcb6534092b7d6ed446a9/packages/snowflake/src/transport.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/21167ea040d487d442cdcb6534092b7d6ed446a9/packages/snowflake/package.json"
         ],
         "publication": "not-verified",
         "runtime": {
@@ -2245,21 +2265,22 @@
           "browser": {
             "status": "trusted-runtime-default-browser-unqualified",
             "execution_verified_in_this_audit": false,
-            "conditions_and_limits": "README HTTP-capable NOT browser-ready; trusted Fetch runtime with OAuth or pre-generated JWT provider."
+            "conditions_and_limits": "Public DOM/graph/VM fixture source covers imports, laziness and pre-abort only. Actual browser SQL, CORS and deployed short-lived authorization remain unverified; do not embed server credentials."
           },
           "node": {
-            "status": "unverified",
+            "status": "source-only-node-consumer-fixtures",
             "execution_verified_in_this_audit": false,
-            "note": "No Node runtime receipt inspected; Fetch/no Node imports does not establish compatibility or verification."
+            "note": "Public source includes strict Node/DOM packed-consumer and owned HTTP fixtures with public core/runtime identities. The matrix cites source/test code only, not an execution receipt or hosted Snowflake qualification."
           },
           "edge": {
             "status": "unverified",
             "execution_verified_in_this_audit": false,
-            "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
+            "note": "Fetch/DOM/VM/Node compatibility does not qualify edge execution."
           },
           "sources": [
-            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/snowflake/README.md#L3",
-            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/snowflake/README.md#L22"
+            "https://github.com/dal-go/dalgo-http-adapters/blob/21167ea040d487d442cdcb6534092b7d6ed446a9/packages/snowflake/README.md",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/21167ea040d487d442cdcb6534092b7d6ed446a9/packages/snowflake/package.json",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/21167ea040d487d442cdcb6534092b7d6ed446a9/.github/fixtures/snowflake-packed-consumer/browser-entry.mjs"
           ]
         }
       }
@@ -3712,6 +3733,107 @@
           "ts-node"
         ],
         "url": "https://github.com/dal-go/dalgo-http-adapters/blob/61dfd9a12f4d61f51807f270957554606105926a/.github/fixtures/cosmos-packed-consumer/native-runtime.mjs"
+      },
+      "snowflake-go-source": {
+        "kind": "source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2snowflake/blob/726e8a6a5014896749579dd2769a93c65f4f5669/reads.go"
+      },
+      "snowflake-go-compiler": {
+        "kind": "source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2snowflake/blob/726e8a6a5014896749579dd2769a93c65f4f5669/compiler.go"
+      },
+      "snowflake-go-dal": {
+        "kind": "source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2snowflake/blob/726e8a6a5014896749579dd2769a93c65f4f5669/dal.go"
+      },
+      "snowflake-go-contract": {
+        "kind": "documentation",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2snowflake/blob/726e8a6a5014896749579dd2769a93c65f4f5669/README.md"
+      },
+      "snowflake-go-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2snowflake/blob/726e8a6a5014896749579dd2769a93c65f4f5669/native_test.go"
+      },
+      "snowflake-go-reader-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2snowflake/blob/726e8a6a5014896749579dd2769a93c65f4f5669/dal_test.go"
+      },
+      "snowflake-go-lifecycle-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2snowflake/blob/726e8a6a5014896749579dd2769a93c65f4f5669/lifecycle_test.go"
+      },
+      "snowflake-ts-source": {
+        "kind": "source",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/21167ea040d487d442cdcb6534092b7d6ed446a9/packages/snowflake/src/database.ts"
+      },
+      "snowflake-ts-transport": {
+        "kind": "source",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/21167ea040d487d442cdcb6534092b7d6ed446a9/packages/snowflake/src/transport.ts"
+      },
+      "snowflake-ts-contract": {
+        "kind": "documentation",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/21167ea040d487d442cdcb6534092b7d6ed446a9/packages/snowflake/README.md"
+      },
+      "snowflake-ts-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-node"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/21167ea040d487d442cdcb6534092b7d6ed446a9/packages/snowflake/test/database.test.ts"
+      },
+      "snowflake-ts-lifecycle-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-node"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/21167ea040d487d442cdcb6534092b7d6ed446a9/packages/snowflake/test/lifecycle.test.ts"
+      },
+      "snowflake-ts-packed-fixture": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-node"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/21167ea040d487d442cdcb6534092b7d6ed446a9/.github/fixtures/snowflake-packed-consumer/runtime.mjs"
+      },
+      "snowflake-ts-browser-fixture": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/21167ea040d487d442cdcb6534092b7d6ed446a9/.github/fixtures/snowflake-packed-consumer/browser-entry.mjs"
       }
     },
     "overrides": {
@@ -5958,6 +6080,234 @@
               "cloudflare-kv-go-list",
               "cloudflare-kv-go-dal",
               "cloudflare-kv-go-test"
+            ],
+            "verification": "source-only"
+          }
+        }
+      },
+      "snowflake": {
+        "go": {
+          "read": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Published branch source implements mapped existing-table Get/Exists and ordered batch reads with original string IDs and exact JSONv2 STRING/null cells. Native column precision/scale/nullable descriptors are observed per result; hosted Snowflake/auth/warehouse behavior remains unverified.",
+              "ru": "Код публичной ветки реализует Get/Exists и упорядоченное пакетное чтение существующих таблиц по заданному соответствию, сохраняя строковые ID и точные значения JSONv2 STRING/null. Precision/scale/nullable относятся к конкретному результату; реальные Snowflake, авторизация и warehouse не проверены."
+            },
+            "evidence": [
+              "snowflake-go-source",
+              "snowflake-go-dal",
+              "snowflake-go-contract",
+              "snowflake-go-test"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "A closed parameterized DALgo SELECT compiler and real records/recordset readers support bounded whole partitions, projection, ordering and limits/offsets. Arbitrary SQL, joins and portable snapshots/cursors are not implemented; protocol fixtures do not prove hosted query execution or credits.",
+              "ru": "Замкнутый параметризованный компилятор SELECT DALgo и readers для записей и recordset поддерживают ограниченные полные разделы результата, проекции, сортировку, limit/offset. Произвольный SQL, JOIN и переносимые снимки/курсоры не реализованы; протокольные фикстуры не подтверждают облачное выполнение или расход кредитов."
+            },
+            "evidence": [
+              "snowflake-go-compiler",
+              "snowflake-go-dal",
+              "snowflake-go-contract",
+              "snowflake-go-reader-test"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "This adapter exposes read-only SQL API operations; writes are not implemented. Snowflake write support is a separate provider capability.",
+              "ru": "Адаптер предоставляет только чтение через SQL API; запись не реализована. Поддержка записи в Snowflake является отдельной возможностью провайдера."
+            },
+            "evidence": [
+              "snowflake-go-source",
+              "snowflake-go-dal",
+              "snowflake-go-contract",
+              "snowflake-go-test"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Callback transactions are not implemented by this adapter. Snowflake transaction and multi-statement APIs are separate features; this is not an engine-wide unsupported claim.",
+              "ru": "Транзакции с callback не реализованы этим адаптером. Транзакции и многооператорные API Snowflake являются отдельными возможностями; это не утверждение об отсутствии поддержки в движке."
+            },
+            "evidence": [
+              "snowflake-go-source",
+              "snowflake-go-dal",
+              "snowflake-go-contract",
+              "snowflake-go-test"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Trusted table mappings and observed result-column metadata are not live schema discovery. Dynamic table/field discovery is not implemented.",
+              "ru": "Заданные соответствия таблиц и метаданные столбцов результата не являются обнаружением живой схемы. Динамическое обнаружение таблиц и полей не реализовано."
+            },
+            "evidence": [
+              "snowflake-go-source",
+              "snowflake-go-dal",
+              "snowflake-go-contract",
+              "snowflake-go-test"
+            ],
+            "verification": "source-only"
+          }
+        },
+        "ts-node": {
+          "read": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Published private-package source implements mapped-table point and ordered batch reads, preserving native JSONv2 STRING/null without implicit numeric decoding. Whole-operation cancellation, polling and body/row/work limits are implemented; actual Snowflake/auth and warehouse costs remain unverified.",
+              "ru": "Опубликованный код приватного пакета реализует точечное и упорядоченное пакетное чтение заданных таблиц, сохраняя JSONv2 STRING/null без неявного преобразования чисел. Реализованы отмена всей операции, polling и лимиты данных/строк/работы; реальные Snowflake, авторизация и стоимость warehouse не проверены."
+            },
+            "evidence": [
+              "snowflake-ts-source",
+              "snowflake-ts-transport",
+              "snowflake-ts-contract",
+              "snowflake-ts-test",
+              "snowflake-ts-lifecycle-test",
+              "snowflake-ts-packed-fixture"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Mapped-table structured queries compile a closed scalar SELECT subset with AND filters, limits/offsets and whole result partitions. Native cells remain strings/null; arbitrary SQL and portable query cursors are not implemented. Node/DOM fixture source is not hosted execution or registry-release evidence.",
+              "ru": "Структурированные запросы к заданным таблицам компилируются в ограниченное подмножество SELECT со скалярными AND-фильтрами, limit/offset и полными разделами результата. Значения остаются строками/null; произвольный SQL и переносимые курсоры не реализованы. Код Node/DOM-фикстур не доказывает облачное выполнение или выпуск в реестре."
+            },
+            "evidence": [
+              "snowflake-ts-source",
+              "snowflake-ts-transport",
+              "snowflake-ts-contract",
+              "snowflake-ts-test",
+              "snowflake-ts-lifecycle-test",
+              "snowflake-ts-packed-fixture"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "This adapter exposes read-only SQL API operations; writes are not implemented. Snowflake write support is a separate provider capability.",
+              "ru": "Адаптер предоставляет только чтение через SQL API; запись не реализована. Поддержка записи в Snowflake является отдельной возможностью провайдера."
+            },
+            "evidence": [
+              "snowflake-ts-source",
+              "snowflake-ts-transport",
+              "snowflake-ts-contract",
+              "snowflake-ts-test",
+              "snowflake-ts-lifecycle-test",
+              "snowflake-ts-packed-fixture"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Callback transactions are not implemented by this adapter. Snowflake transaction and multi-statement APIs are separate features; this is not an engine-wide unsupported claim.",
+              "ru": "Транзакции с callback не реализованы этим адаптером. Транзакции и многооператорные API Snowflake являются отдельными возможностями; это не утверждение об отсутствии поддержки в движке."
+            },
+            "evidence": [
+              "snowflake-ts-source",
+              "snowflake-ts-transport",
+              "snowflake-ts-contract",
+              "snowflake-ts-test",
+              "snowflake-ts-lifecycle-test",
+              "snowflake-ts-packed-fixture"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Trusted table mappings and observed result-column metadata are not live schema discovery. Dynamic table/field discovery is not implemented.",
+              "ru": "Заданные соответствия таблиц и метаданные столбцов результата не являются обнаружением живой схемы. Динамическое обнаружение таблиц и полей не реализовано."
+            },
+            "evidence": [
+              "snowflake-ts-source",
+              "snowflake-ts-transport",
+              "snowflake-ts-contract",
+              "snowflake-ts-test",
+              "snowflake-ts-lifecycle-test",
+              "snowflake-ts-packed-fixture"
+            ],
+            "verification": "source-only"
+          }
+        },
+        "ts-browser": {
+          "read": {
+            "status": "UNVERIFIED",
+            "reason": {
+              "en": "Public Fetch/DOM and browser graph/VM source is present, but those checks cover imports, laziness and pre-abort only. Actual browser SQL execution, CORS and deployed authorization are unverified; use an authorized trusted runtime and keep server credentials out of browser bundles.",
+              "ru": "Есть публичный код Fetch/DOM и браузерных graph/VM-фикстур, но они проверяют только импорты, ленивую инициализацию и предварительную отмену. Реальные SQL-запросы в браузере, CORS и развёрнутая авторизация не проверены; используйте доверенную авторизованную среду и не включайте серверные секреты в браузерный пакет."
+            },
+            "evidence": [
+              "snowflake-ts-source",
+              "snowflake-ts-transport",
+              "snowflake-ts-contract",
+              "snowflake-ts-browser-fixture"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "UNVERIFIED",
+            "reason": {
+              "en": "Public Fetch/DOM and browser graph/VM source is present, but those checks cover imports, laziness and pre-abort only. Actual browser SQL execution, CORS and deployed authorization are unverified; use an authorized trusted runtime and keep server credentials out of browser bundles.",
+              "ru": "Есть публичный код Fetch/DOM и браузерных graph/VM-фикстур, но они проверяют только импорты, ленивую инициализацию и предварительную отмену. Реальные SQL-запросы в браузере, CORS и развёрнутая авторизация не проверены; используйте доверенную авторизованную среду и не включайте серверные секреты в браузерный пакет."
+            },
+            "evidence": [
+              "snowflake-ts-source",
+              "snowflake-ts-transport",
+              "snowflake-ts-contract",
+              "snowflake-ts-browser-fixture"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "This adapter exposes read-only SQL API operations; writes are not implemented. Snowflake write support is a separate provider capability.",
+              "ru": "Адаптер предоставляет только чтение через SQL API; запись не реализована. Поддержка записи в Snowflake является отдельной возможностью провайдера."
+            },
+            "evidence": [
+              "snowflake-ts-source",
+              "snowflake-ts-transport",
+              "snowflake-ts-contract",
+              "snowflake-ts-browser-fixture"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Callback transactions are not implemented by this adapter. Snowflake transaction and multi-statement APIs are separate features; this is not an engine-wide unsupported claim.",
+              "ru": "Транзакции с callback не реализованы этим адаптером. Транзакции и многооператорные API Snowflake являются отдельными возможностями; это не утверждение об отсутствии поддержки в движке."
+            },
+            "evidence": [
+              "snowflake-ts-source",
+              "snowflake-ts-transport",
+              "snowflake-ts-contract",
+              "snowflake-ts-browser-fixture"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Trusted table mappings and observed result-column metadata are not live schema discovery. Dynamic table/field discovery is not implemented.",
+              "ru": "Заданные соответствия таблиц и метаданные столбцов результата не являются обнаружением живой схемы. Динамическое обнаружение таблиц и полей не реализовано."
+            },
+            "evidence": [
+              "snowflake-ts-source",
+              "snowflake-ts-transport",
+              "snowflake-ts-contract",
+              "snowflake-ts-browser-fixture"
             ],
             "verification": "source-only"
           }
