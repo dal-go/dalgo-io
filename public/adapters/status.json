@@ -376,11 +376,11 @@
           "delete"
         ],
         "limits": [
-          "One mapped partition. Update/transaction and query ordering/cursor gaps; scoped ephemeral browser token."
+          "Managed DALgo id/partition/data layout with bounded cancellable reads and query-scoped continuation. Native existing-document mode, cross-partition queries, update and transactions are not implemented; actual Cosmos engine, hosted authorization/RU, CORS and registry release remain unverified."
         ],
         "sources": [
-          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/cosmosdb/src/database.ts",
-          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/cosmosdb/package.json"
+          "https://github.com/dal-go/dalgo-http-adapters/blob/fe1ddd29dd3183b4321fb3d6f6e9049d3f5fde18/packages/cosmosdb/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/fe1ddd29dd3183b4321fb3d6f6e9049d3f5fde18/packages/cosmosdb/README.md"
         ],
         "publication": "not-verified",
         "runtime": {
@@ -393,7 +393,7 @@
           "node": {
             "status": "unverified",
             "execution_verified_in_this_audit": false,
-            "note": "No Node runtime receipt inspected; Fetch/no Node imports does not establish compatibility or verification."
+            "note": "Pinned source and packed-consumer fixtures target Node with public core0.8.1/runtime0.1.2; evidence listed here is source-only, not a hosted Cosmos or registry-release claim."
           },
           "edge": {
             "status": "unverified",
@@ -401,8 +401,8 @@
             "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
           },
           "sources": [
-            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/cosmosdb/README.md#L8",
-            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/cosmosdb/README.md#L10"
+            "https://github.com/dal-go/dalgo-http-adapters/blob/fe1ddd29dd3183b4321fb3d6f6e9049d3f5fde18/packages/cosmosdb/README.md",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/fe1ddd29dd3183b4321fb3d6f6e9049d3f5fde18/.github/fixtures/cosmos-packed-consumer/runtime.mjs"
           ]
         }
       }
@@ -3265,6 +3265,43 @@
           "ts-node"
         ],
         "url": "https://github.com/dal-go/dalgo-http-adapters/blob/81c99b52192c0ee4d25a9eca305c006c148965fb/packages/influxdb/test/database.test.ts"
+      },
+      "cosmos-ts-source": {
+        "kind": "source",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/fe1ddd29dd3183b4321fb3d6f6e9049d3f5fde18/packages/cosmosdb/src/database.ts"
+      },
+      "cosmos-ts-contract": {
+        "kind": "documentation",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/fe1ddd29dd3183b4321fb3d6f6e9049d3f5fde18/packages/cosmosdb/README.md"
+      },
+      "cosmos-ts-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-node"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/fe1ddd29dd3183b4321fb3d6f6e9049d3f5fde18/.github/fixtures/cosmos-packed-consumer/runtime.mjs"
+      },
+      "cosmos-ts-browser-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/fe1ddd29dd3183b4321fb3d6f6e9049d3f5fde18/.github/fixtures/cosmos-packed-consumer/browser-entry.mjs"
+      },
+      "cosmos-ts-write-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-node"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/fe1ddd29dd3183b4321fb3d6f6e9049d3f5fde18/packages/cosmosdb/test/database.test.ts"
       }
     },
     "overrides": {
@@ -4691,6 +4728,142 @@
               "influx-ts-source",
               "influx-ts-contract",
               "influx-ts-browser-test"
+            ],
+            "verification": "source-only"
+          }
+        }
+      },
+      "cosmosdb": {
+        "ts-node": {
+          "read": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Managed id/partition/data reads and parameterized queries have shared operation bounds, cancellation and scoped continuation. Native existing-document mode and cross-partition queries are not implemented. Owned HTTP fixtures do not establish Cosmos service or RU/auth behavior.",
+              "ru": "Чтение и параметризованные запросы структуры id/partition/data имеют общие лимиты, отмену и привязанные курсоры. Нативные документы и межсекционные запросы не реализованы. HTTP-фикстуры не подтверждают сервис Cosmos, RU или облачную авторизацию."
+            },
+            "evidence": [
+              "cosmos-ts-source",
+              "cosmos-ts-contract",
+              "cosmos-ts-test"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Managed id/partition/data reads and parameterized queries have shared operation bounds, cancellation and scoped continuation. Native existing-document mode and cross-partition queries are not implemented. Owned HTTP fixtures do not establish Cosmos service or RU/auth behavior.",
+              "ru": "Чтение и параметризованные запросы структуры id/partition/data имеют общие лимиты, отмену и привязанные курсоры. Нативные документы и межсекционные запросы не реализованы. HTTP-фикстуры не подтверждают сервис Cosmos, RU или облачную авторизацию."
+            },
+            "evidence": [
+              "cosmos-ts-source",
+              "cosmos-ts-contract",
+              "cosmos-ts-test"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Existing managed-layout create/upsert/delete are implemented; update and transactions are not implemented. Read-lifecycle fixtures do not qualify hosted write authorization.",
+              "ru": "Create/upsert/delete в управляемой структуре реализованы; update и транзакции не реализованы. Проверки чтения не подтверждают облачные права записи."
+            },
+            "evidence": [
+              "cosmos-ts-source",
+              "cosmos-ts-contract",
+              "cosmos-ts-write-test"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No adapter transaction surface is implemented; Cosmos transactional APIs require a separate integration.",
+              "ru": "API транзакций адаптера не реализован; транзакционные API Cosmos требуют отдельной интеграции."
+            },
+            "evidence": [
+              "cosmos-ts-source",
+              "cosmos-ts-contract",
+              "cosmos-ts-test"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "One explicitly configured database/container and partition mapping; database/container discovery is not implemented.",
+              "ru": "Явная привязка базы, контейнера и раздела; получение метаданных баз и контейнеров не реализовано."
+            },
+            "evidence": [
+              "cosmos-ts-source",
+              "cosmos-ts-contract",
+              "cosmos-ts-test"
+            ],
+            "verification": "source-only"
+          }
+        },
+        "ts-browser": {
+          "read": {
+            "status": "UNVERIFIED",
+            "reason": {
+              "en": "Browser entry/source tests do not prove a browser query. Actual browser execution, CORS and broker-minted short-lived least-privilege resource tokens remain unverified; never expose a master key.",
+              "ru": "Исходники браузерного входа и тестов не подтверждают запрос в браузере. Выполнение, CORS и краткоживущие токены с минимальными правами не проверены; главный ключ нельзя раскрывать."
+            },
+            "evidence": [
+              "cosmos-ts-source",
+              "cosmos-ts-contract",
+              "cosmos-ts-browser-test"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "UNVERIFIED",
+            "reason": {
+              "en": "Browser entry/source tests do not prove a browser query. Actual browser execution, CORS and broker-minted short-lived least-privilege resource tokens remain unverified; never expose a master key.",
+              "ru": "Исходники браузерного входа и тестов не подтверждают запрос в браузере. Выполнение, CORS и краткоживущие токены с минимальными правами не проверены; главный ключ нельзя раскрывать."
+            },
+            "evidence": [
+              "cosmos-ts-source",
+              "cosmos-ts-contract",
+              "cosmos-ts-browser-test"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "UNVERIFIED",
+            "reason": {
+              "en": "Browser entry/source tests do not prove a browser query. Actual browser execution, CORS and broker-minted short-lived least-privilege resource tokens remain unverified; never expose a master key.",
+              "ru": "Исходники браузерного входа и тестов не подтверждают запрос в браузере. Выполнение, CORS и краткоживущие токены с минимальными правами не проверены; главный ключ нельзя раскрывать."
+            },
+            "evidence": [
+              "cosmos-ts-source",
+              "cosmos-ts-contract",
+              "cosmos-ts-browser-test"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "No adapter transaction surface is implemented; Cosmos transactional APIs require a separate integration.",
+              "ru": "API транзакций адаптера не реализован; транзакционные API Cosmos требуют отдельной интеграции."
+            },
+            "evidence": [
+              "cosmos-ts-source",
+              "cosmos-ts-contract",
+              "cosmos-ts-browser-test"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "One explicitly configured database/container and partition mapping; database/container discovery is not implemented.",
+              "ru": "Явная привязка базы, контейнера и раздела; получение метаданных баз и контейнеров не реализовано."
+            },
+            "evidence": [
+              "cosmos-ts-source",
+              "cosmos-ts-contract",
+              "cosmos-ts-browser-test"
             ],
             "verification": "source-only"
           }
