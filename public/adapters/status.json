@@ -483,7 +483,7 @@
         "publication": "not-verified"
       },
       "typescript": {
-        "status": "partial",
+        "status": "source-only",
         "implementation_status": "partial",
         "package": "@dalgo/dalgo2couchdb",
         "manifest_private": false,
@@ -494,11 +494,13 @@
           "native-readonly"
         ],
         "limits": [
-          "Generic envelope CRUD differs from readonly native application-document mode. No generic callback transaction equivalent."
+          "Managed envelope MVCC writes differ from read-only native application documents. Native Mango/index/field discovery is bounded; schema sampling is not schema enforcement. Generic callback transactions are not implemented.",
+          "Public unmerged source branch 8c4e2b2a54a6fef183671062dab03b0eb70858b2 (PR98); package publication, current real-engine/browser-query and deployed/installed acceptance are unverified."
         ],
         "sources": [
-          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/couchdb/src/database.ts",
-          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/couchdb/package.json"
+          "https://github.com/dal-go/dalgo-http-adapters/blob/8c4e2b2a54a6fef183671062dab03b0eb70858b2/packages/couchdb/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/8c4e2b2a54a6fef183671062dab03b0eb70858b2/packages/couchdb/src/native.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/8c4e2b2a54a6fef183671062dab03b0eb70858b2/packages/couchdb/README.md"
         ],
         "publication": "not-verified",
         "runtime": {
@@ -728,14 +730,19 @@
         "capabilities": [
           "point-read",
           "partition-key-query",
-          "conditional-crud"
+          "conditional-crud",
+          "native-existing-table",
+          "classic-lsi-gsi",
+          "lossless-native-values"
         ],
         "limits": [
-          "Adapter-owned pk/sk/data layout. No callback transactions/aggregation; browser requires temporary least-privilege credentials."
+          "Managed envelope CRUD and native read-only existing-table/index modes are separate. Scan, automatic discovery and generic callback transactions are not implemented. Browser queries need independently qualified temporary scoped credentials and CORS.",
+          "Public unmerged source branch 2af105e8e96f5a2d6f610488b4cf51f259e280e3 (PR99); private0.1.0 package, registry and deployed/installed acceptance remain unverified."
         ],
         "sources": [
-          "https://github.com/dal-go/dalgo-http-adapters/blob/cceec308302d9cd66f72b63858a4ac5995b527c6/packages/dynamodb/src/database.ts",
-          "https://github.com/dal-go/dalgo-http-adapters/blob/cceec308302d9cd66f72b63858a4ac5995b527c6/packages/dynamodb/README.md"
+          "https://github.com/dal-go/dalgo-http-adapters/blob/2af105e8e96f5a2d6f610488b4cf51f259e280e3/packages/dynamodb/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/2af105e8e96f5a2d6f610488b4cf51f259e280e3/packages/dynamodb/README.md",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/2af105e8e96f5a2d6f610488b4cf51f259e280e3/packages/dynamodb/src/native.ts"
         ],
         "publication": "not-verified",
         "runtime": {
@@ -2597,9 +2604,44 @@
         "publication": "not-verified"
       },
       "typescript": {
-        "status": "unverified",
-        "sources": [],
-        "publication": "not-verified"
+        "status": "source-only",
+        "implementation_status": "partial",
+        "package": "@dalgo/dalgo2convex",
+        "manifest_private": false,
+        "capabilities": [
+          "configured-query-functions",
+          "native-point-batch-read",
+          "native-encoded-values",
+          "bounded-pagination"
+        ],
+        "limits": [
+          "Requires explicitly configured public query functions; no arbitrary table browsing, generic DALgo query compiler, writes, transactions or live schema discovery. Node>=22.0.0 is declared; actual local qualification used Node24.22.2, not Node22.",
+          "Public unmerged source branch 8f9f59568ef5d9d5e606d9e92df169956a4337a9 (PR100); npm publication, actual backend/hosted auth/browser queries, installed CLI and Apps are unverified."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/8f9f59568ef5d9d5e606d9e92df169956a4337a9/packages/convex/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/8f9f59568ef5d9d5e606d9e92df169956a4337a9/packages/convex/src/transport.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/8f9f59568ef5d9d5e606d9e92df169956a4337a9/packages/convex/README.md"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "browser-direct-http-conditional",
+          "browser": {
+            "status": "source-and-fixtures-only",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "Authorized configured query functions and allowed browser origin are required. Graph/VM checks do not execute browser queries."
+          },
+          "node": {
+            "status": "source-and-fixtures-only",
+            "execution_verified_in_this_audit": false,
+            "note": "Node>=22 declared; actual source artifact qualified on Node24.22.2 with synthetic owned HTTP. No actual Convex backend proof."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification inferred from browser-safe code."
+          }
+        }
       }
     },
     {
@@ -3198,7 +3240,7 @@
           "ts-node",
           "ts-browser"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/cceec308302d9cd66f72b63858a4ac5995b527c6/packages/dynamodb/src/database.ts"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2af105e8e96f5a2d6f610488b4cf51f259e280e3/packages/dynamodb/src/database.ts"
       },
       "dynamo-ts-contract": {
         "kind": "documentation",
@@ -3206,14 +3248,14 @@
           "ts-node",
           "ts-browser"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/cceec308302d9cd66f72b63858a4ac5995b527c6/packages/dynamodb/README.md"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2af105e8e96f5a2d6f610488b4cf51f259e280e3/packages/dynamodb/README.md"
       },
       "dynamo-ts-test": {
         "kind": "test-source",
         "runtimes": [
           "ts-node"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/cceec308302d9cd66f72b63858a4ac5995b527c6/.github/fixtures/dynamodb-packed-consumer/runtime.mjs"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2af105e8e96f5a2d6f610488b4cf51f259e280e3/.github/fixtures/dynamodb-packed-consumer/runtime.mjs"
       },
       "influx-ts-source": {
         "kind": "source",
@@ -3243,14 +3285,14 @@
         "runtimes": [
           "ts-browser"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/cceec308302d9cd66f72b63858a4ac5995b527c6/.github/fixtures/dynamodb-packed-consumer/browser-entry.mjs"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2af105e8e96f5a2d6f610488b4cf51f259e280e3/.github/fixtures/dynamodb-packed-consumer/browser-entry.mjs"
       },
       "dynamo-ts-write-test": {
         "kind": "test-source",
         "runtimes": [
           "ts-node"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/cceec308302d9cd66f72b63858a4ac5995b527c6/packages/dynamodb/test/database.test.ts"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2af105e8e96f5a2d6f610488b4cf51f259e280e3/packages/dynamodb/test/database.test.ts"
       },
       "influx-ts-browser-test": {
         "kind": "test-source",
@@ -3302,6 +3344,105 @@
           "ts-node"
         ],
         "url": "https://github.com/dal-go/dalgo-http-adapters/blob/fe1ddd29dd3183b4321fb3d6f6e9049d3f5fde18/packages/cosmosdb/test/database.test.ts"
+      },
+      "dynamo-ts-native-source": {
+        "kind": "source",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2af105e8e96f5a2d6f610488b4cf51f259e280e3/packages/dynamodb/src/native.ts"
+      },
+      "dynamo-ts-native-query": {
+        "kind": "source",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2af105e8e96f5a2d6f610488b4cf51f259e280e3/packages/dynamodb/src/native-query.ts"
+      },
+      "dynamo-ts-native-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-node"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2af105e8e96f5a2d6f610488b4cf51f259e280e3/.github/fixtures/dynamodb-packed-consumer/native-runtime.mjs"
+      },
+      "couch-ts-source": {
+        "kind": "source",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/8c4e2b2a54a6fef183671062dab03b0eb70858b2/packages/couchdb/src/database.ts"
+      },
+      "couch-ts-native-source": {
+        "kind": "source",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/8c4e2b2a54a6fef183671062dab03b0eb70858b2/packages/couchdb/src/native.ts"
+      },
+      "couch-ts-contract": {
+        "kind": "documentation",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/8c4e2b2a54a6fef183671062dab03b0eb70858b2/packages/couchdb/README.md"
+      },
+      "couch-ts-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-node"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/8c4e2b2a54a6fef183671062dab03b0eb70858b2/.github/fixtures/couchdb-packed-consumer/runtime.mjs"
+      },
+      "couch-ts-browser-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/8c4e2b2a54a6fef183671062dab03b0eb70858b2/.github/fixtures/couchdb-packed-consumer/browser-entry.mjs"
+      },
+      "convex-ts-source": {
+        "kind": "source",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/8f9f59568ef5d9d5e606d9e92df169956a4337a9/packages/convex/src/database.ts"
+      },
+      "convex-ts-transport": {
+        "kind": "source",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/8f9f59568ef5d9d5e606d9e92df169956a4337a9/packages/convex/src/transport.ts"
+      },
+      "convex-ts-contract": {
+        "kind": "documentation",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/8f9f59568ef5d9d5e606d9e92df169956a4337a9/packages/convex/README.md"
+      },
+      "convex-ts-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-node"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/8f9f59568ef5d9d5e606d9e92df169956a4337a9/.github/fixtures/convex-packed-consumer/runtime.mjs"
+      },
+      "convex-ts-browser-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/8f9f59568ef5d9d5e606d9e92df169956a4337a9/.github/fixtures/convex-packed-consumer/browser-entry.mjs"
       }
     },
     "overrides": {
@@ -4399,26 +4540,28 @@
           "read": {
             "status": "PARTIAL",
             "reason": {
-              "en": "Managed pk/sk/data point and batch reads plus partition queries have whole-operation cancellation and parsed-value/work bounds. Native existing-table mode is not implemented. Official-SDK handler fixtures do not qualify hosted IAM.",
-              "ru": "Чтение ключей и пакетов и запросы разделов со структурой pk/sk/data имеют общую отмену и ограничения данных и работы. Режим произвольных существующих таблиц не реализован. Фикстуры AWS SDK не подтверждают облачный IAM."
+              "en": "Native existing-table S/N/B and composite keys, all AttributeValue forms and bounded partition queries cover classic LSI/GSI indexes. Configured projections, full union continuations and legal index sort ties are preserved. Managed pk/sk/data CRUD remains separate; Scan and automatic discovery are not implemented; hosted IAM remains unverified.",
+              "ru": "Нативные ключи S/N/B и составные ключи, все AttributeValue и ограниченные запросы разделов поддерживают существующие таблицы и классические LSI/GSI. Сохраняются проекции, полные ключи продолжения и одинаковые значения сортировки индекса. CRUD pk/sk/data остаётся отдельным режимом; Scan и автоматическое получение метаданных не реализованы; облачный IAM не проверен."
             },
             "evidence": [
-              "dynamo-ts-source",
+              "dynamo-ts-native-source",
+              "dynamo-ts-native-query",
               "dynamo-ts-contract",
-              "dynamo-ts-test"
+              "dynamo-ts-native-test"
             ],
             "verification": "source-only"
           },
           "query": {
             "status": "PARTIAL",
             "reason": {
-              "en": "Managed pk/sk/data point and batch reads plus partition queries have whole-operation cancellation and parsed-value/work bounds. Native existing-table mode is not implemented. Official-SDK handler fixtures do not qualify hosted IAM.",
-              "ru": "Чтение ключей и пакетов и запросы разделов со структурой pk/sk/data имеют общую отмену и ограничения данных и работы. Режим произвольных существующих таблиц не реализован. Фикстуры AWS SDK не подтверждают облачный IAM."
+              "en": "Native existing-table S/N/B and composite keys, all AttributeValue forms and bounded partition queries cover classic LSI/GSI indexes. Configured projections, full union continuations and legal index sort ties are preserved. Managed pk/sk/data CRUD remains separate; Scan and automatic discovery are not implemented; hosted IAM remains unverified.",
+              "ru": "Нативные ключи S/N/B и составные ключи, все AttributeValue и ограниченные запросы разделов поддерживают существующие таблицы и классические LSI/GSI. Сохраняются проекции, полные ключи продолжения и одинаковые значения сортировки индекса. CRUD pk/sk/data остаётся отдельным режимом; Scan и автоматическое получение метаданных не реализованы; облачный IAM не проверен."
             },
             "evidence": [
-              "dynamo-ts-source",
+              "dynamo-ts-native-source",
+              "dynamo-ts-native-query",
               "dynamo-ts-contract",
-              "dynamo-ts-test"
+              "dynamo-ts-native-test"
             ],
             "verification": "source-only"
           },
@@ -4451,13 +4594,13 @@
           "schema": {
             "status": "NOT_IMPLEMENTED",
             "reason": {
-              "en": "Managed pk/sk/data layout only; native existing-table/index mapping and discovery are not implemented.",
-              "ru": "Только управляемая структура pk/sk/data; привязка произвольных существующих таблиц и индексов и их метаданные не реализованы."
+              "en": "Configured native table/index/key mappings are available, but automatic table/index schema discovery is not implemented.",
+              "ru": "Доступны заданные привязки нативных таблиц, индексов и ключей; автоматическое получение их метаданных не реализовано."
             },
             "evidence": [
-              "dynamo-ts-source",
+              "dynamo-ts-native-source",
               "dynamo-ts-contract",
-              "dynamo-ts-test"
+              "dynamo-ts-native-test"
             ],
             "verification": "source-only"
           }
@@ -4518,11 +4661,11 @@
           "schema": {
             "status": "NOT_IMPLEMENTED",
             "reason": {
-              "en": "Managed pk/sk/data layout only; native existing-table/index mapping and discovery are not implemented.",
-              "ru": "Только управляемая структура pk/sk/data; привязка произвольных существующих таблиц и индексов и их метаданные не реализованы."
+              "en": "Configured native table/index/key mappings are available, but automatic table/index schema discovery is not implemented.",
+              "ru": "Доступны заданные привязки нативных таблиц, индексов и ключей; автоматическое получение их метаданных не реализовано."
             },
             "evidence": [
-              "dynamo-ts-source",
+              "dynamo-ts-native-source",
               "dynamo-ts-contract",
               "dynamo-ts-browser-test"
             ],
@@ -4864,6 +5007,298 @@
               "cosmos-ts-source",
               "cosmos-ts-contract",
               "cosmos-ts-browser-test"
+            ],
+            "verification": "source-only"
+          }
+        }
+      },
+      "couchdb": {
+        "ts-node": {
+          "read": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Native _id/_rev document reads and bounded Mango queries preserve MVCC metadata, index-aware sorting/projection and scoped bookmarks; managed envelope mode is separate. Actual current engine, browser query and hosted authorization are unverified.",
+              "ru": "Нативное чтение _id/_rev и ограниченные Mango-запросы сохраняют MVCC, сортировку и проекции индексов, привязку закладок. Режим оболочки отдельный; текущий сервер, браузерные запросы и облачная авторизация не проверены."
+            },
+            "evidence": [
+              "couch-ts-source",
+              "couch-ts-native-source",
+              "couch-ts-contract",
+              "couch-ts-test"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Native _id/_rev document reads and bounded Mango queries preserve MVCC metadata, index-aware sorting/projection and scoped bookmarks; managed envelope mode is separate. Actual current engine, browser query and hosted authorization are unverified.",
+              "ru": "Нативное чтение _id/_rev и ограниченные Mango-запросы сохраняют MVCC, сортировку и проекции индексов, привязку закладок. Режим оболочки отдельный; текущий сервер, браузерные запросы и облачная авторизация не проверены."
+            },
+            "evidence": [
+              "couch-ts-source",
+              "couch-ts-native-source",
+              "couch-ts-contract",
+              "couch-ts-test"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Managed envelope create/upsert/delete use conditional MVCC writes; native application-document writes are not implemented. Remote completion after cancellation is possible; no rollback guarantee. Actual browser writes are unverified.",
+              "ru": "Управляемый режим выполняет create/upsert/delete с условными MVCC-записями; нативная запись документов приложения не реализована. Отмена не гарантирует откат удалённой записи; браузерная запись не проверена."
+            },
+            "evidence": [
+              "couch-ts-source",
+              "couch-ts-native-source",
+              "couch-ts-contract",
+              "couch-ts-test"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "The adapter rejects generic read-write callbacks; no multi-document ACID or _bulk_docs rollback guarantee is provided.",
+              "ru": "Адаптер отклоняет общие read-write callback-транзакции; гарантий ACID для нескольких документов и отката _bulk_docs нет."
+            },
+            "evidence": [
+              "couch-ts-source",
+              "couch-ts-native-source",
+              "couch-ts-contract",
+              "couch-ts-test"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Native connection/index discovery and bounded field samples expose observed metadata, not schema enforcement or cluster-wide enumeration. Actual browser discovery is unverified.",
+              "ru": "Нативное получение индексов и ограниченные выборки полей дают наблюдаемые метаданные, без проверки схемы и обхода всего кластера. Браузерное получение метаданных не проверено."
+            },
+            "evidence": [
+              "couch-ts-source",
+              "couch-ts-native-source",
+              "couch-ts-contract",
+              "couch-ts-test"
+            ],
+            "verification": "source-only"
+          }
+        },
+        "ts-browser": {
+          "read": {
+            "status": "UNVERIFIED",
+            "reason": {
+              "en": "Browser-safe direct HTTP source and graph/VM fixtures exist; actual browser document/query execution, CouchDB CORS and hosted authorization are unverified.",
+              "ru": "Есть HTTP-код для браузера и graph/VM-фикстуры; реальные браузерные запросы документов, CouchDB CORS и облачная авторизация не проверены."
+            },
+            "evidence": [
+              "couch-ts-source",
+              "couch-ts-native-source",
+              "couch-ts-contract",
+              "couch-ts-browser-test"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "UNVERIFIED",
+            "reason": {
+              "en": "Browser-safe direct HTTP source and graph/VM fixtures exist; actual browser document/query execution, CouchDB CORS and hosted authorization are unverified.",
+              "ru": "Есть HTTP-код для браузера и graph/VM-фикстуры; реальные браузерные запросы документов, CouchDB CORS и облачная авторизация не проверены."
+            },
+            "evidence": [
+              "couch-ts-source",
+              "couch-ts-native-source",
+              "couch-ts-contract",
+              "couch-ts-browser-test"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "UNVERIFIED",
+            "reason": {
+              "en": "Managed envelope create/upsert/delete use conditional MVCC writes; native application-document writes are not implemented. Remote completion after cancellation is possible; no rollback guarantee. Actual browser writes are unverified.",
+              "ru": "Управляемый режим выполняет create/upsert/delete с условными MVCC-записями; нативная запись документов приложения не реализована. Отмена не гарантирует откат удалённой записи; браузерная запись не проверена."
+            },
+            "evidence": [
+              "couch-ts-source",
+              "couch-ts-native-source",
+              "couch-ts-contract",
+              "couch-ts-browser-test"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "The adapter rejects generic read-write callbacks; no multi-document ACID or _bulk_docs rollback guarantee is provided.",
+              "ru": "Адаптер отклоняет общие read-write callback-транзакции; гарантий ACID для нескольких документов и отката _bulk_docs нет."
+            },
+            "evidence": [
+              "couch-ts-source",
+              "couch-ts-native-source",
+              "couch-ts-contract",
+              "couch-ts-browser-test"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "UNVERIFIED",
+            "reason": {
+              "en": "Native connection/index discovery and bounded field samples expose observed metadata, not schema enforcement or cluster-wide enumeration. Actual browser discovery is unverified.",
+              "ru": "Нативное получение индексов и ограниченные выборки полей дают наблюдаемые метаданные, без проверки схемы и обхода всего кластера. Браузерное получение метаданных не проверено."
+            },
+            "evidence": [
+              "couch-ts-source",
+              "couch-ts-native-source",
+              "couch-ts-contract",
+              "couch-ts-browser-test"
+            ],
+            "verification": "source-only"
+          }
+        }
+      },
+      "convex": {
+        "ts-node": {
+          "read": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Configured public query functions provide native-value point/batch reads and bounded opaque pagination through the official encoded codec. Generic DALgo query compilation and arbitrary table browsing are not implemented; actual backend/hosted auth/browser queries are unverified.",
+              "ru": "Заданные публичные query-функции дают точечное и пакетное чтение нативных значений и ограниченную пагинацию с официальным кодеком. Общие DALgo-запросы и произвольный просмотр таблиц не реализованы; сервер, облачная авторизация и браузерные запросы не проверены."
+            },
+            "evidence": [
+              "convex-ts-source",
+              "convex-ts-transport",
+              "convex-ts-contract",
+              "convex-ts-test"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Configured public query functions provide native-value point/batch reads and bounded opaque pagination through the official encoded codec. Generic DALgo query compilation and arbitrary table browsing are not implemented; actual backend/hosted auth/browser queries are unverified.",
+              "ru": "Заданные публичные query-функции дают точечное и пакетное чтение нативных значений и ограниченную пагинацию с официальным кодеком. Общие DALgo-запросы и произвольный просмотр таблиц не реализованы; сервер, облачная авторизация и браузерные запросы не проверены."
+            },
+            "evidence": [
+              "convex-ts-source",
+              "convex-ts-transport",
+              "convex-ts-contract",
+              "convex-ts-test"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "The adapter invokes read-only query functions; Convex mutations exist, but this adapter does not implement writes.",
+              "ru": "Адаптер вызывает query-функции чтения; мутации Convex существуют, но запись в адаптере не реализована."
+            },
+            "evidence": [
+              "convex-ts-source",
+              "convex-ts-transport",
+              "convex-ts-contract",
+              "convex-ts-test"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Adapter transaction callbacks are not implemented; no intrinsic Convex transaction limitation is claimed.",
+              "ru": "Callback-транзакции адаптера не реализованы; ограничение самого Convex не заявляется."
+            },
+            "evidence": [
+              "convex-ts-source",
+              "convex-ts-transport",
+              "convex-ts-contract",
+              "convex-ts-test"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Only trusted configured field/function metadata is exposed; server schema discovery is not implemented.",
+              "ru": "Доступны только заданные доверенные метаданные полей и функций; получение схемы сервера не реализовано."
+            },
+            "evidence": [
+              "convex-ts-source",
+              "convex-ts-transport",
+              "convex-ts-contract",
+              "convex-ts-test"
+            ],
+            "verification": "source-only"
+          }
+        },
+        "ts-browser": {
+          "read": {
+            "status": "UNVERIFIED",
+            "reason": {
+              "en": "Direct HTTP/official value-codec source, DOM types and browser graph/VM fixtures exist. Actual browser query execution, CORS and deployed JWT authorization are unverified.",
+              "ru": "Есть прямой HTTP-код, официальный кодек, DOM-типы и graph/VM-фикстуры. Браузерные запросы, CORS и JWT в развёрнутом приложении не проверены."
+            },
+            "evidence": [
+              "convex-ts-source",
+              "convex-ts-transport",
+              "convex-ts-contract",
+              "convex-ts-browser-test"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "UNVERIFIED",
+            "reason": {
+              "en": "Direct HTTP/official value-codec source, DOM types and browser graph/VM fixtures exist. Actual browser query execution, CORS and deployed JWT authorization are unverified.",
+              "ru": "Есть прямой HTTP-код, официальный кодек, DOM-типы и graph/VM-фикстуры. Браузерные запросы, CORS и JWT в развёрнутом приложении не проверены."
+            },
+            "evidence": [
+              "convex-ts-source",
+              "convex-ts-transport",
+              "convex-ts-contract",
+              "convex-ts-browser-test"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "The adapter invokes read-only query functions; Convex mutations exist, but this adapter does not implement writes.",
+              "ru": "Адаптер вызывает query-функции чтения; мутации Convex существуют, но запись в адаптере не реализована."
+            },
+            "evidence": [
+              "convex-ts-source",
+              "convex-ts-transport",
+              "convex-ts-contract",
+              "convex-ts-browser-test"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Adapter transaction callbacks are not implemented; no intrinsic Convex transaction limitation is claimed.",
+              "ru": "Callback-транзакции адаптера не реализованы; ограничение самого Convex не заявляется."
+            },
+            "evidence": [
+              "convex-ts-source",
+              "convex-ts-transport",
+              "convex-ts-contract",
+              "convex-ts-browser-test"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Only trusted configured field/function metadata is exposed; server schema discovery is not implemented.",
+              "ru": "Доступны только заданные доверенные метаданные полей и функций; получение схемы сервера не реализовано."
+            },
+            "evidence": [
+              "convex-ts-source",
+              "convex-ts-transport",
+              "convex-ts-contract",
+              "convex-ts-browser-test"
             ],
             "verification": "source-only"
           }
