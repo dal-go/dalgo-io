@@ -67,6 +67,22 @@ class CapabilityMatrix(unittest.TestCase):
         self.assertNotIn('No SCAN', redis['reason']['en'])
         self.assertEqual(capability_cell(self.inventory, 'mongodb', 'go', 'transactions')['status'], 'NOT_IMPLEMENTED')
 
+        # Native source additions do not imply execution in another runtime or a release.
+        for adapter, runtime in (('cloudflare-kv', 'go'), ('cosmosdb', 'ts-node')):
+            for capability in ('read', 'query'):
+                cell = capability_cell(self.inventory, adapter, runtime, capability)
+                self.assertEqual(cell['status'], 'PARTIAL')
+                self.assertEqual(cell['verification'], 'source-only')
+                self.assertFalse(any(matrix['evidence'][ref]['kind'] == 'execution' for ref in cell['evidence']))
+            language = 'go' if runtime == 'go' else 'typescript'
+            self.assertEqual(adapters[adapter][language]['publication'], 'not-verified')
+            for capability in ('read', 'query'):
+                self.assertEqual(capability_cell(self.inventory, adapter, 'ts-browser', capability)['status'], 'UNVERIFIED')
+        self.assertIn('cosmos-ts-native-source', capability_cell(self.inventory, 'cosmosdb', 'ts-node', 'read')['evidence'])
+        self.assertEqual(matrix['evidence']['cosmos-ts-native-test']['runtimes'], ['ts-node'])
+        self.assertEqual(capability_cell(self.inventory, 'cloudflare-kv', 'go', 'write')['status'], 'NOT_IMPLEMENTED')
+        self.assertEqual(capability_cell(self.inventory, 'cloudflare-kv', 'go', 'transactions')['status'], 'UNSUPPORTED')
+
     def test_schema_is_discovery_and_bigquery_execution_is_synthetic_only(self):
         schema = capability_cell(self.inventory, 'postgrest', 'go', 'schema')
         self.assertEqual(schema['status'], 'PARTIAL')

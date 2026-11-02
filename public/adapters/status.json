@@ -385,14 +385,20 @@
           "structured-query",
           "insert",
           "set",
-          "delete"
+          "delete",
+          "ordered-batch-read",
+          "bounded-native-query",
+          "lossless-native-values"
         ],
         "limits": [
-          "Managed DALgo id/partition/data layout with bounded cancellable reads and query-scoped continuation. Native existing-document mode, cross-partition queries, update and transactions are not implemented; actual Cosmos engine, hosted authorization/RU, CORS and registry release remain unverified."
+          "Managed DALgo id/partition/data reads and create/upsert/delete remain implemented. Additive native existing-document reads preserve original IDs and exact numeric lexemes with explicit nonempty string partitions, bounded batches, scoped continuation and explicit sessions. Native numeric/null/hierarchical partitions, cross-partition queries, native generic DALgo query compilation and native writes are not implemented; managed update and adapter transactions are also not implemented.",
+          "Public unmerged SDK PR102 source; the package remains private 0.1.0. Source/packed Node 24.22.2 fixtures using public core 0.8.1/runtime 0.1.2 do not establish actual Azure/emulator, audience/RBAC/RU/session-consistency, browser/CORS queries or registry availability."
         ],
         "sources": [
-          "https://github.com/dal-go/dalgo-http-adapters/blob/fe1ddd29dd3183b4321fb3d6f6e9049d3f5fde18/packages/cosmosdb/src/database.ts",
-          "https://github.com/dal-go/dalgo-http-adapters/blob/fe1ddd29dd3183b4321fb3d6f6e9049d3f5fde18/packages/cosmosdb/README.md"
+          "https://github.com/dal-go/dalgo-http-adapters/blob/61dfd9a12f4d61f51807f270957554606105926a/packages/cosmosdb/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/61dfd9a12f4d61f51807f270957554606105926a/packages/cosmosdb/src/native.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/61dfd9a12f4d61f51807f270957554606105926a/packages/cosmosdb/src/native-json.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/61dfd9a12f4d61f51807f270957554606105926a/packages/cosmosdb/README.md"
         ],
         "publication": "not-verified",
         "runtime": {
@@ -400,12 +406,12 @@
           "browser": {
             "status": "conditional-not-qualified",
             "execution_verified_in_this_audit": false,
-            "conditions_and_limits": "Browser only with broker-minted short-lived least-privilege resource token and CORS; no master key."
+            "conditions_and_limits": "Managed/native browser-safe source requires an application broker for short-lived least-privilege resource/AAD credentials and actual service CORS. Browser query execution, audience and RBAC remain unverified; never expose a master key."
           },
           "node": {
-            "status": "unverified",
+            "status": "source-and-fixtures-only",
             "execution_verified_in_this_audit": false,
-            "note": "Pinned source and packed-consumer fixtures target Node with public core0.8.1/runtime0.1.2; evidence listed here is source-only, not a hosted Cosmos or registry-release claim."
+            "note": "Managed and native source plus packed Node 24.22.2 fixtures use public core 0.8.1/runtime 0.1.2. Evidence here is source-only, not actual Cosmos service/RBAC/RU/session consistency or a registry release."
           },
           "edge": {
             "status": "unverified",
@@ -413,8 +419,9 @@
             "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
           },
           "sources": [
-            "https://github.com/dal-go/dalgo-http-adapters/blob/fe1ddd29dd3183b4321fb3d6f6e9049d3f5fde18/packages/cosmosdb/README.md",
-            "https://github.com/dal-go/dalgo-http-adapters/blob/fe1ddd29dd3183b4321fb3d6f6e9049d3f5fde18/.github/fixtures/cosmos-packed-consumer/runtime.mjs"
+            "https://github.com/dal-go/dalgo-http-adapters/blob/61dfd9a12f4d61f51807f270957554606105926a/packages/cosmosdb/README.md",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/61dfd9a12f4d61f51807f270957554606105926a/.github/fixtures/cosmos-packed-consumer/runtime.mjs",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/61dfd9a12f4d61f51807f270957554606105926a/.github/fixtures/cosmos-packed-consumer/native-runtime.mjs"
           ]
         }
       }
@@ -2676,8 +2683,24 @@
       "id": "cloudflare-kv",
       "name": "Cloudflare KV",
       "go": {
-        "status": "unverified",
-        "sources": [],
+        "status": "source-only",
+        "implementation_status": "partial",
+        "capabilities": [
+          "native-byte-read",
+          "ordered-batch-read",
+          "bounded-prefix-list",
+          "lossless-native-values"
+        ],
+        "limits": [
+          "Native REST reads use one configured existing account/namespace and trusted literal prefixes, preserving UTF8 keys, raw value bytes and listing metadata. Every REST 404 is a typed error: Exists confirms only a successful HTTP 200 and never invents missing=false. Combined value/metadata reads, generic DALgo query compilation, writes and schema discovery are not implemented.",
+          "Public unmerged Go source PR1 with bounded owned-transport reads, retained physical cancellation and scoped listing cursors. Public pseudo-version and owned TLS fixtures are separate from actual Cloudflare namespace/auth qualification, Workers execution, tagged/installed release or Apps readiness."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo2cloudflarekv/blob/209a16cff7f550488b667893d3e0a40e42403409/README.md",
+          "https://github.com/dal-go/dalgo2cloudflarekv/blob/209a16cff7f550488b667893d3e0a40e42403409/client.go",
+          "https://github.com/dal-go/dalgo2cloudflarekv/blob/209a16cff7f550488b667893d3e0a40e42403409/list.go",
+          "https://github.com/dal-go/dalgo2cloudflarekv/blob/209a16cff7f550488b667893d3e0a40e42403409/dal.go"
+        ],
         "publication": "not-verified"
       },
       "typescript": {
@@ -3378,7 +3401,7 @@
           "ts-node",
           "ts-browser"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/fe1ddd29dd3183b4321fb3d6f6e9049d3f5fde18/packages/cosmosdb/src/database.ts"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/61dfd9a12f4d61f51807f270957554606105926a/packages/cosmosdb/src/database.ts"
       },
       "cosmos-ts-contract": {
         "kind": "documentation",
@@ -3386,28 +3409,28 @@
           "ts-node",
           "ts-browser"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/fe1ddd29dd3183b4321fb3d6f6e9049d3f5fde18/packages/cosmosdb/README.md"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/61dfd9a12f4d61f51807f270957554606105926a/packages/cosmosdb/README.md"
       },
       "cosmos-ts-test": {
         "kind": "test-source",
         "runtimes": [
           "ts-node"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/fe1ddd29dd3183b4321fb3d6f6e9049d3f5fde18/.github/fixtures/cosmos-packed-consumer/runtime.mjs"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/61dfd9a12f4d61f51807f270957554606105926a/.github/fixtures/cosmos-packed-consumer/runtime.mjs"
       },
       "cosmos-ts-browser-test": {
         "kind": "test-source",
         "runtimes": [
           "ts-browser"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/fe1ddd29dd3183b4321fb3d6f6e9049d3f5fde18/.github/fixtures/cosmos-packed-consumer/browser-entry.mjs"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/61dfd9a12f4d61f51807f270957554606105926a/.github/fixtures/cosmos-packed-consumer/browser-entry.mjs"
       },
       "cosmos-ts-write-test": {
         "kind": "test-source",
         "runtimes": [
           "ts-node"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/fe1ddd29dd3183b4321fb3d6f6e9049d3f5fde18/packages/cosmosdb/test/database.test.ts"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/61dfd9a12f4d61f51807f270957554606105926a/packages/cosmosdb/test/database.test.ts"
       },
       "dynamo-ts-native-source": {
         "kind": "source",
@@ -3631,6 +3654,64 @@
           "ts-browser"
         ],
         "url": "https://github.com/dal-go/dalgo-http-adapters/blob/9108a43d7caea9dfc641aef38d17c60795eaacec/packages/cloudflare-kv/test/paging.test.ts"
+      },
+      "cloudflare-kv-go-contract": {
+        "kind": "documentation",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2cloudflarekv/blob/209a16cff7f550488b667893d3e0a40e42403409/README.md"
+      },
+      "cloudflare-kv-go-source": {
+        "kind": "source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2cloudflarekv/blob/209a16cff7f550488b667893d3e0a40e42403409/client.go"
+      },
+      "cloudflare-kv-go-list": {
+        "kind": "source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2cloudflarekv/blob/209a16cff7f550488b667893d3e0a40e42403409/list.go"
+      },
+      "cloudflare-kv-go-dal": {
+        "kind": "source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2cloudflarekv/blob/209a16cff7f550488b667893d3e0a40e42403409/dal.go"
+      },
+      "cloudflare-kv-go-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2cloudflarekv/blob/209a16cff7f550488b667893d3e0a40e42403409/client_test.go"
+      },
+      "cosmos-ts-native-source": {
+        "kind": "source",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/61dfd9a12f4d61f51807f270957554606105926a/packages/cosmosdb/src/native.ts"
+      },
+      "cosmos-ts-native-json": {
+        "kind": "source",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/61dfd9a12f4d61f51807f270957554606105926a/packages/cosmosdb/src/native-json.ts"
+      },
+      "cosmos-ts-native-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-node"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/61dfd9a12f4d61f51807f270957554606105926a/.github/fixtures/cosmos-packed-consumer/native-runtime.mjs"
       }
     },
     "overrides": {
@@ -5069,37 +5150,44 @@
           "read": {
             "status": "PARTIAL",
             "reason": {
-              "en": "Managed id/partition/data reads and parameterized queries have shared operation bounds, cancellation and scoped continuation. Native existing-document mode and cross-partition queries are not implemented. Owned HTTP fixtures do not establish Cosmos service or RU/auth behavior.",
-              "ru": "Чтение и параметризованные запросы структуры id/partition/data имеют общие лимиты, отмену и привязанные курсоры. Нативные документы и межсекционные запросы не реализованы. HTTP-фикстуры не подтверждают сервис Cosmos, RU или облачную авторизацию."
+              "en": "Managed-layout reads and additive native original-ID documents with lossless JSON number lexemes are implemented. Native mode requires explicit nonempty string partitions; batches share operation bounds. Advanced partition forms are not implemented; actual Azure authorization/RU/consistency remains unverified.",
+              "ru": "Реализованы чтение управляемой структуры и нативных документов с исходными ID и точными числовыми лексемами JSON. Нативный режим требует явно заданных непустых строковых разделов; пакеты имеют общие лимиты операции. Расширенные формы разделов не реализованы; реальные авторизация Azure, RU и согласованность не проверены."
             },
             "evidence": [
               "cosmos-ts-source",
+              "cosmos-ts-native-source",
+              "cosmos-ts-native-json",
               "cosmos-ts-contract",
-              "cosmos-ts-test"
+              "cosmos-ts-test",
+              "cosmos-ts-native-test"
             ],
             "verification": "source-only"
           },
           "query": {
             "status": "PARTIAL",
             "reason": {
-              "en": "Managed id/partition/data reads and parameterized queries have shared operation bounds, cancellation and scoped continuation. Native existing-document mode and cross-partition queries are not implemented. Owned HTTP fixtures do not establish Cosmos service or RU/auth behavior.",
-              "ru": "Чтение и параметризованные запросы структуры id/partition/data имеют общие лимиты, отмену и привязанные курсоры. Нативные документы и межсекционные запросы не реализованы. HTTP-фикстуры не подтверждают сервис Cosmos, RU или облачную авторизацию."
+              "en": "Managed structured queries and parameterized native single-partition document queries have bounded bodies/work, scoped continuation and opt-in session handles. Native replies require original IDs and partition fields. Cross-partition queries and a generic DALgo compiler for native mode are not implemented; hosted execution remains unverified.",
+              "ru": "Управляемые структурированные и параметризованные нативные запросы документов одного раздела имеют лимиты тела и работы, привязанные курсоры и явно включаемые сессии. Нативные ответы должны содержать исходные ID и поле раздела. Межсекционные запросы и общий компилятор DALgo для нативного режима не реализованы; облачное выполнение не проверено."
             },
             "evidence": [
               "cosmos-ts-source",
+              "cosmos-ts-native-source",
+              "cosmos-ts-native-json",
               "cosmos-ts-contract",
-              "cosmos-ts-test"
+              "cosmos-ts-test",
+              "cosmos-ts-native-test"
             ],
             "verification": "source-only"
           },
           "write": {
             "status": "PARTIAL",
             "reason": {
-              "en": "Existing managed-layout create/upsert/delete are implemented; update and transactions are not implemented. Read-lifecycle fixtures do not qualify hosted write authorization.",
-              "ru": "Create/upsert/delete в управляемой структуре реализованы; update и транзакции не реализованы. Проверки чтения не подтверждают облачные права записи."
+              "en": "Existing managed-layout create/upsert/delete remain implemented. Native writes, managed update and adapter transactions are not implemented; read fixtures do not qualify hosted write authorization.",
+              "ru": "Create/upsert/delete в управляемой структуре сохранены. Нативная запись, управляемый update и транзакции адаптера не реализованы; проверки чтения не подтверждают облачные права записи."
             },
             "evidence": [
               "cosmos-ts-source",
+              "cosmos-ts-native-source",
               "cosmos-ts-contract",
               "cosmos-ts-write-test"
             ],
@@ -5108,26 +5196,32 @@
           "transactions": {
             "status": "NOT_IMPLEMENTED",
             "reason": {
-              "en": "No adapter transaction surface is implemented; Cosmos transactional APIs require a separate integration.",
-              "ru": "API транзакций адаптера не реализован; транзакционные API Cosmos требуют отдельной интеграции."
+              "en": "Adapter callback transactions are not implemented in managed or native mode. Cosmos transactional APIs are provider features that require a separate integration.",
+              "ru": "Транзакции с callback не реализованы ни в управляемом, ни в нативном режиме. Транзакционные API Cosmos являются возможностями провайдера и требуют отдельной интеграции."
             },
             "evidence": [
               "cosmos-ts-source",
+              "cosmos-ts-native-source",
+              "cosmos-ts-native-json",
               "cosmos-ts-contract",
-              "cosmos-ts-test"
+              "cosmos-ts-test",
+              "cosmos-ts-native-test"
             ],
             "verification": "source-only"
           },
           "schema": {
             "status": "NOT_IMPLEMENTED",
             "reason": {
-              "en": "One explicitly configured database/container and partition mapping; database/container discovery is not implemented.",
-              "ru": "Явная привязка базы, контейнера и раздела; получение метаданных баз и контейнеров не реализовано."
+              "en": "Configured database/container/partition metadata is local configuration, not live database/container or field-schema discovery; discovery is not implemented.",
+              "ru": "Метаданные заданных базы, контейнера и раздела являются локальной конфигурацией, а не обнаружением баз, контейнеров или схемы полей; обнаружение не реализовано."
             },
             "evidence": [
               "cosmos-ts-source",
+              "cosmos-ts-native-source",
+              "cosmos-ts-native-json",
               "cosmos-ts-contract",
-              "cosmos-ts-test"
+              "cosmos-ts-test",
+              "cosmos-ts-native-test"
             ],
             "verification": "source-only"
           }
@@ -5136,11 +5230,13 @@
           "read": {
             "status": "UNVERIFIED",
             "reason": {
-              "en": "Browser entry/source tests do not prove a browser query. Actual browser execution, CORS and broker-minted short-lived least-privilege resource tokens remain unverified; never expose a master key.",
-              "ru": "Исходники браузерного входа и тестов не подтверждают запрос в браузере. Выполнение, CORS и краткоживущие токены с минимальными правами не проверены; главный ключ нельзя раскрывать."
+              "en": "Managed and native public roots plus DOM/VM fixtures exist, but they do not prove a browser query. Actual browser execution, CORS and broker-issued short-lived resource/AAD authorization remain unverified; never expose master keys.",
+              "ru": "Есть управляемый и нативный публичные входы и DOM/VM-фикстуры, но они не подтверждают запрос в браузере. Реальное выполнение, CORS и краткоживущие resource/AAD-учётные данные от брокера не проверены; главные ключи нельзя раскрывать."
             },
             "evidence": [
               "cosmos-ts-source",
+              "cosmos-ts-native-source",
+              "cosmos-ts-native-json",
               "cosmos-ts-contract",
               "cosmos-ts-browser-test"
             ],
@@ -5149,11 +5245,13 @@
           "query": {
             "status": "UNVERIFIED",
             "reason": {
-              "en": "Browser entry/source tests do not prove a browser query. Actual browser execution, CORS and broker-minted short-lived least-privilege resource tokens remain unverified; never expose a master key.",
-              "ru": "Исходники браузерного входа и тестов не подтверждают запрос в браузере. Выполнение, CORS и краткоживущие токены с минимальными правами не проверены; главный ключ нельзя раскрывать."
+              "en": "Managed and native public roots plus DOM/VM fixtures exist, but they do not prove a browser query. Actual browser execution, CORS and broker-issued short-lived resource/AAD authorization remain unverified; never expose master keys.",
+              "ru": "Есть управляемый и нативный публичные входы и DOM/VM-фикстуры, но они не подтверждают запрос в браузере. Реальное выполнение, CORS и краткоживущие resource/AAD-учётные данные от брокера не проверены; главные ключи нельзя раскрывать."
             },
             "evidence": [
               "cosmos-ts-source",
+              "cosmos-ts-native-source",
+              "cosmos-ts-native-json",
               "cosmos-ts-contract",
               "cosmos-ts-browser-test"
             ],
@@ -5162,11 +5260,12 @@
           "write": {
             "status": "UNVERIFIED",
             "reason": {
-              "en": "Browser entry/source tests do not prove a browser query. Actual browser execution, CORS and broker-minted short-lived least-privilege resource tokens remain unverified; never expose a master key.",
-              "ru": "Исходники браузерного входа и тестов не подтверждают запрос в браузере. Выполнение, CORS и краткоживущие токены с минимальными правами не проверены; главный ключ нельзя раскрывать."
+              "en": "Managed write source exists while native writes are not implemented. Actual browser write execution, CORS and least-privilege authorization remain unverified.",
+              "ru": "Исходники управляемой записи существуют, а нативная запись не реализована. Реальные запись в браузере, CORS и авторизация с минимальными правами не проверены."
             },
             "evidence": [
               "cosmos-ts-source",
+              "cosmos-ts-native-source",
               "cosmos-ts-contract",
               "cosmos-ts-browser-test"
             ],
@@ -5175,11 +5274,13 @@
           "transactions": {
             "status": "NOT_IMPLEMENTED",
             "reason": {
-              "en": "No adapter transaction surface is implemented; Cosmos transactional APIs require a separate integration.",
-              "ru": "API транзакций адаптера не реализован; транзакционные API Cosmos требуют отдельной интеграции."
+              "en": "Adapter callback transactions are not implemented in managed or native mode. Cosmos transactional APIs are provider features that require a separate integration.",
+              "ru": "Транзакции с callback не реализованы ни в управляемом, ни в нативном режиме. Транзакционные API Cosmos являются возможностями провайдера и требуют отдельной интеграции."
             },
             "evidence": [
               "cosmos-ts-source",
+              "cosmos-ts-native-source",
+              "cosmos-ts-native-json",
               "cosmos-ts-contract",
               "cosmos-ts-browser-test"
             ],
@@ -5188,11 +5289,13 @@
           "schema": {
             "status": "NOT_IMPLEMENTED",
             "reason": {
-              "en": "One explicitly configured database/container and partition mapping; database/container discovery is not implemented.",
-              "ru": "Явная привязка базы, контейнера и раздела; получение метаданных баз и контейнеров не реализовано."
+              "en": "Configured database/container/partition metadata is local configuration, not live database/container or field-schema discovery; discovery is not implemented.",
+              "ru": "Метаданные заданных базы, контейнера и раздела являются локальной конфигурацией, а не обнаружением баз, контейнеров или схемы полей; обнаружение не реализовано."
             },
             "evidence": [
               "cosmos-ts-source",
+              "cosmos-ts-native-source",
+              "cosmos-ts-native-json",
               "cosmos-ts-contract",
               "cosmos-ts-browser-test"
             ],
@@ -5778,6 +5881,83 @@
             "evidence": [
               "cloudflare-kv-ts-contract",
               "cloudflare-kv-ts-http"
+            ],
+            "verification": "source-only"
+          }
+        },
+        "go": {
+          "read": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Native REST point and ordered batch reads preserve raw bytes in an explicitly configured existing namespace. REST 404 always remains an error; Exists only confirms HTTP 200 and cannot establish missing=false. Actual Cloudflare namespace/token authorization remains unverified.",
+              "ru": "Нативный REST читает отдельные ключи и упорядоченные пакеты байтов в явно заданном существующем пространстве имён. REST 404 всегда остаётся ошибкой; Exists подтверждает только HTTP 200 и не устанавливает отсутствие ключа. Реальное пространство Cloudflare и права токена не проверены."
+            },
+            "evidence": [
+              "cloudflare-kv-go-contract",
+              "cloudflare-kv-go-source",
+              "cloudflare-kv-go-list",
+              "cloudflare-kv-go-dal",
+              "cloudflare-kv-go-test"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Bounded literal-prefix key listing preserves metadata and whole REST pages of 10–1000 keys with scoped opaque continuation. General DALgo query compilation is not implemented; ordinary KV is not a SQL engine. Hosted listing execution remains unverified.",
+              "ru": "Ограниченный список ключей по буквальному префиксу сохраняет метаданные и целые REST-страницы по 10–1000 ключей с привязанными непрозрачными курсорами. Общий компилятор запросов DALgo не реализован; обычный KV не является SQL-движком. Облачное выполнение списка не проверено."
+            },
+            "evidence": [
+              "cloudflare-kv-go-contract",
+              "cloudflare-kv-go-source",
+              "cloudflare-kv-go-list",
+              "cloudflare-kv-go-dal",
+              "cloudflare-kv-go-test"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Cloudflare KV supports writes, but this adapter exposes read operations only; writes are not implemented.",
+              "ru": "Cloudflare KV поддерживает запись, но этот адаптер предоставляет только чтение; запись не реализована."
+            },
+            "evidence": [
+              "cloudflare-kv-go-contract",
+              "cloudflare-kv-go-source",
+              "cloudflare-kv-go-list",
+              "cloudflare-kv-go-dal",
+              "cloudflare-kv-go-test"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "UNSUPPORTED",
+            "reason": {
+              "en": "This ordinary Workers KV REST profile has no atomic cross-key transaction semantics. Sequential batch reads are not transactions; Workers KV Instant and Durable Objects are separate profiles outside this adapter.",
+              "ru": "В этом REST-профиле обычного Workers KV нет атомарных транзакций между ключами. Последовательное пакетное чтение не является транзакцией; Workers KV Instant и Durable Objects находятся вне этого адаптера."
+            },
+            "evidence": [
+              "cloudflare-kv-go-contract",
+              "cloudflare-kv-go-source",
+              "cloudflare-kv-go-list",
+              "cloudflare-kv-go-dal",
+              "cloudflare-kv-go-test"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Configured namespace/prefix metadata and optional listing metadata do not implement DALgo schema discovery.",
+              "ru": "Заданные пространство имён и префиксы, а также необязательные метаданные списка не реализуют обнаружение схемы DALgo."
+            },
+            "evidence": [
+              "cloudflare-kv-go-contract",
+              "cloudflare-kv-go-source",
+              "cloudflare-kv-go-list",
+              "cloudflare-kv-go-dal",
+              "cloudflare-kv-go-test"
             ],
             "verification": "source-only"
           }
