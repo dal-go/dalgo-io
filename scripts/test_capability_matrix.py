@@ -26,10 +26,13 @@ class CapabilityMatrix(unittest.TestCase):
         self.assertEqual([row['id'] for row in ordered_adapters(self.inventory)][-4:], ['elasticsearch', 'opensearch', 'typesense', 'meilisearch'])
 
     def test_unknowns_do_not_inherit_legacy_readonly_or_related_hosted_support(self):
+        inventory = copy.deepcopy(self.inventory)
+        # An explicit KV audit must not become an inferred default for unaudited cells.
+        inventory['capabilityMatrix']['overrides'].pop('cloudflare-kv', None)
         for adapter in ('mysql', 'supabase', 'turso', 'cloudflare-kv'):
             for runtime in RUNTIMES:
                 for capability in CAPABILITIES:
-                    self.assertEqual(capability_cell(self.inventory, adapter, runtime, capability)['status'], 'UNVERIFIED')
+                    self.assertEqual(capability_cell(inventory, adapter, runtime, capability)['status'], 'UNVERIFIED')
         self.assertEqual(capability_cell(self.inventory, 'postgrest', 'go', 'read')['status'], 'SUPPORTED')
         self.assertEqual(capability_cell(self.inventory, 'duckdb', 'go', 'write')['status'], 'UNVERIFIED')
 

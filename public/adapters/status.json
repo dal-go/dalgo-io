@@ -2681,9 +2681,45 @@
         "publication": "not-verified"
       },
       "typescript": {
-        "status": "unverified",
-        "sources": [],
-        "publication": "not-verified"
+        "status": "source-only",
+        "implementation_status": "partial",
+        "package": "@dalgo/cloudflare-kv",
+        "manifest_private": false,
+        "capabilities": [
+          "native-byte-read",
+          "ordered-batch-read",
+          "bounded-prefix-list",
+          "trusted-http-bridge"
+        ],
+        "limits": [
+          "Borrowed Workers binding and server-only REST preserve raw bytes and literal UTF8 keys. REST404 is a typed error, never confirmed missing; REST value+metadata reads, writes and schema discovery are not implemented. Ordinary Workers KV has no SQL engine or atomic cross-key transactions; Workers KV Instant and Durable Objects are outside this profile.",
+          "Public unmerged source PR101; Node>=24 is declared and local qualification used Node24.22.2. Packed fixtures and owned verified TLS do not establish an actual Cloudflare namespace, Workers engine, hosted token ACL, browser/CORS query, npm release or Apps readiness."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/9108a43d7caea9dfc641aef38d17c60795eaacec/packages/cloudflare-kv/README.md",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/9108a43d7caea9dfc641aef38d17c60795eaacec/packages/cloudflare-kv/src/binding.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/9108a43d7caea9dfc641aef38d17c60795eaacec/packages/cloudflare-kv/src/rest.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/9108a43d7caea9dfc641aef38d17c60795eaacec/packages/cloudflare-kv/src/http.ts"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "server-rest-or-trusted-http-bridge",
+          "browser": {
+            "status": "source-and-fixtures-only",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "Requires an application-authenticated trusted bridge. Cloudflare credentials stay server-side; actual browser queries and CORS are unverified."
+          },
+          "node": {
+            "status": "source-and-fixtures-only",
+            "execution_verified_in_this_audit": false,
+            "note": "Node>=24 declared; owned local verified-TLS and packed Node24.22.2 fixtures are separate from actual Cloudflare REST qualification."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "Structural official Workers KVNamespace types and injected binding fixtures exist; no actual Workers engine or hosted namespace has run."
+          }
+        }
       }
     },
     {
@@ -3541,6 +3577,60 @@
           "go"
         ],
         "url": "https://github.com/dal-go/dalgo2convex/blob/9c8a437f4c853f204f957f97ffad7f017fa4a56c/lifecycle_test.go"
+      },
+      "cloudflare-kv-ts-contract": {
+        "kind": "documentation",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/9108a43d7caea9dfc641aef38d17c60795eaacec/packages/cloudflare-kv/README.md"
+      },
+      "cloudflare-kv-ts-binding": {
+        "kind": "source",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/9108a43d7caea9dfc641aef38d17c60795eaacec/packages/cloudflare-kv/src/binding.ts"
+      },
+      "cloudflare-kv-ts-rest": {
+        "kind": "source",
+        "runtimes": [
+          "ts-node"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/9108a43d7caea9dfc641aef38d17c60795eaacec/packages/cloudflare-kv/src/rest.ts"
+      },
+      "cloudflare-kv-ts-http": {
+        "kind": "source",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/9108a43d7caea9dfc641aef38d17c60795eaacec/packages/cloudflare-kv/src/http.ts"
+      },
+      "cloudflare-kv-ts-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-node"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/9108a43d7caea9dfc641aef38d17c60795eaacec/packages/cloudflare-kv/test/rest.test.ts"
+      },
+      "cloudflare-kv-ts-binding-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/9108a43d7caea9dfc641aef38d17c60795eaacec/packages/cloudflare-kv/test/binding.test.ts"
+      },
+      "cloudflare-kv-ts-paging-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/9108a43d7caea9dfc641aef38d17c60795eaacec/packages/cloudflare-kv/test/paging.test.ts"
       }
     },
     "overrides": {
@@ -5551,6 +5641,143 @@
               "convex-go-dal",
               "convex-go-contract",
               "convex-go-test"
+            ],
+            "verification": "source-only"
+          }
+        }
+      },
+      "cloudflare-kv": {
+        "ts-node": {
+          "read": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Server-only Node REST implements raw-byte point and ordered batch reads. Every REST404 remains an error because missing-key identity is unqualified. Native binding null/missing semantics are a separate Workers surface; actual Workers and hosted REST are unverified.",
+              "ru": "Серверный REST для Node реализует точечное и упорядоченное пакетное чтение байтов. Любой REST404 остаётся ошибкой, поскольку причина отсутствия не подтверждена. Семантика null/отсутствия ключа в нативном binding относится к отдельной среде Workers; реальные Workers и облачный REST не проверены."
+            },
+            "evidence": [
+              "cloudflare-kv-ts-contract",
+              "cloudflare-kv-ts-rest",
+              "cloudflare-kv-ts-http",
+              "cloudflare-kv-ts-test"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Bounded literal-prefix key listing with metadata and opaque pagination is implemented. General DALgo query compilation is not implemented; ordinary KV is not a SQL engine. Actual hosted listing remains unverified.",
+              "ru": "Реализован ограниченный список ключей по буквальному префиксу с метаданными и непрозрачными курсорами. Общий компилятор запросов DALgo не реализован; обычный KV не является SQL-движком. Облачное выполнение не проверено."
+            },
+            "evidence": [
+              "cloudflare-kv-ts-contract",
+              "cloudflare-kv-ts-rest",
+              "cloudflare-kv-ts-http",
+              "cloudflare-kv-ts-test",
+              "cloudflare-kv-ts-paging-test"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Workers KV supports writes, but this adapter exposes read operations only; writes are not implemented.",
+              "ru": "Workers KV поддерживает запись, но этот адаптер реализует только чтение; запись не реализована."
+            },
+            "evidence": [
+              "cloudflare-kv-ts-contract",
+              "cloudflare-kv-ts-rest",
+              "cloudflare-kv-ts-http",
+              "cloudflare-kv-ts-test"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "UNSUPPORTED",
+            "reason": {
+              "en": "This ordinary Workers KV profile has no atomic cross-key transaction semantics. A batch read is sequential, not a transaction; Durable Objects and Workers KV Instant are separate products outside this profile.",
+              "ru": "В этом профиле обычного Workers KV нет атомарных транзакций между ключами. Пакетное чтение выполняется последовательно и не является транзакцией; Durable Objects и Workers KV Instant находятся вне этого профиля."
+            },
+            "evidence": [
+              "cloudflare-kv-ts-contract",
+              "cloudflare-kv-ts-rest",
+              "cloudflare-kv-ts-http",
+              "cloudflare-kv-ts-test"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "The adapter lists key metadata but does not implement DALgo schema discovery; optional metadata is not a declared field schema.",
+              "ru": "Адаптер выводит метаданные ключей, но не реализует обнаружение схемы DALgo; необязательные метаданные не являются схемой полей."
+            },
+            "evidence": [
+              "cloudflare-kv-ts-contract",
+              "cloudflare-kv-ts-rest",
+              "cloudflare-kv-ts-http",
+              "cloudflare-kv-ts-test"
+            ],
+            "verification": "source-only"
+          }
+        },
+        "ts-browser": {
+          "read": {
+            "status": "UNVERIFIED",
+            "reason": {
+              "en": "Browser-safe bridge source and DOM/VM fixtures exist, but an authenticated application bridge is required. Actual browser query execution, CORS and deployed authorization are unverified; Cloudflare credentials must remain server-side.",
+              "ru": "Есть браузерный код моста и DOM/VM-фикстуры, но требуется аутентифицированный мост приложения. Реальные браузерные запросы, CORS и развёрнутая авторизация не проверены; учётные данные Cloudflare остаются на сервере."
+            },
+            "evidence": [
+              "cloudflare-kv-ts-contract",
+              "cloudflare-kv-ts-http"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "UNVERIFIED",
+            "reason": {
+              "en": "Browser-safe bridge source and DOM/VM fixtures exist, but an authenticated application bridge is required. Actual browser query execution, CORS and deployed authorization are unverified; Cloudflare credentials must remain server-side.",
+              "ru": "Есть браузерный код моста и DOM/VM-фикстуры, но требуется аутентифицированный мост приложения. Реальные браузерные запросы, CORS и развёрнутая авторизация не проверены; учётные данные Cloudflare остаются на сервере."
+            },
+            "evidence": [
+              "cloudflare-kv-ts-contract",
+              "cloudflare-kv-ts-http"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Workers KV supports writes, but this adapter exposes read operations only; writes are not implemented.",
+              "ru": "Workers KV поддерживает запись, но этот адаптер реализует только чтение; запись не реализована."
+            },
+            "evidence": [
+              "cloudflare-kv-ts-contract",
+              "cloudflare-kv-ts-http"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "UNSUPPORTED",
+            "reason": {
+              "en": "This ordinary Workers KV profile has no atomic cross-key transaction semantics. A batch read is sequential, not a transaction; Durable Objects and Workers KV Instant are separate products outside this profile.",
+              "ru": "В этом профиле обычного Workers KV нет атомарных транзакций между ключами. Пакетное чтение выполняется последовательно и не является транзакцией; Durable Objects и Workers KV Instant находятся вне этого профиля."
+            },
+            "evidence": [
+              "cloudflare-kv-ts-contract",
+              "cloudflare-kv-ts-http"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "The adapter lists key metadata but does not implement DALgo schema discovery; optional metadata is not a declared field schema.",
+              "ru": "Адаптер выводит метаданные ключей, но не реализует обнаружение схемы DALgo; необязательные метаданные не являются схемой полей."
+            },
+            "evidence": [
+              "cloudflare-kv-ts-contract",
+              "cloudflare-kv-ts-http"
             ],
             "verification": "source-only"
           }
