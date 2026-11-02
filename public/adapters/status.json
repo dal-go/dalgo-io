@@ -355,12 +355,24 @@
       "id": "cosmosdb",
       "name": "Cosmos DB",
       "go": {
-        "status": "absent",
-        "capabilities": [],
-        "limits": [
-          "No dedicated implementation found in the audited DALgo organization/core/monorepo; not a global nonexistence claim."
+        "status": "source-only",
+        "implementation_status": "partial",
+        "capabilities": [
+          "point-read",
+          "ordered-batch-read",
+          "bounded-native-query",
+          "lossless-native-values"
         ],
-        "sources": [],
+        "limits": [
+          "Native existing NoSQL documents with original IDs and lossless wire-number lexemes; one configured container and nonempty string partition field. Numeric/null/empty/hierarchical partitions, cross-partition queries, generic DALgo query compilation, writes, transactions and live schema discovery are not implemented.",
+          "Public unmerged Go source PR1; public pseudo-version consumption is separate from a tagged/installed release. Owned protocol fixtures and source tests do not establish real Azure/emulator, hosted authorization, RU charging or billing behavior."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo2cosmosdb/blob/234d09879876755273aa58fdc39ba0276730665b/README.md",
+          "https://github.com/dal-go/dalgo2cosmosdb/blob/234d09879876755273aa58fdc39ba0276730665b/client.go",
+          "https://github.com/dal-go/dalgo2cosmosdb/blob/234d09879876755273aa58fdc39ba0276730665b/query.go",
+          "https://github.com/dal-go/dalgo2cosmosdb/blob/234d09879876755273aa58fdc39ba0276730665b/dal.go"
+        ],
         "publication": "not-verified"
       },
       "typescript": {
@@ -2599,8 +2611,24 @@
       "id": "convex",
       "name": "Convex",
       "go": {
-        "status": "unverified",
-        "sources": [],
+        "status": "source-only",
+        "implementation_status": "partial",
+        "capabilities": [
+          "point-read",
+          "ordered-batch-read",
+          "bounded-native-query",
+          "lossless-native-values"
+        ],
+        "limits": [
+          "Only explicitly configured public query functions and collection bindings; native int64/bytes/IEEE values and bounded opaque pagination are implemented. Arbitrary table browsing, generic DALgo queries, writes, transactions and live schema discovery are not implemented.",
+          "Public unmerged Go source PR1; public pseudo-version consumption is separate from a tagged/installed release. Source and owned TLS fixtures do not establish an actual Convex backend, deployed JWT authorization or Apps readiness."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo2convex/blob/9c8a437f4c853f204f957f97ffad7f017fa4a56c/README.md",
+          "https://github.com/dal-go/dalgo2convex/blob/9c8a437f4c853f204f957f97ffad7f017fa4a56c/client.go",
+          "https://github.com/dal-go/dalgo2convex/blob/9c8a437f4c853f204f957f97ffad7f017fa4a56c/query.go",
+          "https://github.com/dal-go/dalgo2convex/blob/9c8a437f4c853f204f957f97ffad7f017fa4a56c/dal.go"
+        ],
         "publication": "not-verified"
       },
       "typescript": {
@@ -3443,6 +3471,76 @@
           "ts-browser"
         ],
         "url": "https://github.com/dal-go/dalgo-http-adapters/blob/8f9f59568ef5d9d5e606d9e92df169956a4337a9/.github/fixtures/convex-packed-consumer/browser-entry.mjs"
+      },
+      "cosmosdb-go-source": {
+        "kind": "source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2cosmosdb/blob/234d09879876755273aa58fdc39ba0276730665b/client.go"
+      },
+      "cosmosdb-go-query": {
+        "kind": "source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2cosmosdb/blob/234d09879876755273aa58fdc39ba0276730665b/query.go"
+      },
+      "cosmosdb-go-dal": {
+        "kind": "source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2cosmosdb/blob/234d09879876755273aa58fdc39ba0276730665b/dal.go"
+      },
+      "cosmosdb-go-contract": {
+        "kind": "documentation",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2cosmosdb/blob/234d09879876755273aa58fdc39ba0276730665b/README.md"
+      },
+      "cosmosdb-go-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2cosmosdb/blob/234d09879876755273aa58fdc39ba0276730665b/lifecycle_test.go"
+      },
+      "convex-go-source": {
+        "kind": "source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2convex/blob/9c8a437f4c853f204f957f97ffad7f017fa4a56c/client.go"
+      },
+      "convex-go-query": {
+        "kind": "source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2convex/blob/9c8a437f4c853f204f957f97ffad7f017fa4a56c/query.go"
+      },
+      "convex-go-dal": {
+        "kind": "source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2convex/blob/9c8a437f4c853f204f957f97ffad7f017fa4a56c/dal.go"
+      },
+      "convex-go-contract": {
+        "kind": "documentation",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2convex/blob/9c8a437f4c853f204f957f97ffad7f017fa4a56c/README.md"
+      },
+      "convex-go-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2convex/blob/9c8a437f4c853f204f957f97ffad7f017fa4a56c/lifecycle_test.go"
       }
     },
     "overrides": {
@@ -5010,6 +5108,83 @@
             ],
             "verification": "source-only"
           }
+        },
+        "go": {
+          "read": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Native original-ID point and ordered batch reads preserve wire number lexemes. One configured NoSQL container and nonempty string partition are implemented; other partition modes are not implemented. Real Azure authorization/RU behavior remains unverified.",
+              "ru": "Реализованы чтение по исходному ID и пакетное чтение с сохранением числовых лексем. Поддержан один контейнер NoSQL и непустой строковый раздел; другие виды разделов не реализованы. Облачная авторизация Azure и RU не проверены."
+            },
+            "evidence": [
+              "cosmosdb-go-source",
+              "cosmosdb-go-query",
+              "cosmosdb-go-dal",
+              "cosmosdb-go-contract",
+              "cosmosdb-go-test"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Native parameterized SQL and scoped opaque continuation are implemented for the configured single partition. Generic DALgo query compilation and cross-partition mode are not implemented; fixtures do not prove the Cosmos service.",
+              "ru": "Реализованы параметризованный SQL и привязанные непрозрачные курсоры для заданного раздела. Компиляция общих запросов DALgo и межсекционный режим не реализованы; фикстуры не подтверждают работу сервиса Cosmos."
+            },
+            "evidence": [
+              "cosmosdb-go-source",
+              "cosmosdb-go-query",
+              "cosmosdb-go-dal",
+              "cosmosdb-go-contract",
+              "cosmosdb-go-test"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Provider write APIs exist, but this read-only Go adapter does not implement writes.",
+              "ru": "API записи у провайдера есть, но этот Go-адаптер запись не реализует."
+            },
+            "evidence": [
+              "cosmosdb-go-source",
+              "cosmosdb-go-query",
+              "cosmosdb-go-dal",
+              "cosmosdb-go-contract",
+              "cosmosdb-go-test"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Adapter transaction callbacks are not implemented; no intrinsic provider transaction limitation is claimed.",
+              "ru": "Callback-транзакции адаптера не реализованы; ограничение самого провайдера не заявляется."
+            },
+            "evidence": [
+              "cosmosdb-go-source",
+              "cosmosdb-go-query",
+              "cosmosdb-go-dal",
+              "cosmosdb-go-contract",
+              "cosmosdb-go-test"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Resource/function metadata is explicitly configured; live schema/resource discovery is not implemented.",
+              "ru": "Метаданные ресурсов и функций заданы явно; получение схемы и ресурсов с сервера не реализовано."
+            },
+            "evidence": [
+              "cosmosdb-go-source",
+              "cosmosdb-go-query",
+              "cosmosdb-go-dal",
+              "cosmosdb-go-contract",
+              "cosmosdb-go-test"
+            ],
+            "verification": "source-only"
+          }
         }
       },
       "couchdb": {
@@ -5299,6 +5474,83 @@
               "convex-ts-transport",
               "convex-ts-contract",
               "convex-ts-browser-test"
+            ],
+            "verification": "source-only"
+          }
+        },
+        "go": {
+          "read": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Point and ordered batch reads invoke trusted configured public query functions and preserve native int64, bytes and IEEE values. Arbitrary table browsing is not implemented; actual deployed authorization remains unverified.",
+              "ru": "Чтение по ключу и пакетное чтение вызывают заданные доверенные публичные query-функции с сохранением int64, байтов и IEEE-значений. Произвольный просмотр таблиц не реализован; авторизация развёрнутого сервиса не проверена."
+            },
+            "evidence": [
+              "convex-go-source",
+              "convex-go-query",
+              "convex-go-dal",
+              "convex-go-contract",
+              "convex-go-test"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Configured public query functions and scoped opaque pagination are implemented. A generic DALgo query compiler and arbitrary table queries are not implemented; actual backend acceptance remains unverified.",
+              "ru": "Реализованы заданные публичные query-функции и привязанные непрозрачные курсоры. Общий компилятор запросов DALgo и произвольные запросы к таблицам не реализованы; реальный backend не проверен."
+            },
+            "evidence": [
+              "convex-go-source",
+              "convex-go-query",
+              "convex-go-dal",
+              "convex-go-contract",
+              "convex-go-test"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Provider write APIs exist, but this read-only Go adapter does not implement writes.",
+              "ru": "API записи у провайдера есть, но этот Go-адаптер запись не реализует."
+            },
+            "evidence": [
+              "convex-go-source",
+              "convex-go-query",
+              "convex-go-dal",
+              "convex-go-contract",
+              "convex-go-test"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Adapter transaction callbacks are not implemented; no intrinsic provider transaction limitation is claimed.",
+              "ru": "Callback-транзакции адаптера не реализованы; ограничение самого провайдера не заявляется."
+            },
+            "evidence": [
+              "convex-go-source",
+              "convex-go-query",
+              "convex-go-dal",
+              "convex-go-contract",
+              "convex-go-test"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Resource/function metadata is explicitly configured; live schema/resource discovery is not implemented.",
+              "ru": "Метаданные ресурсов и функций заданы явно; получение схемы и ресурсов с сервера не реализовано."
+            },
+            "evidence": [
+              "convex-go-source",
+              "convex-go-query",
+              "convex-go-dal",
+              "convex-go-contract",
+              "convex-go-test"
             ],
             "verification": "source-only"
           }
