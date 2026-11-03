@@ -87,7 +87,7 @@ class CapabilityMatrix(unittest.TestCase):
         matrix = self.inventory['capabilityMatrix']
         row = next(row for row in self.inventory['adapters'] if row['id'] == 'snowflake')
         pins = {
-            'go': '726e8a6a5014896749579dd2769a93c65f4f5669',
+            'go': '918fc72d49761b72f4d4dfef1c84543d392c9fb5',
             'ts-node': '21167ea040d487d442cdcb6534092b7d6ed446a9',
         }
         for runtime, pin in pins.items():

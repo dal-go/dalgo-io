@@ -959,11 +959,15 @@
           "bounded-tugql"
         ],
         "limits": [
-          "Firebase Web SDK/auth/rules. Unsupported offset/group/join shapes refuse; TugQL entry is bounded readonly."
+          "Firebase Web SDK/auth/rules. Unsupported offset/group/join shapes refuse; TugQL entry is bounded readonly.",
+          "Collection-group cursors retain full document paths and the captured query kind; regular collection cursors keep leaf document IDs. Source/unit evidence only: actual browser network, hosted identity and Security Rules remain unverified."
         ],
         "sources": [
-          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/firestore/src/database.ts",
-          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/firestore/package.json"
+          "https://github.com/dal-go/dalgo-http-adapters/blob/50dfb2d72d1745806e0a60399fe94a9e4d75d38b/packages/firestore/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/50dfb2d72d1745806e0a60399fe94a9e4d75d38b/packages/firestore/package.json",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/50dfb2d72d1745806e0a60399fe94a9e4d75d38b/packages/firestore/src/query.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/50dfb2d72d1745806e0a60399fe94a9e4d75d38b/packages/firestore/test/query.test.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/50dfb2d72d1745806e0a60399fe94a9e4d75d38b/packages/firestore/test/database-query.test.ts"
         ],
         "publication": "not-verified",
         "runtime": {
@@ -984,8 +988,8 @@
             "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
           },
           "sources": [
-            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/firestore/README.md#L5",
-            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/firestore/README.md#L21"
+            "https://github.com/dal-go/dalgo-http-adapters/blob/50dfb2d72d1745806e0a60399fe94a9e4d75d38b/packages/firestore/README.md#L5",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/50dfb2d72d1745806e0a60399fe94a9e4d75d38b/packages/firestore/README.md#L21"
           ]
         }
       }
@@ -1307,11 +1311,14 @@
           "mapped-crud"
         ],
         "limits": [
-          "Writes require uniqueKey mapping; callback transactions absent; native readonly and generic surfaces differ."
+          "Writes require uniqueKey mapping; callback transactions absent; native readonly and generic surfaces differ.",
+          "Native batch reads snapshot all requested keys before callbacks, preserve order/duplicates and share the operation's bounded cancellation/accounting; separate unresolved single-get callback key ownership remains adjacent, not qualified scope. Unsafe integers, BLOBs and nonscalar native values refuse. This does not qualify hosted Turso, an actual engine or browser execution."
         ],
         "sources": [
-          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/libsql/src/database.ts",
-          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/libsql/package.json"
+          "https://github.com/dal-go/dalgo-http-adapters/blob/6b0247557fc6d65de690a602ef0402331ebc6e55/packages/libsql/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/6b0247557fc6d65de690a602ef0402331ebc6e55/packages/libsql/package.json",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/6b0247557fc6d65de690a602ef0402331ebc6e55/packages/libsql/src/native.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/6b0247557fc6d65de690a602ef0402331ebc6e55/packages/libsql/test/native.test.ts"
         ],
         "publication": "not-verified",
         "runtime": {
@@ -1332,8 +1339,8 @@
             "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
           },
           "sources": [
-            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/libsql/README.md#L19",
-            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/libsql/README.md#L21"
+            "https://github.com/dal-go/dalgo-http-adapters/blob/6b0247557fc6d65de690a602ef0402331ebc6e55/packages/libsql/README.md#L19",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/6b0247557fc6d65de690a602ef0402331ebc6e55/packages/libsql/README.md#L21"
           ]
         }
       }
@@ -1950,11 +1957,14 @@
           "schema-discovery"
         ],
         "limits": [
-          "Callback transactions rejected; mapping/native HTTP semantics apply. Supabase not a second adapter."
+          "Callback transactions rejected; mapping/native HTTP semantics apply. Supabase not a second adapter.",
+          "get/getMany/query WithSignal share whole-operation cancellation, aggregate limits and fresh final callback delivery with fail-stop siblings. The non-private manifest does not establish npm availability, and the declared old peer floor is unchanged. Read-lifecycle tests do not qualify hosted Supabase JWT/RLS/CORS."
         ],
         "sources": [
-          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/postgrest/src/database.ts",
-          "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/postgrest/package.json"
+          "https://github.com/dal-go/dalgo-http-adapters/blob/2cf2def771ee1610e32140bfaf383a1a42b81d70/packages/postgrest/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/2cf2def771ee1610e32140bfaf383a1a42b81d70/packages/postgrest/package.json",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/2cf2def771ee1610e32140bfaf383a1a42b81d70/packages/postgrest/test/get-many-signal.test.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/2cf2def771ee1610e32140bfaf383a1a42b81d70/packages/postgrest/test/query-signal.test.ts"
         ],
         "publication": "not-verified",
         "runtime": {
@@ -1975,8 +1985,8 @@
             "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
           },
           "sources": [
-            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/postgrest/README.md#L10",
-            "https://github.com/dal-go/dalgo-http-adapters/blob/31ad826e925348826e9a47ad962e897d7ece60d0/packages/postgrest/README.md#L21"
+            "https://github.com/dal-go/dalgo-http-adapters/blob/2cf2def771ee1610e32140bfaf383a1a42b81d70/packages/postgrest/README.md#L10",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/2cf2def771ee1610e32140bfaf383a1a42b81d70/packages/postgrest/README.md#L21"
           ]
         }
       }
@@ -2227,15 +2237,18 @@
         "limits": [
           "Native SQL API reads use trusted existing-table/ID mappings and preserve original string IDs, JSONv2 STRING/null cells and observed column descriptors. Get/Exists/ordered GetMany and real DALgo records/recordset readers use a closed parameterized SELECT subset; arbitrary SQL and wider typed decoding are not implemented.",
           "Public unmerged Go source PR1 and its resolved public pseudo-version are separate from main, tagged/installed release and CLI availability. Owned verified-TLS protocol fixtures and public-consumer checks do not establish actual Snowflake execution, hosted auth, warehouse behavior, cancellation outcome or credit bounds.",
-          "Configured table mappings and observed result metadata are not live schema discovery. Writes, callback transactions and discovery are not implemented by this adapter; this is not an engine-wide limitation."
+          "Configured table mappings and observed result metadata are not live schema discovery. Writes, callback transactions and discovery are not implemented by this adapter; this is not an engine-wide limitation.",
+          "Public Shutdown(ctx) can boundedly drain active logical and physical cleanup after nonblocking Close; captured submit credential cancellation remains at most one/private 2s, with no hosted query-termination or credit guarantee."
         ],
         "sources": [
-          "https://github.com/dal-go/dalgo2snowflake/blob/726e8a6a5014896749579dd2769a93c65f4f5669/README.md",
-          "https://github.com/dal-go/dalgo2snowflake/blob/726e8a6a5014896749579dd2769a93c65f4f5669/reads.go",
-          "https://github.com/dal-go/dalgo2snowflake/blob/726e8a6a5014896749579dd2769a93c65f4f5669/compiler.go",
-          "https://github.com/dal-go/dalgo2snowflake/blob/726e8a6a5014896749579dd2769a93c65f4f5669/dal.go",
-          "https://github.com/dal-go/dalgo2snowflake/blob/726e8a6a5014896749579dd2769a93c65f4f5669/types.go",
-          "https://github.com/dal-go/dalgo2snowflake/blob/726e8a6a5014896749579dd2769a93c65f4f5669/go.mod"
+          "https://github.com/dal-go/dalgo2snowflake/blob/918fc72d49761b72f4d4dfef1c84543d392c9fb5/README.md",
+          "https://github.com/dal-go/dalgo2snowflake/blob/918fc72d49761b72f4d4dfef1c84543d392c9fb5/reads.go",
+          "https://github.com/dal-go/dalgo2snowflake/blob/918fc72d49761b72f4d4dfef1c84543d392c9fb5/compiler.go",
+          "https://github.com/dal-go/dalgo2snowflake/blob/918fc72d49761b72f4d4dfef1c84543d392c9fb5/dal.go",
+          "https://github.com/dal-go/dalgo2snowflake/blob/918fc72d49761b72f4d4dfef1c84543d392c9fb5/types.go",
+          "https://github.com/dal-go/dalgo2snowflake/blob/918fc72d49761b72f4d4dfef1c84543d392c9fb5/go.mod",
+          "https://github.com/dal-go/dalgo2snowflake/blob/918fc72d49761b72f4d4dfef1c84543d392c9fb5/shutdown.go",
+          "https://github.com/dal-go/dalgo2snowflake/blob/918fc72d49761b72f4d4dfef1c84543d392c9fb5/shutdown_test.go"
         ],
         "publication": "not-verified"
       },
@@ -2770,14 +2783,80 @@
       "id": "athena",
       "name": "Athena",
       "go": {
-        "status": "unverified",
-        "sources": [],
+        "status": "source-only",
+        "implementation_status": "partial",
+        "capabilities": [
+          "native-read",
+          "ordered-batch-read",
+          "structured-query",
+          "ordinal-pages",
+          "recordset",
+          "lossless-native-text"
+        ],
+        "limits": [
+          "Configured existing native Athena tables: closed parameterized DALgo SELECT, string/null cells, observed column metadata, keyed facade/ordered batches and same-execution opaque local pages. Whole-operation/physical-work/cursor limits and captured-ID cancellation are implemented; arbitrary SQL, portable process cursors, actual AWS/IAM/S3 execution and cost bounds are not qualified.",
+          "Public unmerged Go source and its public pseudo-version are distinct from a stable tagged release, installed CLI, deployed cloud or actual AWS/IAM/S3 authorization and workgroup/credit behavior. Writes, callback transactions and live schema discovery are not implemented by this adapter."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo2athena/blob/46e11a38e44b84ae73090777393e5ba0ed7d895a/README.md",
+          "https://github.com/dal-go/dalgo2athena/blob/46e11a38e44b84ae73090777393e5ba0ed7d895a/reads.go",
+          "https://github.com/dal-go/dalgo2athena/blob/46e11a38e44b84ae73090777393e5ba0ed7d895a/compiler.go",
+          "https://github.com/dal-go/dalgo2athena/blob/46e11a38e44b84ae73090777393e5ba0ed7d895a/dal.go",
+          "https://github.com/dal-go/dalgo2athena/blob/46e11a38e44b84ae73090777393e5ba0ed7d895a/pages.go"
+        ],
         "publication": "not-verified"
       },
       "typescript": {
-        "status": "unverified",
-        "sources": [],
-        "publication": "not-verified"
+        "status": "source-only",
+        "implementation_status": "readonly",
+        "package": "@dalgo/dalgo2athena",
+        "manifest_private": true,
+        "capabilities": [
+          "native-read",
+          "ordered-batch-read",
+          "closed-query",
+          "same-query-pages"
+        ],
+        "limits": [
+          "Configured existing native Athena tables: closed parameterized DALgo SELECT, string/null cells, observed column metadata, keyed facade/ordered batches and same-execution opaque local pages. Whole-operation/physical-work/cursor limits and captured-ID cancellation are implemented; arbitrary SQL, portable process cursors, actual AWS/IAM/S3 execution and cost bounds are not qualified.",
+          "Public unmerged SDK PR107 source; private @dalgo/dalgo2athena package at source version 0.1.0. Source-pack strict declarations use public core 0.8.1/runtime 0.1.2 and owned signed HTTP fixtures; they do not establish npm publication, a stable/installed release, hosted Athena, browser/CORS queries, edge execution or CLI/cloud readiness."
+        ],
+        "sources": [
+          "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/src/client.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/src/node.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/src/compiler.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/src/browser.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/src/http.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/README.md",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/package.json",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/test/native.test.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/test/node.test.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/.github/fixtures/athena-packed-consumer/runtime.mjs",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/.github/fixtures/athena-packed-consumer/browser-entry.mjs"
+        ],
+        "publication": "not-verified",
+        "runtime": {
+          "classification": "trusted-node-sigv4-plus-application-bridge",
+          "browser": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "conditions_and_limits": "Application-bridge browser client/handler and strict DOM/import/VM source exist. Actual browser query delivery, CORS and deployed application authorization are unverified; AWS credentials stay on the trusted server and no edge execution is inferred."
+          },
+          "node": {
+            "status": "source-and-fixtures-only",
+            "execution_verified_in_this_audit": false,
+            "note": "Source-pack strict declarations use public core 0.8.1/runtime 0.1.2 and owned signed HTTP fixtures. This is source/fixture scope only, not a public execution receipt or actual AWS/IAM/S3 qualification."
+          },
+          "edge": {
+            "status": "unverified",
+            "execution_verified_in_this_audit": false,
+            "note": "No edge qualification inferred from Node, Fetch, browser or WASM source."
+          },
+          "sources": [
+            "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/README.md"
+          ]
+        }
       }
     },
     {
@@ -3739,49 +3818,49 @@
         "runtimes": [
           "go"
         ],
-        "url": "https://github.com/dal-go/dalgo2snowflake/blob/726e8a6a5014896749579dd2769a93c65f4f5669/reads.go"
+        "url": "https://github.com/dal-go/dalgo2snowflake/blob/918fc72d49761b72f4d4dfef1c84543d392c9fb5/reads.go"
       },
       "snowflake-go-compiler": {
         "kind": "source",
         "runtimes": [
           "go"
         ],
-        "url": "https://github.com/dal-go/dalgo2snowflake/blob/726e8a6a5014896749579dd2769a93c65f4f5669/compiler.go"
+        "url": "https://github.com/dal-go/dalgo2snowflake/blob/918fc72d49761b72f4d4dfef1c84543d392c9fb5/compiler.go"
       },
       "snowflake-go-dal": {
         "kind": "source",
         "runtimes": [
           "go"
         ],
-        "url": "https://github.com/dal-go/dalgo2snowflake/blob/726e8a6a5014896749579dd2769a93c65f4f5669/dal.go"
+        "url": "https://github.com/dal-go/dalgo2snowflake/blob/918fc72d49761b72f4d4dfef1c84543d392c9fb5/dal.go"
       },
       "snowflake-go-contract": {
         "kind": "documentation",
         "runtimes": [
           "go"
         ],
-        "url": "https://github.com/dal-go/dalgo2snowflake/blob/726e8a6a5014896749579dd2769a93c65f4f5669/README.md"
+        "url": "https://github.com/dal-go/dalgo2snowflake/blob/918fc72d49761b72f4d4dfef1c84543d392c9fb5/README.md"
       },
       "snowflake-go-test": {
         "kind": "test-source",
         "runtimes": [
           "go"
         ],
-        "url": "https://github.com/dal-go/dalgo2snowflake/blob/726e8a6a5014896749579dd2769a93c65f4f5669/native_test.go"
+        "url": "https://github.com/dal-go/dalgo2snowflake/blob/918fc72d49761b72f4d4dfef1c84543d392c9fb5/native_test.go"
       },
       "snowflake-go-reader-test": {
         "kind": "test-source",
         "runtimes": [
           "go"
         ],
-        "url": "https://github.com/dal-go/dalgo2snowflake/blob/726e8a6a5014896749579dd2769a93c65f4f5669/dal_test.go"
+        "url": "https://github.com/dal-go/dalgo2snowflake/blob/918fc72d49761b72f4d4dfef1c84543d392c9fb5/dal_test.go"
       },
       "snowflake-go-lifecycle-test": {
         "kind": "test-source",
         "runtimes": [
           "go"
         ],
-        "url": "https://github.com/dal-go/dalgo2snowflake/blob/726e8a6a5014896749579dd2769a93c65f4f5669/lifecycle_test.go"
+        "url": "https://github.com/dal-go/dalgo2snowflake/blob/918fc72d49761b72f4d4dfef1c84543d392c9fb5/lifecycle_test.go"
       },
       "snowflake-ts-source": {
         "kind": "source",
@@ -3834,6 +3913,264 @@
           "ts-browser"
         ],
         "url": "https://github.com/dal-go/dalgo-http-adapters/blob/21167ea040d487d442cdcb6534092b7d6ed446a9/.github/fixtures/snowflake-packed-consumer/browser-entry.mjs"
+      },
+      "firestore-source": {
+        "kind": "source",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/50dfb2d72d1745806e0a60399fe94a9e4d75d38b/packages/firestore/src/database.ts"
+      },
+      "firestore-query-source": {
+        "kind": "source",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/50dfb2d72d1745806e0a60399fe94a9e4d75d38b/packages/firestore/src/query.ts"
+      },
+      "firestore-query-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/50dfb2d72d1745806e0a60399fe94a9e4d75d38b/packages/firestore/test/query.test.ts"
+      },
+      "firestore-database-query-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/50dfb2d72d1745806e0a60399fe94a9e4d75d38b/packages/firestore/test/database-query.test.ts"
+      },
+      "libsql-source": {
+        "kind": "source",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/6b0247557fc6d65de690a602ef0402331ebc6e55/packages/libsql/src/database.ts"
+      },
+      "libsql-native-source": {
+        "kind": "source",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/6b0247557fc6d65de690a602ef0402331ebc6e55/packages/libsql/src/native.ts"
+      },
+      "libsql-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/6b0247557fc6d65de690a602ef0402331ebc6e55/packages/libsql/test/database.test.ts"
+      },
+      "libsql-native-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/6b0247557fc6d65de690a602ef0402331ebc6e55/packages/libsql/test/native.test.ts"
+      },
+      "libsql-contract": {
+        "kind": "documentation",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/6b0247557fc6d65de690a602ef0402331ebc6e55/packages/libsql/README.md"
+      },
+      "postgrest-source": {
+        "kind": "source",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2cf2def771ee1610e32140bfaf383a1a42b81d70/packages/postgrest/src/database.ts"
+      },
+      "postgrest-batch-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2cf2def771ee1610e32140bfaf383a1a42b81d70/packages/postgrest/test/get-many-signal.test.ts"
+      },
+      "postgrest-query-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2cf2def771ee1610e32140bfaf383a1a42b81d70/packages/postgrest/test/query-signal.test.ts"
+      },
+      "postgrest-contract": {
+        "kind": "documentation",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2cf2def771ee1610e32140bfaf383a1a42b81d70/packages/postgrest/README.md"
+      },
+      "athena-ts-source": {
+        "kind": "source",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/src/client.ts"
+      },
+      "athena-ts-node-source": {
+        "kind": "source",
+        "runtimes": [
+          "ts-node"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/src/node.ts"
+      },
+      "athena-ts-dal-source": {
+        "kind": "source",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/src/database.ts"
+      },
+      "athena-ts-compiler": {
+        "kind": "source",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/src/compiler.ts"
+      },
+      "athena-ts-contract": {
+        "kind": "documentation",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/README.md"
+      },
+      "athena-ts-native-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/test/native.test.ts"
+      },
+      "athena-ts-node-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-node"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/test/node.test.ts"
+      },
+      "athena-ts-browser-source": {
+        "kind": "source",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/src/browser.ts"
+      },
+      "athena-ts-http-source": {
+        "kind": "source",
+        "runtimes": [
+          "ts-node",
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/src/http.ts"
+      },
+      "athena-ts-packed-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-node"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/.github/fixtures/athena-packed-consumer/runtime.mjs"
+      },
+      "athena-ts-browser-fixture": {
+        "kind": "test-source",
+        "runtimes": [
+          "ts-browser"
+        ],
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/.github/fixtures/athena-packed-consumer/browser-entry.mjs"
+      },
+      "athena-go-source": {
+        "kind": "source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2athena/blob/46e11a38e44b84ae73090777393e5ba0ed7d895a/reads.go"
+      },
+      "athena-go-compiler": {
+        "kind": "source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2athena/blob/46e11a38e44b84ae73090777393e5ba0ed7d895a/compiler.go"
+      },
+      "athena-go-dal": {
+        "kind": "source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2athena/blob/46e11a38e44b84ae73090777393e5ba0ed7d895a/dal.go"
+      },
+      "athena-go-contract": {
+        "kind": "documentation",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2athena/blob/46e11a38e44b84ae73090777393e5ba0ed7d895a/README.md"
+      },
+      "athena-go-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2athena/blob/46e11a38e44b84ae73090777393e5ba0ed7d895a/native_test.go"
+      },
+      "athena-go-reader-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2athena/blob/46e11a38e44b84ae73090777393e5ba0ed7d895a/dal_test.go"
+      },
+      "athena-go-pages": {
+        "kind": "source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2athena/blob/46e11a38e44b84ae73090777393e5ba0ed7d895a/pages.go"
+      },
+      "athena-go-lifecycle-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2athena/blob/46e11a38e44b84ae73090777393e5ba0ed7d895a/lifecycle_test.go"
+      },
+      "snowflake-go-shutdown-source": {
+        "kind": "source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2snowflake/blob/918fc72d49761b72f4d4dfef1c84543d392c9fb5/shutdown.go"
+      },
+      "snowflake-go-shutdown-test": {
+        "kind": "test-source",
+        "runtimes": [
+          "go"
+        ],
+        "url": "https://github.com/dal-go/dalgo2snowflake/blob/918fc72d49761b72f4d4dfef1c84543d392c9fb5/shutdown_test.go"
       }
     },
     "overrides": {
@@ -4647,6 +4984,108 @@
             "evidence": [
               "postgrest-go-source",
               "postgrest-go-contract"
+            ],
+            "verification": "source-only"
+          }
+        },
+        "ts-node": {
+          "read": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Native existing PostgREST relations; point and ordered bounded batches capture caller keys before callbacks and share caller cancellation/deadline/aggregate limits with fail-stop siblings and fresh final delivery. Hosted Supabase JWT/RLS remains unverified.",
+              "ru": "Существующие таблицы PostgREST; точечное и ограниченное пакетное чтение копирует ключи до callback, использует общую отмену/дедлайн/лимиты, останавливает соседние операции при ошибке и проверяет финальную выдачу. JWT/RLS облачного Supabase не проверены."
+            },
+            "evidence": [
+              "postgrest-source",
+              "postgrest-batch-test",
+              "postgrest-query-test",
+              "postgrest-contract"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Supported REST filters/orders/positive limits and scoped keyset continuation; profile/id mapping retained. No arbitrary SQL/RPC/resource embedding, portable snapshot or automatic hosted authorization qualification.",
+              "ru": "REST-фильтры, сортировка, положительные лимиты и привязанный keyset-курсор; profile/id mapping сохранены. Произвольный SQL/RPC/embedding, переносимый снимок и облачная авторизация не реализованы/не подтверждены."
+            },
+            "evidence": [
+              "postgrest-source",
+              "postgrest-batch-test",
+              "postgrest-query-test",
+              "postgrest-contract"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Existing role-authorized single-relation CRUD maps insert/set/update/delete with configured unique ID and strict affected-row checks. New read-lifecycle tests do not qualify writes or Supabase service credentials.",
+              "ru": "Существующий CRUD одного relation использует роль, уникальный ID и строгую проверку изменённых строк. Новые тесты жизненного цикла чтения не подтверждают запись или служебные ключи Supabase."
+            },
+            "evidence": [
+              "postgrest-source",
+              "postgrest-batch-test",
+              "postgrest-query-test",
+              "postgrest-contract"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "This adapter rejects callback transactions; database-side transactional functions and PostgreSQL transactions are separate capabilities, not an engine-wide unsupported claim.",
+              "ru": "Адаптер отклоняет транзакции с callback; транзакционные функции базы и транзакции PostgreSQL — отдельные возможности, а не общий запрет провайдера."
+            },
+            "evidence": [
+              "postgrest-source",
+              "postgrest-batch-test",
+              "postgrest-query-test",
+              "postgrest-contract"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Bounded read-only OpenAPI discovery with explicit unavailable reasons and local-ref limits; role metadata is not authority, enforced uniqueness or schema mutation.",
+              "ru": "Ограниченное чтение OpenAPI с явными причинами недоступности и лимитом локальных ссылок; метаданные роли не доказывают полномочия/уникальность и не являются изменением схемы."
+            },
+            "evidence": [
+              "postgrest-source",
+              "postgrest-batch-test",
+              "postgrest-query-test",
+              "postgrest-contract"
+            ],
+            "verification": "source-only"
+          }
+        },
+        "ts-browser": {
+          "read": {
+            "status": "UNVERIFIED",
+            "reason": {
+              "en": "Public browser-intended HTTP source/test code is present, but these unit/lifecycle receipts do not qualify actual browser queries, CORS or deployed least-privilege authorization. Do not infer browser execution from Fetch or import graphs.",
+              "ru": "Есть HTTP-код и тесты для браузера, но эти unit/lifecycle-проверки не подтверждают реальные браузерные запросы, CORS или развёрнутую авторизацию. Fetch и граф импортов не доказывают выполнение."
+            },
+            "evidence": [
+              "postgrest-source",
+              "postgrest-batch-test",
+              "postgrest-query-test",
+              "postgrest-contract"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "UNVERIFIED",
+            "reason": {
+              "en": "Public browser-intended HTTP source/test code is present, but these unit/lifecycle receipts do not qualify actual browser queries, CORS or deployed least-privilege authorization. Do not infer browser execution from Fetch or import graphs.",
+              "ru": "Есть HTTP-код и тесты для браузера, но эти unit/lifecycle-проверки не подтверждают реальные браузерные запросы, CORS или развёрнутую авторизацию. Fetch и граф импортов не доказывают выполнение."
+            },
+            "evidence": [
+              "postgrest-source",
+              "postgrest-batch-test",
+              "postgrest-query-test",
+              "postgrest-contract"
             ],
             "verification": "source-only"
           }
@@ -6085,33 +6524,466 @@
           }
         }
       },
-      "snowflake": {
-        "go": {
+      "firestore": {
+        "ts-browser": {
           "read": {
             "status": "PARTIAL",
             "reason": {
-              "en": "Published branch source implements mapped existing-table Get/Exists and ordered batch reads with original string IDs and exact JSONv2 STRING/null cells. Native column precision/scale/nullable descriptors are observed per result; hosted Snowflake/auth/warehouse behavior remains unverified.",
-              "ru": "Код публичной ветки реализует Get/Exists и упорядоченное пакетное чтение существующих таблиц по заданному соответствию, сохраняя строковые ID и точные значения JSONv2 STRING/null. Precision/scale/nullable относятся к конкретному результату; реальные Snowflake, авторизация и warehouse не проверены."
+              "en": "Audited Firebase Web SDK source supports native collections and collection groups. Group document-ID cursors now retain full document paths and captured query kind; regular collection cursors keep leaf IDs. Unit/source evidence only: actual browser network, hosted identity and Security Rules remain unverified.",
+              "ru": "Проверенный код Firebase Web SDK читает коллекции и группы коллекций. Курсоры по ID в группе сохраняют полный путь документа и вид запроса, обычные коллекции — конечный ID. Проверены код и unit-тесты; реальные браузерные запросы, облачная авторизация и Security Rules не проверены."
             },
             "evidence": [
-              "snowflake-go-source",
-              "snowflake-go-dal",
-              "snowflake-go-contract",
-              "snowflake-go-test"
+              "firestore-source",
+              "firestore-query-source",
+              "firestore-query-test",
+              "firestore-database-query-test"
             ],
             "verification": "source-only"
           },
           "query": {
             "status": "PARTIAL",
             "reason": {
-              "en": "A closed parameterized DALgo SELECT compiler and real records/recordset readers support bounded whole partitions, projection, ordering and limits/offsets. Arbitrary SQL, joins and portable snapshots/cursors are not implemented; protocol fixtures do not prove hosted query execution or credits.",
-              "ru": "Замкнутый параметризованный компилятор SELECT DALgo и readers для записей и recordset поддерживают ограниченные полные разделы результата, проекции, сортировку, limit/offset. Произвольный SQL, JOIN и переносимые снимки/курсоры не реализованы; протокольные фикстуры не подтверждают облачное выполнение или расход кредитов."
+              "en": "Audited Firebase Web SDK source supports native collections and collection groups. Group document-ID cursors now retain full document paths and captured query kind; regular collection cursors keep leaf IDs. Unit/source evidence only: actual browser network, hosted identity and Security Rules remain unverified.",
+              "ru": "Проверенный код Firebase Web SDK читает коллекции и группы коллекций. Курсоры по ID в группе сохраняют полный путь документа и вид запроса, обычные коллекции — конечный ID. Проверены код и unit-тесты; реальные браузерные запросы, облачная авторизация и Security Rules не проверены."
+            },
+            "evidence": [
+              "firestore-source",
+              "firestore-query-source",
+              "firestore-query-test",
+              "firestore-database-query-test"
+            ],
+            "verification": "source-only"
+          }
+        },
+        "ts-node": {
+          "read": {
+            "status": "UNVERIFIED",
+            "reason": {
+              "en": "This adapter deliberately uses the Firestore Web SDK. These source/unit cursor fixes do not establish a separate Node runtime contract, Admin SDK support, or hosted/emulator execution.",
+              "ru": "Адаптер использует Firestore Web SDK. Исправление курсоров и unit-тесты не подтверждают отдельный контракт Node, Admin SDK или выполнение в облаке/эмуляторе."
+            },
+            "evidence": [
+              "firestore-source",
+              "firestore-query-source",
+              "firestore-query-test"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "UNVERIFIED",
+            "reason": {
+              "en": "This adapter deliberately uses the Firestore Web SDK. These source/unit cursor fixes do not establish a separate Node runtime contract, Admin SDK support, or hosted/emulator execution.",
+              "ru": "Адаптер использует Firestore Web SDK. Исправление курсоров и unit-тесты не подтверждают отдельный контракт Node, Admin SDK или выполнение в облаке/эмуляторе."
+            },
+            "evidence": [
+              "firestore-source",
+              "firestore-query-source",
+              "firestore-query-test"
+            ],
+            "verification": "source-only"
+          }
+        }
+      },
+      "libsql": {
+        "ts-node": {
+          "read": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Existing native/explicitly mapped tables over Hrana v3; native getMany snapshots all keys before callbacks, preserves order/duplicates and shares bounded cancellation/accounting. Unsafe integers, BLOBs and nonscalar native values refuse; this is not hosted Turso proof.",
+              "ru": "Чтение существующих таблиц через Hrana v3; native getMany копирует ключи до callback, сохраняет порядок/повторы и общие лимиты/отмену. Небезопасные целые, BLOB и нескалярные native-значения отклоняются; облачный Turso не проверен."
+            },
+            "evidence": [
+              "libsql-source",
+              "libsql-native-source",
+              "libsql-test",
+              "libsql-native-test",
+              "libsql-contract"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Closed configured-table SQL/filter/order/keyset subset, with native and mapped facades; batch ownership correction retains prior query semantics. Arbitrary SQL, hosted Turso, actual engine and actual browser qualification are separate.",
+              "ru": "Ограниченное SQL-подмножество для заданных таблиц, фильтров, сортировки и keyset, с native и mapped API. Исправление владения ключами не расширяет запросы. Произвольный SQL, облачный Turso, реальный движок и браузер проверяются отдельно."
+            },
+            "evidence": [
+              "libsql-source",
+              "libsql-native-source",
+              "libsql-test",
+              "libsql-native-test",
+              "libsql-contract"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Mapped LibSQLDatabase implements insert/set/update/delete only for caller-confirmed uniqueKey mappings; NativeLibSQLDatabase refuses writes. PR105 changes read-batch ownership, not write qualification or hosted authorization.",
+              "ru": "Mapped LibSQLDatabase реализует insert/set/update/delete только при подтверждённом uniqueKey; NativeLibSQLDatabase отклоняет запись. PR105 меняет владение ключами чтения, а не проверку записи или облачной авторизации."
+            },
+            "evidence": [
+              "libsql-source",
+              "libsql-native-source",
+              "libsql-test",
+              "libsql-native-test",
+              "libsql-contract"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Callback transactions are not implemented by either facade; SQLite/libSQL transaction support is a distinct provider capability.",
+              "ru": "Транзакции с callback не реализованы ни одним API; это не отсутствие транзакций в SQLite/libSQL."
+            },
+            "evidence": [
+              "libsql-source",
+              "libsql-native-source",
+              "libsql-test",
+              "libsql-native-test",
+              "libsql-contract"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Read-only bounded native discovery inspects allowed existing SQLite/libSQL metadata; configured uniqueness remains a caller assertion. Discovery is not DDL/schema mutation or hosted-service discovery.",
+              "ru": "Ограниченное чтение метаданных разрешённых существующих объектов SQLite/libSQL; уникальность может быть утверждением конфигурации. Это не DDL, изменение схемы или обнаружение облачных ресурсов."
+            },
+            "evidence": [
+              "libsql-source",
+              "libsql-native-source",
+              "libsql-test",
+              "libsql-native-test",
+              "libsql-contract"
+            ],
+            "verification": "source-only"
+          }
+        },
+        "ts-browser": {
+          "read": {
+            "status": "UNVERIFIED",
+            "reason": {
+              "en": "Public browser-intended HTTP source/test code is present, but these unit/lifecycle receipts do not qualify actual browser queries, CORS or deployed least-privilege authorization. Do not infer browser execution from Fetch or import graphs.",
+              "ru": "Есть HTTP-код и тесты для браузера, но эти unit/lifecycle-проверки не подтверждают реальные браузерные запросы, CORS или развёрнутую авторизацию. Fetch и граф импортов не доказывают выполнение."
+            },
+            "evidence": [
+              "libsql-source",
+              "libsql-native-source",
+              "libsql-test",
+              "libsql-native-test",
+              "libsql-contract"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "UNVERIFIED",
+            "reason": {
+              "en": "Public browser-intended HTTP source/test code is present, but these unit/lifecycle receipts do not qualify actual browser queries, CORS or deployed least-privilege authorization. Do not infer browser execution from Fetch or import graphs.",
+              "ru": "Есть HTTP-код и тесты для браузера, но эти unit/lifecycle-проверки не подтверждают реальные браузерные запросы, CORS или развёрнутую авторизацию. Fetch и граф импортов не доказывают выполнение."
+            },
+            "evidence": [
+              "libsql-source",
+              "libsql-native-source",
+              "libsql-test",
+              "libsql-native-test",
+              "libsql-contract"
+            ],
+            "verification": "source-only"
+          }
+        }
+      },
+      "athena": {
+        "go": {
+          "read": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Configured existing native Athena tables: closed parameterized DALgo SELECT, string/null cells and column metadata, keyed facade/ordered batches and same-execution opaque local pages. Whole-operation/physical-work/cursor limits and captured-ID cancellation are implemented; arbitrary SQL, portable process cursors, actual AWS/IAM/S3 execution and cost bounds are not qualified.",
+              "ru": "Заданные существующие таблицы Athena: ограниченный параметризованный SELECT DALgo, string/null и метаданные столбцов, keyed API/пакеты и локальные непрозрачные страницы одного выполнения. Реализованы общие лимиты/отмена по сохранённому ID; произвольный SQL, переносимые между процессами курсоры, реальный AWS/IAM/S3 и расходы не подтверждены."
+            },
+            "evidence": [
+              "athena-go-source",
+              "athena-go-compiler",
+              "athena-go-dal",
+              "athena-go-pages",
+              "athena-go-contract",
+              "athena-go-test",
+              "athena-go-reader-test",
+              "athena-go-lifecycle-test"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Configured existing native Athena tables: closed parameterized DALgo SELECT, string/null cells and column metadata, keyed facade/ordered batches and same-execution opaque local pages. Whole-operation/physical-work/cursor limits and captured-ID cancellation are implemented; arbitrary SQL, portable process cursors, actual AWS/IAM/S3 execution and cost bounds are not qualified.",
+              "ru": "Заданные существующие таблицы Athena: ограниченный параметризованный SELECT DALgo, string/null и метаданные столбцов, keyed API/пакеты и локальные непрозрачные страницы одного выполнения. Реализованы общие лимиты/отмена по сохранённому ID; произвольный SQL, переносимые между процессами курсоры, реальный AWS/IAM/S3 и расходы не подтверждены."
+            },
+            "evidence": [
+              "athena-go-source",
+              "athena-go-compiler",
+              "athena-go-dal",
+              "athena-go-pages",
+              "athena-go-contract",
+              "athena-go-test",
+              "athena-go-reader-test",
+              "athena-go-lifecycle-test"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Writes are not implemented by this adapter; Athena write operations are separate provider features.",
+              "ru": "Запись не реализована этим адаптером; запись в Athena является отдельной возможностью провайдера."
+            },
+            "evidence": [
+              "athena-go-source",
+              "athena-go-compiler",
+              "athena-go-dal",
+              "athena-go-pages",
+              "athena-go-contract",
+              "athena-go-test",
+              "athena-go-reader-test",
+              "athena-go-lifecycle-test"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Callback transactions are not implemented; this is an adapter-scope claim.",
+              "ru": "Транзакции с callback не реализованы; это ограничение области адаптера."
+            },
+            "evidence": [
+              "athena-go-source",
+              "athena-go-compiler",
+              "athena-go-dal",
+              "athena-go-pages",
+              "athena-go-contract",
+              "athena-go-test",
+              "athena-go-reader-test",
+              "athena-go-lifecycle-test"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Configured tables, WorkGroup preflight and observed result-column metadata are not live table discovery or schema mutation.",
+              "ru": "Заданные таблицы, проверка WorkGroup и метаданные результата не являются обнаружением таблиц или изменением схемы."
+            },
+            "evidence": [
+              "athena-go-source",
+              "athena-go-compiler",
+              "athena-go-dal",
+              "athena-go-pages",
+              "athena-go-contract",
+              "athena-go-test",
+              "athena-go-reader-test",
+              "athena-go-lifecycle-test"
+            ],
+            "verification": "source-only"
+          }
+        },
+        "ts-node": {
+          "read": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Configured existing native Athena tables: closed parameterized DALgo SELECT, string/null cells and column metadata, keyed facade/ordered batches and same-execution opaque local pages. Whole-operation/physical-work/cursor limits and captured-ID cancellation are implemented; arbitrary SQL, portable process cursors, actual AWS/IAM/S3 execution and cost bounds are not qualified.",
+              "ru": "Заданные существующие таблицы Athena: ограниченный параметризованный SELECT DALgo, string/null и метаданные столбцов, keyed API/пакеты и локальные непрозрачные страницы одного выполнения. Реализованы общие лимиты/отмена по сохранённому ID; произвольный SQL, переносимые между процессами курсоры, реальный AWS/IAM/S3 и расходы не подтверждены."
+            },
+            "evidence": [
+              "athena-ts-source",
+              "athena-ts-node-source",
+              "athena-ts-dal-source",
+              "athena-ts-compiler",
+              "athena-ts-contract",
+              "athena-ts-native-test",
+              "athena-ts-node-test",
+              "athena-ts-packed-test"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Configured existing native Athena tables: closed parameterized DALgo SELECT, string/null cells and column metadata, keyed facade/ordered batches and same-execution opaque local pages. Whole-operation/physical-work/cursor limits and captured-ID cancellation are implemented; arbitrary SQL, portable process cursors, actual AWS/IAM/S3 execution and cost bounds are not qualified.",
+              "ru": "Заданные существующие таблицы Athena: ограниченный параметризованный SELECT DALgo, string/null и метаданные столбцов, keyed API/пакеты и локальные непрозрачные страницы одного выполнения. Реализованы общие лимиты/отмена по сохранённому ID; произвольный SQL, переносимые между процессами курсоры, реальный AWS/IAM/S3 и расходы не подтверждены."
+            },
+            "evidence": [
+              "athena-ts-source",
+              "athena-ts-node-source",
+              "athena-ts-dal-source",
+              "athena-ts-compiler",
+              "athena-ts-contract",
+              "athena-ts-native-test",
+              "athena-ts-node-test",
+              "athena-ts-packed-test"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Writes are not implemented by this adapter; Athena write operations are separate provider features.",
+              "ru": "Запись не реализована этим адаптером; запись в Athena является отдельной возможностью провайдера."
+            },
+            "evidence": [
+              "athena-ts-source",
+              "athena-ts-node-source",
+              "athena-ts-dal-source",
+              "athena-ts-compiler",
+              "athena-ts-contract",
+              "athena-ts-native-test",
+              "athena-ts-node-test",
+              "athena-ts-packed-test"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Callback transactions are not implemented; this is an adapter-scope claim.",
+              "ru": "Транзакции с callback не реализованы; это ограничение области адаптера."
+            },
+            "evidence": [
+              "athena-ts-source",
+              "athena-ts-node-source",
+              "athena-ts-dal-source",
+              "athena-ts-compiler",
+              "athena-ts-contract",
+              "athena-ts-native-test",
+              "athena-ts-node-test",
+              "athena-ts-packed-test"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Configured tables, WorkGroup preflight and observed result-column metadata are not live table discovery or schema mutation.",
+              "ru": "Заданные таблицы, проверка WorkGroup и метаданные результата не являются обнаружением таблиц или изменением схемы."
+            },
+            "evidence": [
+              "athena-ts-source",
+              "athena-ts-node-source",
+              "athena-ts-dal-source",
+              "athena-ts-compiler",
+              "athena-ts-contract",
+              "athena-ts-native-test",
+              "athena-ts-node-test",
+              "athena-ts-packed-test"
+            ],
+            "verification": "source-only"
+          }
+        },
+        "ts-browser": {
+          "read": {
+            "status": "UNVERIFIED",
+            "reason": {
+              "en": "Application-bridge client/handler and strict DOM/import/VM source are present; actual browser query delivery, CORS and deployed application authorization are unverified. Keep AWS credentials in the trusted server.",
+              "ru": "Есть клиент/handler прикладного моста и DOM/import/VM-фикстуры; реальные запросы браузера, CORS и развёрнутая авторизация не проверены. Ключи AWS остаются на доверенном сервере."
+            },
+            "evidence": [
+              "athena-ts-browser-source",
+              "athena-ts-http-source",
+              "athena-ts-contract",
+              "athena-ts-browser-fixture"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "UNVERIFIED",
+            "reason": {
+              "en": "Application-bridge client/handler and strict DOM/import/VM source are present; actual browser query delivery, CORS and deployed application authorization are unverified. Keep AWS credentials in the trusted server.",
+              "ru": "Есть клиент/handler прикладного моста и DOM/import/VM-фикстуры; реальные запросы браузера, CORS и развёрнутая авторизация не проверены. Ключи AWS остаются на доверенном сервере."
+            },
+            "evidence": [
+              "athena-ts-browser-source",
+              "athena-ts-http-source",
+              "athena-ts-contract",
+              "athena-ts-browser-fixture"
+            ],
+            "verification": "source-only"
+          },
+          "write": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Writes are not implemented by this adapter; Athena write operations are separate provider features.",
+              "ru": "Запись не реализована этим адаптером; запись в Athena является отдельной возможностью провайдера."
+            },
+            "evidence": [
+              "athena-ts-browser-source",
+              "athena-ts-http-source",
+              "athena-ts-contract",
+              "athena-ts-browser-fixture"
+            ],
+            "verification": "source-only"
+          },
+          "transactions": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Callback transactions are not implemented; this is an adapter-scope claim.",
+              "ru": "Транзакции с callback не реализованы; это ограничение области адаптера."
+            },
+            "evidence": [
+              "athena-ts-browser-source",
+              "athena-ts-http-source",
+              "athena-ts-contract",
+              "athena-ts-browser-fixture"
+            ],
+            "verification": "source-only"
+          },
+          "schema": {
+            "status": "NOT_IMPLEMENTED",
+            "reason": {
+              "en": "Configured tables, WorkGroup preflight and observed result-column metadata are not live table discovery or schema mutation.",
+              "ru": "Заданные таблицы, проверка WorkGroup и метаданные результата не являются обнаружением таблиц или изменением схемы."
+            },
+            "evidence": [
+              "athena-ts-browser-source",
+              "athena-ts-http-source",
+              "athena-ts-contract",
+              "athena-ts-browser-fixture"
+            ],
+            "verification": "source-only"
+          }
+        }
+      },
+      "snowflake": {
+        "go": {
+          "read": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "Published branch source implements mapped existing-table Get/Exists and ordered batch reads with original string IDs and exact JSONv2 STRING/null cells. Native column precision/scale/nullable descriptors are observed per result; hosted Snowflake/auth/warehouse behavior remains unverified. The public Shutdown(ctx) API can boundedly drain active logical and physical cleanup after nonblocking Close. This is local cleanup/cancel-request handling, not proof of hosted query termination or credit limits.",
+              "ru": "Код публичной ветки реализует Get/Exists и упорядоченное пакетное чтение существующих таблиц по заданному соответствию, сохраняя строковые ID и точные значения JSONv2 STRING/null. Precision/scale/nullable относятся к конкретному результату; реальные Snowflake, авторизация и warehouse не проверены. Публичный Shutdown(ctx) ограниченно ожидает завершения активной логической и физической очистки после неблокирующего Close. Это локальная обработка очистки/запроса отмены, а не доказательство остановки облачного запроса или лимита кредитов."
+            },
+            "evidence": [
+              "snowflake-go-source",
+              "snowflake-go-dal",
+              "snowflake-go-contract",
+              "snowflake-go-test",
+              "snowflake-go-shutdown-source",
+              "snowflake-go-shutdown-test"
+            ],
+            "verification": "source-only"
+          },
+          "query": {
+            "status": "PARTIAL",
+            "reason": {
+              "en": "A closed parameterized DALgo SELECT compiler and real records/recordset readers support bounded whole partitions, projection, ordering and limits/offsets. Arbitrary SQL, joins and portable snapshots/cursors are not implemented; protocol fixtures do not prove hosted query execution or credits. The public Shutdown(ctx) API can boundedly drain active logical and physical cleanup after nonblocking Close. This is local cleanup/cancel-request handling, not proof of hosted query termination or credit limits.",
+              "ru": "Замкнутый параметризованный компилятор SELECT DALgo и readers для записей и recordset поддерживают ограниченные полные разделы результата, проекции, сортировку, limit/offset. Произвольный SQL, JOIN и переносимые снимки/курсоры не реализованы; протокольные фикстуры не подтверждают облачное выполнение или расход кредитов. Публичный Shutdown(ctx) ограниченно ожидает завершения активной логической и физической очистки после неблокирующего Close. Это локальная обработка очистки/запроса отмены, а не доказательство остановки облачного запроса или лимита кредитов."
             },
             "evidence": [
               "snowflake-go-compiler",
               "snowflake-go-dal",
               "snowflake-go-contract",
-              "snowflake-go-reader-test"
+              "snowflake-go-reader-test",
+              "snowflake-go-shutdown-source",
+              "snowflake-go-shutdown-test"
             ],
             "verification": "source-only"
           },
