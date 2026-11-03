@@ -1312,13 +1312,13 @@
         ],
         "limits": [
           "Writes require uniqueKey mapping; callback transactions absent; native readonly and generic surfaces differ.",
-          "Native batch reads snapshot all requested keys before callbacks, preserve order/duplicates and share the operation's bounded cancellation/accounting; separate unresolved single-get callback key ownership remains adjacent, not qualified scope. Unsafe integers, BLOBs and nonscalar native values refuse. This does not qualify hosted Turso, an actual engine or browser execution."
+          "Native and mapped point reads capture key primitives before header/codec callbacks; batch reads snapshot membership and keys, preserve order/duplicates and share bounded cancellation/accounting. Unsafe native integers, BLOBs and nonscalar native values refuse. This does not qualify hosted Turso, an actual engine or browser execution."
         ],
         "sources": [
-          "https://github.com/dal-go/dalgo-http-adapters/blob/6b0247557fc6d65de690a602ef0402331ebc6e55/packages/libsql/src/database.ts",
-          "https://github.com/dal-go/dalgo-http-adapters/blob/6b0247557fc6d65de690a602ef0402331ebc6e55/packages/libsql/package.json",
-          "https://github.com/dal-go/dalgo-http-adapters/blob/6b0247557fc6d65de690a602ef0402331ebc6e55/packages/libsql/src/native.ts",
-          "https://github.com/dal-go/dalgo-http-adapters/blob/6b0247557fc6d65de690a602ef0402331ebc6e55/packages/libsql/test/native.test.ts"
+          "https://github.com/dal-go/dalgo-http-adapters/blob/e3e0f3a18bd276e43c52b781422eeb0f9891a028/packages/libsql/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/e3e0f3a18bd276e43c52b781422eeb0f9891a028/packages/libsql/package.json",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/e3e0f3a18bd276e43c52b781422eeb0f9891a028/packages/libsql/src/native.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/e3e0f3a18bd276e43c52b781422eeb0f9891a028/packages/libsql/test/native.test.ts"
         ],
         "publication": "not-verified",
         "runtime": {
@@ -1339,8 +1339,8 @@
             "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
           },
           "sources": [
-            "https://github.com/dal-go/dalgo-http-adapters/blob/6b0247557fc6d65de690a602ef0402331ebc6e55/packages/libsql/README.md#L19",
-            "https://github.com/dal-go/dalgo-http-adapters/blob/6b0247557fc6d65de690a602ef0402331ebc6e55/packages/libsql/README.md#L21"
+            "https://github.com/dal-go/dalgo-http-adapters/blob/e3e0f3a18bd276e43c52b781422eeb0f9891a028/packages/libsql/README.md#L19",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/e3e0f3a18bd276e43c52b781422eeb0f9891a028/packages/libsql/README.md#L21"
           ]
         }
       }
@@ -1958,13 +1958,13 @@
         ],
         "limits": [
           "Callback transactions rejected; mapping/native HTTP semantics apply. Supabase not a second adapter.",
-          "get/getMany/query WithSignal share whole-operation cancellation, aggregate limits and fresh final callback delivery with fail-stop siblings. The non-private manifest does not establish npm availability, and the declared old peer floor is unchanged. Read-lifecycle tests do not qualify hosted Supabase JWT/RLS/CORS."
+          "get/getMany/query WithSignal share whole-operation cancellation, aggregate limits and fresh final callback delivery with fail-stop siblings. Point reads and batches capture admitted key primitives before callbacks or I/O, preserving request/result identity under caller mutation. The non-private manifest does not establish npm availability, and the declared old peer floor is unchanged. Read-lifecycle tests do not qualify hosted Supabase JWT/RLS/CORS."
         ],
         "sources": [
-          "https://github.com/dal-go/dalgo-http-adapters/blob/2cf2def771ee1610e32140bfaf383a1a42b81d70/packages/postgrest/src/database.ts",
-          "https://github.com/dal-go/dalgo-http-adapters/blob/2cf2def771ee1610e32140bfaf383a1a42b81d70/packages/postgrest/package.json",
-          "https://github.com/dal-go/dalgo-http-adapters/blob/2cf2def771ee1610e32140bfaf383a1a42b81d70/packages/postgrest/test/get-many-signal.test.ts",
-          "https://github.com/dal-go/dalgo-http-adapters/blob/2cf2def771ee1610e32140bfaf383a1a42b81d70/packages/postgrest/test/query-signal.test.ts"
+          "https://github.com/dal-go/dalgo-http-adapters/blob/e5b316fa6310e3ed5d609c354730009c3978d9b8/packages/postgrest/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/e5b316fa6310e3ed5d609c354730009c3978d9b8/packages/postgrest/package.json",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/e5b316fa6310e3ed5d609c354730009c3978d9b8/packages/postgrest/test/get-many-signal.test.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/e5b316fa6310e3ed5d609c354730009c3978d9b8/packages/postgrest/test/query-signal.test.ts"
         ],
         "publication": "not-verified",
         "runtime": {
@@ -1985,8 +1985,8 @@
             "note": "No edge qualification inferred from Fetch, WebCrypto, Node compatibility, or browser Worker."
           },
           "sources": [
-            "https://github.com/dal-go/dalgo-http-adapters/blob/2cf2def771ee1610e32140bfaf383a1a42b81d70/packages/postgrest/README.md#L10",
-            "https://github.com/dal-go/dalgo-http-adapters/blob/2cf2def771ee1610e32140bfaf383a1a42b81d70/packages/postgrest/README.md#L21"
+            "https://github.com/dal-go/dalgo-http-adapters/blob/e5b316fa6310e3ed5d609c354730009c3978d9b8/packages/postgrest/README.md#L10",
+            "https://github.com/dal-go/dalgo-http-adapters/blob/e5b316fa6310e3ed5d609c354730009c3978d9b8/packages/postgrest/README.md#L21"
           ]
         }
       }
@@ -2822,18 +2822,18 @@
           "Public unmerged SDK PR107 source; private @dalgo/dalgo2athena package at source version 0.1.0. Source-pack strict declarations use public core 0.8.1/runtime 0.1.2 and owned signed HTTP fixtures; they do not establish npm publication, a stable/installed release, hosted Athena, browser/CORS queries, edge execution or CLI/cloud readiness."
         ],
         "sources": [
-          "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/src/client.ts",
-          "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/src/node.ts",
-          "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/src/database.ts",
-          "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/src/compiler.ts",
-          "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/src/browser.ts",
-          "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/src/http.ts",
-          "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/README.md",
-          "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/package.json",
-          "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/test/native.test.ts",
-          "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/test/node.test.ts",
-          "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/.github/fixtures/athena-packed-consumer/runtime.mjs",
-          "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/.github/fixtures/athena-packed-consumer/browser-entry.mjs"
+          "https://github.com/dal-go/dalgo-http-adapters/blob/a70c9c9f6a79f3a94b9cbda2b7559b1e85552720/packages/athena/src/client.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/a70c9c9f6a79f3a94b9cbda2b7559b1e85552720/packages/athena/src/node.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/a70c9c9f6a79f3a94b9cbda2b7559b1e85552720/packages/athena/src/database.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/a70c9c9f6a79f3a94b9cbda2b7559b1e85552720/packages/athena/src/compiler.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/a70c9c9f6a79f3a94b9cbda2b7559b1e85552720/packages/athena/src/browser.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/a70c9c9f6a79f3a94b9cbda2b7559b1e85552720/packages/athena/src/http.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/a70c9c9f6a79f3a94b9cbda2b7559b1e85552720/packages/athena/README.md",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/a70c9c9f6a79f3a94b9cbda2b7559b1e85552720/packages/athena/package.json",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/a70c9c9f6a79f3a94b9cbda2b7559b1e85552720/packages/athena/test/native.test.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/a70c9c9f6a79f3a94b9cbda2b7559b1e85552720/packages/athena/test/node.test.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/a70c9c9f6a79f3a94b9cbda2b7559b1e85552720/.github/fixtures/athena-packed-consumer/runtime.mjs",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/a70c9c9f6a79f3a94b9cbda2b7559b1e85552720/.github/fixtures/athena-packed-consumer/browser-entry.mjs"
         ],
         "publication": "not-verified",
         "runtime": {
@@ -2854,7 +2854,7 @@
             "note": "No edge qualification inferred from Node, Fetch, browser or WASM source."
           },
           "sources": [
-            "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/README.md"
+            "https://github.com/dal-go/dalgo-http-adapters/blob/a70c9c9f6a79f3a94b9cbda2b7559b1e85552720/packages/athena/README.md"
           ]
         }
       }
@@ -3952,7 +3952,7 @@
           "ts-node",
           "ts-browser"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/6b0247557fc6d65de690a602ef0402331ebc6e55/packages/libsql/src/database.ts"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/e3e0f3a18bd276e43c52b781422eeb0f9891a028/packages/libsql/src/database.ts"
       },
       "libsql-native-source": {
         "kind": "source",
@@ -3960,7 +3960,7 @@
           "ts-node",
           "ts-browser"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/6b0247557fc6d65de690a602ef0402331ebc6e55/packages/libsql/src/native.ts"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/e3e0f3a18bd276e43c52b781422eeb0f9891a028/packages/libsql/src/native.ts"
       },
       "libsql-test": {
         "kind": "test-source",
@@ -3968,7 +3968,7 @@
           "ts-node",
           "ts-browser"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/6b0247557fc6d65de690a602ef0402331ebc6e55/packages/libsql/test/database.test.ts"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/e3e0f3a18bd276e43c52b781422eeb0f9891a028/packages/libsql/test/database.test.ts"
       },
       "libsql-native-test": {
         "kind": "test-source",
@@ -3976,7 +3976,7 @@
           "ts-node",
           "ts-browser"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/6b0247557fc6d65de690a602ef0402331ebc6e55/packages/libsql/test/native.test.ts"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/e3e0f3a18bd276e43c52b781422eeb0f9891a028/packages/libsql/test/native.test.ts"
       },
       "libsql-contract": {
         "kind": "documentation",
@@ -3984,7 +3984,7 @@
           "ts-node",
           "ts-browser"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/6b0247557fc6d65de690a602ef0402331ebc6e55/packages/libsql/README.md"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/e3e0f3a18bd276e43c52b781422eeb0f9891a028/packages/libsql/README.md"
       },
       "postgrest-source": {
         "kind": "source",
@@ -3992,7 +3992,7 @@
           "ts-node",
           "ts-browser"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2cf2def771ee1610e32140bfaf383a1a42b81d70/packages/postgrest/src/database.ts"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/e5b316fa6310e3ed5d609c354730009c3978d9b8/packages/postgrest/src/database.ts"
       },
       "postgrest-batch-test": {
         "kind": "test-source",
@@ -4000,7 +4000,7 @@
           "ts-node",
           "ts-browser"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2cf2def771ee1610e32140bfaf383a1a42b81d70/packages/postgrest/test/get-many-signal.test.ts"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/e5b316fa6310e3ed5d609c354730009c3978d9b8/packages/postgrest/test/get-many-signal.test.ts"
       },
       "postgrest-query-test": {
         "kind": "test-source",
@@ -4008,7 +4008,7 @@
           "ts-node",
           "ts-browser"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2cf2def771ee1610e32140bfaf383a1a42b81d70/packages/postgrest/test/query-signal.test.ts"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/e5b316fa6310e3ed5d609c354730009c3978d9b8/packages/postgrest/test/query-signal.test.ts"
       },
       "postgrest-contract": {
         "kind": "documentation",
@@ -4016,7 +4016,7 @@
           "ts-node",
           "ts-browser"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2cf2def771ee1610e32140bfaf383a1a42b81d70/packages/postgrest/README.md"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/e5b316fa6310e3ed5d609c354730009c3978d9b8/packages/postgrest/README.md"
       },
       "athena-ts-source": {
         "kind": "source",
@@ -4024,14 +4024,14 @@
           "ts-node",
           "ts-browser"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/src/client.ts"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/a70c9c9f6a79f3a94b9cbda2b7559b1e85552720/packages/athena/src/client.ts"
       },
       "athena-ts-node-source": {
         "kind": "source",
         "runtimes": [
           "ts-node"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/src/node.ts"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/a70c9c9f6a79f3a94b9cbda2b7559b1e85552720/packages/athena/src/node.ts"
       },
       "athena-ts-dal-source": {
         "kind": "source",
@@ -4039,7 +4039,7 @@
           "ts-node",
           "ts-browser"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/src/database.ts"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/a70c9c9f6a79f3a94b9cbda2b7559b1e85552720/packages/athena/src/database.ts"
       },
       "athena-ts-compiler": {
         "kind": "source",
@@ -4047,7 +4047,7 @@
           "ts-node",
           "ts-browser"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/src/compiler.ts"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/a70c9c9f6a79f3a94b9cbda2b7559b1e85552720/packages/athena/src/compiler.ts"
       },
       "athena-ts-contract": {
         "kind": "documentation",
@@ -4055,7 +4055,7 @@
           "ts-node",
           "ts-browser"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/README.md"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/a70c9c9f6a79f3a94b9cbda2b7559b1e85552720/packages/athena/README.md"
       },
       "athena-ts-native-test": {
         "kind": "test-source",
@@ -4063,14 +4063,14 @@
           "ts-node",
           "ts-browser"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/test/native.test.ts"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/a70c9c9f6a79f3a94b9cbda2b7559b1e85552720/packages/athena/test/native.test.ts"
       },
       "athena-ts-node-test": {
         "kind": "test-source",
         "runtimes": [
           "ts-node"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/test/node.test.ts"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/a70c9c9f6a79f3a94b9cbda2b7559b1e85552720/packages/athena/test/node.test.ts"
       },
       "athena-ts-browser-source": {
         "kind": "source",
@@ -4078,7 +4078,7 @@
           "ts-node",
           "ts-browser"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/src/browser.ts"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/a70c9c9f6a79f3a94b9cbda2b7559b1e85552720/packages/athena/src/browser.ts"
       },
       "athena-ts-http-source": {
         "kind": "source",
@@ -4086,21 +4086,21 @@
           "ts-node",
           "ts-browser"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/packages/athena/src/http.ts"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/a70c9c9f6a79f3a94b9cbda2b7559b1e85552720/packages/athena/src/http.ts"
       },
       "athena-ts-packed-test": {
         "kind": "test-source",
         "runtimes": [
           "ts-node"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/.github/fixtures/athena-packed-consumer/runtime.mjs"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/a70c9c9f6a79f3a94b9cbda2b7559b1e85552720/.github/fixtures/athena-packed-consumer/runtime.mjs"
       },
       "athena-ts-browser-fixture": {
         "kind": "test-source",
         "runtimes": [
           "ts-browser"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/2581f65c5a7301c031e654cb990058d61e7ca25b/.github/fixtures/athena-packed-consumer/browser-entry.mjs"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/a70c9c9f6a79f3a94b9cbda2b7559b1e85552720/.github/fixtures/athena-packed-consumer/browser-entry.mjs"
       },
       "athena-go-source": {
         "kind": "source",
@@ -6589,8 +6589,8 @@
           "read": {
             "status": "PARTIAL",
             "reason": {
-              "en": "Existing native/explicitly mapped tables over Hrana v3; native getMany snapshots all keys before callbacks, preserves order/duplicates and shares bounded cancellation/accounting. Unsafe integers, BLOBs and nonscalar native values refuse; this is not hosted Turso proof.",
-              "ru": "Чтение существующих таблиц через Hrana v3; native getMany копирует ключи до callback, сохраняет порядок/повторы и общие лимиты/отмену. Небезопасные целые, BLOB и нескалярные native-значения отклоняются; облачный Turso не проверен."
+              "en": "Existing native/explicitly mapped tables over Hrana v3; point reads capture key primitives before header/codec callbacks and batches snapshot membership and keys, preserving order/duplicates and bounded cancellation/accounting. Unsafe native integers, BLOBs and nonscalar native values refuse; this is not hosted Turso proof.",
+              "ru": "Чтение существующих таблиц через Hrana v3; точечное чтение копирует значения ключа до callback заголовков/кодека, пакетное — состав и ключи с сохранением порядка/повторов и общих лимитов/отмены. Небезопасные native-целые, BLOB и нескалярные native-значения отклоняются; облачный Turso не проверен."
             },
             "evidence": [
               "libsql-source",
