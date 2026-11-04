@@ -733,11 +733,11 @@
           "bounded-native-query"
         ],
         "limits": [
-          "Source branch with owned protocol fixtures; real engine/hosted, installed CLI and release acceptance are separate. Writes/transactions/schema discovery are not implemented."
+          "Public unmerged Go source adds opt-in same-process Query-only ReadJourney paging with prepare-before-ACK and original lifetime/work bounds. Cumulative consumed-capacity observations are available; Scan, soft capacity budgets, generic DALgo queries, discovery, writes and transactions are not implemented. Owned TLS fixtures and a clean public-module consumer do not qualify hosted IAM, installed CLI or registry acceptance."
         ],
         "sources": [
-          "https://github.com/dal-go/dalgo2dynamodb/blob/46c9938f48efe9d9e4232d3e47682ea5051bb56a/README.md",
-          "https://github.com/dal-go/dalgo2dynamodb/blob/46c9938f48efe9d9e4232d3e47682ea5051bb56a/client.go"
+          "https://github.com/dal-go/dalgo2dynamodb/blob/af7d943b7ff3dc9d32f2d4d01126b301132fa89f/README.md",
+          "https://github.com/dal-go/dalgo2dynamodb/blob/af7d943b7ff3dc9d32f2d4d01126b301132fa89f/client.go"
         ],
         "publication": "not-verified"
       },
@@ -3384,21 +3384,21 @@
         "runtimes": [
           "go"
         ],
-        "url": "https://github.com/dal-go/dalgo2dynamodb/blob/46c9938f48efe9d9e4232d3e47682ea5051bb56a/client.go"
+        "url": "https://github.com/dal-go/dalgo2dynamodb/blob/af7d943b7ff3dc9d32f2d4d01126b301132fa89f/query_journey_delivery.go"
       },
       "dynamo-go-contract": {
         "kind": "documentation",
         "runtimes": [
           "go"
         ],
-        "url": "https://github.com/dal-go/dalgo2dynamodb/blob/46c9938f48efe9d9e4232d3e47682ea5051bb56a/README.md"
+        "url": "https://github.com/dal-go/dalgo2dynamodb/blob/af7d943b7ff3dc9d32f2d4d01126b301132fa89f/README.md"
       },
       "dynamo-go-test": {
         "kind": "test-source",
         "runtimes": [
           "go"
         ],
-        "url": "https://github.com/dal-go/dalgo2dynamodb/blob/46c9938f48efe9d9e4232d3e47682ea5051bb56a/sdk_test.go"
+        "url": "https://github.com/dal-go/dalgo2dynamodb/blob/af7d943b7ff3dc9d32f2d4d01126b301132fa89f/query_journey_sdk_test.go"
       },
       "influx-go-source": {
         "kind": "source",
@@ -5303,8 +5303,8 @@
           "read": {
             "status": "PARTIAL",
             "reason": {
-              "en": "Existing-table native string/composite keys and bounded QueryPartition preserve AWS numbers/binary/sets. Generic DALgo query, Scan and discovery are not implemented; cursors are process-local. Owned TLS fixtures do not qualify DynamoDB Local or hosted IAM.",
-              "ru": "Нативные строковые и составные ключи существующих таблиц и ограниченный QueryPartition сохраняют числа, байты и наборы AWS. Общий DALgo-запрос, Scan и метаданные не реализованы; курсоры действуют в процессе. TLS-фикстуры не подтверждают DynamoDB Local или облачный IAM."
+              "en": "Existing-table native keys and bounded QueryPartition preserve AWS numbers/binary/sets. Opt-in same-process Query-only ReadJourney paging prepares each page before ACK, retains original lifetime/work bounds and reports cumulative observed capacity. Generic DALgo query, Scan, soft capacity budgets and discovery are not implemented. Owned TLS/public-module fixtures do not qualify hosted IAM or installed CLI.",
+              "ru": "Нативные ключи существующих таблиц и ограниченный QueryPartition сохраняют числа, байты и наборы AWS. Необязательный ReadJourney для Query постранично работает в одном процессе: подготовка страницы предшествует ACK, сохраняются исходные сроки и лимиты работы, доступны накопленные наблюдения расхода ёмкости. Общий DALgo-запрос, Scan, мягкий бюджет ёмкости и обнаружение схемы не реализованы. TLS-фикстуры и проверка публичного Go-модуля не подтверждают облачный IAM или установленный CLI."
             },
             "evidence": [
               "dynamo-go-source",
@@ -5316,8 +5316,8 @@
           "query": {
             "status": "PARTIAL",
             "reason": {
-              "en": "Existing-table native string/composite keys and bounded QueryPartition preserve AWS numbers/binary/sets. Generic DALgo query, Scan and discovery are not implemented; cursors are process-local. Owned TLS fixtures do not qualify DynamoDB Local or hosted IAM.",
-              "ru": "Нативные строковые и составные ключи существующих таблиц и ограниченный QueryPartition сохраняют числа, байты и наборы AWS. Общий DALgo-запрос, Scan и метаданные не реализованы; курсоры действуют в процессе. TLS-фикстуры не подтверждают DynamoDB Local или облачный IAM."
+              "en": "Existing-table native keys and bounded QueryPartition preserve AWS numbers/binary/sets. Opt-in same-process Query-only ReadJourney paging prepares each page before ACK, retains original lifetime/work bounds and reports cumulative observed capacity. Generic DALgo query, Scan, soft capacity budgets and discovery are not implemented. Owned TLS/public-module fixtures do not qualify hosted IAM or installed CLI.",
+              "ru": "Нативные ключи существующих таблиц и ограниченный QueryPartition сохраняют числа, байты и наборы AWS. Необязательный ReadJourney для Query постранично работает в одном процессе: подготовка страницы предшествует ACK, сохраняются исходные сроки и лимиты работы, доступны накопленные наблюдения расхода ёмкости. Общий DALgo-запрос, Scan, мягкий бюджет ёмкости и обнаружение схемы не реализованы. TLS-фикстуры и проверка публичного Go-модуля не подтверждают облачный IAM или установленный CLI."
             },
             "evidence": [
               "dynamo-go-source",
