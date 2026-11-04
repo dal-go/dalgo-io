@@ -691,12 +691,12 @@
         ],
         "limits": [
           "Read-only anonymous ordinal native SQL results, explicit local/registered Parquet grants and locked filesystem/network/extension settings. No fabricated record keys, generic point-read facade, structured/parameterized query, writes, callback transactions or automatic schema discovery. Result column metadata is not database discovery.",
-          "Public unmerged source branch d5abba45363b92ac875ad76a9e414dba07e008a5 (PR93); main remains a separate revision. Requires pending adapter-runtime0.2 ordinal declarations; npm publication, installed CLI, Apps and deployed web acceptance are unverified."
+          "Public unmerged source branch 102d636ebb2fbf89d57b1d9660e51a84a2fd94aa (PR93); main remains a separate revision. Requires pending adapter-runtime0.2 ordinal declarations; npm publication, installed CLI, Apps and deployed web acceptance are unverified."
         ],
         "sources": [
-          "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/duckdb/src/node.ts",
-          "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/duckdb/README.md",
-          "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/duckdb/package.json"
+          "https://github.com/dal-go/dalgo-http-adapters/blob/102d636ebb2fbf89d57b1d9660e51a84a2fd94aa/packages/duckdb/src/node.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/102d636ebb2fbf89d57b1d9660e51a84a2fd94aa/packages/duckdb/README.md",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/102d636ebb2fbf89d57b1d9660e51a84a2fd94aa/packages/duckdb/package.json"
         ],
         "publication": "not-verified",
         "runtime": {
@@ -730,14 +730,15 @@
         "implementation_status": "partial",
         "capabilities": [
           "point-read",
-          "bounded-native-query"
+          "bounded-native-query",
+          "bounded-native-scan"
         ],
         "limits": [
-          "Public unmerged Go source adds opt-in same-process Query-only ReadJourney paging with prepare-before-ACK and original lifetime/work bounds. Cumulative consumed-capacity observations are available; Scan, soft capacity budgets, generic DALgo queries, discovery, writes and transactions are not implemented. Owned TLS fixtures and a clean public-module consumer do not qualify hosted IAM, installed CLI or registry acceptance."
+          "Public unmerged Go source adds opt-in same-process Query and Scan ReadJourney paging with prepare-before-ACK and original lifetime/work bounds. Cumulative consumed-capacity observations are available; soft capacity budgets, generic DALgo queries, discovery, writes and transactions are not implemented. Owned TLS fixtures and a clean public-module consumer do not qualify hosted IAM, installed CLI or registry acceptance."
         ],
         "sources": [
-          "https://github.com/dal-go/dalgo2dynamodb/blob/af7d943b7ff3dc9d32f2d4d01126b301132fa89f/README.md",
-          "https://github.com/dal-go/dalgo2dynamodb/blob/af7d943b7ff3dc9d32f2d4d01126b301132fa89f/client.go"
+          "https://github.com/dal-go/dalgo2dynamodb/blob/25d4fc6b37b558c517b0a228acb652f401f6f81c/README.md",
+          "https://github.com/dal-go/dalgo2dynamodb/blob/25d4fc6b37b558c517b0a228acb652f401f6f81c/scan.go"
         ],
         "publication": "not-verified"
       },
@@ -1438,12 +1439,12 @@
         ],
         "limits": [
           "Read-only ObjectId/string core record facade plus native canonical EJSON reads, bounded predicates, signed query-bound keyset pages and allowlisted aggregation. No writes or callback transactions. discover() returns configured logical collection names, not automatic server schema discovery.",
-          "Public unmerged source branch d5abba45363b92ac875ad76a9e414dba07e008a5 (PR93); main remains a separate revision. npm publication, installed CLI, Apps and deployed web acceptance are unverified."
+          "Public unmerged source branch 68ada63c647c11416365cdb5553665d44fc1bacf (PR93); main remains a separate revision. npm publication, installed CLI, Apps and deployed web acceptance are unverified."
         ],
         "sources": [
-          "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/mongodb/src/node-executor.ts",
-          "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/mongodb/README.md",
-          "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/mongodb/package.json"
+          "https://github.com/dal-go/dalgo-http-adapters/blob/68ada63c647c11416365cdb5553665d44fc1bacf/packages/mongodb/src/node-executor.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/68ada63c647c11416365cdb5553665d44fc1bacf/packages/mongodb/README.md",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/68ada63c647c11416365cdb5553665d44fc1bacf/packages/mongodb/package.json"
         ],
         "publication": "not-verified",
         "runtime": {
@@ -2137,12 +2138,12 @@
         ],
         "limits": [
           "Read-only native RESP2 commands over trusted Node TCP/TLS; the browser uses an authorized HTTP bridge. No SQL/TugQL, keyed Database facade, writes, schema discovery or transactions. SCAN needs server-owned literal prefix plus provider ACLs; COUNT is a hint, replies are capped, duplicates/empty pages are possible.",
-          "Public unmerged source branch d5abba45363b92ac875ad76a9e414dba07e008a5 (PR93); main remains a separate revision. npm publication, installed CLI, Apps and deployed web acceptance are unverified."
+          "Public unmerged source branch ad4212c5bc5121b09f0457149be4c66960816b6b (PR93); main remains a separate revision. npm publication, installed CLI, Apps and deployed web acceptance are unverified."
         ],
         "sources": [
-          "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/redis-resp/src/node.ts",
-          "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/redis-resp/README.md",
-          "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/redis-resp/package.json"
+          "https://github.com/dal-go/dalgo-http-adapters/blob/ad4212c5bc5121b09f0457149be4c66960816b6b/packages/redis-resp/src/node.ts",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/ad4212c5bc5121b09f0457149be4c66960816b6b/packages/redis-resp/README.md",
+          "https://github.com/dal-go/dalgo-http-adapters/blob/ad4212c5bc5121b09f0457149be4c66960816b6b/packages/redis-resp/package.json"
         ],
         "publication": "not-verified",
         "runtime": {
@@ -3211,14 +3212,14 @@
         "runtimes": [
           "ts-node"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/redis-resp/src/node.ts"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/ad4212c5bc5121b09f0457149be4c66960816b6b/packages/redis-resp/src/node.ts"
       },
       "redis-ts-browser-source": {
         "kind": "source",
         "runtimes": [
           "ts-browser"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/redis-resp/src/http.ts"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/ad4212c5bc5121b09f0457149be4c66960816b6b/packages/redis-resp/src/http.ts"
       },
       "redis-ts-contract": {
         "kind": "documentation",
@@ -3226,7 +3227,7 @@
           "ts-node",
           "ts-browser"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/redis-resp/README.md"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/ad4212c5bc5121b09f0457149be4c66960816b6b/packages/redis-resp/README.md"
       },
       "redis-ts-test": {
         "kind": "test-source",
@@ -3234,21 +3235,21 @@
           "ts-node",
           "ts-browser"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/redis-resp/test/redis.test.ts"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/ad4212c5bc5121b09f0457149be4c66960816b6b/packages/redis-resp/test/redis.test.ts"
       },
       "mongodb-ts-node-source": {
         "kind": "source",
         "runtimes": [
           "ts-node"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/mongodb/src/node-executor.ts"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/68ada63c647c11416365cdb5553665d44fc1bacf/packages/mongodb/src/node-executor.ts"
       },
       "mongodb-ts-browser-source": {
         "kind": "source",
         "runtimes": [
           "ts-browser"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/mongodb/src/http.ts"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/68ada63c647c11416365cdb5553665d44fc1bacf/packages/mongodb/src/http.ts"
       },
       "mongodb-ts-contract": {
         "kind": "documentation",
@@ -3256,28 +3257,28 @@
           "ts-node",
           "ts-browser"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/mongodb/README.md"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/68ada63c647c11416365cdb5553665d44fc1bacf/packages/mongodb/README.md"
       },
       "mongodb-ts-test": {
         "kind": "test-source",
         "runtimes": [
           "ts-node"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/mongodb/test/node.test.ts"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/68ada63c647c11416365cdb5553665d44fc1bacf/packages/mongodb/test/node.test.ts"
       },
       "duckdb-ts-node-source": {
         "kind": "source",
         "runtimes": [
           "ts-node"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/duckdb/src/node.ts"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/102d636ebb2fbf89d57b1d9660e51a84a2fd94aa/packages/duckdb/src/node.ts"
       },
       "duckdb-ts-browser-source": {
         "kind": "source",
         "runtimes": [
           "ts-browser"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/duckdb/src/browser.ts"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/102d636ebb2fbf89d57b1d9660e51a84a2fd94aa/packages/duckdb/src/browser.ts"
       },
       "duckdb-ts-contract": {
         "kind": "documentation",
@@ -3285,28 +3286,28 @@
           "ts-node",
           "ts-browser"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/duckdb/README.md"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/102d636ebb2fbf89d57b1d9660e51a84a2fd94aa/packages/duckdb/README.md"
       },
       "duckdb-ts-test": {
         "kind": "test-source",
         "runtimes": [
           "ts-node"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/duckdb/test/executor.test.ts"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/102d636ebb2fbf89d57b1d9660e51a84a2fd94aa/packages/duckdb/test/executor.test.ts"
       },
       "mongodb-ts-browser-test": {
         "kind": "test-source",
         "runtimes": [
           "ts-browser"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/mongodb/test/http.test.ts"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/68ada63c647c11416365cdb5553665d44fc1bacf/packages/mongodb/test/http.test.ts"
       },
       "duckdb-ts-browser-test": {
         "kind": "test-source",
         "runtimes": [
           "ts-browser"
         ],
-        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/d5abba45363b92ac875ad76a9e414dba07e008a5/packages/duckdb/scripts/real-browser.mjs"
+        "url": "https://github.com/dal-go/dalgo-http-adapters/blob/102d636ebb2fbf89d57b1d9660e51a84a2fd94aa/packages/duckdb/scripts/real-browser.mjs"
       },
       "upstash-go-source": {
         "kind": "source",
@@ -3384,21 +3385,21 @@
         "runtimes": [
           "go"
         ],
-        "url": "https://github.com/dal-go/dalgo2dynamodb/blob/af7d943b7ff3dc9d32f2d4d01126b301132fa89f/query_journey_delivery.go"
+        "url": "https://github.com/dal-go/dalgo2dynamodb/blob/25d4fc6b37b558c517b0a228acb652f401f6f81c/scan_journey.go"
       },
       "dynamo-go-contract": {
         "kind": "documentation",
         "runtimes": [
           "go"
         ],
-        "url": "https://github.com/dal-go/dalgo2dynamodb/blob/af7d943b7ff3dc9d32f2d4d01126b301132fa89f/README.md"
+        "url": "https://github.com/dal-go/dalgo2dynamodb/blob/25d4fc6b37b558c517b0a228acb652f401f6f81c/README.md"
       },
       "dynamo-go-test": {
         "kind": "test-source",
         "runtimes": [
           "go"
         ],
-        "url": "https://github.com/dal-go/dalgo2dynamodb/blob/af7d943b7ff3dc9d32f2d4d01126b301132fa89f/query_journey_sdk_test.go"
+        "url": "https://github.com/dal-go/dalgo2dynamodb/blob/25d4fc6b37b558c517b0a228acb652f401f6f81c/scan_journey_final_lifecycle_test.go"
       },
       "influx-go-source": {
         "kind": "source",
@@ -5303,8 +5304,8 @@
           "read": {
             "status": "PARTIAL",
             "reason": {
-              "en": "Existing-table native keys and bounded QueryPartition preserve AWS numbers/binary/sets. Opt-in same-process Query-only ReadJourney paging prepares each page before ACK, retains original lifetime/work bounds and reports cumulative observed capacity. Generic DALgo query, Scan, soft capacity budgets and discovery are not implemented. Owned TLS/public-module fixtures do not qualify hosted IAM or installed CLI.",
-              "ru": "Нативные ключи существующих таблиц и ограниченный QueryPartition сохраняют числа, байты и наборы AWS. Необязательный ReadJourney для Query постранично работает в одном процессе: подготовка страницы предшествует ACK, сохраняются исходные сроки и лимиты работы, доступны накопленные наблюдения расхода ёмкости. Общий DALgo-запрос, Scan, мягкий бюджет ёмкости и обнаружение схемы не реализованы. TLS-фикстуры и проверка публичного Go-модуля не подтверждают облачный IAM или установленный CLI."
+              "en": "Existing-table native keys and bounded QueryPartition preserve AWS numbers/binary/sets. Opt-in same-process Query and Scan ReadJourney paging prepares each page before ACK, retains original lifetime/work bounds and reports cumulative observed capacity. Generic DALgo query, soft capacity budgets and discovery are not implemented. Owned TLS/public-module fixtures do not qualify hosted IAM or installed CLI.",
+              "ru": "Нативные ключи существующих таблиц и ограниченный QueryPartition сохраняют числа, байты и наборы AWS. Необязательный ReadJourney для Query и Scan постранично работает в одном процессе: подготовка страницы предшествует ACK, сохраняются исходные сроки и лимиты работы, доступны накопленные наблюдения расхода ёмкости. Общий DALgo-запрос, мягкий бюджет ёмкости и обнаружение схемы не реализованы. TLS-фикстуры и проверка публичного Go-модуля не подтверждают облачный IAM или установленный CLI."
             },
             "evidence": [
               "dynamo-go-source",
@@ -5316,8 +5317,8 @@
           "query": {
             "status": "PARTIAL",
             "reason": {
-              "en": "Existing-table native keys and bounded QueryPartition preserve AWS numbers/binary/sets. Opt-in same-process Query-only ReadJourney paging prepares each page before ACK, retains original lifetime/work bounds and reports cumulative observed capacity. Generic DALgo query, Scan, soft capacity budgets and discovery are not implemented. Owned TLS/public-module fixtures do not qualify hosted IAM or installed CLI.",
-              "ru": "Нативные ключи существующих таблиц и ограниченный QueryPartition сохраняют числа, байты и наборы AWS. Необязательный ReadJourney для Query постранично работает в одном процессе: подготовка страницы предшествует ACK, сохраняются исходные сроки и лимиты работы, доступны накопленные наблюдения расхода ёмкости. Общий DALgo-запрос, Scan, мягкий бюджет ёмкости и обнаружение схемы не реализованы. TLS-фикстуры и проверка публичного Go-модуля не подтверждают облачный IAM или установленный CLI."
+              "en": "Existing-table native keys and bounded QueryPartition preserve AWS numbers/binary/sets. Opt-in same-process Query and Scan ReadJourney paging prepares each page before ACK, retains original lifetime/work bounds and reports cumulative observed capacity. Generic DALgo query, soft capacity budgets and discovery are not implemented. Owned TLS/public-module fixtures do not qualify hosted IAM or installed CLI.",
+              "ru": "Нативные ключи существующих таблиц и ограниченный QueryPartition сохраняют числа, байты и наборы AWS. Необязательный ReadJourney для Query и Scan постранично работает в одном процессе: подготовка страницы предшествует ACK, сохраняются исходные сроки и лимиты работы, доступны накопленные наблюдения расхода ёмкости. Общий DALgo-запрос, мягкий бюджет ёмкости и обнаружение схемы не реализованы. TLS-фикстуры и проверка публичного Go-модуля не подтверждают облачный IAM или установленный CLI."
             },
             "evidence": [
               "dynamo-go-source",

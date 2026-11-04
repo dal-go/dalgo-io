@@ -39,12 +39,18 @@ class CapabilityMatrix(unittest.TestCase):
     def test_public_native_source_keeps_runtime_and_publication_evidence_separate(self):
         matrix = self.inventory['capabilityMatrix']
         adapters = {row['id']: row for row in self.inventory['adapters']}
+        pins = {
+            'redis': 'ad4212c5bc5121b09f0457149be4c66960816b6b',
+            'mongodb': '68ada63c647c11416365cdb5553665d44fc1bacf',
+            'duckdb': '102d636ebb2fbf89d57b1d9660e51a84a2fd94aa',
+        }
         for adapter in ('mongodb', 'redis', 'duckdb'):
+            pin = pins[adapter]
             for capability in ('read', 'query'):
                 cell = capability_cell(self.inventory, adapter, 'ts-node', capability)
                 self.assertEqual(cell['status'], 'PARTIAL')
                 self.assertEqual(cell['verification'], 'source-only')
-                self.assertTrue(all('/d5abba45363b92ac875ad76a9e414dba07e008a5/' in matrix['evidence'][ref]['url'] for ref in cell['evidence']))
+                self.assertTrue(all(('/' + pin + '/') in matrix['evidence'][ref]['url'] for ref in cell['evidence']))
                 self.assertFalse(any(matrix['evidence'][ref]['kind'] == 'execution' for ref in cell['evidence']))
             typescript = adapters[adapter]['typescript']
             self.assertEqual(typescript['publication'], 'not-verified')
