@@ -5,7 +5,7 @@ Sources (all under content/site/):
   index.template.html  the page, with {{key}} placeholders for every string
   en.json, ru.json     one catalog per locale (same keys; --check enforces it)
   adapters.json        adapter names, URLs and import paths (shared by locales)
-  video.json           the film slot: one switch plus a YouTube id per locale
+  video.json           the film slot: one switch plus a YouTube film (and an optional second) per locale
 
 Outputs (committed, like the generated articles):
   public/index.html       English, served at /
@@ -144,19 +144,43 @@ def adapter_more(catalog: dict, adapters: dict) -> str:
     )
 
 
+def check_film(where: str, cfg: dict) -> None:
+    if not YOUTUBE_ID.match(cfg.get("youtubeId", "")):
+        raise SystemExit(f"video.json: enabled, but {where}.youtubeId is not an 11-character YouTube id")
+    if not re.fullmatch(r"\d{1,2}:\d{2}", cfg.get("duration", "")):
+        raise SystemExit(f"video.json: enabled, but {where}.duration is not m:ss")
+
+
+def film_box(loc: str, cfg: dict, title_html: str, play_text: str) -> str:
+    title = html.escape(re.sub(r"<[^>]+>", "", title_html), quote=True)
+    play = html.escape(play_text.replace("{duration}", cfg["duration"]), quote=True)
+    return f"""<div class="film" data-film data-video-id="{cfg["youtubeId"]}" data-video-title="{title}">
+      <button class="film-play" type="button" lang="{loc}" aria-label="{play}: {title}">
+        <img src="{cfg["poster"]}" width="{cfg["width"]}" height="{cfg["height"]}" alt="" decoding="async" />
+        <span class="film-play-icon">{PLAY_ICON}</span>
+        <span class="film-duration" aria-hidden="true">{cfg["duration"]}</span>
+      </button>
+    </div>"""
+
+
 def video_section(loc: str, catalog: dict, video: dict) -> str:
-    """Empty unless video.json enables the slot and both locales have an id."""
+    """Empty unless video.json enables the slot and both locales have an id.
+
+    Each locale has one primary film and may add an optional `second` film
+    (same fields), rendered below it under the `video.second_*` strings."""
     if not video.get("enabled"):
         return ""
     for each in LOCALES:
-        vid = video["locales"][each]["youtubeId"]
-        if not YOUTUBE_ID.match(vid):
-            raise SystemExit(f"video.json: enabled, but locales.{each}.youtubeId is not an 11-character YouTube id")
-        if not re.fullmatch(r"\d{1,2}:\d{2}", video["locales"][each].get("duration", "")):
-            raise SystemExit(f"video.json: enabled, but locales.{each}.duration is not m:ss")
+        check_film(f"locales.{each}", video["locales"][each])
+        if "second" in video["locales"][each]:
+            check_film(f"locales.{each}.second", video["locales"][each]["second"])
     cfg = video["locales"][loc]
-    title = html.escape(re.sub(r"<[^>]+>", "", catalog["video.title"]), quote=True)
-    play = html.escape(catalog["video.play"].replace("{duration}", cfg["duration"]), quote=True)
+    second = ""
+    if "second" in cfg:
+        second = f"""
+    <h3 class="film-second-title">{catalog["video.second_title"]}</h3>
+    <p class="film-second-kicker">{catalog["video.second_kicker"]}</p>
+    {film_box(loc, cfg["second"], catalog["video.second_title"], catalog["video.play"])}"""
     return f"""<!-- ============================ FILM ============================ -->
 <section id="film" class="section">
   <div class="container">
@@ -165,13 +189,7 @@ def video_section(loc: str, catalog: dict, video: dict) -> str:
       <h2 class="section-title">{catalog["video.title"]}</h2>
       <p class="section-kicker">{catalog["video.kicker"]}</p>
     </header>
-    <div class="film" data-film data-video-id="{cfg["youtubeId"]}" data-video-title="{title}">
-      <button class="film-play" type="button" lang="{loc}" aria-label="{play}: {title}">
-        <img src="{cfg["poster"]}" width="{cfg["width"]}" height="{cfg["height"]}" alt="" decoding="async" />
-        <span class="film-play-icon">{PLAY_ICON}</span>
-        <span class="film-duration" aria-hidden="true">{cfg["duration"]}</span>
-      </button>
-    </div>
+    {film_box(loc, cfg, catalog["video.title"], catalog["video.play"])}{second}
     <p class="film-note">{catalog["video.note"]}</p>
   </div>
 </section>
@@ -226,7 +244,7 @@ def unused_keys(template: str, catalogs: dict, adapters: dict) -> list[str]:
     by_code |= {f"adapters.{c['id']}.{part}" for c in adapters["cards"] for part in ("kind", "desc")}
     by_code |= {f"adapters_more.{m['id']}" for m in adapters["more"]}
     by_code |= {f"cy.{name}" for name in re.findall(r"\bL\.(\w+)", template)}
-    by_code |= {f"video.{k}" for k in ("eyebrow", "title", "kicker", "play", "note")}
+    by_code |= {f"video.{k}" for k in ("eyebrow", "title", "kicker", "play", "note", "second_title", "second_kicker")}
     return sorted(k for k in flatten(catalogs[DEFAULT_LOCALE]) if k not in named and k not in by_code)
 
 

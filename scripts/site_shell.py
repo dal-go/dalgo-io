@@ -13,7 +13,7 @@ TITLES = {
     "collections": ("Typed collections", "Типизированные коллекции"),
     "interfaces": ("Interfaces", "Интерфейсы"),
     "queries": ("Queries and schema", "Запросы и схема"),
-    "film": ("Swap the adapter", "Смените адаптер"),
+    "film": ("DALgo films", "Смените адаптер"),
     "datatug": ("DALgo and DataTug", "DALgo и DataTug"),
 }
 UI = {

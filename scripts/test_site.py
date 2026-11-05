@@ -107,26 +107,36 @@ class FilmSlot(unittest.TestCase):
         adapters = rs.load_json(rs.SRC / "adapters.json")
         return {loc: rs.render_page(loc, template, catalogs, adapters, video) for loc in rs.LOCALES}
 
-    def test_published_film_is_the_right_one_per_locale(self):
+    def test_published_films_are_the_right_ones_per_locale(self):
         video = rs.load_json(rs.SRC / "video.json")
         self.assertTrue(video["enabled"])
-        ids = {"en": "wtkqlcjfzQA", "ru": "ekU0IUfgkGY"}
-        durations = {"en": "1:45", "ru": "1:57"}
+        # (youtubeId, poster file, duration) in page order: EN pitch, then the walkthrough; RU walkthrough only.
+        films = {
+            "en": [("w0ARYlWoG9g", "one-interface-en.webp", "1:19"), ("wtkqlcjfzQA", "poster-en.webp", "1:45")],
+            "ru": [("ekU0IUfgkGY", "poster-ru.webp", "1:57")],
+        }
         for loc, page in (("en", EN), ("ru", RU)):
-            other = next(v for k, v in ids.items() if k != loc)
+            others = [f[0] for k, v in films.items() if k != loc for f in v]
             with self.subTest(locale=loc):
-                self.assertEqual(video["locales"][loc]["youtubeId"], ids[loc])
-                self.assertIn(f'data-video-id="{ids[loc]}"', page)
-                self.assertNotIn(other, page)  # never the other language's film
-                self.assertIn(f'<img src="/video/poster-{loc}.webp" width="1280" height="720"', page)
-                self.assertIn(f'<span class="film-duration" aria-hidden="true">{durations[loc]}</span>', page)
+                self.assertEqual(video["locales"][loc]["youtubeId"], films[loc][0][0])
+                self.assertEqual(re.findall(r'data-video-id="([^"]+)"', page), [f[0] for f in films[loc]])
+                for other in others:
+                    self.assertNotIn(other, page)  # never the other language's film
+                labels = re.findall(r'class="film-play"[^>]*aria-label="([^"]+)"', page)
+                self.assertEqual(len(labels), len(films[loc]))
+                for (vid, poster, duration), label in zip(films[loc], labels):
+                    self.assertIn(f'<img src="/video/{poster}" width="1280" height="720"', page)
+                    self.assertIn(f'<span class="film-duration" aria-hidden="true">{duration}</span>', page)
+                    self.assertIn(duration, label)
+                    file = ROOT / "public" / "video" / poster
+                    self.assertEqual(file.read_bytes()[:4], b"RIFF")
+                    self.assertEqual(file.read_bytes()[8:12], b"WEBP")
                 self.assertIn(f'lang="{loc}" aria-label="', page)
-                self.assertIn(durations[loc], re.search(r'class="film-play"[^>]*aria-label="([^"]+)"', page).group(1))
                 self.assertNotIn("<iframe", page)  # created on click only
                 self.assertNotRegex(page, r"(?i)(https?:)?//[^\s\"']*(youtube|ytimg|googlevideo)")
-                self.assertIn('<script src="/video.js" defer></script>', page)
-                poster = ROOT / "public" / "video" / f"poster-{loc}.webp"
-                self.assertEqual(poster.read_bytes()[:4], b"RIFF")
+                self.assertEqual(page.count('<script src="/video.js" defer></script>'), 1)
+        self.assertIn('<h3 class="film-second-title">How it works', EN)
+        self.assertNotIn("film-second-title", RU)
         js = (ROOT / "public" / "video.js").read_text(encoding="utf-8")
         self.assertIn("https://www.youtube-nocookie.com/embed/", js)
         self.assertNotIn("youtube.com/", js.replace("youtube-nocookie.com", ""))
@@ -145,6 +155,20 @@ class FilmSlot(unittest.TestCase):
         video["locales"]["ru"]["youtubeId"] = ""
         with self.assertRaises(SystemExit):
             self.render(video)
+
+    def test_second_film_with_a_bad_id_or_duration_is_refused(self):
+        for field, value in (("youtubeId", "short"), ("duration", "105s")):
+            video = copy.deepcopy(rs.load_json(rs.SRC / "video.json"))
+            video["locales"]["en"]["second"][field] = value
+            with self.subTest(field=field), self.assertRaises(SystemExit):
+                self.render(video)
+
+    def test_without_second_film_only_the_primary_is_rendered(self):
+        video = copy.deepcopy(rs.load_json(rs.SRC / "video.json"))
+        del video["locales"]["en"]["second"]
+        page = self.render(video)["en"]
+        self.assertEqual(re.findall(r'data-video-id="([^"]+)"', page), ["w0ARYlWoG9g"])
+        self.assertNotIn("film-second-title", page)
 
 
 if __name__ == "__main__":
