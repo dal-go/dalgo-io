@@ -56,12 +56,17 @@ const server = createServer(async (request, response) => {
         await page.screenshot({ path: join(output, 'home-dark.png'), fullPage: true });
       }
       if (route === '/adapters/') {
-        assert.deepEqual(await page.getByRole('columnheader').allTextContents(), ['Adapter', 'Go', 'TypeScript']);
-        assert.equal(await page.locator('.adapter-table tbody tr').count(), 49);
-        assert.match(await page.getByRole('row').filter({ has: page.getByRole('rowheader', { name: 'Oracle', exact: true }) }).innerText(), /Not implemented/);
+        const inventory = await (await page.request.get(origin + '/adapters/status.json')).json();
+        assert.equal(await page.locator('details.cap-adapter').count(), inventory.adapters.length);
+        const first = page.locator('details.cap-adapter').first();
+        await first.locator('summary').click();
+        assert.deepEqual(await first.getByRole('columnheader').allTextContents(), ['Capability', 'Go', 'TypeScript · browser', 'TypeScript · Node.js']);
+        assert.equal(await first.getByRole('rowheader').count(), 5);
+        await first.locator('summary').click();
       }
       if (route.startsWith('/ru/')) assert.equal(await page.locator('.AppHeader-brand').getAttribute('href'), '/ru/');
     }
+    await require('./check_capability_matrix_browser.cjs').checkCapabilityMatrix(browser, origin, output);
     await page.goto(origin + '/collections/');
     const tabs = page.getByRole('tab');
     await tabs.first().focus(); await page.keyboard.press('End');
