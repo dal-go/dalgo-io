@@ -28,7 +28,7 @@
   "diagram.fallback": "Ваш код → <strong>DALgo</strong> → SQL (SQLite, PostgreSQL, MySQL) · память, файловая система, inGitDB · OpenVaultDB · Firestore · HTTP-источники · или ваш собственный адаптер.",
   "why.eyebrow": "01 — Зачем нужен DAL",
   "why.title": "Хранилище — деталь, а не судьба.",
-  "why.kicker": "Шесть причин, по которым разработчики берут DALgo с первого дня. Подробнее — в статье <a href=\"/articles/why-use-dalgo/\">Why use DALgo</a>, а границы применимости — в <a href=\"/articles/when-to-use-dalgo/\">When to use DALgo, and when not to</a> (обе на английском).",
+  "why.kicker": "Шесть причин, по которым разработчики берут DALgo с первого дня. Подробнее — в статье <a href=\"/articles/why-use-dalgo/\">Why use DALgo</a>, а границы применимости — в <a href=\"/articles/when-to-use-dalgo/\">When to use DALgo, and when not to</a>. Определение слоя — в <a href=\"/articles/go-database-abstraction-layer/\">Database abstraction layer in Go</a> (все три на английском).",
   "why.1.title": "Логика, не зависящая от хранилища",
   "why.1.text": "Пишите бизнес-код против <code>dal.DB</code>. Где он будет жить — в Postgres, Firestore или в JSON-файле на диске, — решите позже.",
   "why.2.title": "Меньше кода, он читается лучше",

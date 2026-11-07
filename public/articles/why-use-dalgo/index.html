@@ -111,6 +111,7 @@ func GetUser(ctx context.Context, db dal.DB, id string) (User, error) {
 <h2 id="a-bounded-promise">A bounded promise</h2>
 <p>DALgo is MIT-licensed. The core repository asks contributors to keep the public API stable under semantic versioning, and it still publishes v0 releases (the core README and downstream <code>go.mod</code> files in October 2026 pin versions in the v0.9x line, and not all on the same patch). Pin the module. Read the adapter README for the dialect and the error you will actually get.</p>
 <p>If the code you are about to write will run against more than one of these backends, including a memory stand-in in tests, the interface is the thing you are buying: less driver boilerplate, one policy and validation pipeline, and a compile-time reminder that writes happen inside a transaction. If the code exists to use one engine&#x27;s own language as far as it will go, read the next article before adding the dependency.</p>
+<p>The definition of the layer, with compilable adapter wiring and a comparison against <code>database/sql</code>, sqlx, GORM, ent, and sqlc, is in <a href="/articles/go-database-abstraction-layer/">Database abstraction layer in Go: what it is and when you need one</a>.</p>
 <h2 id="sources">Sources</h2>
 <p>Public default branches and repository metadata, read on 27 October 2026.</p>
 <ul>
@@ -125,7 +126,8 @@ func GetUser(ctx context.Context, db dal.DB, id string) (User, error) {
 <li><a href="https://github.com/bots-go-framework/bots-fw" rel="noopener">bots-go-framework/bots-fw</a> <code>PERSISTENCE.md</code> and <a href="https://github.com/bots-go-framework/bots-fw-store-dalgo" rel="noopener">bots-fw-store-dalgo</a>.</li>
 </ul>
   </div>
-  <aside class="article-related"><h2>More articles</h2><ul><li><a href="/articles/when-to-use-dalgo/">When to use DALgo, and when not to</a></li></ul></aside>
+  <aside class="article-related"><h2>More articles</h2><ul><li><a href="/articles/go-database-abstraction-layer/">Database abstraction layer in Go: what it is and when you need one</a></li>
+<li><a href="/articles/when-to-use-dalgo/">When to use DALgo, and when not to</a></li></ul></aside>
   <p class="article-source">Source file: <a href="https://github.com/dal-go/dalgo-io/blob/main/content/articles/why-use-dalgo.md"><code>content/articles/why-use-dalgo.md</code></a></p>
 </article>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Why use DALgo","description":"What DALgo gives Go and TypeScript applications — one record, query, and transaction API across real adapters — and the limits it refuses to hide.","datePublished":"2026-10-27","dateModified":"2026-10-27","mainEntityOfPage":"https://dalgo.io/articles/why-use-dalgo/","author":{"@type":"Organization","name":"DALgo contributors","url":"https://dalgo.io/"},"publisher":{"@type":"Organization","name":"DALgo","url":"https://dalgo.io/"}}</script>

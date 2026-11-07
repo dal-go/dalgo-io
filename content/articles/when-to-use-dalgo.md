@@ -85,6 +85,8 @@ Ask three questions before adding the module.
 
 Three yes answers: use DALgo, inject `dal.DB` or a narrower session, and put adapter construction in `main` or in the test. A no on the second question: use DALgo for the portable operations and the native driver for the one query or stream that needs it. Sneat's Firestore helper and the bots framework both do a version of this. They keep the wide interface away from callers who do not need it. A no on the first question, with a yes on a single engine's special features: use the driver. You will write less translation code, and you will not discover `ErrNotSupported` in production.
 
+The terms for that decision, and how the same job looks in `database/sql`, sqlx, GORM, ent, and sqlc, are in [Database abstraction layer in Go: what it is and when you need one](/articles/go-database-abstraction-layer/).
+
 The layer is MIT-licensed and still on a v0 module path. Downstream modules in the same week pin different v0.9x releases. Pin yours. When an adapter's README and a diagram disagree, believe the README.
 
 ## Sources
