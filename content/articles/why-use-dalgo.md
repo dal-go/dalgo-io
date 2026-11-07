@@ -105,6 +105,8 @@ DALgo is MIT-licensed. The core repository asks contributors to keep the public 
 
 If the code you are about to write will run against more than one of these backends, including a memory stand-in in tests, the interface is the thing you are buying: less driver boilerplate, one policy and validation pipeline, and a compile-time reminder that writes happen inside a transaction. If the code exists to use one engine's own language as far as it will go, read the next article before adding the dependency.
 
+The definition of the layer, with compilable adapter wiring and a comparison against `database/sql`, sqlx, GORM, ent, and sqlc, is in [Database abstraction layer in Go: what it is and when you need one](/articles/go-database-abstraction-layer/).
+
 ## Sources
 
 Public default branches and repository metadata, read on 27 October 2026.

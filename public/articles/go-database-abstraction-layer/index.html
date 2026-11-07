@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script src="/theme.js"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Database abstraction layer in Go: what it is and when you need one — DALgo</title>
+<meta name="description" content="A Go database abstraction for services that must swap stores: what a golang database abstraction layer is, and how DALgo compares with database/sql, sqlx, GORM, ent, and sqlc." />
+<link rel="canonical" href="https://dalgo.io/articles/go-database-abstraction-layer/" />
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)" />
+<meta property="og:title" content="Database abstraction layer in Go: what it is and when you need one — DALgo" />
+<meta property="og:description" content="A Go database abstraction for services that must swap stores: what a golang database abstraction layer is, and how DALgo compares with database/sql, sqlx, GORM, ent, and sqlc." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://dalgo.io/articles/go-database-abstraction-layer/" />
+<meta property="article:published_time" content="2026-11-07" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230d1117'/><text x='50%25' y='52%25' text-anchor='middle' dominant-baseline='middle' font-family='ui-monospace,monospace' font-size='28' font-weight='700' fill='%232f81f7'>d/</text></svg>" />
+<link rel="stylesheet" href="/styles.css" />
+<script src="/analytics.js" defer></script>
+<link rel="stylesheet" href="/theme.css" />
+<script src="/site.js" defer></script>
+</head>
+<body>
+
+<header class="AppHeader" role="banner">
+  <div class="AppHeader-inner">
+    <a class="AppHeader-brand" href="/" aria-label="DALgo home">
+      <span class="AppHeader-brand-mark" aria-hidden="true">
+        <span class="brand-dal">DAL</span><span class="brand-go">go</span>
+      </span>
+    </a>
+
+
+
+    <nav class="AppHeader-nav" aria-label="Documentation"><a href="/go/">Go</a><a href="/typescript/">TypeScript</a><a href="/adapters/">Adapters</a><a href="/quickstart/">Quick Start</a></nav>
+
+    <div class="AppHeader-actions"><label class="theme-control" data-theme-control hidden><span aria-hidden="true">◐</span><select data-theme-switch aria-label="Theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label>
+
+    </div>
+  </div>
+</header>
+
+<main id="top">
+<article class="article">
+  <header class="article-header">
+    <p class="article-kicker"><a href="/articles/">Articles</a></p>
+    <h1>Database abstraction layer in Go: what it is and when you need one</h1>
+    <p class="article-meta"><time datetime="2026-11-07">7 November 2026</time></p>
+    <p class="article-standfirst">A database abstraction layer lets Go domain code talk to records, queries, and transactions while the storage backend stays replaceable. This is the definition, a compilable DALgo example, and a fair look at the usual alternatives.</p>
+  </header>
+  <nav class="Box toc" aria-label="On this page"><strong>On this page</strong><ol><li><a href="#the-handle-domain-code-accepts">The handle domain code accepts</a></li>
+<li><a href="#one-pair-of-functions-three-ways-to-open-the-database">One pair of functions, three ways to open the database</a></li>
+<li><a href="#how-the-usual-go-libraries-answer-a-different-question">How the usual Go libraries answer a different question</a></li>
+<li><a href="#what-you-are-buying-and-what-you-still-pin">What you are buying, and what you still pin</a></li>
+<li><a href="#faq">FAQ</a></li>
+<li><a href="#sources">Sources</a></li></ol></nav>
+  <div class="article-prose">
+<p>A <a href="https://en.wikipedia.org/wiki/Database_abstraction_layer" rel="noopener">database abstraction layer</a> is a library that sits between application code and a database, so the program can store and load records without calling one vendor&#x27;s client. DAL is the usual shortening of &quot;database abstraction layer&quot;. <a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete" rel="noopener">CRUD</a> is the name for the four record operations: create, read, update, and delete. <a href="/">DALgo</a> is an <a href="https://github.com/dal-go/dalgo" rel="noopener">open-source</a> database abstraction layer for the <a href="https://go.dev/" rel="noopener">Go</a> programming language and for TypeScript: the Go module production services import is <a href="https://github.com/dal-go/dalgo" rel="noopener"><code>github.com/dal-go/dalgo</code></a>, and the TypeScript package is <a href="https://github.com/dal-go/dalgo-js" rel="noopener"><code>@dalgo/core</code></a>. <a href="https://en.wikipedia.org/wiki/SQL" rel="noopener">SQL</a>, short for Structured Query Language, is the language relational databases use for queries. An <a href="https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping" rel="noopener">ORM</a>, short for object-relational mapper, is a library that turns language objects into rows of a relational database and back. An API, short for application programming interface, is the set of types and functions a program calls; in DALgo that set is the <a href="https://pkg.go.dev/github.com/dal-go/dalgo/dal" rel="noopener"><code>dal</code></a> package.</p>
+<p>The rest of this page is that API in compilable Go, the adapters that can sit behind it, and a comparison with <a href="https://pkg.go.dev/database/sql" rel="noopener"><code>database/sql</code></a>, <a href="https://github.com/jmoiron/sqlx" rel="noopener">sqlx</a>, <a href="https://gorm.io/docs/" rel="noopener">GORM</a>, <a href="https://entgo.io/docs/getting-started" rel="noopener">ent</a>, and <a href="https://docs.sqlc.dev/" rel="noopener">sqlc</a>. The companion piece, <a href="/articles/go-repository-pattern/">Repository pattern in Go with a swappable storage backend</a>, puts a smaller interface in front of the same handle. <a href="/articles/why-use-dalgo/">Why use DALgo</a> is the project case, and <a href="/articles/when-to-use-dalgo/">When to use DALgo, and when not to</a> is the limit list. The Go overview lives at <a href="/go/">/go/</a>, the handle itself at <a href="/interfaces/">/interfaces/</a>, typed collections at <a href="/collections/">/collections/</a>, and the support matrix at <a href="/adapters/">/adapters/</a>.</p>
+<h2 id="the-handle-domain-code-accepts">The handle domain code accepts</h2>
+<p>A DALgo adapter implements <a href="https://pkg.go.dev/github.com/dal-go/dalgo/dal" rel="noopener"><code>dal.Backend</code></a>. Application code should accept <a href="https://pkg.go.dev/github.com/dal-go/dalgo/dal#DB" rel="noopener"><code>dal.DB</code></a>, which <code>dal.NewDB</code> builds around that backend. The wrapper owns the write pipeline, so validation and before-save hooks run before the adapter is entered. Reads are available on <code>dal.DB</code> because it includes <code>dal.ReadSession</code>. Writes are not: <code>dal.WriteSession</code> is reached from the transaction callback, <code>dal.ReadwriteTransaction</code>. Passing a plain <code>dal.DB</code> to a write is a compile error.</p>
+<p>Day-to-day create, read, update, and delete can sit on <code>dal.Collection[K, T]</code>. The handle holds no connection. <code>CollectionOf</code> reads the collection name from a value-receiver <code>CollectionName</code> method. <code>GetData</code> takes a read session and returns <code>T</code>. <code>SetByID</code> takes a write session. A missing row comes back as an error that <a href="https://pkg.go.dev/github.com/dal-go/record" rel="noopener"><code>record.IsNotFound</code></a> recognizes. That function lives in <a href="https://github.com/dal-go/record" rel="noopener"><code>github.com/dal-go/record</code></a>, which the current core imports; older README samples that call <code>dal.IsNotFound</code> describe an earlier packaging.</p>
+<div class="codeblock"><div class="codeblock-head"><span class="codeblock-name">example.go</span><span class="codeblock-lang">Go</span></div><pre><code>package store
+
+import (
+	"context"
+
+	"cloud.google.com/go/firestore"
+	"github.com/dal-go/dalgo/adapters/dalgo2memory"
+	"github.com/dal-go/dalgo/dal"
+	"github.com/dal-go/dalgo/dbschema"
+	"github.com/dal-go/dalgo/ddl"
+	"github.com/dal-go/dalgo2firestore"
+	"github.com/dal-go/dalgo2postgres"
+	"github.com/dal-go/dalgo2sql"
+	"github.com/dal-go/dalgo2sqlite"
+	"github.com/dal-go/record"
+)
+
+// User is the record stored in the "users" collection.
+// SQL adapters write the exported field names as column names.
+// The id is the record key, not a field of User.
+type User struct {
+	Name  string
+	Email string
+}
+
+func (User) CollectionName() string { return "users" }
+
+// Users is a session-less handle. Reads take a dal.ReadSession.
+// Writes take a dal.WriteSession, which a plain dal.DB is not.
+var Users = dal.CollectionOf[string, User]()
+
+// LoadUser reads one user. db is the database abstraction: memory, SQL, or Firestore.
+func LoadUser(ctx context.Context, db dal.DB, id string) (User, error) {
+	user, err := Users.GetData(ctx, db, id)
+	if err != nil {
+		return User{}, err
+	}
+	return user, nil
+}
+
+// SaveUser writes one user inside the adapter's transaction.
+// A plain dal.DB is not a WriteSession, so SetByID is only reachable on tx.
+func SaveUser(ctx context.Context, db dal.DB, id string, user User) error {
+	return db.RunReadwriteTransaction(ctx, func(ctx context.Context, tx dal.ReadwriteTransaction) error {
+		return Users.SetByID(ctx, tx, id, user)
+	})
+}
+
+// Missing reports a not-found read. The sentinel lives in github.com/dal-go/record.
+func Missing(err error) bool {
+	return record.IsNotFound(err)
+}
+
+// OpenMemoryForTests builds the in-memory adapter.
+// The profile names the backend the stand-in copies.
+// FirestoreProfile follows Firestore transaction rules.
+// SingleWriterProfile follows a single-writer store such as SQLite.
+func OpenMemoryForTests(profile dalgo2memory.Profile) dal.DB {
+	return dalgo2memory.New(profile)
+}
+
+// OpenSQLite opens a SQLite file through dalgo2sqlite.
+// The recordset tells dalgo2sql that the key id is the "id" column.
+// The caller closes the returned database.
+func OpenSQLite(path string) (*dalgo2sqlite.Database, error) {
+	return dalgo2sqlite.NewDatabaseWithOptions(path, dal.NewSchema(nil, nil), dalgo2sql.DbOptions{
+		Recordsets: map[string]*dalgo2sql.Recordset{
+			"users": dalgo2sql.NewRecordset("users", dalgo2sql.Table, []dal.FieldRef{dal.Field("id")}),
+		},
+	})
+}
+
+// EnsureUsersTable creates the SQL table these functions write.
+// Memory and Firestore do not use this. SQLite and Postgres do
+// when the database implements ddl.SchemaModifier.
+func EnsureUsersTable(ctx context.Context, db dal.DB) error {
+	return ddl.CreateCollection(ctx, db, dbschema.CollectionDef{
+		Name: "users",
+		Fields: []dbschema.FieldDef{
+			{Name: "id", Type: dbschema.String, Nullable: false},
+			{Name: "Name", Type: dbschema.String, Nullable: false},
+			{Name: "Email", Type: dbschema.String, Nullable: false},
+		},
+		PrimaryKey: []dal.FieldName{"id"},
+	})
+}
+
+// OpenPostgres opens PostgreSQL. Constructors force the postgres dialect,
+// so structured queries do not fall through to the legacy text emitter.
+// The caller closes the returned database.
+func OpenPostgres(dsn string) (*dalgo2postgres.Database, error) {
+	return dalgo2postgres.NewDatabase(dsn)
+}
+
+// OpenFirestore wraps a Firestore client. The caller closes the client.
+// dalgo2firestore.NewDatabase panics on an empty id or a nil client.
+func OpenFirestore(ctx context.Context, projectID string) (dal.DB, *firestore.Client, error) {
+	client, err := firestore.NewClient(ctx, projectID)
+	if err != nil {
+		return nil, nil, err
+	}
+	return dalgo2firestore.NewDatabase(projectID, client), client, nil
+}</code></pre></div>
+<p><code>LoadUser</code> and <code>SaveUser</code> name <code>dal.DB</code> and nothing else about storage. The same two functions are what the test below calls once the process has chosen an adapter.</p>
+<h2 id="one-pair-of-functions-three-ways-to-open-the-database">One pair of functions, three ways to open the database</h2>
+<p><a href="https://github.com/dal-go/dalgo/tree/main/adapters/dalgo2memory" rel="noopener"><code>dalgo2memory</code></a> is the in-memory adapter in the core module. <code>New</code> requires a profile, because the stand-in copies one backend&#x27;s transaction rules. <code>FirestoreProfile</code> follows <a href="https://cloud.google.com/firestore/docs" rel="noopener">Cloud Firestore</a> transaction behavior, including a rejection of a read that follows a write inside the transaction. <code>SingleWriterProfile</code> follows a store that serializes writers, which is the shape SQLite has. <code>NewDB</code> still exists and calls <code>New(FirestoreProfile)</code>; the constructor the package documents as current is <code>New</code> with the profile written at the call site.</p>
+<p><a href="https://github.com/dal-go/dalgo2sqlite" rel="noopener"><code>dalgo2sqlite</code></a> opens a SQLite file with the pure-Go <code>modernc.org/sqlite</code> driver and returns a <code>*Database</code> that implements <code>dal.DB</code>. The <code>Recordset</code> in <code>OpenSQLite</code> tells <a href="https://github.com/dal-go/dalgo2sql" rel="noopener"><code>dalgo2sql</code></a> that the record key is the column <code>id</code>. Other columns come from the exported field names of <code>User</code>, so the table has <code>Name</code> and <code>Email</code>, matching the Go identifiers. <a href="https://pkg.go.dev/github.com/dal-go/dalgo/ddl" rel="noopener"><code>ddl.CreateCollection</code></a> asks the driver for <code>ddl.SchemaModifier</code>. The SQLite and <a href="https://github.com/dal-go/dalgo2postgres" rel="noopener">Postgres</a> drivers both implement that method. The memory adapter and <a href="https://github.com/dal-go/dalgo2firestore" rel="noopener"><code>dalgo2firestore</code></a> are not where this table helper belongs: memory has no SQL catalog, and Firestore stores the struct as a document.</p>
+<p><a href="https://github.com/dal-go/dalgo2postgres" rel="noopener"><code>dalgo2postgres.NewDatabase</code></a> takes a data-source name and forces the <code>postgres</code> structured-query dialect, so a structured query on that handle does not fall through to the legacy text emitter that writes values into SQL text. <a href="https://github.com/dal-go/dalgo2firestore" rel="noopener"><code>dalgo2firestore.NewDatabase</code></a> takes a database id and a <code>*firestore.Client</code> from <code>cloud.google.com/go/firestore</code>. It panics if the id is empty or the client is nil. The caller closes the Firestore client; <code>dal.DB</code> has no <code>Close</code> method. The SQLite and Postgres <code>*Database</code> values do, and the caller closes those.</p>
+<div class="codeblock"><div class="codeblock-head"><span class="codeblock-name">example.go</span><span class="codeblock-lang">Go</span></div><pre><code>package store
+
+import (
+	"context"
+	"path/filepath"
+	"testing"
+
+	"github.com/dal-go/dalgo/adapters/dalgo2memory"
+	"github.com/dal-go/dalgo/dal"
+)
+
+func TestSameFunctionsOnMemoryAndSQLite(t *testing.T) {
+	ctx := context.Background()
+	want := User{Name: "Ada Lovelace", Email: "ada@example.com"}
+
+	roundTrip(t, ctx, OpenMemoryForTests(dalgo2memory.SingleWriterProfile()), want)
+	roundTrip(t, ctx, OpenMemoryForTests(dalgo2memory.FirestoreProfile()), want)
+
+	sqlDB, err := OpenSQLite(filepath.Join(t.TempDir(), "users.db"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(func() { _ = sqlDB.Close() })
+	if err := EnsureUsersTable(ctx, sqlDB); err != nil {
+		t.Fatal(err)
+	}
+	roundTrip(t, ctx, sqlDB, want)
+}
+
+func roundTrip(t *testing.T, ctx context.Context, db dal.DB, want User) {
+	t.Helper()
+	if _, err := LoadUser(ctx, db, "u1"); !Missing(err) {
+		t.Fatalf("LoadUser missing: %v", err)
+	}
+	if err := SaveUser(ctx, db, "u1", want); err != nil {
+		t.Fatal(err)
+	}
+	got, err := LoadUser(ctx, db, "u1")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got != want {
+		t.Fatalf("got %+v, want %+v", got, want)
+	}
+}</code></pre></div>
+<p>That test was run on 7 November 2026 against <code>github.com/dal-go/dalgo</code> v0.101.4, <code>dalgo2sqlite</code> v0.6.1, <code>dalgo2sql</code> v0.32.2, <code>dalgo2postgres</code> v0.11.0, <code>dalgo2firestore</code> v0.11.0, and <code>github.com/dal-go/record</code> v0.1.5. <code>go test</code> passed for both memory profiles and for a temporary SQLite file. <code>OpenPostgres</code> and <code>OpenFirestore</code> were compiled in the same package. This check did not open a Postgres server or a Firestore project, so it is evidence that those constructors type-check and that the shared functions run on the adapters the test actually opened. Adapter limits still live in each adapter README and in the <a href="/adapters/">adapter matrix</a>.</p>
+<p>A service wires one of those openers in <code>main</code> and passes the <code>dal.DB</code> into <code>LoadUser</code> and <code>SaveUser</code>. A test wires <code>OpenMemoryForTests</code> and passes that value into the same functions. The domain functions stay put. <a href="/queries/">Queries</a> that go beyond a point read use the structured builder (<code>dal.From</code>, <code>WhereField</code>, <code>OrderBy</code>, <code>Limit</code>) and can be serialized as <a href="/tugql/">TugQL</a>. An adapter that cannot run a query returns <code>dal.ErrNotSupported</code>.</p>
+<h2 id="how-the-usual-go-libraries-answer-a-different-question">How the usual Go libraries answer a different question</h2>
+<p>These libraries are good at what their own docs say they do. None of the sentences below is a benchmark, and none is a claim about speed, popularity, or which one &quot;wins&quot;.</p>
+<div class="article-table-wrap"><table class="article-table"><thead><tr><th>Library</th><th>What its docs say it is</th><th>Where the database shows up</th></tr></thead><tbody><tr><td><a href="https://pkg.go.dev/database/sql" rel="noopener"><code>database/sql</code></a></td><td>A generic interface around SQL (or SQL-like) databases.</td><td>You write the SQL text, call <code>QueryRowContext</code>, and <code>Scan</code> into fields. The driver is one SQL driver.</td></tr><tr><td><a href="https://github.com/jmoiron/sqlx" rel="noopener">sqlx</a></td><td>A set of extensions on <code>database/sql</code>. The README says the sqlx types leave the underlying interfaces untouched, so they are a superset.</td><td>You still write SQL. <code>StructScan</code> and named queries sit on top of <code>*sql.DB</code>. There is no Firestore client in that design.</td></tr><tr><td><a href="https://gorm.io/docs/" rel="noopener">GORM</a></td><td>&quot;The fantastic ORM library for Golang&quot;, described in its guide as a full-featured ORM, with associations, hooks, and auto migration. The <a href="https://gorm.io/docs/index.html" rel="noopener">quick start</a> opens a database through a driver; the sample uses SQLite.</td><td>Schema and queries are expressed as Go on a <code>*gorm.DB</code> aimed at a relational database.</td></tr><tr><td><a href="https://entgo.io/docs/getting-started" rel="noopener">ent</a></td><td>An entity framework: schema as Go code, static typing from code generation, graph edges. The getting-started page shows SQLite, PostgreSQL, and MySQL.</td><td>You generate a client and call builders such as <code>client.User.Create()</code>. The model is the generated graph, not a swappable document API.</td></tr><tr><td><a href="https://docs.sqlc.dev/en/latest/tutorials/getting-started-postgresql.html" rel="noopener">sqlc</a></td><td>A generator. You write SQL schema and queries; <code>sqlc generate</code> emits Go. The PostgreSQL tutorial uses <code>pgx</code>.</td><td>The SQL stays in the repository as the source of truth. The generated package talks to that engine.</td></tr></tbody></table></div>
+<p>DALgo&#x27;s job is the row those tools leave open: one record, query, and transaction API that also has adapters whose backend is not SQL. The core README states the matching limit in plain language: DALgo does not try to hide every database difference. <code>dal.ErrNotSupported</code> is how an adapter says so. A window function, a recursive common-table expression, or a Firestore realtime listener is a reason to call the driver that has that feature. <a href="/articles/when-to-use-dalgo/">When to use DALgo, and when not to</a> walks those cases with the adapter READMEs.</p>
+<p>Use <code>database/sql</code> or sqlx when the program is one SQL database and the team wants the statements in source control as SQL. Use sqlc when those statements should also produce the Go call sites. Use GORM or ent when the product is an object or entity model over a relational schema, including associations and migrations those projects document. Use DALgo when the same Go functions must run against more than one store, and a test double counts. The in-memory adapter, SQLite, Postgres, and Firestore in the listing above are that situation. The <a href="/articles/go-repository-pattern/">repository article</a> is the next step when callers should not mention <code>dal.DB</code> at all.</p>
+<h2 id="what-you-are-buying-and-what-you-still-pin">What you are buying, and what you still pin</h2>
+<p>The Go module is <a href="https://github.com/dal-go/dalgo/blob/main/LICENSE" rel="noopener">MIT-licensed</a>. It is still a v0 module path: the example above pins v0.101.4, and a service should pin the version it has tested. Adapters are separate modules with their own versions. Read the adapter you deploy. A structured query that the memory adapter runs can still return <code>dal.ErrNotSupported</code> on another backend. That is the contract, documented in the <a href="https://github.com/dal-go/dalgo" rel="noopener">core README</a>.</p>
+<p>The TypeScript package follows the same idea and is a separate codebase. Use it for a browser or Node program that imports an adapter written against <code>@dalgo/core</code>. It does not execute the Go functions on this page.</p>
+<h2 id="faq">FAQ</h2>
+<h3 id="what-is-a-golang-database-abstraction-layer">What is a golang database abstraction layer?</h3>
+<p>A database abstraction layer in Go is a library your domain code calls instead of a database driver. DALgo is one such layer: functions accept <code>dal.DB</code>, and an adapter supplies the database. The standard library&#x27;s <code>database/sql</code> is a generic interface around SQL databases, which is a narrower seam.</p>
+<h3 id="when-does-a-go-service-need-one">When does a Go service need one?</h3>
+<p>It needs one when the same functions will run, on purpose, against more than one store. A production database plus <code>dalgo2memory</code> in tests is enough. A service that will only ever speak one engine&#x27;s SQL can stay on <code>database/sql</code>, sqlx, sqlc, GORM, or ent.</p>
+<h3 id="is-dalgo-an-object-relational-mapper">Is DALgo an object-relational mapper?</h3>
+<p>DALgo is a database abstraction layer with adapters for SQL and for other stores, including Firestore, files, and memory. An object-relational mapper maps objects onto a relational schema. GORM and ent document that relational job. DALgo&#x27;s SQL adapters map a key and exported struct fields onto columns; they also return <code>dal.ErrNotSupported</code> when a backend cannot do what was asked.</p>
+<h3 id="can-the-same-go-functions-use-memory-sqlite-and-firestore">Can the same Go functions use memory, SQLite, and Firestore?</h3>
+<p><code>LoadUser</code> and <code>SaveUser</code> above take <code>dal.DB</code>. The test ran them on <code>dalgo2memory</code> (Firestore profile and single-writer profile) and on <code>dalgo2sqlite</code> after <code>EnsureUsersTable</code>. <code>OpenFirestore</code> returns a <code>dal.DB</code> from <code>dalgo2firestore.NewDatabase</code> and was compiled in that package. Firestore still has its own client lifecycle, and SQL still needs the table. The <a href="/adapters/">adapter matrix</a> is the list of what each backend actually implements.</p>
+<h2 id="sources">Sources</h2>
+<p>Public module docs and repository source, checked on 7 November 2026. The Go listings on this page were <code>go test</code>ed that day at the versions named above.</p>
+<ul>
+<li><a href="https://github.com/dal-go/dalgo" rel="noopener">dal-go/dalgo</a> v0.101.4, including <code>dal.CollectionOf</code>, <code>dalgo2memory.New</code>, <code>FirestoreProfile</code>, and <code>SingleWriterProfile</code>. License: <a href="https://github.com/dal-go/dalgo/blob/main/LICENSE" rel="noopener">MIT</a>.</li>
+<li><a href="https://github.com/dal-go/record" rel="noopener">dal-go/record</a> v0.1.5 (<code>record.IsNotFound</code>).</li>
+<li><a href="https://github.com/dal-go/dalgo2sql" rel="noopener">dal-go/dalgo2sql</a> v0.32.2, <a href="https://github.com/dal-go/dalgo2sqlite" rel="noopener">dalgo2sqlite</a> v0.6.1, <a href="https://github.com/dal-go/dalgo2postgres" rel="noopener">dalgo2postgres</a> v0.11.0, <a href="https://github.com/dal-go/dalgo2firestore" rel="noopener">dalgo2firestore</a> v0.11.0.</li>
+<li><a href="https://pkg.go.dev/database/sql" rel="noopener"><code>database/sql</code></a>, <a href="https://github.com/jmoiron/sqlx" rel="noopener">jmoiron/sqlx</a>, <a href="https://gorm.io/docs/index.html" rel="noopener">GORM</a>, <a href="https://entgo.io/docs/getting-started" rel="noopener">ent getting started</a>, <a href="https://docs.sqlc.dev/en/latest/tutorials/getting-started-postgresql.html" rel="noopener">sqlc PostgreSQL tutorial</a>.</li>
+<li><a href="https://en.wikipedia.org/wiki/Database_abstraction_layer" rel="noopener">Wikipedia: database abstraction layer</a>, <a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete" rel="noopener">CRUD</a>, <a href="https://en.wikipedia.org/wiki/SQL" rel="noopener">SQL</a>, <a href="https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping" rel="noopener">object-relational mapping</a>.</li>
+</ul>
+  </div>
+  <aside class="article-related"><h2>More articles</h2><ul><li><a href="/articles/why-use-dalgo/">Why use DALgo</a></li>
+<li><a href="/articles/when-to-use-dalgo/">When to use DALgo, and when not to</a></li></ul></aside>
+  <p class="article-source">Source file: <a href="https://github.com/dal-go/dalgo-io/blob/main/content/articles/go-database-abstraction-layer.md"><code>content/articles/go-database-abstraction-layer.md</code></a></p>
+</article>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Database abstraction layer in Go: what it is and when you need one","description":"A Go database abstraction for services that must swap stores: what a golang database abstraction layer is, and how DALgo compares with database/sql, sqlx, GORM, ent, and sqlc.","datePublished":"2026-11-07","dateModified":"2026-11-07","inLanguage":"en","mainEntityOfPage":"https://dalgo.io/articles/go-database-abstraction-layer/","dependencies":"Go","author":{"@type":"Organization","name":"DALgo contributors","url":"https://dalgo.io/"},"publisher":{"@type":"Organization","name":"DALgo","url":"https://dalgo.io/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"DALgo","item":"https://dalgo.io/"},{"@type":"ListItem","position":2,"name":"Articles","item":"https://dalgo.io/articles/"},{"@type":"ListItem","position":3,"name":"Database abstraction layer in Go: what it is and when you need one","item":"https://dalgo.io/articles/go-database-abstraction-layer/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is a golang database abstraction layer?","acceptedAnswer":{"@type":"Answer","text":"A database abstraction layer in Go is a library your domain code calls instead of a database driver. DALgo is one such layer: functions accept dal.DB, and an adapter supplies the database. The standard library's database/sql is a generic interface around SQL databases, which is a narrower seam."}},{"@type":"Question","name":"When does a Go service need one?","acceptedAnswer":{"@type":"Answer","text":"It needs one when the same functions will run, on purpose, against more than one store. A production database plus dalgo2memory in tests is enough. A service that will only ever speak one engine's SQL can stay on database/sql, sqlx, sqlc, GORM, or ent."}},{"@type":"Question","name":"Is DALgo an object-relational mapper?","acceptedAnswer":{"@type":"Answer","text":"DALgo is a database abstraction layer with adapters for SQL and for other stores, including Firestore, files, and memory. An object-relational mapper maps objects onto a relational schema. GORM and ent document that relational job. DALgo's SQL adapters map a key and exported struct fields onto columns; they also return dal.ErrNotSupported when a backend cannot do what was asked."}},{"@type":"Question","name":"Can the same Go functions use memory, SQLite, and Firestore?","acceptedAnswer":{"@type":"Answer","text":"LoadUser and SaveUser above take dal.DB. The test ran them on dalgo2memory (Firestore profile and single-writer profile) and on dalgo2sqlite after EnsureUsersTable. OpenFirestore returns a dal.DB from dalgo2firestore.NewDatabase and was compiled in that package. Firestore still has its own client lifecycle, and SQL still needs the table. The adapter matrix is the list of what each backend actually implements."}}]}</script>
+</main>
+
+
+<footer class="AppFooter">
+  <div class="container AppFooter-inner">
+    <ul role="list">
+      <li>&copy; <span id="year">2026</span> DALgo contributors</li>
+      <li><a href="/">DALgo</a></li>
+      <li><a href="/articles/">Articles</a></li>
+      <li><a href="/tugql/">TugQL</a></li>
+      <li><a href="https://github.com/dal-go/dalgo" rel="noopener">Core repo</a></li>
+      <li><a href="https://github.com/dal-go/dalgo/blob/main/LICENSE" rel="noopener">MIT License</a></li>
+      <li><a href="/privacy/">Privacy</a></li>
+    </ul>
+    <span class="AppFooter-tag">Open-source documentation site. No accounts, no advertising.</span>
+  </div>
+<nav class="topic-footer container" data-topic-footer aria-label="Documentation"><a href="/go/">DALgo for Go</a><a href="/typescript/">DALgo for TypeScript</a><a href="/quickstart/">Quick Start</a><a href="/adapters/">Adapters and runtime support</a><a href="/why/">Why DALgo</a><a href="/collections/">Typed collections</a><a href="/interfaces/">Interfaces</a><a href="/queries/">Queries and schema</a><a href="/film/">DALgo films</a><a href="/datatug/">DALgo and DataTug</a><a href="/articles/">Articles</a><a href="/tugql/">TugQL</a></nav></footer>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<div class="site-feedback"><button type="button" data-feedback-launcher aria-haspopup="dialog" hidden><svg class="feedback-mark" aria-hidden="true" focusable="false" viewBox="0 0 64 64"><rect width="64" height="64" rx="18" fill="#d4ef83"/><path d="M18 46 46 18M20 18h26v26" fill="none" stroke="#202c2a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>Suggest an improvement</button></div>
+<script id="site-feedback-widget" src="https://improveit.now/widget.js" data-space="ao58m" data-app="53707531c1e1120447e7673109bb6538" data-lang="en" data-color="#0d63e9" data-launcher="hidden" defer></script>
+<script src="/feedback.js" defer></script>
+</body>
+</html>

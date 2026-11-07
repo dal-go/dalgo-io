@@ -83,8 +83,8 @@ def adapter_table(inventory: dict, locale: str) -> str:
 
 
 def go_section(locale: str) -> str:
-    text = ('Use typed keys, records, collections and structured queries in Go. Start locally with the built-in in-memory adapter, then choose a database adapter by its supported operations.' if locale == 'en' else
-            'Используйте типизированные ключи, записи, коллекции и структурированные запросы в Go. Начните со встроенного адаптера в памяти, затем выберите адаптер по поддерживаемым операциям.')
+    text = ('Use typed keys, records, collections and structured queries in Go. Start locally with the built-in in-memory adapter, then choose a database adapter by its supported operations. The definition of that layer is <a href="/articles/go-database-abstraction-layer/">Database abstraction layer in Go</a>.' if locale == 'en' else
+            'Используйте типизированные ключи, записи, коллекции и структурированные запросы в Go. Начните со встроенного адаптера в памяти, затем выберите адаптер по поддерживаемым операциям. Определение этого слоя — в статье <a href="/articles/go-database-abstraction-layer/">Database abstraction layer in Go</a> (англ.).')
     return f'<section id="go" class="section"><div class="container"><h2 class="section-title">{title("go", locale)}</h2><p>{text}</p><p><a href="https://github.com/dal-go/dalgo">Go source</a> · <a href="https://pkg.go.dev/github.com/dal-go/dalgo">Go API</a> · <a href="{href("quickstart", locale)}">{title("quickstart", locale)}</a></p></div></section>'
 
 
