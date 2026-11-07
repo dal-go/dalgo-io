@@ -1,0 +1,56 @@
+# DALgo
+
+> DALgo is a database abstraction layer for Go and TypeScript. One interface covers records, queries, and transactions; adapters connect each database.
+
+DALgo is [open-source](https://github.com/dal-go/dalgo). The Go module is the main implementation ([MIT license](https://github.com/dal-go/dalgo/blob/main/LICENSE)). The TypeScript package @dalgo/core is published on npm from [dalgo-js](https://github.com/dal-go/dalgo-js) ([MIT license](https://github.com/dal-go/dalgo-js/blob/main/LICENSE)). English pages are the default. Russian pages use the same paths under /ru/.
+
+## English
+
+- [Home](https://dalgo.io/): DALgo is a database abstraction layer for Go and TypeScript. One interface covers records, queries, and transactions; adapters connect each database.
+- [Go](https://dalgo.io/go/): DALgo for Go provides typed keys, records, collections, and structured queries. Begin with the built-in in-memory adapter, then choose a database adapter.
+- [TypeScript](https://dalgo.io/typescript/): @dalgo/core is the TypeScript implementation of DALgo: hierarchical keys, typed collections, structured queries, and writes that run inside a transaction.
+- [Adapters](https://dalgo.io/adapters/): DALgo adapter matrix for Go and TypeScript: implementation status, documented limits, and the runtime each adapter documents for browser or server.
+- [Articles](https://dalgo.io/articles/): Notes on DALgo for Go and TypeScript: what the shared record and transaction interface is for, and when a database driver should stay in charge.
+
+## Russian
+
+- [Главная](https://dalgo.io/ru/): DALgo — слой абстракции баз данных для Go и TypeScript. Один интерфейс описывает записи, запросы и транзакции, а с каждой базой говорит адаптер.
+- [Go](https://dalgo.io/ru/go/): DALgo для Go: типизированные ключи, записи, коллекции и структурированные запросы. Начните со встроенного адаптера в памяти и выберите адаптер базы.
+- [TypeScript](https://dalgo.io/ru/typescript/): @dalgo/core — реализация DALgo на TypeScript: иерархические ключи, типизированные коллекции, структурированные запросы и запись внутри транзакции.
+- [Адаптеры](https://dalgo.io/ru/adapters/): Таблица адаптеров DALgo для Go и TypeScript: статус реализации, ограничения и требования к среде — браузер или доверенный сервер.
+- [Быстрый старт](https://dalgo.io/ru/quickstart/): Установите DALgo и запишите данные. Для Go хватает встроенного адаптера в памяти. Пример на TypeScript хранит данные в IndexedDB в браузере.
+- [Зачем DALgo](https://dalgo.io/ru/why/): Зачем DALgo: предметный код зависит от одного интерфейса, тесты могут использовать адаптер в памяти, а хуки, журнал и транзакции не привязаны к конкретной базе.
+- [Коллекции](https://dalgo.io/ru/collections/): Типизированная коллекция DALgo возвращает значения типа T для обычных чтений и записей. Набор операций зависит от выбранного адаптера.
+- [Интерфейсы](https://dalgo.io/ru/interfaces/): Каждый адаптер DALgo реализует dal.DB. Чтение идёт через ReadSession, изменение через ReadwriteSession, а транзакция — это замыкание над сессией.
+- [Запросы](https://dalgo.io/ru/queries/): Запросы DALgo фильтруют, сортируют, ограничивают, проецируют, группируют и соединяют данные. Недоступная адаптеру возможность возвращает dal.ErrNotSupported.
+- [Фильм](https://dalgo.io/ru/film/): Короткий фильм DALgo на русском: тот же код и другой адаптер. Видео с YouTube загружается только после нажатия кнопки воспроизведения.
+- [DataTug](https://dalgo.io/ru/datatug/): DALgo — шов доступа к данным в разработке DataTug. DataTug помогает изучать схемы и запросы, а доступ к хранилищу идёт через интерфейс DALgo.
+
+## Repositories
+
+- [dalgo](https://github.com/dal-go/dalgo): Go module and the main DALgo implementation.
+- [dalgo-js](https://github.com/dal-go/dalgo-js): TypeScript package @dalgo/core.
+- [dalgo-http-adapters](https://github.com/dal-go/dalgo-http-adapters): Qualification matrix and catalog for DALgo TypeScript HTTP data adapters.
+- [dalgo2memory](https://github.com/dal-go/dalgo/tree/main/adapters/dalgo2memory): In-memory adapter shipped in the core module — the default store for tests, examples, and local development. Runs most structured-query features end to end.
+- [dalgo2fs](https://github.com/dal-go/dalgo/tree/main/adapters/dalgo2fs): Filesystem metadata exposed as DALgo records. Point reads only; structured queries, writes and transactions are not supported.
+- [dalgo2sql](https://github.com/dal-go/dalgo2sql): Adapter for the standard database/sql — any compliant driver.
+- [dalgo2sqlite](https://github.com/dal-go/dalgo2sqlite): SQLite-specific driver: schema, DDL, concurrency-aware operations on top of dalgo2sql.
+- [dalgo2postgres](https://github.com/dal-go/dalgo2postgres): PostgreSQL-specific driver on top of dalgo2sql: forces the postgres dialect, introspects catalogs and applies Postgres DDL.
+- [dalgo2mysql](https://github.com/dal-go/dalgo2mysql): MySQL-specific driver on top of dalgo2sql: schema introspection and MySQL DDL. CI runs the conformance suite against MySQL 8.
+- [dalgo2ingitdb](https://github.com/ingitdb/dalgo2ingitdb): Adapter for inGitDB — a Git-native database with branchable, mergeable data. Reads and writes; a transaction can be committed to Git. Lives in the inGitDB organization.
+- [dalgo2openvaultdb](https://github.com/dal-go/dalgo2openvaultdb): Adapter for OpenVaultDB through its ovdb serve HTTP API: reads and transactional writes.
+- [dalgo2firestore](https://github.com/dal-go/dalgo2firestore): For Google Cloud Firestore — a globally distributed NoSQL document database.
+- [dalgo2http](https://github.com/dal-go/dalgo2http): Declarative HTTP endpoints — JSON, plus named XML and CSV resources — exposed as DALgo collections. Read-only by design.
+
+## Optional
+
+- [Quick start](https://dalgo.io/quickstart/): Install DALgo and write a record. Go starts with the built-in in-memory adapter. The TypeScript example stores data in IndexedDB in the browser.
+- [Why DALgo](https://dalgo.io/why/): Why DALgo: domain code stays on one interface, tests can use the in-memory adapter, and hooks, logging, and transactions do not depend on the database.
+- [Typed collections](https://dalgo.io/collections/): A DALgo typed collection returns values as T for everyday reads and writes. Which operations run depends on the adapter behind the collection.
+- [Interfaces](https://dalgo.io/interfaces/): Every DALgo adapter implements dal.DB. Reads use ReadSession, writes use ReadwriteSession, and a transaction is a closure around that session.
+- [Queries](https://dalgo.io/queries/): DALgo queries filter, sort, limit, project, group, and join. Nested keys scope a collection. A feature the adapter lacks returns dal.ErrNotSupported.
+- [Films](https://dalgo.io/film/): Two short DALgo films: a pitch for one Go interface across databases, and a walkthrough that swaps the adapter. Play loads the video from YouTube.
+- [DataTug](https://dalgo.io/datatug/): DALgo is the data-access seam used while building DataTug. DataTug explores schemas and queries; storage access stays behind the DALgo interface.
+- [Privacy](https://dalgo.io/privacy/): dalgo.io is a static documentation site with no accounts. This page explains Google Analytics, the regional consent choice, and how to change it.
+- [TugQL](https://dalgo.io/tugql/): TugQL is a 1:1, lossless, human-readable YAML serialization of dalgo's dal.StructuredQuery. Published with a JSON Schema (draft 2020-12) and validated examples.
+- [TugQL examples](https://dalgo.io/tugql/examples/): Example TugQL documents: human-readable YAML for dal.StructuredQuery. Each file is checked against the published TugQL JSON Schema.

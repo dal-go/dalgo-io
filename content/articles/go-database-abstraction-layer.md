@@ -2,7 +2,7 @@
 title: Database abstraction layer in Go: what it is and when you need one
 slug: go-database-abstraction-layer
 date: 2026-11-07
-description: A Go database abstraction for services that must swap stores: what a golang database abstraction layer is, and how DALgo compares with database/sql, sqlx, GORM, ent, and sqlc.
+description: A Go database abstraction for services that swap stores, and how DALgo compares with database/sql, sqlx, GORM, ent, and sqlc.
 summary: A database abstraction layer lets Go domain code talk to records, queries, and transactions while the storage backend stays replaceable. This is the definition, a compilable DALgo example, and a fair look at the usual alternatives.
 order: 1
 schema: techarticle

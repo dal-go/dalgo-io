@@ -1,8 +1,8 @@
 {
   "meta.title": "DALgo — слой абстракции баз данных для Go и TypeScript",
-  "meta.description": "DALgo — слой абстракции баз данных для Go и TypeScript. Один интерфейс — много баз данных: память, SQL, Firestore, файлы, inGitDB, OpenVaultDB. Модуль для Go — основная реализация; пакет для TypeScript, @dalgo/core, опубликован в npm.",
+  "meta.description": "DALgo — слой абстракции баз данных для Go и TypeScript. Один интерфейс описывает записи, запросы и транзакции, а с каждой базой говорит адаптер.",
   "meta.og_title": "DALgo — слой абстракции баз данных для Go и TypeScript",
-  "meta.og_description": "Один интерфейс. Много баз данных. Код на Go и TypeScript, не привязанный к хранилищу.",
+  "meta.og_description": "DALgo — слой абстракции баз данных для Go и TypeScript. Один интерфейс описывает записи, запросы и транзакции, а с каждой базой говорит адаптер.",
   "header.home_label": "DALgo — на главную",
   "header.github": "dal-go на GitHub",
   "header.context_label": "Контекст",

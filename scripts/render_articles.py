@@ -22,6 +22,7 @@ import shutil
 import sys
 from dataclasses import dataclass
 from pathlib import Path
+from seo import breadcrumb_script, page_meta
 from site_shell import enhance_page
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -399,14 +400,16 @@ def render_index(articles: list[Article]) -> str:
 </section>
 </main>
 """
+    meta = page_meta("articles", "en")
     return page_shell(
-        title="Articles — DALgo",
-        description="Articles on why to use DALgo, and when a direct database driver or another tool is the better choice.",
+        title=meta["title"],
+        description=meta["description"],
         canonical=f"{SITE}/articles/",
         og_type="website",
         main=main,
         context_label="Articles",
         context_href="/articles/",
+        extra_head=breadcrumb_script([("DALgo", f"{SITE}/"), ("Articles", f"{SITE}/articles/")]),
     )
 
 
