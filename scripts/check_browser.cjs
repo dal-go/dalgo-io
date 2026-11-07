@@ -6,7 +6,7 @@ const { resolve, extname, join } = require('node:path');
 const { chromium } = require(resolve(process.env.DALGO_PLAYWRIGHT_DIR, 'node_modules/playwright'));
 const root = resolve(__dirname, '../public');
 const output = process.env.DALGO_SCREENSHOTS || join(process.env.RUNNER_TEMP, 'dalgo-screenshots');
-const mime = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.json': 'application/json', '.webp': 'image/webp' };
+const mime = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.json': 'application/json', '.webp': 'image/webp', '.txt': 'text/plain', '.xml': 'application/xml' };
 const server = createServer(async (request, response) => {
   try {
     let pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
@@ -96,6 +96,35 @@ const server = createServer(async (request, response) => {
         await page.screenshot({ path: join(output, `${width}-${route.replaceAll('/', '_') || 'home'}.png`), fullPage: true });
       }
     }
+    for (const route of ['/llms.txt', '/llms-full.txt', '/robots.txt', '/sitemap.xml']) {
+      const response = await page.goto(origin + route);
+      assert.equal(response.status(), 200, route);
+      assert.match(await response.text(), /dalgo\.io/, route);
+    }
+    const robots = await (await page.goto(origin + '/robots.txt')).text();
+    assert.match(robots, /User-agent:\s*\*/);
+    assert.match(robots, /Allow:\s*\//);
+    assert.doesNotMatch(robots, /Disallow:\s*\//);
+    assert.match(robots, /Sitemap:\s*https:\/\/dalgo\.io\/sitemap\.xml/);
+    for (const route of ['/', '/ru/', '/go/', '/ru/go/', '/privacy/', '/tugql/', '/tugql/examples/', '/articles/']) {
+      await page.goto(origin + route);
+      assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'), 'https://dalgo.io' + route, route);
+      const description = await page.locator('meta[name="description"]').getAttribute('content');
+      assert.ok(description && [...description].length >= 120 && [...description].length <= 160, `${route} description ${description && description.length}`);
+    }
+    await page.goto(origin + '/');
+    const homeLd = await page.locator('script[type="application/ld+json"]').textContent();
+    assert.match(homeLd, /"@type":"Organization"/);
+    assert.match(homeLd, /"@type":"WebSite"/);
+    assert.match(homeLd, /"@type":"SoftwareSourceCode"/);
+    assert.match(homeLd, /https:\/\/github\.com\/dal-go\/dalgo"/);
+    assert.match(homeLd, /https:\/\/github\.com\/dal-go\/dalgo-js"/);
+    await page.goto(origin + '/go/');
+    assert.match(await page.locator('script[type="application/ld+json"]').textContent(), /BreadcrumbList/);
+    await page.goto(origin + '/ru/');
+    const russian = await page.locator('link[rel="alternate"]').evaluateAll((links) => links.map((link) => link.hreflang + ' ' + link.href));
+    assert.ok(russian.includes('ru https://dalgo.io/ru/'));
+    assert.ok(russian.includes('en https://dalgo.io/'));
     assert.deepEqual(errors, [], 'no uncaught browser exceptions');
     console.log('Browser acceptance passed: routes, themes, graph, keyboard tabs and mobile layout.');
     await context.close();
