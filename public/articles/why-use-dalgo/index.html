@@ -74,6 +74,7 @@ func GetUser(ctx context.Context, db dal.DB, id string) (User, error) {
     return Users.GetData(ctx, db, id)
 }</code></pre></div>
 <p>That function is the same whether <code>db</code> was opened with the in-memory adapter, Firestore, SQL, or a filesystem. The core README shows the same shape against <code>database/sql</code>, where the function knows the table, the placeholder, and <code>sql.ErrNoRows</code>. The DALgo version knows a collection name and an id. Missing rows come back through <code>dal.IsNotFound</code>.</p>
+<p>Putting a smaller interface in front of <code>dal.DB</code>, so tests and production pass the same repository type, is the subject of <a href="/articles/go-repository-pattern/">Repository pattern in Go with a swappable storage backend</a>.</p>
 <p>Keys can be hierarchical (<code>countries/ireland/cities/dublin</code>), which is the natural shape for Firestore-style data and also how a SQL adapter maps a parent into columns. Queries are a structured builder — filters, order, limit, projection, grouping, aggregates, inner and left equi-joins — plus <a href="/tugql/">TugQL</a>, a YAML serialization of that query so a saved query can round-trip without being a string of SQL dialect.</p>
 <p>Transactions are callbacks. The adapter owns begin, commit, retry, and rollback. The callback receives a session and returns an error.</p>
 <div class="codeblock"><div class="codeblock-head"><span class="codeblock-name">example.go</span><span class="codeblock-lang">Go</span></div><pre><code>err := db.RunReadwriteTransaction(ctx, func(ctx context.Context, tx dal.ReadwriteTransaction) error {
@@ -125,7 +126,8 @@ func GetUser(ctx context.Context, db dal.DB, id string) (User, error) {
 <li><a href="https://github.com/bots-go-framework/bots-fw" rel="noopener">bots-go-framework/bots-fw</a> <code>PERSISTENCE.md</code> and <a href="https://github.com/bots-go-framework/bots-fw-store-dalgo" rel="noopener">bots-fw-store-dalgo</a>.</li>
 </ul>
   </div>
-  <aside class="article-related"><h2>More articles</h2><ul><li><a href="/articles/when-to-use-dalgo/">When to use DALgo, and when not to</a></li></ul></aside>
+  <aside class="article-related"><h2>More articles</h2><ul><li><a href="/articles/go-repository-pattern/">Repository pattern in Go with a swappable storage backend</a></li>
+<li><a href="/articles/when-to-use-dalgo/">When to use DALgo, and when not to</a></li></ul></aside>
   <p class="article-source">Source file: <a href="https://github.com/dal-go/dalgo-io/blob/main/content/articles/why-use-dalgo.md"><code>content/articles/why-use-dalgo.md</code></a></p>
 </article>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Why use DALgo","description":"What DALgo gives Go and TypeScript applications — one record, query, and transaction API across real adapters — and the limits it refuses to hide.","datePublished":"2026-10-27","dateModified":"2026-10-27","mainEntityOfPage":"https://dalgo.io/articles/why-use-dalgo/","author":{"@type":"Organization","name":"DALgo contributors","url":"https://dalgo.io/"},"publisher":{"@type":"Organization","name":"DALgo","url":"https://dalgo.io/"}}</script>

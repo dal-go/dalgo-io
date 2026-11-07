@@ -36,6 +36,8 @@ func GetUser(ctx context.Context, db dal.DB, id string) (User, error) {
 
 That function is the same whether `db` was opened with the in-memory adapter, Firestore, SQL, or a filesystem. The core README shows the same shape against `database/sql`, where the function knows the table, the placeholder, and `sql.ErrNoRows`. The DALgo version knows a collection name and an id. Missing rows come back through `dal.IsNotFound`.
 
+Putting a smaller interface in front of `dal.DB`, so tests and production pass the same repository type, is the subject of [Repository pattern in Go with a swappable storage backend](/articles/go-repository-pattern/).
+
 Keys can be hierarchical (`countries/ireland/cities/dublin`), which is the natural shape for Firestore-style data and also how a SQL adapter maps a parent into columns. Queries are a structured builder — filters, order, limit, projection, grouping, aggregates, inner and left equi-joins — plus [TugQL](/tugql/), a YAML serialization of that query so a saved query can round-trip without being a string of SQL dialect.
 
 Transactions are callbacks. The adapter owns begin, commit, retry, and rollback. The callback receives a session and returns an error.
