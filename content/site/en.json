@@ -26,7 +26,7 @@
   "diagram.fallback": "Your code → <strong>DALgo</strong> → SQL (SQLite, PostgreSQL, MySQL) · in-memory, file system, inGitDB · OpenVaultDB · Firestore · HTTP sources · or your own custom adapter.",
   "why.eyebrow": "01 — Why a DAL",
   "why.title": "Storage is a detail, not a destiny.",
-  "why.kicker": "Six reasons developers reach for DALgo on day one. The longer case is <a href=\"/articles/why-use-dalgo/\">Why use DALgo</a>, and the limits are in <a href=\"/articles/when-to-use-dalgo/\">When to use DALgo, and when not to</a>.",
+  "why.kicker": "Six reasons developers reach for DALgo on day one. The longer case is <a href=\"/articles/why-use-dalgo/\">Why use DALgo</a>, and the limits are in <a href=\"/articles/when-to-use-dalgo/\">When to use DALgo, and when not to</a>. What the layer is: <a href=\"/articles/go-database-abstraction-layer/\">Database abstraction layer in Go</a>.",
   "why.1.title": "Storage-agnostic logic",
   "why.1.text": "Write business code against <code>dal.DB</code>. Decide later whether it lives in Postgres, Firestore, or a JSON file on disk.",
   "why.2.title": "Less code, more readable",
