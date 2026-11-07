@@ -56,11 +56,13 @@ the code samples, which are identical in both languages, in one place.
 | `content/site/video.json` | The film slot (below). |
 
 ```sh
-python3 scripts/render_site.py           # writes public/index.html, public/ru/index.html, public/sitemap.xml
+python3 scripts/render_site.py           # writes the landing pages, sitemap, llms.txt, and llms-full.txt
 python3 scripts/render_site.py --check   # CI: fails if the committed pages are stale
 python3 -m unittest discover -s scripts -p 'test_*.py'
 node --test scripts/test_theme.cjs
 ```
+
+`content/site/seo.json` holds the document title and meta description for every page except the two home pages, whose titles and descriptions stay in the locale catalogs. The renderer also writes `public/llms.txt` and `public/llms-full.txt` from those catalogs, the adapter list, and the articles. `public/robots.txt` allows every crawler (`User-agent: *`) and lists the sitemap; a Cloudflare managed robots.txt can still override that file from the dashboard.
 
 Both pages carry `<html lang>`, a canonical URL, reciprocal `hreflang`
 (`en`, `ru`, `x-default` = English), Open Graph per locale and an EN/RU switch in

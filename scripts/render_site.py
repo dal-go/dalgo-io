@@ -25,8 +25,10 @@ import json
 import re
 import sys
 from pathlib import Path
+from render_articles import load_articles
 from site_shell import enhance_page, theme_styles
 from site_pages import adapter_inventory, home_sections, topic_pages
+from seo import apply_static_seo, home_json_ld, llms_documents
 
 ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "content" / "site"
@@ -209,6 +211,7 @@ def render_page(loc: str, template: str, catalogs: dict, adapters: dict, video: 
         "og_locale": info["og"],
         "og_locale_alt": LOCALE_INFO[other]["og"],
         "hreflang_links": alternates(),
+        "json_ld": home_json_ld(),
         "home_href": "#top",
         "lang_switch": lang_switch(loc, flat["lang.label"]),
         "adapter_cards": adapter_cards(loc, catalog, adapters),
@@ -300,7 +303,11 @@ def build() -> dict[Path, str]:
     outputs[PUBLIC / 'adapters' / 'status.json'] = json.dumps(inventory, ensure_ascii=False, indent=2) + '\n'
     outputs[PUBLIC / 'theme.css'] = theme_styles((PUBLIC / 'styles.css').read_text(encoding='utf-8'))
     for route, filename in [('privacy', 'privacy.html'), ('tugql', 'tugql.html'), ('tugql/examples', 'tugql-examples.html')]:
-        outputs[PUBLIC / route / 'index.html'] = enhance_page((ROOT / 'content' / 'pages' / filename).read_text(encoding='utf-8'))
+        raw = (ROOT / 'content' / 'pages' / filename).read_text(encoding='utf-8')
+        outputs[PUBLIC / route / 'index.html'] = enhance_page(apply_static_seo(raw, route))
+    llms, full = llms_documents(catalogs, adapters, load_articles())
+    outputs[PUBLIC / 'llms.txt'] = llms
+    outputs[PUBLIC / 'llms-full.txt'] = full
     outputs[PUBLIC / "sitemap.xml"] = sitemap(set(outputs))
     return outputs
 

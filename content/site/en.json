@@ -1,8 +1,8 @@
 {
   "meta.title": "DALgo — database abstraction layer for Go and TypeScript",
-  "meta.description": "DALgo is a database abstraction layer for Go and TypeScript. One interface, many databases — in-memory, SQL, Firestore, files, inGitDB, OpenVaultDB. The Go module is the main implementation; the TypeScript package @dalgo/core is on npm.",
+  "meta.description": "DALgo is a database abstraction layer for Go and TypeScript. One interface covers records, queries, and transactions; adapters connect each database.",
   "meta.og_title": "DALgo — database abstraction layer for Go and TypeScript",
-  "meta.og_description": "One interface. Many databases. Write storage-agnostic Go and TypeScript.",
+  "meta.og_description": "DALgo is a database abstraction layer for Go and TypeScript. One interface covers records, queries, and transactions; adapters connect each database.",
   "header.home_label": "DALgo home",
   "header.github": "dal-go on GitHub",
   "header.context_label": "Context",

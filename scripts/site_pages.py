@@ -7,6 +7,7 @@ import re
 from pathlib import Path
 
 from render_articles import page_shell
+from seo import breadcrumb_script, page_meta
 from site_shell import TITLES, UI, enhance_page, href, title
 
 SITE = "https://dalgo.io"
@@ -142,7 +143,9 @@ def topic_pages(page: str, locale: str, inventory: dict, source: Path, public: P
         canonical = SITE + href(slug, locale)
         alternates = ''.join(f'<link rel="alternate" hreflang="{language}" href="{SITE}{href(slug, language)}" />\n' for language in ('en', 'ru'))
         alternates += f'<link rel="alternate" hreflang="x-default" href="{SITE}{href(slug, "en")}" />\n'
+        meta = page_meta(slug, locale)
+        crumbs = breadcrumb_script([("DALgo", SITE + href("", locale)), (title(slug, locale), canonical)])
         main = f'<main id="top" class="container topic-page"><p><a href="{href("", locale)}">DALgo</a> / {html.escape(title(slug, locale))}</p>{body}</main>'
-        rendered = page_shell(title=title(slug, locale) + ' · DALgo', description=title(slug, locale), canonical=canonical, og_type='website', main=main, context_label=title(slug, locale), context_href=href(slug, locale), extra_head=alternates, locale=locale, section=slug)
+        rendered = page_shell(title=meta["title"], description=meta["description"], canonical=canonical, og_type='website', main=main, context_label=title(slug, locale), context_href=href(slug, locale), extra_head=alternates + crumbs, locale=locale, section=slug)
         result[public / ('ru' if locale == 'ru' else '') / slug / 'index.html'] = rendered
     return result
