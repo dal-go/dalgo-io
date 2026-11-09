@@ -28,6 +28,9 @@
     <loc>https://dalgo.io/articles/</loc>
   </url>
   <url>
+    <loc>https://dalgo.io/articles/dalgo-vs-gorm/</loc>
+  </url>
+  <url>
     <loc>https://dalgo.io/articles/go-database-abstraction-layer/</loc>
   </url>
   <url>
