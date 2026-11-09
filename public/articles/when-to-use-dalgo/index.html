@@ -102,7 +102,7 @@
 <li>Is it acceptable that engine-specific SQL, listeners, and warehouse controls live outside this code?</li>
 </ol>
 <p>Three yes answers: use DALgo, inject <code>dal.DB</code> or a narrower session, and put adapter construction in <code>main</code> or in the test. A no on the second question: use DALgo for the portable operations and the native driver for the one query or stream that needs it. Sneat&#x27;s Firestore helper and the bots framework both do a version of this. They keep the wide interface away from callers who do not need it. A no on the first question, with a yes on a single engine&#x27;s special features: use the driver. You will write less translation code, and you will not discover <code>ErrNotSupported</code> in production.</p>
-<p>The terms for that decision, and how the same job looks in <code>database/sql</code>, sqlx, GORM, ent, and sqlc, are in <a href="/articles/go-database-abstraction-layer/">Database abstraction layer in Go: what it is and when you need one</a>.</p>
+<p>The terms for that decision, and how the same job looks in <code>database/sql</code>, sqlx, GORM, ent, and sqlc, are in <a href="/articles/go-database-abstraction-layer/">Database abstraction layer in Go: what it is and when you need one</a>. <a href="/articles/dalgo-vs-gorm/">DALgo vs GORM: a gorm alternative</a> follows the GORM column of that comparison.</p>
 <p>The layer is MIT-licensed and still on a v0 module path. Downstream modules in the same week pin different v0.9x releases. Pin yours. When an adapter&#x27;s README and a diagram disagree, believe the README.</p>
 <h2 id="sources">Sources</h2>
 <p>Public default branches and repository metadata, read on 27 October 2026.</p>
@@ -117,7 +117,8 @@
 <li>Repository descriptions for <code>dalgo2d1</code>, <code>dalgo2http</code>, <code>dalgo2logs</code>, <code>dalgo2namecheap</code>, <code>dalgo-memcache-appengine</code>. No <code>dalgo2redis</code> or <code>dalgo2spanner</code> repository was listed under the dal-go organization.</li>
 </ul>
   </div>
-  <aside class="article-related"><h2>More articles</h2><ul><li><a href="/articles/go-database-abstraction-layer/">Database abstraction layer in Go: what it is and when you need one</a></li>
+  <aside class="article-related"><h2>More articles</h2><ul><li><a href="/articles/dalgo-vs-gorm/">DALgo vs GORM: a gorm alternative</a></li>
+<li><a href="/articles/go-database-abstraction-layer/">Database abstraction layer in Go: what it is and when you need one</a></li>
 <li><a href="/articles/go-repository-pattern/">Repository pattern in Go with a swappable storage backend</a></li>
 <li><a href="/articles/why-use-dalgo/">Why use DALgo</a></li></ul></aside>
   <p class="article-source">Source file: <a href="https://github.com/dal-go/dalgo-io/blob/main/content/articles/when-to-use-dalgo.md"><code>content/articles/when-to-use-dalgo.md</code></a></p>
