@@ -99,6 +99,16 @@
       "description": "DALgo — шов доступа к данным в разработке DataTug. DataTug помогает изучать схемы и запросы, а доступ к хранилищу идёт через интерфейс DALgo."
     }
   },
+  "about/tech-stack": {
+    "en": {
+      "title": "DALgo tech stack — Go, TypeScript and the static website",
+      "description": "How DALgo is built: Go and TypeScript libraries with database adapters, a Python-rendered documentation site, and Cloudflare Workers hosting."
+    },
+    "ru": {
+      "title": "Технологии DALgo — Go, TypeScript и статический сайт",
+      "description": "Как устроен DALgo: библиотеки Go и TypeScript с адаптерами баз данных, документация, собранная на Python, и размещение в Cloudflare Workers."
+    }
+  },
   "articles": {
     "en": {
       "title": "DALgo articles — when the abstraction helps, and when it does not",
