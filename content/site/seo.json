@@ -113,8 +113,8 @@
   },
   "tugql": {
     "en": {
-      "title": "TugQL — YAML serialization of dal.StructuredQuery · DALgo",
-      "description": "TugQL is a 1:1, lossless, human-readable YAML serialization of dalgo's dal.StructuredQuery. Published with a JSON Schema (draft 2020-12) and validated examples."
+      "title": "TugQL YAML in Go — dal.StructuredQuery serialization · DALgo",
+      "description": "Go TugQL YAML serializes the core relational dal.StructuredQuery losslessly. Get the current JSON Schema and examples; learn SQL-like TugQL text at tugql.org."
     }
   },
   "tugql/examples": {

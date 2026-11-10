@@ -52,7 +52,7 @@ DALgo is [open-source](https://github.com/dal-go/dalgo). The Go module is the ma
 - [Films](https://dalgo.io/film/): Two short DALgo films: a pitch for one Go interface across databases, and a walkthrough that swaps the adapter. Play loads the video from YouTube.
 - [DataTug](https://dalgo.io/datatug/): DALgo is the data-access seam used while building DataTug. DataTug explores schemas and queries; storage access stays behind the DALgo interface.
 - [Privacy](https://dalgo.io/privacy/): dalgo.io is a static documentation site with no accounts. This page explains Google Analytics, the regional consent choice, and how to change it.
-- [TugQL](https://dalgo.io/tugql/): TugQL is a 1:1, lossless, human-readable YAML serialization of dalgo's dal.StructuredQuery. Published with a JSON Schema (draft 2020-12) and validated examples.
+- [TugQL](https://dalgo.io/tugql/): Go TugQL YAML serializes the core relational dal.StructuredQuery losslessly. Get the current JSON Schema and examples; learn SQL-like TugQL text at tugql.org.
 - [TugQL examples](https://dalgo.io/tugql/examples/): Example TugQL documents: human-readable YAML for dal.StructuredQuery. Each file is checked against the published TugQL JSON Schema.
 
 ## English product copy
