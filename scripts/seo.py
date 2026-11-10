@@ -30,6 +30,7 @@ PAIRED = (
     "queries",
     "film",
     "datatug",
+    "about/tech-stack",
 )
 ENGLISH_ONLY = ("articles", "privacy", "tugql", "tugql/examples")
 GO_REPO = "https://github.com/dal-go/dalgo"
@@ -272,6 +273,7 @@ def _page_links(locale: str, slugs: tuple[str, ...], catalogs: dict[str, dict]) 
             "queries": "Queries",
             "film": "Films",
             "datatug": "DataTug",
+            "about/tech-stack": "Tech stack",
             "articles": "Articles",
             "privacy": "Privacy",
             "tugql": "TugQL",
@@ -288,6 +290,7 @@ def _page_links(locale: str, slugs: tuple[str, ...], catalogs: dict[str, dict]) 
             "queries": "Запросы",
             "film": "Фильм",
             "datatug": "DataTug",
+            "about/tech-stack": "Технологии",
         },
     }
     for slug in slugs:
@@ -329,7 +332,7 @@ def _prose_blocks(catalog: dict) -> list[str]:
 def llms_documents(catalogs: dict[str, dict], adapters: dict, articles: list) -> tuple[str, str]:
     check_home_copy(catalogs)
     primary = ("home", "go", "typescript", "adapters", "articles")
-    secondary = ("quickstart", "why", "collections", "interfaces", "queries", "film", "datatug")
+    secondary = ("quickstart", "why", "collections", "interfaces", "queries", "film", "datatug", "about/tech-stack")
     english = _page_links("en", primary, catalogs)
     russian = _page_links("ru", ("home", "go", "typescript", "adapters") + secondary, catalogs)
     optional = _page_links("en", secondary + ("privacy", "tugql", "tugql/examples"), catalogs)
