@@ -16,11 +16,13 @@ import argparse
 import datetime as dt
 import difflib
 import html
+import json
 import re
 import shutil
 import sys
 from dataclasses import dataclass
 from pathlib import Path
+from seo import breadcrumb_script, page_meta
 from site_shell import enhance_page
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -47,6 +49,7 @@ class Article:
     order: int
     body: str
     source_name: str
+    schema: str
 
     @property
     def url_path(self) -> str:
@@ -90,6 +93,9 @@ def parse_front_matter(text: str, name: str) -> Article:
     slug = fields["slug"]
     if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", slug):
         raise SystemExit(f"{name}: slug {slug!r} must be lowercase kebab-case")
+    schema = fields.get("schema", "")
+    if schema not in ("", "techarticle"):
+        raise SystemExit(f"{name}: schema must be techarticle or omitted, got {schema!r}")
     try:
         date = dt.date.fromisoformat(fields["date"])
     except ValueError as exc:
@@ -103,6 +109,7 @@ def parse_front_matter(text: str, name: str) -> Article:
         order=int(fields.get("order") or "0"),
         body=body.strip() + "\n",
         source_name=name,
+        schema=schema,
     )
 
 
@@ -393,14 +400,16 @@ def render_index(articles: list[Article]) -> str:
 </section>
 </main>
 """
+    meta = page_meta("articles", "en")
     return page_shell(
-        title="Articles — DALgo",
-        description="Articles on why to use DALgo, and when a direct database driver or another tool is the better choice.",
+        title=meta["title"],
+        description=meta["description"],
         canonical=f"{SITE}/articles/",
         og_type="website",
         main=main,
         context_label="Articles",
         context_href="/articles/",
+        extra_head=breadcrumb_script([("DALgo", f"{SITE}/"), ("Articles", f"{SITE}/articles/")]),
     )
 
 
@@ -419,16 +428,13 @@ def render_article(article: Article, articles: list[Article]) -> str:
             f'<li><a href="{item.url_path}">{html.escape(item.title)}</a></li>' for item in others
         )
         related = f'<aside class="article-related"><h2>More articles</h2><ul>{links}</ul></aside>'
-    json_ld = (
-        '{"@context":"https://schema.org","@type":"Article",'
-        f'"headline":{json_string(article.title)},'
-        f'"description":{json_string(article.description)},'
-        f'"datePublished":"{article.iso_date}",'
-        f'"dateModified":"{article.iso_date}",'
-        f'"mainEntityOfPage":"{article.canonical}",'
-        '"author":{"@type":"Organization","name":"DALgo contributors","url":"https://dalgo.io/"},'
-        '"publisher":{"@type":"Organization","name":"DALgo","url":"https://dalgo.io/"}}'
-    )
+    blocks = [tech_article_ld(article) if article.schema == "techarticle" else article_ld(article)]
+    if article.schema == "techarticle":
+        blocks.append(breadcrumb_ld(article))
+    faq = extract_faq(article.body)
+    if faq:
+        blocks.append(faq_ld(faq))
+    json_ld = "\n".join(f'<script type="application/ld+json">{block}</script>' for block in blocks)
     main = f"""<main id="top">
 <article class="article">
   <header class="article-header">
@@ -443,7 +449,7 @@ def render_article(article: Article, articles: list[Article]) -> str:
   {related}
   <p class="article-source">Source file: <a href="https://github.com/dal-go/dalgo-io/blob/main/content/articles/{html.escape(article.source_name)}"><code>content/articles/{html.escape(article.source_name)}</code></a></p>
 </article>
-<script type="application/ld+json">{json_ld}</script>
+{json_ld}
 </main>
 """
     return page_shell(
@@ -460,6 +466,120 @@ def render_article(article: Article, articles: list[Article]) -> str:
 
 def json_string(value: str) -> str:
     return '"' + value.replace("\\", "\\\\").replace('"', '\\"') + '"'
+
+
+def article_ld(article: Article) -> str:
+    return (
+        '{"@context":"https://schema.org","@type":"Article",'
+        f'"headline":{json_string(article.title)},'
+        f'"description":{json_string(article.description)},'
+        f'"datePublished":"{article.iso_date}",'
+        f'"dateModified":"{article.iso_date}",'
+        f'"mainEntityOfPage":"{article.canonical}",'
+        '"author":{"@type":"Organization","name":"DALgo contributors","url":"https://dalgo.io/"},'
+        '"publisher":{"@type":"Organization","name":"DALgo","url":"https://dalgo.io/"}}'
+    )
+
+
+def ld_json(payload: object) -> str:
+    return json.dumps(payload, ensure_ascii=False, separators=(",", ":")).replace("<", "\\u003c")
+
+
+def tech_article_ld(article: Article) -> str:
+    return ld_json(
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": article.title,
+            "description": article.description,
+            "datePublished": article.iso_date,
+            "dateModified": article.iso_date,
+            "inLanguage": "en",
+            "mainEntityOfPage": article.canonical,
+            "dependencies": "Go",
+            "author": {"@type": "Organization", "name": "DALgo contributors", "url": "https://dalgo.io/"},
+            "publisher": {"@type": "Organization", "name": "DALgo", "url": "https://dalgo.io/"},
+        }
+    )
+
+
+def breadcrumb_ld(article: Article) -> str:
+    return ld_json(
+        {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {"@type": "ListItem", "position": 1, "name": "DALgo", "item": "https://dalgo.io/"},
+                {"@type": "ListItem", "position": 2, "name": "Articles", "item": "https://dalgo.io/articles/"},
+                {"@type": "ListItem", "position": 3, "name": article.title, "item": article.canonical},
+            ],
+        }
+    )
+
+
+def faq_ld(items: list[tuple[str, str]]) -> str:
+    return ld_json(
+        {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": question,
+                    "acceptedAnswer": {"@type": "Answer", "text": answer},
+                }
+                for question, answer in items
+            ],
+        }
+    )
+
+
+def plain_text(text: str) -> str:
+    text = re.sub(r"`([^`]*)`", r"\1", text)
+    text = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", text)
+    text = text.replace("**", "")
+    text = re.sub(r"(?<!\*)\*([^*\n]+)\*(?!\*)", r"\1", text)
+    return " ".join(text.split())
+
+
+def extract_faq(markdown: str) -> list[tuple[str, str]]:
+    """Questions under an h2 named FAQ, through the next h2."""
+    lines = markdown.replace("\r\n", "\n").split("\n")
+    items: list[tuple[str, str]] = []
+    in_faq = False
+    in_fence = False
+    question: str | None = None
+    answer: list[str] = []
+
+    def flush() -> None:
+        nonlocal question, answer
+        if question:
+            text = plain_text(" ".join(answer))
+            if text:
+                items.append((question, text))
+        question = None
+        answer = []
+
+    for line in lines:
+        if line.startswith("```"):
+            in_fence = not in_fence
+            continue
+        if in_fence:
+            continue
+        if line.startswith("## ") and not line.startswith("###"):
+            flush()
+            in_faq = plain_text(line[3:]).lower() in {"faq", "frequently asked questions"}
+            continue
+        if not in_faq:
+            continue
+        if line.startswith("### "):
+            flush()
+            question = plain_text(line[4:])
+            continue
+        if question and line.strip():
+            answer.append(line.strip())
+    flush()
+    return items
 
 
 def render_tree(articles: list[Article], dest: Path) -> None:

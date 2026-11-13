@@ -13,8 +13,9 @@ TITLES = {
     "collections": ("Typed collections", "Типизированные коллекции"),
     "interfaces": ("Interfaces", "Интерфейсы"),
     "queries": ("Queries and schema", "Запросы и схема"),
-    "film": ("Swap the adapter", "Смените адаптер"),
+    "film": ("DALgo films", "Смените адаптер"),
     "datatug": ("DALgo and DataTug", "DALgo и DataTug"),
+    "about/tech-stack": ("Technology behind DALgo", "Технологии DALgo"),
 }
 UI = {
     "en": {"theme": "Theme", "system": "System", "light": "Light", "dark": "Dark", "docs": "Documentation", "more": "Read more", "language": "Language"},

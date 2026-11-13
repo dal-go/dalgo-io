@@ -4,18 +4,19 @@
 <meta charset="utf-8" />
 <script src="/theme.js"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Interfaces · DALgo</title>
-<meta name="description" content="Interfaces" />
+<title>DALgo interfaces — dal.DB, sessions, and transactions</title>
+<meta name="description" content="Every DALgo adapter implements dal.DB. Reads use ReadSession, writes use ReadwriteSession, and a transaction is a closure around that session." />
 <link rel="canonical" href="https://dalgo.io/interfaces/" />
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)" />
-<meta property="og:title" content="Interfaces · DALgo" />
-<meta property="og:description" content="Interfaces" />
+<meta property="og:title" content="DALgo interfaces — dal.DB, sessions, and transactions" />
+<meta property="og:description" content="Every DALgo adapter implements dal.DB. Reads use ReadSession, writes use ReadwriteSession, and a transaction is a closure around that session." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://dalgo.io/interfaces/" />
 <link rel="alternate" hreflang="en" href="https://dalgo.io/interfaces/" />
 <link rel="alternate" hreflang="ru" href="https://dalgo.io/ru/interfaces/" />
 <link rel="alternate" hreflang="x-default" href="https://dalgo.io/interfaces/" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"DALgo","item":"https://dalgo.io/"},{"@type":"ListItem","position":2,"name":"Interfaces","item":"https://dalgo.io/interfaces/"}]}</script>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230d1117'/><text x='50%25' y='52%25' text-anchor='middle' dominant-baseline='middle' font-family='ui-monospace,monospace' font-size='28' font-weight='700' fill='%232f81f7'>d/</text></svg>" />
 <link rel="stylesheet" href="/styles.css" />
 <script src="/analytics.js" defer></script>
@@ -53,7 +54,7 @@
     <div class="iface-grid">
       <div class="iface-prose">
         <p>
-          Every DALgo adapter — SQL, NoSQL, embedded, filesystem — implements the same <code>dal.DB</code> contract. Read operations live on <code>ReadSession</code>; mutating operations live on <code>ReadwriteSession</code>. Transactions are closures: pass a function, the driver gives you a session, your code never sees a driver-specific handle.
+          Every DALgo adapter — SQL, NoSQL, embedded, filesystem — implements the same <code>dal.DB</code> contract. Read operations live on <code>ReadSession</code>; mutating operations live on <code>ReadwriteSession</code>. Transactions are closures: pass a function, the driver gives you a session, your code never sees a driver-specific handle. A repository in front of that handle is <a href="/articles/go-repository-pattern/">Repository pattern in Go with a swappable storage backend</a>.
         </p>
         <div class="Flash">
           <svg class="octicon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
@@ -122,7 +123,7 @@
     </ul>
     <span class="AppFooter-tag">Open-source documentation site. No accounts, no advertising.</span>
   </div>
-<nav class="topic-footer container" data-topic-footer aria-label="Documentation"><a href="/go/">DALgo for Go</a><a href="/typescript/">DALgo for TypeScript</a><a href="/quickstart/">Quick Start</a><a href="/adapters/">Adapters and runtime support</a><a href="/why/">Why DALgo</a><a href="/collections/">Typed collections</a><a href="/interfaces/">Interfaces</a><a href="/queries/">Queries and schema</a><a href="/film/">Swap the adapter</a><a href="/datatug/">DALgo and DataTug</a><a href="/articles/">Articles</a><a href="/tugql/">TugQL</a></nav></footer>
+<nav class="topic-footer container" data-topic-footer aria-label="Documentation"><a href="/go/">DALgo for Go</a><a href="/typescript/">DALgo for TypeScript</a><a href="/quickstart/">Quick Start</a><a href="/adapters/">Adapters and runtime support</a><a href="/why/">Why DALgo</a><a href="/collections/">Typed collections</a><a href="/interfaces/">Interfaces</a><a href="/queries/">Queries and schema</a><a href="/film/">DALgo films</a><a href="/datatug/">DALgo and DataTug</a><a href="/about/tech-stack/">Technology behind DALgo</a><a href="/articles/">Articles</a><a href="/tugql/">TugQL</a></nav></footer>
 
 <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 <div class="site-feedback"><button type="button" data-feedback-launcher aria-haspopup="dialog" hidden><svg class="feedback-mark" aria-hidden="true" focusable="false" viewBox="0 0 64 64"><rect width="64" height="64" rx="18" fill="#d4ef83"/><path d="M18 46 46 18M20 18h26v26" fill="none" stroke="#202c2a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>Suggest an improvement</button></div>

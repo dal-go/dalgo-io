@@ -36,6 +36,8 @@ func GetUser(ctx context.Context, db dal.DB, id string) (User, error) {
 
 That function is the same whether `db` was opened with the in-memory adapter, Firestore, SQL, or a filesystem. The core README shows the same shape against `database/sql`, where the function knows the table, the placeholder, and `sql.ErrNoRows`. The DALgo version knows a collection name and an id. Missing rows come back through `dal.IsNotFound`.
 
+Putting a smaller interface in front of `dal.DB`, so tests and production pass the same repository type, is the subject of [Repository pattern in Go with a swappable storage backend](/articles/go-repository-pattern/).
+
 Keys can be hierarchical (`countries/ireland/cities/dublin`), which is the natural shape for Firestore-style data and also how a SQL adapter maps a parent into columns. Queries are a structured builder — filters, order, limit, projection, grouping, aggregates, inner and left equi-joins — plus [TugQL](/tugql/), a YAML serialization of that query so a saved query can round-trip without being a string of SQL dialect.
 
 Transactions are callbacks. The adapter owns begin, commit, retry, and rollback. The callback receives a session and returns an error.
@@ -104,6 +106,8 @@ The two implementations are not drop-in ports of each other. The TypeScript READ
 DALgo is MIT-licensed. The core repository asks contributors to keep the public API stable under semantic versioning, and it still publishes v0 releases (the core README and downstream `go.mod` files in October 2026 pin versions in the v0.9x line, and not all on the same patch). Pin the module. Read the adapter README for the dialect and the error you will actually get.
 
 If the code you are about to write will run against more than one of these backends, including a memory stand-in in tests, the interface is the thing you are buying: less driver boilerplate, one policy and validation pipeline, and a compile-time reminder that writes happen inside a transaction. If the code exists to use one engine's own language as far as it will go, read the next article before adding the dependency.
+
+The definition of the layer, with compilable adapter wiring and a comparison against `database/sql`, sqlx, GORM, ent, and sqlc, is in [Database abstraction layer in Go: what it is and when you need one](/articles/go-database-abstraction-layer/). [DALgo vs GORM: a gorm alternative](/articles/dalgo-vs-gorm/) is the GORM half of that comparison.
 
 ## Sources
 

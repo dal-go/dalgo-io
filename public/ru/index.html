@@ -5,11 +5,11 @@
 <script src="/theme.js"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>DALgo — слой абстракции баз данных для Go и TypeScript</title>
-<meta name="description" content="DALgo — слой абстракции баз данных для Go и TypeScript. Один интерфейс — много баз данных: память, SQL, Firestore, файлы, inGitDB, OpenVaultDB. Модуль для Go — основная реализация; пакет для TypeScript, @dalgo/core, опубликован в npm." />
+<meta name="description" content="DALgo — слой абстракции баз данных для Go и TypeScript. Один интерфейс описывает записи, запросы и транзакции, а с каждой базой говорит адаптер." />
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)" />
 <meta property="og:title" content="DALgo — слой абстракции баз данных для Go и TypeScript" />
-<meta property="og:description" content="Один интерфейс. Много баз данных. Код на Go и TypeScript, не привязанный к хранилищу." />
+<meta property="og:description" content="DALgo — слой абстракции баз данных для Go и TypeScript. Один интерфейс описывает записи, запросы и транзакции, а с каждой базой говорит адаптер." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://dalgo.io/ru/" />
 <meta property="og:site_name" content="DALgo" />
@@ -22,6 +22,7 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230d1117'/><text x='50%25' y='52%25' text-anchor='middle' dominant-baseline='middle' font-family='ui-monospace,monospace' font-size='28' font-weight='700' fill='%232f81f7'>d/</text></svg>" />
 <link rel="stylesheet" href="/styles.css" />
 <script src="/analytics.js" defer></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://dalgo.io/#organization","name":"DALgo","url":"https://dalgo.io/","sameAs":["https://github.com/dal-go","https://github.com/dal-go/dalgo","https://github.com/dal-go/dalgo-js"]},{"@type":"WebSite","@id":"https://dalgo.io/#website","name":"DALgo","url":"https://dalgo.io/","inLanguage":["en","ru"],"publisher":{"@id":"https://dalgo.io/#organization"}},{"@type":"SoftwareSourceCode","name":"DALgo","description":"Database Abstraction Layer (DAL) in Go language","codeRepository":"https://github.com/dal-go/dalgo","programmingLanguage":"Go","license":"https://github.com/dal-go/dalgo/blob/main/LICENSE","url":"https://dalgo.io/go/","author":{"@id":"https://dalgo.io/#organization"}},{"@type":"SoftwareSourceCode","name":"@dalgo/core","description":"Database abstraction layer for TypeScript and browser applications","codeRepository":"https://github.com/dal-go/dalgo-js","programmingLanguage":"TypeScript","license":"https://github.com/dal-go/dalgo-js/blob/main/LICENSE","url":"https://dalgo.io/typescript/","author":{"@id":"https://dalgo.io/#organization"}}]}</script>
 <link rel="stylesheet" href="/theme.css" />
 <script src="/site.js" defer></script>
 </head>
@@ -129,7 +130,7 @@
     <header class="section-head">
       <span class="section-eyebrow">01 — Зачем нужен DAL</span>
       <h2 class="section-title">Хранилище — деталь, а не судьба.</h2>
-      <p class="section-kicker">Шесть причин, по которым разработчики берут DALgo с первого дня. Подробнее — в статье <a href="/articles/why-use-dalgo/">Why use DALgo</a>, а границы применимости — в <a href="/articles/when-to-use-dalgo/">When to use DALgo, and when not to</a> (обе на английском).</p>
+      <p class="section-kicker">Шесть причин, по которым разработчики берут DALgo с первого дня. Подробнее — в статье <a href="/articles/why-use-dalgo/">Why use DALgo</a>, а границы применимости — в <a href="/articles/when-to-use-dalgo/">When to use DALgo, and when not to</a>. Определение слоя — в <a href="/articles/go-database-abstraction-layer/">Database abstraction layer in Go</a> (все три на английском).</p>
     </header>
 
     <div class="why-grid">
@@ -421,7 +422,7 @@
 <div class="container"><a class="topic-link" href="/ru/quickstart/">Подробнее: Быстрый старт →</a></div></section>
 
 <!-- ============================ TYPESCRIPT ============================ -->
-<section id="go" class="section"><div class="container"><h2 class="section-title">DALgo для Go</h2><p>Используйте типизированные ключи, записи, коллекции и структурированные запросы в Go. Начните со встроенного адаптера в памяти, затем выберите адаптер по поддерживаемым операциям.</p><p><a href="https://github.com/dal-go/dalgo">Go source</a> · <a href="https://pkg.go.dev/github.com/dal-go/dalgo">Go API</a> · <a href="/ru/quickstart/">Быстрый старт</a></p></div><div class="container"><a class="topic-link" href="/ru/go/">Подробнее: DALgo для Go →</a></div></section>
+<section id="go" class="section"><div class="container"><h2 class="section-title">DALgo для Go</h2><p>Используйте типизированные ключи, записи, коллекции и структурированные запросы в Go. Начните со встроенного адаптера в памяти, затем выберите адаптер по поддерживаемым операциям. Определение этого слоя — в статье <a href="/articles/go-database-abstraction-layer/">Database abstraction layer in Go</a> (англ.).</p><p><a href="https://github.com/dal-go/dalgo">Go source</a> · <a href="https://pkg.go.dev/github.com/dal-go/dalgo">Go API</a> · <a href="/ru/quickstart/">Быстрый старт</a></p></div><div class="container"><a class="topic-link" href="/ru/go/">Подробнее: DALgo для Go →</a></div></section>
 <section id="typescript" class="section section-subtle">
   <div class="container">
     <header class="section-head">
@@ -476,7 +477,7 @@
     <header class="section-head">
       <span class="section-eyebrow">05 — Типизированные коллекции</span>
       <h2 class="section-title">Меньше церемоний для повседневного CRUD.</h2>
-      <p class="section-kicker"><code>dal.Collection[T]</code> возвращает типизированные значения поверх основного API. Поддерживаемые операции зависят от выбранного адаптера.</p>
+      <p class="section-kicker"><code>dal.Collection[T]</code> возвращает типизированные значения поверх основного API. Поддерживаемые операции зависят от выбранного адаптера. Как обернуть этот дескриптор в репозиторий — в статье <a href="/articles/go-repository-pattern/">Repository pattern in Go with a swappable storage backend</a> (англ.).</p>
     </header>
 
     <div class="codeblock" role="figure" aria-label="Пример: типизированная коллекция">
@@ -709,7 +710,7 @@
     <div class="iface-grid">
       <div class="iface-prose">
         <p>
-          Каждый адаптер DALgo — SQL, NoSQL, встраиваемый, файловый — реализует один и тот же контракт <code>dal.DB</code>. Операции чтения живут в <code>ReadSession</code>, операции изменения — в <code>ReadwriteSession</code>. Транзакции — это замыкания: вы передаёте функцию, драйвер даёт вам сессию, а ваш код никогда не видит дескриптор конкретного драйвера.
+          Каждый адаптер DALgo — SQL, NoSQL, встраиваемый, файловый — реализует один и тот же контракт <code>dal.DB</code>. Операции чтения живут в <code>ReadSession</code>, операции изменения — в <code>ReadwriteSession</code>. Транзакции — это замыкания: вы передаёте функцию, драйвер даёт вам сессию, а ваш код никогда не видит дескриптор конкретного драйвера. Репозиторий поверх этого контракта — в статье <a href="/articles/go-repository-pattern/">Repository pattern in Go with a swappable storage backend</a> (англ.).
         </p>
         <div class="Flash">
           <svg class="octicon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
@@ -852,7 +853,7 @@ records, err <span class="pl-k">:=</span> dal.<span class="pl-en">ExecuteQueryAn
     </ul>
     <span class="AppFooter-tag">Вдохновлено дизайн-системой Primer от GitHub. Не связано с GitHub.</span>
   </div>
-<nav class="topic-footer container" data-topic-footer aria-label="Документация"><a href="/ru/go/">DALgo для Go</a><a href="/ru/typescript/">DALgo для TypeScript</a><a href="/ru/quickstart/">Быстрый старт</a><a href="/ru/adapters/">Адаптеры и среды выполнения</a><a href="/ru/why/">Зачем DALgo</a><a href="/ru/collections/">Типизированные коллекции</a><a href="/ru/interfaces/">Интерфейсы</a><a href="/ru/queries/">Запросы и схема</a><a href="/ru/film/">Смените адаптер</a><a href="/ru/datatug/">DALgo и DataTug</a><a href="/articles/">Articles</a><a href="/tugql/">TugQL</a></nav></footer>
+<nav class="topic-footer container" data-topic-footer aria-label="Документация"><a href="/ru/go/">DALgo для Go</a><a href="/ru/typescript/">DALgo для TypeScript</a><a href="/ru/quickstart/">Быстрый старт</a><a href="/ru/adapters/">Адаптеры и среды выполнения</a><a href="/ru/why/">Зачем DALgo</a><a href="/ru/collections/">Типизированные коллекции</a><a href="/ru/interfaces/">Интерфейсы</a><a href="/ru/queries/">Запросы и схема</a><a href="/ru/film/">Смените адаптер</a><a href="/ru/datatug/">DALgo и DataTug</a><a href="/ru/about/tech-stack/">Технологии DALgo</a><a href="/articles/">Articles</a><a href="/tugql/">TugQL</a></nav></footer>
 
 <script src="/vendor/cytoscape-3.30.2.min.js" defer></script>
 <script defer>

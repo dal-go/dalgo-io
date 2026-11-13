@@ -34,15 +34,15 @@ needed for this site; the build job only verifies that the generated pages and
 articles match their sources. The `site-<source SHA>` artifact retains all asset files,
 including dotfiles, `_headers`, and `_redirects` when present.
 
-Automatic publication is disabled unless `CLOUDFLARE_DEPLOY_ENABLED` is `true`.
-When enabled, only a main push or manual dispatch on main publishes. A separate production
-job downloads the artifact from that same run, extracts it, and runs
+After a successful build, every push to `main` and every manual dispatch on
+`main` publishes the site. Pull requests only build and verify the site.
+A separate production job downloads the artifact from that same run, extracts it, and runs
 `npx --yes wrangler@4.135.0 deploy --config wrangler.jsonc`. It does not check out
 or rebuild source. The publish job verifies the recorded source SHA and archive
 SHA-256 before extracting. The workflow retains artifacts for 14 days and serializes
 production deployments.
 
-### CI credentials and activation
+### CI credentials
 
 Set the GitHub `CLOUDFLARE_API_TOKEN` secret (repository or `production`
 environment) to a token authorized to deploy this Worker and its declared
@@ -50,12 +50,8 @@ routes in the production Cloudflare account. `CLOUDFLARE_ACCOUNT_ID` is an
 optional GitHub variable; the workflow defaults to the public account identifier
 `01c8a86fc1064f063eb5dd9d101d7001`. Build jobs do not receive the token.
 
-Automatic production publication is **disabled** until scoped credentials are
-configured and the GitHub variable `CLOUDFLARE_DEPLOY_ENABLED` is set to `true`.
-First-run activation is **not executed**. Build artifacts remain available
-while the publish job is skipped. The landing owner can publish a verified
-GitHub build artifact using an authenticated local Wrangler session instead
-of copying an account credential into GitHub.
+The production job fails if the API token is missing. Build artifacts remain
+available for manual publication with an authenticated Wrangler session.
 
 After a verified artifact is published, record the run's source SHA, archive
 checksum, Wrangler version receipt, and public routes. Disable the old

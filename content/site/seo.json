@@ -1,0 +1,136 @@
+{
+  "go": {
+    "en": {
+      "title": "DALgo for Go — typed records, queries, and transactions",
+      "description": "DALgo for Go provides typed keys, records, collections, and structured queries. Begin with the built-in in-memory adapter, then choose a database adapter."
+    },
+    "ru": {
+      "title": "DALgo для Go — типизированные записи, запросы и транзакции",
+      "description": "DALgo для Go: типизированные ключи, записи, коллекции и структурированные запросы. Начните со встроенного адаптера в памяти и выберите адаптер базы."
+    }
+  },
+  "typescript": {
+    "en": {
+      "title": "DALgo for TypeScript — @dalgo/core and database adapters",
+      "description": "@dalgo/core is the TypeScript implementation of DALgo: hierarchical keys, typed collections, structured queries, and writes that run inside a transaction."
+    },
+    "ru": {
+      "title": "DALgo для TypeScript — пакет @dalgo/core и адаптеры",
+      "description": "@dalgo/core — реализация DALgo на TypeScript: иерархические ключи, типизированные коллекции, структурированные запросы и запись внутри транзакции."
+    }
+  },
+  "quickstart": {
+    "en": {
+      "title": "DALgo quick start — Go memory adapter and browser IndexedDB",
+      "description": "Install DALgo and write a record. Go starts with the built-in in-memory adapter. The TypeScript example stores data in IndexedDB in the browser."
+    },
+    "ru": {
+      "title": "Быстрый старт DALgo — память в Go и IndexedDB в браузере",
+      "description": "Установите DALgo и запишите данные. Для Go хватает встроенного адаптера в памяти. Пример на TypeScript хранит данные в IndexedDB в браузере."
+    }
+  },
+  "adapters": {
+    "en": {
+      "title": "DALgo adapter matrix — Go and TypeScript runtime support",
+      "description": "DALgo adapter matrix for Go and TypeScript: implementation status, documented limits, and the runtime each adapter documents for browser or server."
+    },
+    "ru": {
+      "title": "Адаптеры DALgo — поддержка Go, TypeScript и сред выполнения",
+      "description": "Таблица адаптеров DALgo для Go и TypeScript: статус реализации, ограничения и требования к среде — браузер или доверенный сервер."
+    }
+  },
+  "why": {
+    "en": {
+      "title": "Why DALgo — one interface across database adapters",
+      "description": "Why DALgo: domain code stays on one interface, tests can use the in-memory adapter, and hooks, logging, and transactions do not depend on the database."
+    },
+    "ru": {
+      "title": "Зачем DALgo — один интерфейс для разных баз данных",
+      "description": "Зачем DALgo: предметный код зависит от одного интерфейса, тесты могут использовать адаптер в памяти, а хуки, журнал и транзакции не привязаны к конкретной базе."
+    }
+  },
+  "collections": {
+    "en": {
+      "title": "DALgo typed collections — everyday CRUD that returns T",
+      "description": "A DALgo typed collection returns values as T for everyday reads and writes. Which operations run depends on the adapter behind the collection."
+    },
+    "ru": {
+      "title": "Типизированные коллекции DALgo — повседневный CRUD",
+      "description": "Типизированная коллекция DALgo возвращает значения типа T для обычных чтений и записей. Набор операций зависит от выбранного адаптера."
+    }
+  },
+  "interfaces": {
+    "en": {
+      "title": "DALgo interfaces — dal.DB, sessions, and transactions",
+      "description": "Every DALgo adapter implements dal.DB. Reads use ReadSession, writes use ReadwriteSession, and a transaction is a closure around that session."
+    },
+    "ru": {
+      "title": "Интерфейсы DALgo — dal.DB, сессии и транзакции",
+      "description": "Каждый адаптер DALgo реализует dal.DB. Чтение идёт через ReadSession, изменение через ReadwriteSession, а транзакция — это замыкание над сессией."
+    }
+  },
+  "queries": {
+    "en": {
+      "title": "DALgo queries — filters, joins, aggregates, and nested keys",
+      "description": "DALgo queries filter, sort, limit, project, group, and join. Nested keys scope a collection. A feature the adapter lacks returns dal.ErrNotSupported."
+    },
+    "ru": {
+      "title": "Запросы DALgo — фильтры, соединения и вложенные ключи",
+      "description": "Запросы DALgo фильтруют, сортируют, ограничивают, проецируют, группируют и соединяют данные. Недоступная адаптеру возможность возвращает dal.ErrNotSupported."
+    }
+  },
+  "film": {
+    "en": {
+      "title": "DALgo films — one interface, then swap the adapter",
+      "description": "Two short DALgo films: a pitch for one Go interface across databases, and a walkthrough that swaps the adapter. Play loads the video from YouTube."
+    },
+    "ru": {
+      "title": "Фильм DALgo — тот же код, другой адаптер",
+      "description": "Короткий фильм DALgo на русском: тот же код и другой адаптер. Видео с YouTube загружается только после нажатия кнопки воспроизведения."
+    }
+  },
+  "datatug": {
+    "en": {
+      "title": "DALgo and DataTug — the data-access seam in development",
+      "description": "DALgo is the data-access seam used while building DataTug. DataTug explores schemas and queries; storage access stays behind the DALgo interface."
+    },
+    "ru": {
+      "title": "DALgo и DataTug — шов доступа к данным в разработке",
+      "description": "DALgo — шов доступа к данным в разработке DataTug. DataTug помогает изучать схемы и запросы, а доступ к хранилищу идёт через интерфейс DALgo."
+    }
+  },
+  "about/tech-stack": {
+    "en": {
+      "title": "DALgo tech stack — Go, TypeScript and the static website",
+      "description": "How DALgo is built: Go and TypeScript libraries with database adapters, a Python-rendered documentation site, and Cloudflare Workers hosting."
+    },
+    "ru": {
+      "title": "Технологии DALgo — Go, TypeScript и статический сайт",
+      "description": "Как устроен DALgo: библиотеки Go и TypeScript с адаптерами баз данных, документация, собранная на Python, и размещение в Cloudflare Workers."
+    }
+  },
+  "articles": {
+    "en": {
+      "title": "DALgo articles — when the abstraction helps, and when it does not",
+      "description": "Notes on DALgo for Go and TypeScript: what the shared record and transaction interface is for, and when a database driver should stay in charge."
+    }
+  },
+  "privacy": {
+    "en": {
+      "title": "Privacy on dalgo.io — analytics and your choice",
+      "description": "dalgo.io is a static documentation site with no accounts. This page explains Google Analytics, the regional consent choice, and how to change it."
+    }
+  },
+  "tugql": {
+    "en": {
+      "title": "TugQL — YAML serialization of dal.StructuredQuery · DALgo",
+      "description": "TugQL is a 1:1, lossless, human-readable YAML serialization of dalgo's dal.StructuredQuery. Published with a JSON Schema (draft 2020-12) and validated examples."
+    }
+  },
+  "tugql/examples": {
+    "en": {
+      "title": "TugQL examples — YAML documents for dal.StructuredQuery",
+      "description": "Example TugQL documents: human-readable YAML for dal.StructuredQuery. Each file is checked against the published TugQL JSON Schema."
+    }
+  }
+}

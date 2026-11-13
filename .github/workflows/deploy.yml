@@ -62,19 +62,10 @@ jobs:
           if-no-files-found: error
           retention-days: 14
           compression-level: 0
-      - name: Report artifact availability
-        if: vars.CLOUDFLARE_DEPLOY_ENABLED != 'true'
-        run: |
-          {
-            echo '### Website artifact built'
-            echo "Artifact: site-$GITHUB_SHA"
-            echo 'Automatic publication is disabled (CLOUDFLARE_DEPLOY_ENABLED is not true).'
-            echo 'The landing owner can download this artifact and publish it with authenticated Wrangler without rebuilding.'
-          } >> "$GITHUB_STEP_SUMMARY"
 
   deploy:
     needs: build
-    if: vars.CLOUDFLARE_DEPLOY_ENABLED == 'true' && github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     environment: production

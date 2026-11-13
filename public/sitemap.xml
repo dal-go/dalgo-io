@@ -13,6 +13,18 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://dalgo.io/"/>
   </url>
   <url>
+    <loc>https://dalgo.io/about/tech-stack/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dalgo.io/about/tech-stack/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dalgo.io/ru/about/tech-stack/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dalgo.io/about/tech-stack/"/>
+  </url>
+  <url>
+    <loc>https://dalgo.io/ru/about/tech-stack/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dalgo.io/about/tech-stack/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dalgo.io/ru/about/tech-stack/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dalgo.io/about/tech-stack/"/>
+  </url>
+  <url>
     <loc>https://dalgo.io/adapters/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://dalgo.io/adapters/"/>
     <xhtml:link rel="alternate" hreflang="ru" href="https://dalgo.io/ru/adapters/"/>
@@ -26,6 +38,15 @@
   </url>
   <url>
     <loc>https://dalgo.io/articles/</loc>
+  </url>
+  <url>
+    <loc>https://dalgo.io/articles/dalgo-vs-gorm/</loc>
+  </url>
+  <url>
+    <loc>https://dalgo.io/articles/go-database-abstraction-layer/</loc>
+  </url>
+  <url>
+    <loc>https://dalgo.io/articles/go-repository-pattern/</loc>
   </url>
   <url>
     <loc>https://dalgo.io/articles/when-to-use-dalgo/</loc>

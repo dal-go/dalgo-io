@@ -5,11 +5,11 @@
 <script src="/theme.js"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>DALgo — database abstraction layer for Go and TypeScript</title>
-<meta name="description" content="DALgo is a database abstraction layer for Go and TypeScript. One interface, many databases — in-memory, SQL, Firestore, files, inGitDB, OpenVaultDB. The Go module is the main implementation; the TypeScript package @dalgo/core is on npm." />
+<meta name="description" content="DALgo is a database abstraction layer for Go and TypeScript. One interface covers records, queries, and transactions; adapters connect each database." />
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)" />
 <meta property="og:title" content="DALgo — database abstraction layer for Go and TypeScript" />
-<meta property="og:description" content="One interface. Many databases. Write storage-agnostic Go and TypeScript." />
+<meta property="og:description" content="DALgo is a database abstraction layer for Go and TypeScript. One interface covers records, queries, and transactions; adapters connect each database." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://dalgo.io/" />
 <meta property="og:site_name" content="DALgo" />
@@ -22,6 +22,7 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230d1117'/><text x='50%25' y='52%25' text-anchor='middle' dominant-baseline='middle' font-family='ui-monospace,monospace' font-size='28' font-weight='700' fill='%232f81f7'>d/</text></svg>" />
 <link rel="stylesheet" href="/styles.css" />
 <script src="/analytics.js" defer></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://dalgo.io/#organization","name":"DALgo","url":"https://dalgo.io/","sameAs":["https://github.com/dal-go","https://github.com/dal-go/dalgo","https://github.com/dal-go/dalgo-js"]},{"@type":"WebSite","@id":"https://dalgo.io/#website","name":"DALgo","url":"https://dalgo.io/","inLanguage":["en","ru"],"publisher":{"@id":"https://dalgo.io/#organization"}},{"@type":"SoftwareSourceCode","name":"DALgo","description":"Database Abstraction Layer (DAL) in Go language","codeRepository":"https://github.com/dal-go/dalgo","programmingLanguage":"Go","license":"https://github.com/dal-go/dalgo/blob/main/LICENSE","url":"https://dalgo.io/go/","author":{"@id":"https://dalgo.io/#organization"}},{"@type":"SoftwareSourceCode","name":"@dalgo/core","description":"Database abstraction layer for TypeScript and browser applications","codeRepository":"https://github.com/dal-go/dalgo-js","programmingLanguage":"TypeScript","license":"https://github.com/dal-go/dalgo-js/blob/main/LICENSE","url":"https://dalgo.io/typescript/","author":{"@id":"https://dalgo.io/#organization"}}]}</script>
 <link rel="stylesheet" href="/theme.css" />
 <script src="/site.js" defer></script>
 </head>
@@ -107,12 +108,21 @@
 <section id="film" class="section">
   <div class="container">
     <header class="section-head">
-      <span class="section-eyebrow">Film</span>
-      <h2 class="section-title">Swap the adapter</h2>
-      <p class="section-kicker">A short film: the same code, a different adapter.</p>
+      <span class="section-eyebrow">Films</span>
+      <h2 class="section-title">One interface for every database</h2>
+      <p class="section-kicker">The short pitch: one Go interface, any database behind it.</p>
     </header>
-    <div class="film" data-film data-video-id="wtkqlcjfzQA" data-video-title="Swap the adapter">
-      <button class="film-play" type="button" lang="en" aria-label="Play the 1:45 film: Swap the adapter">
+    <div class="film" data-film data-video-id="w0ARYlWoG9g" data-video-title="One interface for every database">
+      <button class="film-play" type="button" lang="en" aria-label="Play the 1:19 film: One interface for every database">
+        <img src="/video/one-interface-en.webp" width="1280" height="720" alt="" decoding="async" />
+        <span class="film-play-icon"><svg viewBox="0 0 68 48" width="68" height="48" aria-hidden="true" focusable="false"><rect width="68" height="48" rx="12" fill="#0d1117" fill-opacity=".85"/><path d="M27 34V14l18 10-18 10Z" fill="#fff"/></svg></span>
+        <span class="film-duration" aria-hidden="true">1:19</span>
+      </button>
+    </div>
+    <h3 class="film-second-title">How it works: swap the adapter</h3>
+    <p class="film-second-kicker">A developer walkthrough: the same code, a different adapter.</p>
+    <div class="film" data-film data-video-id="wtkqlcjfzQA" data-video-title="How it works: swap the adapter">
+      <button class="film-play" type="button" lang="en" aria-label="Play the 1:45 film: How it works: swap the adapter">
         <img src="/video/poster-en.webp" width="1280" height="720" alt="" decoding="async" />
         <span class="film-play-icon"><svg viewBox="0 0 68 48" width="68" height="48" aria-hidden="true" focusable="false"><rect width="68" height="48" rx="12" fill="#0d1117" fill-opacity=".85"/><path d="M27 34V14l18 10-18 10Z" fill="#fff"/></svg></span>
         <span class="film-duration" aria-hidden="true">1:45</span>
@@ -120,7 +130,7 @@
     </div>
     <p class="film-note">Pressing play loads the video from YouTube (youtube-nocookie.com). Until then, the page makes no request to YouTube.</p>
   </div>
-<div class="container"><a class="topic-link" href="/film/">Read more: Swap the adapter →</a></div></section>
+<div class="container"><a class="topic-link" href="/film/">Read more: DALgo films →</a></div></section>
 <script src="/video.js" defer></script>
 
 <!-- ============================ WHY ============================ -->
@@ -129,7 +139,7 @@
     <header class="section-head">
       <span class="section-eyebrow">01 — Why a DAL</span>
       <h2 class="section-title">Storage is a detail, not a destiny.</h2>
-      <p class="section-kicker">Six reasons developers reach for DALgo on day one. The longer case is <a href="/articles/why-use-dalgo/">Why use DALgo</a>, and the limits are in <a href="/articles/when-to-use-dalgo/">When to use DALgo, and when not to</a>.</p>
+      <p class="section-kicker">Six reasons developers reach for DALgo on day one. The longer case is <a href="/articles/why-use-dalgo/">Why use DALgo</a>, and the limits are in <a href="/articles/when-to-use-dalgo/">When to use DALgo, and when not to</a>. What the layer is: <a href="/articles/go-database-abstraction-layer/">Database abstraction layer in Go</a>.</p>
     </header>
 
     <div class="why-grid">
@@ -421,7 +431,7 @@
 <div class="container"><a class="topic-link" href="/quickstart/">Read more: Quick Start →</a></div></section>
 
 <!-- ============================ TYPESCRIPT ============================ -->
-<section id="go" class="section"><div class="container"><h2 class="section-title">DALgo for Go</h2><p>Use typed keys, records, collections and structured queries in Go. Start locally with the built-in in-memory adapter, then choose a database adapter by its supported operations.</p><p><a href="https://github.com/dal-go/dalgo">Go source</a> · <a href="https://pkg.go.dev/github.com/dal-go/dalgo">Go API</a> · <a href="/quickstart/">Quick Start</a></p></div><div class="container"><a class="topic-link" href="/go/">Read more: DALgo for Go →</a></div></section>
+<section id="go" class="section"><div class="container"><h2 class="section-title">DALgo for Go</h2><p>Use typed keys, records, collections and structured queries in Go. Start locally with the built-in in-memory adapter, then choose a database adapter by its supported operations. The definition of that layer is <a href="/articles/go-database-abstraction-layer/">Database abstraction layer in Go</a>.</p><p><a href="https://github.com/dal-go/dalgo">Go source</a> · <a href="https://pkg.go.dev/github.com/dal-go/dalgo">Go API</a> · <a href="/quickstart/">Quick Start</a></p></div><div class="container"><a class="topic-link" href="/go/">Read more: DALgo for Go →</a></div></section>
 <section id="typescript" class="section section-subtle">
   <div class="container">
     <header class="section-head">
@@ -476,7 +486,7 @@
     <header class="section-head">
       <span class="section-eyebrow">05 — Typed collections</span>
       <h2 class="section-title">Less ceremony for everyday CRUD.</h2>
-      <p class="section-kicker">A generic <code>dal.Collection[T]</code> handle returns typed values. It layers typed helpers over the core API; supported operations depend on the selected adapter.</p>
+      <p class="section-kicker">A generic <code>dal.Collection[T]</code> handle returns typed values. It layers typed helpers over the core API; supported operations depend on the selected adapter. Wrapping that handle in a repository is <a href="/articles/go-repository-pattern/">Repository pattern in Go with a swappable storage backend</a>.</p>
     </header>
 
     <div class="codeblock" role="figure" aria-label="Example: typed collection">
@@ -709,7 +719,7 @@
     <div class="iface-grid">
       <div class="iface-prose">
         <p>
-          Every DALgo adapter — SQL, NoSQL, embedded, filesystem — implements the same <code>dal.DB</code> contract. Read operations live on <code>ReadSession</code>; mutating operations live on <code>ReadwriteSession</code>. Transactions are closures: pass a function, the driver gives you a session, your code never sees a driver-specific handle.
+          Every DALgo adapter — SQL, NoSQL, embedded, filesystem — implements the same <code>dal.DB</code> contract. Read operations live on <code>ReadSession</code>; mutating operations live on <code>ReadwriteSession</code>. Transactions are closures: pass a function, the driver gives you a session, your code never sees a driver-specific handle. A repository in front of that handle is <a href="/articles/go-repository-pattern/">Repository pattern in Go with a swappable storage backend</a>.
         </p>
         <div class="Flash">
           <svg class="octicon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
@@ -852,7 +862,7 @@ records, err <span class="pl-k">:=</span> dal.<span class="pl-en">ExecuteQueryAn
     </ul>
     <span class="AppFooter-tag">Inspired by GitHub's Primer design system. Not affiliated with GitHub.</span>
   </div>
-<nav class="topic-footer container" data-topic-footer aria-label="Documentation"><a href="/go/">DALgo for Go</a><a href="/typescript/">DALgo for TypeScript</a><a href="/quickstart/">Quick Start</a><a href="/adapters/">Adapters and runtime support</a><a href="/why/">Why DALgo</a><a href="/collections/">Typed collections</a><a href="/interfaces/">Interfaces</a><a href="/queries/">Queries and schema</a><a href="/film/">Swap the adapter</a><a href="/datatug/">DALgo and DataTug</a><a href="/articles/">Articles</a><a href="/tugql/">TugQL</a></nav></footer>
+<nav class="topic-footer container" data-topic-footer aria-label="Documentation"><a href="/go/">DALgo for Go</a><a href="/typescript/">DALgo for TypeScript</a><a href="/quickstart/">Quick Start</a><a href="/adapters/">Adapters and runtime support</a><a href="/why/">Why DALgo</a><a href="/collections/">Typed collections</a><a href="/interfaces/">Interfaces</a><a href="/queries/">Queries and schema</a><a href="/film/">DALgo films</a><a href="/datatug/">DALgo and DataTug</a><a href="/about/tech-stack/">Technology behind DALgo</a><a href="/articles/">Articles</a><a href="/tugql/">TugQL</a></nav></footer>
 
 <script src="/vendor/cytoscape-3.30.2.min.js" defer></script>
 <script defer>

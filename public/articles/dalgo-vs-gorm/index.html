@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script src="/theme.js"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>DALgo vs GORM: a gorm alternative — DALgo</title>
+<meta name="description" content="dalgo vs gorm: a gorm alternative and golang orm alternative for services that swap stores, and where GORM&#x27;s relational model is the better fit." />
+<link rel="canonical" href="https://dalgo.io/articles/dalgo-vs-gorm/" />
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)" />
+<meta property="og:title" content="DALgo vs GORM: a gorm alternative — DALgo" />
+<meta property="og:description" content="dalgo vs gorm: a gorm alternative and golang orm alternative for services that swap stores, and where GORM&#x27;s relational model is the better fit." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://dalgo.io/articles/dalgo-vs-gorm/" />
+<meta property="article:published_time" content="2026-11-09" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230d1117'/><text x='50%25' y='52%25' text-anchor='middle' dominant-baseline='middle' font-family='ui-monospace,monospace' font-size='28' font-weight='700' fill='%232f81f7'>d/</text></svg>" />
+<link rel="stylesheet" href="/styles.css" />
+<script src="/analytics.js" defer></script>
+<link rel="stylesheet" href="/theme.css" />
+<script src="/site.js" defer></script>
+</head>
+<body>
+
+<header class="AppHeader" role="banner">
+  <div class="AppHeader-inner">
+    <a class="AppHeader-brand" href="/" aria-label="DALgo home">
+      <span class="AppHeader-brand-mark" aria-hidden="true">
+        <span class="brand-dal">DAL</span><span class="brand-go">go</span>
+      </span>
+    </a>
+
+
+
+    <nav class="AppHeader-nav" aria-label="Documentation"><a href="/go/">Go</a><a href="/typescript/">TypeScript</a><a href="/adapters/">Adapters</a><a href="/quickstart/">Quick Start</a></nav>
+
+    <div class="AppHeader-actions"><label class="theme-control" data-theme-control hidden><span aria-hidden="true">◐</span><select data-theme-switch aria-label="Theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label>
+
+    </div>
+  </div>
+</header>
+
+<main id="top">
+<article class="article">
+  <header class="article-header">
+    <p class="article-kicker"><a href="/articles/">Articles</a></p>
+    <h1>DALgo vs GORM: a gorm alternative</h1>
+    <p class="article-meta"><time datetime="2026-11-09">9 November 2026</time></p>
+    <p class="article-standfirst">GORM is a full-featured object-relational mapper for the relational databases its guide names. DALgo is a database abstraction layer for the same record calls on SQL and on other stores, including memory and Firestore.</p>
+  </header>
+  <nav class="Box toc" aria-label="On this page"><strong>On this page</strong><ol><li><a href="#what-each-project-says-it-is">What each project says it is</a></li>
+<li><a href="#the-same-four-operations-two-call-shapes">The same four operations, two call shapes</a></li>
+<li><a href="#where-the-documented-designs-diverge">Where the documented designs diverge</a></li>
+<li><a href="#where-gorm-is-the-better-fit">Where GORM is the better fit</a></li>
+<li><a href="#where-dalgo-is-the-better-fit">Where DALgo is the better fit</a></li>
+<li><a href="#faq">FAQ</a></li>
+<li><a href="#sources">Sources</a></li></ol></nav>
+  <div class="article-prose">
+<p><a href="https://gorm.io/docs/" rel="noopener">GORM</a> is an object-relational mapper for the <a href="https://go.dev/" rel="noopener">Go</a> programming language: a library that turns Go values into rows of a relational database and back. ORM is short for <a href="https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping" rel="noopener">object-relational mapper</a>. <a href="/">DALgo</a> is an <a href="https://github.com/dal-go/dalgo" rel="noopener">open-source</a> database abstraction layer for Go and TypeScript; the Go module is <a href="https://github.com/dal-go/dalgo" rel="noopener"><code>github.com/dal-go/dalgo</code></a>. DAL is short for database abstraction layer: a library that sits between application code and a database, so the program can store and load records without calling one vendor&#x27;s client. <a href="/articles/go-database-abstraction-layer/">Database abstraction layer in Go</a> is that definition for this project, and <a href="https://en.wikipedia.org/wiki/Database_abstraction_layer" rel="noopener">Wikipedia</a> uses the same name. <a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete" rel="noopener">CRUD</a>, short for create, read, update, and delete, names the four record operations both libraries expose. <a href="https://en.wikipedia.org/wiki/SQL" rel="noopener">SQL</a>, short for Structured Query Language, is the language relational databases use for queries.</p>
+<p>Readers comparing dalgo vs gorm are usually choosing a gorm alternative, or a golang orm alternative, for a Go service. Those phrases point at different jobs, and this page keeps them apart. <a href="/articles/go-database-abstraction-layer/">Database abstraction layer in Go: what it is and when you need one</a> defines the layer and lines DALgo up with <code>database/sql</code>, sqlx, GORM, ent, and sqlc. <a href="/articles/go-repository-pattern/">Repository pattern in Go with a swappable storage backend</a> puts a smaller interface in front of <a href="https://pkg.go.dev/github.com/dal-go/dalgo/dal#DB" rel="noopener"><code>dal.DB</code></a>. <a href="/articles/why-use-dalgo/">Why use DALgo</a> is the project case, and <a href="/articles/when-to-use-dalgo/">When to use DALgo, and when not to</a> is the limit list. The Go overview is <a href="/go/">/go/</a>, the handle is <a href="/interfaces/">/interfaces/</a>, typed collections are <a href="/collections/">/collections/</a>, and the support matrix is <a href="/adapters/">/adapters/</a>.</p>
+<p>Nothing below is a benchmark. There is no timing, no download count, and no claim about which library is faster.</p>
+<h2 id="what-each-project-says-it-is">What each project says it is</h2>
+<p>GORM&#x27;s guide calls it <a href="https://gorm.io/docs/index.html" rel="noopener">&quot;The fantastic ORM library for Golang&quot;</a> and lists a full-featured ORM. The same page names associations (Has One, Has Many, Belongs To, Many To Many, polymorphism, single-table inheritance), hooks, eager loading with <code>Preload</code> and <code>Joins</code>, transactions including nested transactions and savepoints, a SQL builder, upsert, locking, auto migrations, a logger, and a generics API for type-safe queries from v1.30.0. The <a href="https://gorm.io/docs/index.html" rel="noopener">quick start</a> installs <code>gorm.io/gorm</code> and a driver. The sample driver is SQLite. The handle the sample keeps is <code>*gorm.DB</code>.</p>
+<p>DALgo&#x27;s README calls the project a database abstraction layer for Go applications: one API for records, queries, transactions, hooks, and schema-aware key mapping, with the storage backend left as an implementation choice. It is aimed at code that should stay independent of Firestore, SQL, or a test-only database. The same README says DALgo does not try to hide every database difference. An adapter returns <code>dal.ErrNotSupported</code> for a capability its backend cannot provide. The core module also contains a package named <a href="https://github.com/dal-go/dalgo/tree/main/orm" rel="noopener"><code>orm</code></a>. Its package comment says it maps collections and fields onto dal collection references and comparison conditions. That package is a mapping helper beside the <code>dal</code> API. The association model, auto migration, and <code>*gorm.DB</code> session in GORM&#x27;s guides are a different product.</p>
+<p>The TypeScript package <a href="https://github.com/dal-go/dalgo-js" rel="noopener"><code>@dalgo/core</code></a> follows the same idea in a separate codebase, for a browser or Node program. GORM&#x27;s guides describe a Go library. The samples on this page are Go.</p>
+<h2 id="the-same-four-operations-two-call-shapes">The same four operations, two call shapes</h2>
+<p>GORM&#x27;s traditional quick start opens SQLite, runs <code>AutoMigrate</code>, and then creates, reads, updates, and deletes a <code>Product</code>. The block below is that sequence with one of the two reads the page shows. The guide also shows a generics form, <code>gorm.G[Product](db)</code>, for GORM v1.30.0 and later. This site did not execute the sample.</p>
+<div class="codeblock"><div class="codeblock-head"><span class="codeblock-name">example.go</span><span class="codeblock-lang">Go</span></div><pre><code>package main
+
+import (
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
+)
+
+type Product struct {
+	gorm.Model
+	Code  string
+	Price uint
+}
+
+func main() {
+	db, err := gorm.Open(sqlite.Open("test.db"), &amp;gorm.Config{})
+	if err != nil {
+		panic("failed to connect database")
+	}
+	db.AutoMigrate(&amp;Product{})
+	db.Create(&amp;Product{Code: "D42", Price: 100})
+	var product Product
+	db.First(&amp;product, "code = ?", "D42")
+	db.Model(&amp;product).Update("Price", 200)
+	db.Delete(&amp;product, 1)
+}</code></pre></div>
+<p><code>gorm.Model</code>, <a href="https://gorm.io/docs/models.html" rel="noopener">as the models guide defines it</a>, embeds <code>ID</code>, <code>CreatedAt</code>, <code>UpdatedAt</code>, and <code>DeletedAt</code>. The <a href="https://gorm.io/docs/delete.html" rel="noopener">delete guide</a> says a <code>gorm.DeletedAt</code> field turns <code>Delete</code> into a soft delete: the row stays, <code>DeletedAt</code> is set to the current time, and ordinary queries skip it. <code>db.Unscoped().Delete</code> is the permanent delete. The quick start&#x27;s <code>db.Delete(&amp;product, 1)</code> passes the primary key <code>1</code>.</p>
+<p>DALgo&#x27;s typed-collection sample in the core README is the matching create, read, update, and delete shape for one user record. <code>dal.CollectionOf</code> builds a session-less handle. <code>GetData</code> accepts a <code>dal.ReadSession</code>, and a <code>dal.DB</code> satisfies that. <code>SetByID</code> accepts a <code>dal.WriteSession</code>. A plain <code>dal.DB</code> is not a write session, so the write is a compile error unless it runs inside <code>RunReadwriteTransaction</code>. A missing record comes back as an error. The core README&#x27;s sample comment names <code>dal.IsNotFound</code>. The companion article&#x27;s tested listing calls <code>record.IsNotFound</code> from <a href="https://github.com/dal-go/record" rel="noopener"><code>github.com/dal-go/record</code></a> at the versions it pinned. Use the helper the module version you import documents.</p>
+<div class="codeblock"><div class="codeblock-head"><span class="codeblock-name">example.go</span><span class="codeblock-lang">Go</span></div><pre><code>package store
+
+import (
+	"context"
+
+	"github.com/dal-go/dalgo/dal"
+)
+
+type User struct {
+	Name  string
+	Email string
+}
+
+func (User) CollectionName() string { return "users" }
+
+var Users = dal.CollectionOf[string, User]()
+
+func LoadUser(ctx context.Context, db dal.DB, id string) (User, error) {
+	return Users.GetData(ctx, db, id)
+}
+
+func SaveUser(ctx context.Context, db dal.DB, id string, user User) error {
+	return db.RunReadwriteTransaction(ctx, func(ctx context.Context, tx dal.ReadwriteTransaction) error {
+		return Users.SetByID(ctx, tx, id, user)
+	})
+}</code></pre></div>
+<p><a href="/articles/go-database-abstraction-layer/">Database abstraction layer in Go</a> is the full listing, including memory, SQLite, Postgres, and Firestore openers. <code>go test</code> on that page, run on 7 November 2026, passed against <code>github.com/dal-go/dalgo</code> v0.101.4, <code>dalgo2sqlite</code> v0.6.1, <code>dalgo2sql</code> v0.32.2, and <code>record</code> v0.1.5, for the in-memory adapter and a temporary SQLite file. Postgres and Firestore constructors were compiled in that package and were not pointed at a live server. This page did not re-run that test. <a href="https://pkg.go.dev/github.com/dal-go/dalgo" rel="noopener">pkg.go.dev</a> listed v0.102.2 as the current module version on 9 November 2026. The path is still v0. Pin the version a service has actually run.</p>
+<p>In that tested SQL listing, the recordset named the key column <code>id</code>, and the other columns were the exported field names <code>Name</code> and <code>Email</code>. GORM&#x27;s <a href="https://gorm.io/docs/models.html" rel="noopener">models guide</a> uses a field named <code>ID</code> as the default primary key, pluralizes the struct name into a snake_case table name (<code>User</code> becomes <code>users</code>), and converts field names to snake_case column names.</p>
+<h2 id="where-the-documented-designs-diverge">Where the documented designs diverge</h2>
+<div class="article-table-wrap"><table class="article-table"><thead><tr><th></th><th><a href="https://gorm.io/docs/index.html" rel="noopener">GORM</a></th><th><a href="https://github.com/dal-go/dalgo" rel="noopener">DALgo</a></th></tr></thead><tbody><tr><td>What it says it is</td><td>A full-featured ORM for Go.</td><td>A database abstraction layer for records, queries, transactions, hooks, and schema-aware keys.</td></tr><tr><td>Databases the docs name</td><td><a href="https://gorm.io/docs/connecting_to_the_database.html" rel="noopener">MySQL, PostgreSQL, GaussDB, SQLite, SQL Server, TiDB, Oracle Database, and ClickHouse</a>. Other databases need a driver.</td><td>In-memory and filesystem adapters in the core module, plus separate modules for SQL engines and for other stores, including <a href="https://github.com/dal-go/dalgo2firestore" rel="noopener">Cloud Firestore</a>. The <a href="/adapters/">adapter matrix</a> is the inventory.</td></tr><tr><td>Several databases</td><td><a href="https://gorm.io/docs/dbresolver.html" rel="noopener">DBResolver</a> adds sources, replicas, read/write splitting, and load balancing. A transaction stays on the connection it started with.</td><td>One <code>dal.DB</code> is one adapter. A second store is a second handle, or a test that constructs a different adapter and passes it to the same function.</td></tr><tr><td>Associations</td><td>Has One, Has Many, Belongs To, Many To Many, polymorphism, and single-table inheritance, with <code>Preload</code> and <code>Joins</code>.</td><td>The README documents inner and left equi-joins on the structured query. It does not describe GORM&#x27;s association mode.</td></tr><tr><td>Schema changes</td><td><a href="https://gorm.io/docs/migration.html" rel="noopener"><code>AutoMigrate</code></a> creates tables, missing foreign keys, constraints, columns, and indexes. It can change a column&#x27;s type in the cases the guide lists. It will not delete unused columns.</td><td>The <code>ddl</code> package is the schema-modification API. The tested listing calls <code>ddl.CreateCollection</code> when the database implements <code>ddl.SchemaModifier</code>.</td></tr><tr><td>Hooks</td><td>Methods on the model, <code>func(*gorm.DB) error</code>, before and after create, save, update, delete, and find. An error stops the operation and rolls back the current transaction.</td><td>The README describes hooks for logging, validation, metrics, and other behavior. Validation and before-save hooks run in <code>dal.DB</code> before the adapter is entered.</td></tr><tr><td>Writes and transactions</td><td>Create, update, and delete <a href="https://gorm.io/docs/transactions.html" rel="noopener">run inside a transaction by default</a>. <code>SkipDefaultTransaction</code> turns that off. <code>db.Transaction</code> is the callback. Nested transactions, <code>Begin</code> / <code>Commit</code> / <code>Rollback</code>, and <code>SavePoint</code> / <code>RollbackTo</code> are documented.</td><td>A write on a plain <code>dal.DB</code> is a compile error. <code>RunReadwriteTransaction</code> is the callback. The README says options can carry an isolation-level request and a message.</td></tr></tbody></table></div>
+<p>Both libraries can sit on a SQL driver. GORM&#x27;s connecting guide says GORM uses <code>database/sql</code> for the pool, and <code>db.DB()</code> returns that <code>*sql.DB</code>. It also shows <code>gorm.Open</code> wrapping an existing <code>*sql.DB</code>. DALgo&#x27;s <a href="https://github.com/dal-go/dalgo2sql" rel="noopener"><code>dalgo2sql</code></a> is the adapter for <code>database/sql</code>. The shared SQL driver is the floor. The API above it is the choice.</p>
+<h2 id="where-gorm-is-the-better-fit">Where GORM is the better fit</h2>
+<p>Stay with GORM when the service is a relational model and the features below are the ones the team will call.</p>
+<p><strong>The database is one GORM documents, or several of them.</strong> The connecting guide&#x27;s list is MySQL, PostgreSQL, GaussDB, SQLite, SQL Server, TiDB, Oracle Database, and ClickHouse. TiDB is reached through the MySQL driver. The page says other databases need a driver you write. <a href="https://gorm.io/docs/dbresolver.html" rel="noopener">DBResolver</a> is the documented way to add sources and replicas, switch by table or struct, and split reads and writes. That plugin still speaks GORM&#x27;s dialectors. It is the right tool when every database in the process is one of those engines, including a read replica.</p>
+<p><strong>The model is associations, not a single collection.</strong> The <a href="https://gorm.io/docs/associations.html" rel="noopener">associations guide</a> saves associated rows on create, and Association Mode can find, append, replace, delete, clear, and count relations. Eager loading is <code>Preload</code> and <code>Joins</code>. DALgo&#x27;s README documents inner and left equi-joins in the structured query, and an adapter that cannot run a join returns <code>dal.ErrNotSupported</code>. A <code>User</code> with credit cards, languages, and a billing address, saved and loaded as associations, is the model GORM&#x27;s guide is written for.</p>
+<p><strong>Schema updates should follow the struct.</strong> <a href="https://gorm.io/docs/migration.html" rel="noopener"><code>AutoMigrate</code></a> creates missing tables, foreign keys, constraints, columns, and indexes, and it refuses to drop unused columns. The migrator interface covers tables, columns, views, constraints, and indexes, with notes for engines that lack an <code>ALTER</code> (SQLite gets a copy-and-rename; some MySQL versions get a different rename). DALgo&#x27;s tested <code>ddl.CreateCollection</code> helper creates the collection the listing names. It is the wrong stand-in for that migrator.</p>
+<p><strong>You want the conventions and the soft delete.</strong> <code>ID</code>, snake_case plural table names, snake_case columns, and <code>CreatedAt</code> / <code>UpdatedAt</code> are GORM&#x27;s defaults, overridable with tags. A <code>DeletedAt</code> field, included in <code>gorm.Model</code>, makes <code>Delete</code> a soft delete. DALgo&#x27;s README lists <code>DeleteByID</code> and <code>DeleteByKey</code> among collection writes and does not describe a <code>DeletedAt</code> field.</p>
+<p><strong>The SQL you need is on GORM&#x27;s feature list.</strong> The overview names a SQL builder, upsert, locking, optimizer and index hints, named arguments, and subqueries. The transaction guide adds nested transactions and savepoints. A reporting query that depends on those calls belongs on <code>*gorm.DB</code>. DALgo&#x27;s own limit, stated in the core README and walked through in <a href="/articles/when-to-use-dalgo/">When to use DALgo, and when not to</a>, is that a window function, a recursive common-table expression, or any other engine feature the adapter does not implement is a reason to call the driver.</p>
+<p>Use GORM for that service. Wrapping <code>*gorm.DB</code> in a small repository is still reasonable. The <a href="/articles/go-repository-pattern/">repository article</a> says so: <code>Get</code> and <code>Save</code> can be implemented with GORM when every deployment is one SQL database.</p>
+<h2 id="where-dalgo-is-the-better-fit">Where DALgo is the better fit</h2>
+<p>Use DALgo when the same Go functions must run against more than one store, and a test double counts.</p>
+<p>The core README states the case directly: keep application logic independent of a concrete database client, use the same record, query, and transaction shape across supported adapters, and test with the built-in in-memory adapter. The standard-library comparison on that README says the typed-collection function runs on Firestore, SQL, the filesystem, or the in-memory adapter. <a href="https://github.com/dal-go/dalgo/tree/main/adapters/dalgo2memory" rel="noopener"><code>dalgo2memory</code></a> ships in the core module for tests, examples, and local development. <a href="https://github.com/dal-go/dalgo2firestore" rel="noopener"><code>dalgo2firestore</code></a> is the Firestore adapter. <a href="https://github.com/dal-go/dalgo2sqlite" rel="noopener"><code>dalgo2sqlite</code></a> and <a href="https://github.com/dal-go/dalgo2postgres" rel="noopener"><code>dalgo2postgres</code></a> are the SQL engine modules the companion listing opens. The <a href="/adapters/">adapter matrix</a> is the list of what each backend implements. A module&#x27;s presence in the README is not a promise that it runs every query.</p>
+<p>That swap is the part this comparison hangs on. DBResolver&#x27;s guide shows sources and replicas opened with GORM dialectors, and the sample uses MySQL. DALgo&#x27;s README says the same typed-collection function runs on Firestore, SQL, the filesystem, or the in-memory adapter. A program that will only ever speak one engine&#x27;s SQL can keep GORM&#x27;s associations and <code>AutoMigrate</code>, which are the features that service would be using.</p>
+<p>DALgo&#x27;s write rule is the other concrete difference. Because <code>SetByID</code> requires a <code>dal.WriteSession</code>, a write cannot be handed a plain <code>dal.DB</code>. GORM&#x27;s default is also transactional: the transaction guide says create, update, and delete run inside a transaction, and <code>SkipDefaultTransaction</code> disables that. The difference a reviewer can see in DALgo is that the write session is a different type, so the mistake is a compile error. GORM&#x27;s guide makes the same protection the default behavior of <code>*gorm.DB</code>, and documents the switch that turns it off.</p>
+<p><code>dal.ErrNotSupported</code> is how an adapter declines a call. The core README prefers that to hiding the difference. A structured query the memory adapter runs can still return that error on another backend. Code that must run on two adapters has to stay inside the intersection, or handle the error on purpose. <a href="/queries/">Queries</a> and <a href="/tugql/">TugQL</a> are the structured form when a call needs more than a point read.</p>
+<p>The Go module is <a href="https://github.com/dal-go/dalgo/blob/main/LICENSE" rel="noopener">MIT-licensed</a>. GORM&#x27;s README says the project is released under the <a href="https://github.com/go-gorm/gorm/blob/master/LICENSE" rel="noopener">MIT License</a>. Both are public repositories: <a href="https://github.com/dal-go/dalgo" rel="noopener">dal-go/dalgo</a> and <a href="https://github.com/go-gorm/gorm" rel="noopener">go-gorm/gorm</a>.</p>
+<h2 id="faq">FAQ</h2>
+<h3 id="is-dalgo-a-gorm-alternative">Is DALgo a gorm alternative?</h3>
+<p>DALgo is a gorm alternative when the requirement is one Go API for create, read, update, and delete across more than one store, including a store that is not a relational database. GORM remains the better fit when the requirement is its association model, <code>AutoMigrate</code>, soft delete, or the SQL databases its connecting guide lists.</p>
+<h3 id="what-does-dalgo-vs-gorm-compare">What does dalgo vs gorm compare?</h3>
+<p>It compares two Go libraries that store and load records. GORM&#x27;s guides describe an object-relational mapper and a <code>*gorm.DB</code> opened through a driver. DALgo&#x27;s README describes a database abstraction layer: application code accepts <code>dal.DB</code>, and an adapter supplies the database. The <a href="/articles/go-database-abstraction-layer/">abstraction-layer article</a> is the longer definition.</p>
+<h3 id="is-a-golang-orm-alternative-the-same-request">Is a golang orm alternative the same request?</h3>
+<p>A golang orm alternative, meaning another object-relational mapper, is the request GORM and ent document. DALgo&#x27;s README calls the project a database abstraction layer. The <code>orm</code> package in the core module maps collections and fields onto collection references and comparison conditions. The Has One, Has Many, Belongs To, and Many To Many model lives in GORM&#x27;s associations guide.</p>
+<h3 id="when-should-a-service-stay-on-gorm">When should a service stay on GORM?</h3>
+<p>Stay when every deployment is a relational database GORM documents, including a replica reached through DBResolver, and the code uses associations, eager loading, auto migration, model conventions, or soft delete. A small repository can still hide <code>*gorm.DB</code> from HTTP handlers. The handlers then depend on <code>Get</code> and <code>Save</code>, and the package that calls <code>gorm.Open</code> depends on the driver.</p>
+<h3 id="can-the-same-dalgo-functions-use-memory-sqlite-and-firestore">Can the same DALgo functions use memory, SQLite, and Firestore?</h3>
+<p><code>LoadUser</code> and <code>SaveUser</code> above take <code>dal.DB</code>. The companion article ran that shape on <code>dalgo2memory</code> and on <code>dalgo2sqlite</code> after creating the table, and compiled an opener for <code>dalgo2firestore</code>. Firestore still has its own client lifecycle, and SQL still needs the table. A call the adapter cannot run returns <code>dal.ErrNotSupported</code>. The <a href="/adapters/">adapter matrix</a> is the checklist before promising a method on a backend.</p>
+<h2 id="sources">Sources</h2>
+<p>GORM&#x27;s public guides and DALgo&#x27;s public module docs, read on 9 November 2026. The DALgo <code>go test</code> date and versions are the ones reported in the companion article of 7 November 2026. This page did not re-run that test and did not execute the GORM sample.</p>
+<ul>
+<li><a href="https://gorm.io/docs/index.html" rel="noopener">GORM guides</a>, including the quick start, the <a href="https://gorm.io/docs/connecting_to_the_database.html" rel="noopener">connecting guide</a>, <a href="https://gorm.io/docs/models.html" rel="noopener">models</a>, <a href="https://gorm.io/docs/associations.html" rel="noopener">associations</a>, <a href="https://gorm.io/docs/hooks.html" rel="noopener">hooks</a>, <a href="https://gorm.io/docs/transactions.html" rel="noopener">transactions</a>, <a href="https://gorm.io/docs/migration.html" rel="noopener">migration</a>, <a href="https://gorm.io/docs/delete.html" rel="noopener">delete</a>, and <a href="https://gorm.io/docs/dbresolver.html" rel="noopener">DBResolver</a>.</li>
+<li><a href="https://github.com/go-gorm/gorm" rel="noopener">go-gorm/gorm</a> README, which states the <a href="https://github.com/go-gorm/gorm/blob/master/LICENSE" rel="noopener">MIT License</a>.</li>
+<li><a href="https://github.com/dal-go/dalgo" rel="noopener">dal-go/dalgo</a> README, including typed collections, <code>RunReadwriteTransaction</code>, <code>dal.ErrNotSupported</code>, and the <code>orm</code> package comment. License: <a href="https://github.com/dal-go/dalgo/blob/main/LICENSE" rel="noopener">MIT</a>. pkg.go.dev showed v0.102.2 on 9 November 2026.</li>
+<li><a href="https://github.com/dal-go/dalgo2sql" rel="noopener">dal-go/dalgo2sql</a>, <a href="https://github.com/dal-go/dalgo2sqlite" rel="noopener">dalgo2sqlite</a>, <a href="https://github.com/dal-go/dalgo2postgres" rel="noopener">dalgo2postgres</a>, <a href="https://github.com/dal-go/dalgo2firestore" rel="noopener">dalgo2firestore</a>.</li>
+<li><a href="/articles/go-database-abstraction-layer/">Database abstraction layer in Go</a> and <a href="/articles/go-repository-pattern/">Repository pattern in Go</a>.</li>
+</ul>
+  </div>
+  <aside class="article-related"><h2>More articles</h2><ul><li><a href="/articles/go-database-abstraction-layer/">Database abstraction layer in Go: what it is and when you need one</a></li>
+<li><a href="/articles/go-repository-pattern/">Repository pattern in Go with a swappable storage backend</a></li>
+<li><a href="/articles/why-use-dalgo/">Why use DALgo</a></li>
+<li><a href="/articles/when-to-use-dalgo/">When to use DALgo, and when not to</a></li></ul></aside>
+  <p class="article-source">Source file: <a href="https://github.com/dal-go/dalgo-io/blob/main/content/articles/dalgo-vs-gorm.md"><code>content/articles/dalgo-vs-gorm.md</code></a></p>
+</article>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"DALgo vs GORM: a gorm alternative","description":"dalgo vs gorm: a gorm alternative and golang orm alternative for services that swap stores, and where GORM's relational model is the better fit.","datePublished":"2026-11-09","dateModified":"2026-11-09","inLanguage":"en","mainEntityOfPage":"https://dalgo.io/articles/dalgo-vs-gorm/","dependencies":"Go","author":{"@type":"Organization","name":"DALgo contributors","url":"https://dalgo.io/"},"publisher":{"@type":"Organization","name":"DALgo","url":"https://dalgo.io/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"DALgo","item":"https://dalgo.io/"},{"@type":"ListItem","position":2,"name":"Articles","item":"https://dalgo.io/articles/"},{"@type":"ListItem","position":3,"name":"DALgo vs GORM: a gorm alternative","item":"https://dalgo.io/articles/dalgo-vs-gorm/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is DALgo a gorm alternative?","acceptedAnswer":{"@type":"Answer","text":"DALgo is a gorm alternative when the requirement is one Go API for create, read, update, and delete across more than one store, including a store that is not a relational database. GORM remains the better fit when the requirement is its association model, AutoMigrate, soft delete, or the SQL databases its connecting guide lists."}},{"@type":"Question","name":"What does dalgo vs gorm compare?","acceptedAnswer":{"@type":"Answer","text":"It compares two Go libraries that store and load records. GORM's guides describe an object-relational mapper and a *gorm.DB opened through a driver. DALgo's README describes a database abstraction layer: application code accepts dal.DB, and an adapter supplies the database. The abstraction-layer article is the longer definition."}},{"@type":"Question","name":"Is a golang orm alternative the same request?","acceptedAnswer":{"@type":"Answer","text":"A golang orm alternative, meaning another object-relational mapper, is the request GORM and ent document. DALgo's README calls the project a database abstraction layer. The orm package in the core module maps collections and fields onto collection references and comparison conditions. The Has One, Has Many, Belongs To, and Many To Many model lives in GORM's associations guide."}},{"@type":"Question","name":"When should a service stay on GORM?","acceptedAnswer":{"@type":"Answer","text":"Stay when every deployment is a relational database GORM documents, including a replica reached through DBResolver, and the code uses associations, eager loading, auto migration, model conventions, or soft delete. A small repository can still hide *gorm.DB from HTTP handlers. The handlers then depend on Get and Save, and the package that calls gorm.Open depends on the driver."}},{"@type":"Question","name":"Can the same DALgo functions use memory, SQLite, and Firestore?","acceptedAnswer":{"@type":"Answer","text":"LoadUser and SaveUser above take dal.DB. The companion article ran that shape on dalgo2memory and on dalgo2sqlite after creating the table, and compiled an opener for dalgo2firestore. Firestore still has its own client lifecycle, and SQL still needs the table. A call the adapter cannot run returns dal.ErrNotSupported. The adapter matrix is the checklist before promising a method on a backend."}}]}</script>
+</main>
+
+
+<footer class="AppFooter">
+  <div class="container AppFooter-inner">
+    <ul role="list">
+      <li>&copy; <span id="year">2026</span> DALgo contributors</li>
+      <li><a href="/">DALgo</a></li>
+      <li><a href="/articles/">Articles</a></li>
+      <li><a href="/tugql/">TugQL</a></li>
+      <li><a href="https://github.com/dal-go/dalgo" rel="noopener">Core repo</a></li>
+      <li><a href="https://github.com/dal-go/dalgo/blob/main/LICENSE" rel="noopener">MIT License</a></li>
+      <li><a href="/privacy/">Privacy</a></li>
+    </ul>
+    <span class="AppFooter-tag">Open-source documentation site. No accounts, no advertising.</span>
+  </div>
+<nav class="topic-footer container" data-topic-footer aria-label="Documentation"><a href="/go/">DALgo for Go</a><a href="/typescript/">DALgo for TypeScript</a><a href="/quickstart/">Quick Start</a><a href="/adapters/">Adapters and runtime support</a><a href="/why/">Why DALgo</a><a href="/collections/">Typed collections</a><a href="/interfaces/">Interfaces</a><a href="/queries/">Queries and schema</a><a href="/film/">DALgo films</a><a href="/datatug/">DALgo and DataTug</a><a href="/about/tech-stack/">Technology behind DALgo</a><a href="/articles/">Articles</a><a href="/tugql/">TugQL</a></nav></footer>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<div class="site-feedback"><button type="button" data-feedback-launcher aria-haspopup="dialog" hidden><svg class="feedback-mark" aria-hidden="true" focusable="false" viewBox="0 0 64 64"><rect width="64" height="64" rx="18" fill="#d4ef83"/><path d="M18 46 46 18M20 18h26v26" fill="none" stroke="#202c2a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>Suggest an improvement</button></div>
+<script id="site-feedback-widget" src="https://improveit.now/widget.js" data-space="ao58m" data-app="53707531c1e1120447e7673109bb6538" data-lang="en" data-color="#0d63e9" data-launcher="hidden" defer></script>
+<script src="/feedback.js" defer></script>
+</body>
+</html>

@@ -56,11 +56,13 @@ the code samples, which are identical in both languages, in one place.
 | `content/site/video.json` | The film slot (below). |
 
 ```sh
-python3 scripts/render_site.py           # writes public/index.html, public/ru/index.html, public/sitemap.xml
+python3 scripts/render_site.py           # writes the landing pages, sitemap, llms.txt, and llms-full.txt
 python3 scripts/render_site.py --check   # CI: fails if the committed pages are stale
 python3 -m unittest discover -s scripts -p 'test_*.py'
 node --test scripts/test_theme.cjs
 ```
+
+`content/site/seo.json` holds the document title and meta description for every page except the two home pages, whose titles and descriptions stay in the locale catalogs. The renderer also writes `public/llms.txt` and `public/llms-full.txt` from those catalogs, the adapter list, and the articles. `public/robots.txt` allows every crawler (`User-agent: *`) and lists the sitemap; a Cloudflare managed robots.txt can still override that file from the dashboard.
 
 Both pages carry `<html lang>`, a canonical URL, reciprocal `hreflang`
 (`en`, `ru`, `x-default` = English), Open Graph per locale and an EN/RU switch in
@@ -84,31 +86,38 @@ unavailable. Theme initialization runs before page styles to avoid a theme flash
 
 ### Film slot
 
-The DALgo film ("Swap the adapter", 1:45 English, 1:57 Russian) sits in its own
-section after the hero, one film per locale: `/` shows the English film, `/ru/` the
-Russian one. It is a click-to-load YouTube poster: the page ships a local poster and
-a button, and nothing is requested from YouTube until the visitor presses play (then
-a `youtube-nocookie.com` iframe replaces the button; see `public/video.js`). The
-button carries a visible duration badge and an accessible label with the duration.
+The film section sits after the hero. `/` shows two English films: the short pitch
+"DALgo: one interface for every database" (1:19), then the developer walkthrough
+"Swap the adapter" (1:45) under a "How it works" heading. `/ru/` shows the Russian
+walkthrough (1:57) only. Each film is a click-to-load YouTube poster: the page ships a
+local poster and a button, and nothing is requested from YouTube until the visitor
+presses play (then a `youtube-nocookie.com` iframe replaces the button; see
+`public/video.js`). The button carries a visible duration badge and an accessible
+label with the duration.
 
-It is configured in `content/site/video.json`:
+It is configured in `content/site/video.json`. Each locale has one primary film and an
+optional `second` film with the same fields:
 
 ```json
 {
   "enabled": true,
   "locales": {
-    "en": { "youtubeId": "<11-char id>", "poster": "/video/poster-en.webp", "width": 1280, "height": 720, "duration": "1:45" },
+    "en": {
+      "youtubeId": "<11-char id>", "poster": "/video/one-interface-en.webp", "width": 1280, "height": 720, "duration": "1:19",
+      "second": { "youtubeId": "<11-char id>", "poster": "/video/poster-en.webp", "width": 1280, "height": 720, "duration": "1:45" }
+    },
     "ru": { "youtubeId": "<11-char id>", "poster": "/video/poster-ru.webp", "width": 1280, "height": 720, "duration": "1:57" }
   }
 }
 ```
 
-Posters are the 16:9 files `public/video/poster-en.webp` / `poster-ru.webp` (keep
-`width`/`height` equal to the file's size so the box does not shift). The section text
-is in the `video.*` strings of `en.json` / `ru.json`; `video.play` takes `{duration}`.
-After any change run `python3 scripts/render_site.py`. With `enabled` true the
-generator fails unless both locales have an 11-character id and an `m:ss` duration;
-with `enabled` false no film markup and no script are emitted.
+Posters are 16:9 files under `public/video/` (keep `width`/`height` equal to the
+file's size so the box does not shift). The section text is in the `video.*` strings of
+`en.json` / `ru.json`: `video.title`/`video.kicker` describe the primary film,
+`video.second_title`/`video.second_kicker` the second one, and `video.play` takes
+`{duration}`. After any change run `python3 scripts/render_site.py`. With `enabled`
+true the generator fails unless every configured film has an 11-character id and an
+`m:ss` duration; with `enabled` false no film markup and no script are emitted.
 
 ## License
 

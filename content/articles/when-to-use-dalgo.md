@@ -19,6 +19,8 @@ Sneat's CLI convo sandbox is a working example, and its scope is the sandbox, no
 
 The same shape fits a Go test. `dalgo2memory` lives in the core module and is documented as able to run a large part of the structured-query surface, so a test can exercise filters, order, and limits without a network. Sneat's core library stopped letting tests overwrite a package-level `GetSneatDB` variable. A test now puts a `dal.DB` on the context with `facade.WithSneatDB`. That is the pattern to copy: construct the adapter in the test or in `main`, inject the interface, and keep the domain ignorant of which one it received.
 
+That injection, written as a repository the test and `main` both call, is in [Repository pattern in Go with a swappable storage backend](/articles/go-repository-pattern/).
+
 Use it, too, when several programs must share a record model. Listus's Go backend depends on the core module. The optional `bots-fw-store-dalgo` adapter maps a chatbot's platform users and chats onto DALgo keys and field updates, while the framework core depends only on a `StateStore` interface. inGitDB's CLI depends on three DALgo adapters — a local inGitDB project, a filesystem variant, and a GitHub API variant — so the same record operations can target whichever copy of the database the operator has. OpenVaultDB's driver exists so a program that already speaks DALgo can talk to a user-owned HTTP database without a second client stack.
 
 A last positive case is cross-cutting behavior you want exactly once. Validation (`ValidatableRecord`) and before-save hooks run inside `dal.DB` before the adapter. Access policies are a wrapper that denies by default and can be loaded from YAML. If every new storage client would otherwise grow its own allow-list, audit log, and "is this write well-formed?" check, the wrapper is the feature.
@@ -84,6 +86,8 @@ Ask three questions before adding the module.
 3. Is it acceptable that engine-specific SQL, listeners, and warehouse controls live outside this code?
 
 Three yes answers: use DALgo, inject `dal.DB` or a narrower session, and put adapter construction in `main` or in the test. A no on the second question: use DALgo for the portable operations and the native driver for the one query or stream that needs it. Sneat's Firestore helper and the bots framework both do a version of this. They keep the wide interface away from callers who do not need it. A no on the first question, with a yes on a single engine's special features: use the driver. You will write less translation code, and you will not discover `ErrNotSupported` in production.
+
+The terms for that decision, and how the same job looks in `database/sql`, sqlx, GORM, ent, and sqlc, are in [Database abstraction layer in Go: what it is and when you need one](/articles/go-database-abstraction-layer/). [DALgo vs GORM: a gorm alternative](/articles/dalgo-vs-gorm/) follows the GORM column of that comparison.
 
 The layer is MIT-licensed and still on a v0 module path. Downstream modules in the same week pin different v0.9x releases. Pin yours. When an adapter's README and a diagram disagree, believe the README.
 
