@@ -25,6 +25,7 @@ DALgo is [open-source](https://github.com/dal-go/dalgo). The Go module is the ma
 - [Запросы](https://dalgo.io/ru/queries/): Запросы DALgo фильтруют, сортируют, ограничивают, проецируют, группируют и соединяют данные. Недоступная адаптеру возможность возвращает dal.ErrNotSupported.
 - [Фильм](https://dalgo.io/ru/film/): Короткий фильм DALgo на русском: тот же код и другой адаптер. Видео с YouTube загружается только после нажатия кнопки воспроизведения.
 - [DataTug](https://dalgo.io/ru/datatug/): DALgo — шов доступа к данным в разработке DataTug. DataTug помогает изучать схемы и запросы, а доступ к хранилищу идёт через интерфейс DALgo.
+- [Технологии](https://dalgo.io/ru/about/tech-stack/): Как устроен DALgo: библиотеки Go и TypeScript с адаптерами баз данных, документация, собранная на Python, и размещение в Cloudflare Workers.
 
 ## Repositories
 
@@ -51,6 +52,7 @@ DALgo is [open-source](https://github.com/dal-go/dalgo). The Go module is the ma
 - [Queries](https://dalgo.io/queries/): DALgo queries filter, sort, limit, project, group, and join. Nested keys scope a collection. A feature the adapter lacks returns dal.ErrNotSupported.
 - [Films](https://dalgo.io/film/): Two short DALgo films: a pitch for one Go interface across databases, and a walkthrough that swaps the adapter. Play loads the video from YouTube.
 - [DataTug](https://dalgo.io/datatug/): DALgo is the data-access seam used while building DataTug. DataTug explores schemas and queries; storage access stays behind the DALgo interface.
+- [Tech stack](https://dalgo.io/about/tech-stack/): How DALgo is built: Go and TypeScript libraries with database adapters, a Python-rendered documentation site, and Cloudflare Workers hosting.
 - [Privacy](https://dalgo.io/privacy/): dalgo.io is a static documentation site with no accounts. This page explains Google Analytics, the regional consent choice, and how to change it.
 - [TugQL](https://dalgo.io/tugql/): Go TugQL YAML serializes the core relational dal.StructuredQuery losslessly. Get the current JSON Schema and examples; learn SQL-like TugQL text at tugql.org.
 - [TugQL examples](https://dalgo.io/tugql/examples/): Example TugQL documents: human-readable YAML for dal.StructuredQuery. Each file is checked against the published TugQL JSON Schema.

@@ -27,7 +27,7 @@ import sys
 from pathlib import Path
 from render_articles import load_articles
 from site_shell import enhance_page, theme_styles
-from site_pages import adapter_inventory, home_sections, topic_pages
+from site_pages import adapter_inventory, home_sections, tech_stack_page, topic_pages
 from seo import apply_static_seo, home_json_ld, llms_documents
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -298,6 +298,7 @@ def build() -> dict[Path, str]:
     for loc in LOCALES:
         page = render_page(loc, template, catalogs, adapters, video)
         outputs.update(topic_pages(page, loc, inventory, SRC, PUBLIC))
+        outputs.update(tech_stack_page(loc, PUBLIC))
         home, _ = home_sections(page, loc)
         outputs[LOCALE_INFO[loc]['out']] = enhance_page(home, loc, '')
     outputs[PUBLIC / 'adapters' / 'status.json'] = json.dumps(inventory, ensure_ascii=False, indent=2) + '\n'
