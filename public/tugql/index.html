@@ -4,13 +4,13 @@
 <meta charset="utf-8" />
 <script src="/theme.js"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>TugQL — YAML serialization of dal.StructuredQuery · DALgo</title>
-<meta name="description" content="TugQL is a 1:1, lossless, human-readable YAML serialization of dalgo&#x27;s dal.StructuredQuery. Published with a JSON Schema (draft 2020-12) and validated examples." />
+<title>TugQL YAML in Go — dal.StructuredQuery serialization · DALgo</title>
+<meta name="description" content="Go TugQL YAML serializes the core relational dal.StructuredQuery losslessly. Get the current JSON Schema and examples; learn SQL-like TugQL text at tugql.org." />
 <link rel="canonical" href="https://dalgo.io/tugql/" />
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)" />
-<meta property="og:title" content="TugQL — YAML serialization of dal.StructuredQuery · DALgo" />
-<meta property="og:description" content="TugQL is a 1:1, lossless, human-readable YAML serialization of dalgo&#x27;s dal.StructuredQuery. Published with a JSON Schema (draft 2020-12) and validated examples." />
+<meta property="og:title" content="TugQL YAML in Go — dal.StructuredQuery serialization · DALgo" />
+<meta property="og:description" content="Go TugQL YAML serializes the core relational dal.StructuredQuery losslessly. Get the current JSON Schema and examples; learn SQL-like TugQL text at tugql.org." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://dalgo.io/tugql/" />
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230d1117'/><text x='50%25' y='52%25' text-anchor='middle' dominant-baseline='middle' font-family='ui-monospace,monospace' font-size='28' font-weight='700' fill='%232f81f7'>d/</text></svg>" />
@@ -74,10 +74,12 @@
       <span class="hero-line hero-accent">as TugQL.</span>
     </h1>
     <p class="hero-lede">
-      A <strong>1:1, lossless, human-readable</strong> YAML serialization of dalgo's
+      The Go package provides a <strong>1:1, lossless, human-readable</strong> YAML serialization of dalgo's
       <code>dal.StructuredQuery</code> for the core relational read-only subset. Plain YAML over
       the existing query AST — <strong>no bespoke grammar, no hand-written parser</strong>. Save a
       query, hand-edit it, diff it in version control, reload it without loss.
+      This page describes the Go YAML serialization; the separate
+      <a href="https://tugql.org/docs/getting-started/">TugQL text guide</a> covers SQL-like authoring.
     </p>
     <div class="hero-cta">
       <a class="btn btn-primary" href="#artifacts">Get the schema</a>
@@ -93,32 +95,33 @@
     <div class="section-head">
       <span class="section-eyebrow">covered subset</span>
       <h2 class="section-title">What TugQL represents</h2>
-      <p class="section-kicker">A single <code>From</code> over a root collection, the
-        selected columns, a <code>Where</code> tree, ordering, and paging. Anything out of scope is
-        rejected with a descriptive error rather than silently dropped.</p>
+      <p class="section-kicker">The current Go YAML serializer covers the core relational
+        read-only query model, including joins, grouping, aggregates, filters, ordering and
+        paging. Unsupported shapes are rejected rather than silently dropped.</p>
     </div>
     <div class="why-grid">
       <div class="Box why-card">
         <h3>In scope</h3>
-        <p>Root <code>CollectionRef</code> source · selected <code>Columns</code> ·
-          <code>Comparison</code> and And/Or <code>GroupCondition</code> trees ·
-          <code>OrderBy</code> · <code>Limit</code>/<code>Offset</code>. Expressions:
-          <code>FieldRef</code>, <code>Constant</code>, <code>Array</code> (inline values).
-          Operators: <code>==</code>, <code>In</code>, <code>&gt;</code>, <code>&gt;=</code>,
-          <code>&lt;</code>, <code>&lt;=</code>, <code>And</code>, <code>Or</code>.</p>
+        <p>Root <code>CollectionRef</code> sources and recursive joins · selected
+          <code>Columns</code> · <code>Where</code> and <code>Having</code> trees ·
+          <code>GroupBy</code> and aggregate expressions · <code>OrderBy</code> ·
+          <code>Limit</code>/<code>Offset</code>. See the
+          <a href="https://github.com/dal-go/dalgo/tree/main/tugql">Go package reference</a>
+          for supported expression and operator forms.</p>
       </div>
       <div class="Box why-card">
         <h3>Out of scope (rejected)</h3>
-        <p>Joins · <code>CollectionGroupRef</code> or parented <code>CollectionRef</code> ·
-          <code>GroupBy</code> · aggregate/scalar functions · cursor (<code>StartFrom</code>) ·
-          any operator outside the in-scope set. Serialization errors out — it never emits a
-          document that loses query semantics.</p>
+        <p><code>CollectionGroupRef</code> or parented <code>CollectionRef</code> ·
+          cursor (<code>StartFrom</code>) · operators outside the supported set.
+          Serialization errors out rather than emitting a document that loses query semantics.
+          Consult the <a href="https://github.com/dal-go/dalgo/blob/main/tugql/README.md">current
+          serialization profile</a> before relying on a specific construct.</p>
       </div>
       <div class="Box why-card">
         <h3>Lossless &amp; canonical</h3>
-        <p><code>deserialize(serialize(q))</code> is structurally equal to <code>q</code>; serialization
-          is canonical (stable key order), so <code>serialize(deserialize(d))</code> is byte-identical
-          to <code>d</code> and saved queries diff cleanly.</p>
+        <p><code>deserialize(serialize(q))</code> is structurally equal to <code>q</code>.
+          Serialization uses stable key order and indentation. Deserializing accepted aliases
+          normalizes them on the first round trip; later serializations are byte-identical.</p>
       </div>
     </div>
   </div>
@@ -130,14 +133,18 @@
     <div class="section-head">
       <span class="section-eyebrow">node → YAML</span>
       <h2 class="section-title">Mapping</h2>
-      <p class="section-kicker">Each in-scope <code>dal</code> node has a defined YAML representation.</p>
+      <p class="section-kicker">Selected mappings are shown below. The
+        <a href="https://github.com/dal-go/dalgo/blob/main/tugql/README.md#node--yaml-mapping">Go reference</a>
+        and linked JSON Schema cover the full supported profile.</p>
     </div>
     <div class="tugql-table-wrap Box">
       <table class="tugql-table">
         <thead><tr><th><code>dal</code> node</th><th>YAML representation</th></tr></thead>
         <tbody>
           <tr><td>From over root <code>CollectionRef</code></td><td><code>from: { name, alias? }</code></td></tr>
+          <tr><td><code>JoinedSource</code></td><td>item under <code>from.joins:</code> with <code>from</code> and <code>on</code></td></tr>
           <tr><td><code>Column</code></td><td>item under <code>columns:</code> — an expression plus optional <code>as:</code></td></tr>
+          <tr><td><code>GroupBy</code> / <code>Having</code></td><td><code>groupBy: [ … ]</code> / <code>having: &lt;condition&gt;</code></td></tr>
           <tr><td><code>Comparison</code></td><td><code>{ op, left, right }</code></td></tr>
           <tr><td><code>GroupCondition</code> (And)</td><td><code>{ and: [ … ] }</code></td></tr>
           <tr><td><code>GroupCondition</code> (Or)</td><td><code>{ or: [ … ] }</code></td></tr>
@@ -145,14 +152,16 @@
           <tr><td><code>FieldRef</code></td><td><code>{ field: &lt;name&gt; }</code></td></tr>
           <tr><td><code>Constant</code></td><td><code>{ value: &lt;scalar&gt; }</code></td></tr>
           <tr><td><code>Array</code></td><td><code>{ values: [ &lt;scalar&gt;, … ] }</code></td></tr>
+          <tr><td>Aggregate expression</td><td><code>{ aggregate: { function, args } }</code></td></tr>
           <tr><td><code>Operator</code></td><td><code>==</code>, <code>In</code>, <code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>, <code>&lt;=</code></td></tr>
           <tr><td><code>Limit</code> / <code>Offset</code></td><td><code>limit: &lt;int&gt;</code> / <code>offset: &lt;int&gt;</code></td></tr>
         </tbody>
       </table>
     </div>
-    <p style="margin-top:16px;color:var(--fg-muted)">An expression sets <strong>exactly one</strong>
-      of <code>field</code>, <code>value</code> or <code>values</code>, which discriminates a
-      <code>FieldRef</code>, a <code>Constant</code> or an <code>Array</code>.</p>
+    <p style="margin-top:16px;color:var(--fg-muted)">An expression uses one form at a time.
+      The full profile also supports <code>param</code>, <code>binary</code> and
+      <code>star</code> forms, as well as wildcard projection; see the Go reference
+      for their exact shapes.</p>
   </div>
 </section>
 
@@ -255,11 +264,12 @@
         <p><strong>Structural.</strong> For any in-scope query <code>q</code>,
           <code>deserialize(serialize(q))</code> reconstructs a <code>StructuredQuery</code>
           structurally equal to <code>q</code> across <code>From</code>, <code>Columns</code>,
-          <code>Where</code> (including inline <code>Constant</code>/<code>Array</code> values),
-          <code>OrderBy</code>, <code>Limit</code> and <code>Offset</code>.</p>
+          <code>Where</code>, <code>GroupBy</code>, <code>Having</code>, <code>OrderBy</code>,
+          <code>Limit</code> and <code>Offset</code>.</p>
         <p><strong>Canonical.</strong> Serialization is canonical (stable key order, 2-space indent),
-          so <code>serialize(deserialize(d))</code> is byte-identical to a valid in-scope document
-          <code>d</code> — saved queries diff cleanly across edits.</p>
+          and accepted input aliases and omitted INNER join types normalize on the first
+          <code>serialize(deserialize(d))</code>. Later round trips are byte-identical,
+          so saved canonical documents diff cleanly across edits.</p>
         <div class="Flash" role="note">
           <svg class="octicon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0M9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/></svg>
           <span>Deserializing malformed or schema-invalid input returns a descriptive error and
