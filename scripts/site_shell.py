@@ -98,15 +98,34 @@ def theme_styles(styles: str) -> str:
 .topic-link {display:inline-block;margin-top:16px;font-weight:600}
 .topic-page {padding-top:32px;padding-bottom:48px}
 .topic-page h1 {font-size:clamp(1.8rem,4vw,2.8rem)}
-.adapter-table-wrap {max-width:100%;overflow-x:auto;margin-top:24px}
-.adapter-table {border-collapse:collapse;width:100%;font-size:14px}
-.adapter-table th,.adapter-table td {padding:16px;text-align:left;vertical-align:top;border:1px solid var(--border-default)}
-.adapter-table thead {background:var(--canvas-subtle)}
-.adapter-table td {min-width:230px;width:40%}
-.adapter-table td p {margin:8px 0}.adapter-table details {margin-top:10px}
-.adapter-table summary {cursor:pointer;color:var(--accent-fg)}
-.adapter-status,.runtime-badge {display:inline-block;border:1px solid var(--border-default);border-radius:6px;padding:2px 7px;margin:0 4px 4px 0;background:var(--canvas-subtle)}
-.runtime-badge {border-color:var(--accent-fg);color:var(--accent-fg)}
-.runtime-note {display:block;color:var(--fg-muted);font-size:12px}
+.cap-matrix {margin:24px 0;max-width:100%}
+.cap-adapter {border-top:1px solid var(--border-default);margin:0;padding:0}
+.cap-adapter:last-child {border-bottom:1px solid var(--border-default)}
+.cap-adapter>summary {display:grid;grid-template-columns:minmax(130px,1.2fr) repeat(3,minmax(0,1fr));gap:14px;align-items:center;padding:14px 8px;cursor:pointer;list-style:none}
+.cap-adapter>summary::-webkit-details-marker {display:none}
+.cap-adapter-name {font-weight:650;overflow-wrap:anywhere}
+.cap-adapter-name::before {content:"+ ";color:var(--accent-fg)}
+.cap-adapter[open]>.cap-adapter-name::before,.cap-adapter[open]>summary .cap-adapter-name::before {content:"− "}
+.cap-adapter>summary:focus-visible {outline:3px solid var(--accent-fg);outline-offset:2px}
+.cap-overview {display:flex;flex-direction:column;gap:3px;min-width:0;font-size:12px;color:var(--fg-muted);overflow-wrap:anywhere}
+.cap-runtime-name {font-weight:600;color:var(--fg-default)}
+.cap-expanded {padding:4px 8px 18px}
+.cap-table-scroll {max-width:100%;overflow-x:auto;overscroll-behavior-x:contain}
+.cap-table-scroll:focus-visible {outline:3px solid var(--accent-fg);outline-offset:-3px}
+.cap-scroll-hint {font-size:12px;color:var(--fg-muted);margin:8px 0}
+.cap-table {border-collapse:collapse;width:100%;min-width:800px;table-layout:fixed;font-size:13px}
+.cap-table caption {text-align:left;font-weight:650;padding:10px 0}
+.cap-table th,.cap-table td {padding:10px 8px;vertical-align:top;text-align:left;border:1px solid var(--border-default);overflow-wrap:anywhere}
+.cap-table th:first-child {width:17%}
+.cap-table thead {background:var(--canvas-subtle)}
+.cap-table p {margin:7px 0}
+.cap-status {display:inline-block;border:1px solid var(--border-default);border-radius:4px;padding:2px 5px;font-size:12px;background:var(--canvas-subtle);color:var(--fg-default);max-width:100%;overflow-wrap:anywhere}
+.cap-supported {border-style:double}.cap-partial {border-style:dashed}.cap-not-implemented {border-style:dotted}.cap-unsupported {font-weight:650}
+.cap-legend {display:flex;gap:6px;flex-wrap:wrap}
+.cap-proof,.cap-publication {color:var(--fg-muted)}
+.cap-expanded a {overflow-wrap:anywhere}
+@media(min-width:901px) {.cap-scroll-hint {display:none}}
+@media(max-width:600px) {.cap-adapter>summary {grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:12px 4px}.cap-adapter-name {grid-column:1/-1}.cap-table {font-size:12px}.cap-table th,.cap-table td {padding:7px 4px}.cap-status {font-size:11px;padding:2px 3px}.cap-expanded {padding:0 0 14px}.cap-table th:first-child {width:19%}}
+
 @media(max-width:1000px){.AppHeader-inner{height:auto;min-height:56px;flex-wrap:wrap;padding-top:10px;padding-bottom:10px}.AppHeader-nav{order:3;flex-basis:100%;display:flex!important;flex-wrap:wrap;justify-content:center;gap:4px 12px;margin:0}.AppHeader-actions{margin-left:auto}.AppHeader-nav a{font-size:13px}.AppHeader-brand{padding:0}}
 """
