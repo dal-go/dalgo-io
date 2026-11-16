@@ -224,7 +224,7 @@ DALgo is a database abstraction layer with adapters for SQL and for other stores
 
 ### Can the same Go functions use memory, SQLite, and Firestore?
 
-`LoadUser` and `SaveUser` above take `dal.DB`. The test ran them on `dalgo2memory` (Firestore profile and single-writer profile) and on `dalgo2sqlite` after `EnsureUsersTable`. `OpenFirestore` returns a `dal.DB` from `dalgo2firestore.NewDatabase` and was compiled in that package. Firestore still has its own client lifecycle, and SQL still needs the table. The [adapter matrix](/adapters/) is the list of what each backend actually implements.
+`LoadUser` and `SaveUser` above take `dal.DB`. The test ran them on `dalgo2memory` (Firestore profile and single-writer profile) and on `dalgo2sqlite` after `EnsureUsersTable`. `OpenFirestore` returns a `dal.DB` from `dalgo2firestore.NewDatabase` and was compiled in that package. [Firestore in Go: CRUD and transactions with DALgo](/articles/go-firestore-tutorial/) runs that adapter against the Firestore emulator. Firestore still has its own client lifecycle, and SQL still needs the table. The [adapter matrix](/adapters/) is the list of what each backend actually implements.
 
 ## Sources
 

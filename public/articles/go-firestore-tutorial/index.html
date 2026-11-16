@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script src="/theme.js"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Firestore in Go: CRUD and transactions with DALgo — DALgo</title>
+<meta name="description" content="Golang Firestore tutorial: Firestore Go CRUD and Firestore transactions in Go with DALgo, tested on the Firestore emulator and an in-memory stand-in." />
+<link rel="canonical" href="https://dalgo.io/articles/go-firestore-tutorial/" />
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)" />
+<meta property="og:title" content="Firestore in Go: CRUD and transactions with DALgo — DALgo" />
+<meta property="og:description" content="Golang Firestore tutorial: Firestore Go CRUD and Firestore transactions in Go with DALgo, tested on the Firestore emulator and an in-memory stand-in." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://dalgo.io/articles/go-firestore-tutorial/" />
+<meta property="article:published_time" content="2026-11-16" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230d1117'/><text x='50%25' y='52%25' text-anchor='middle' dominant-baseline='middle' font-family='ui-monospace,monospace' font-size='28' font-weight='700' fill='%232f81f7'>d/</text></svg>" />
+<link rel="stylesheet" href="/styles.css" />
+<script src="/analytics.js" defer></script>
+<link rel="stylesheet" href="/theme.css" />
+<script src="/site.js" defer></script>
+</head>
+<body>
+
+<header class="AppHeader" role="banner">
+  <div class="AppHeader-inner">
+    <a class="AppHeader-brand" href="/" aria-label="DALgo home">
+      <span class="AppHeader-brand-mark" aria-hidden="true">
+        <span class="brand-dal">DAL</span><span class="brand-go">go</span>
+      </span>
+    </a>
+
+
+
+    <nav class="AppHeader-nav" aria-label="Documentation"><a href="/go/">Go</a><a href="/typescript/">TypeScript</a><a href="/adapters/">Adapters</a><a href="/quickstart/">Quick Start</a></nav>
+
+    <div class="AppHeader-actions"><label class="theme-control" data-theme-control hidden><span aria-hidden="true">◐</span><select data-theme-switch aria-label="Theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label>
+
+    </div>
+  </div>
+</header>
+
+<main id="top">
+<article class="article">
+  <header class="article-header">
+    <p class="article-kicker"><a href="/articles/">Articles</a></p>
+    <h1>Firestore in Go: CRUD and transactions with DALgo</h1>
+    <p class="article-meta"><time datetime="2026-11-16">16 November 2026</time></p>
+    <p class="article-standfirst">Connect to Cloud Firestore from Go through DALgo&#x27;s dalgo2firestore adapter, then create, read, update and delete a document and run a read-write transaction. The same functions run on an in-memory adapter in unit tests.</p>
+  </header>
+  <nav class="Box toc" aria-label="On this page"><strong>On this page</strong><ol><li><a href="#install-the-modules">Install the modules</a></li>
+<li><a href="#the-record-the-collection-and-the-connection">The record, the collection and the connection</a></li>
+<li><a href="#firestore-go-crud-one-function-per-operation">Firestore Go CRUD, one function per operation</a></li>
+<li><a href="#firestore-transactions-in-go">Firestore transactions in Go</a></li>
+<li><a href="#test-the-same-code-without-firestore">Test the same code without Firestore</a></li>
+<li><a href="#dalgo-or-the-official-firestore-client-directly">DALgo or the official Firestore client directly</a></li>
+<li><a href="#faq">FAQ</a></li>
+<li><a href="#sources">Sources</a></li></ol></nav>
+  <div class="article-prose">
+<p><a href="https://firebase.google.com/docs/firestore" rel="noopener">Cloud Firestore</a> is Google&#x27;s document database: it stores documents, each a set of named fields, in collections. <a href="https://go.dev/" rel="noopener">Go</a> is the programming language this page uses. An SDK (software development kit) is the library a vendor ships for its service; for Firestore in Go that is the official client, <a href="https://pkg.go.dev/cloud.google.com/go/firestore" rel="noopener"><code>cloud.google.com/go/firestore</code></a>. <a href="/">DALgo</a> is an <a href="https://github.com/dal-go/dalgo" rel="noopener">open-source</a> database abstraction layer (DAL) for Go: a library that sits between application code and a database, so the program loads and stores records without calling one vendor&#x27;s client. <a href="/articles/go-database-abstraction-layer/">Database abstraction layer in Go</a> is the longer definition. An adapter is the DALgo module that speaks to one backend; the Firestore adapter is <a href="https://github.com/dal-go/dalgo2firestore" rel="noopener"><code>dalgo2firestore</code></a>. <a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete" rel="noopener">CRUD</a> is short for create, read, update and delete, the four record operations. A transaction is a group of reads and writes that commits together or not at all.</p>
+<p>This is a golang Firestore tutorial for one small <code>tasks</code> collection: open Firestore, then create, read, update and delete a task, and change it inside a read-write transaction. Every listing below ran against the <a href="https://firebase.google.com/docs/emulator-suite/connect_firestore" rel="noopener">Firestore emulator</a> and against DALgo&#x27;s in-memory adapter on 16 November 2026. The <a href="/articles/go-repository-pattern/">repository pattern article</a> puts an interface in front of the same calls, <a href="/articles/dalgo-vs-gorm/">DALgo vs GORM</a> compares DALgo with an ORM, and the <a href="/adapters/">adapters page</a> lists what each backend supports.</p>
+<h2 id="install-the-modules">Install the modules</h2>
+<div class="codeblock"><div class="codeblock-head"><span class="codeblock-name">bash</span><span class="codeblock-lang">bash</span></div><pre><code>go get github.com/dal-go/dalgo github.com/dal-go/dalgo2firestore github.com/dal-go/record cloud.google.com/go/firestore</code></pre></div>
+<p>The listings were tested with <code>github.com/dal-go/dalgo</code> v0.102.4, <code>dalgo2firestore</code> v0.11.2, <code>record</code> v0.1.5 and <code>cloud.google.com/go/firestore</code> v1.29.2. DALgo is still on a v0 module path, so pin the versions you have run.</p>
+<h2 id="the-record-the-collection-and-the-connection">The record, the collection and the connection</h2>
+<p>A DALgo record type names its own collection with a value-receiver <code>CollectionName</code> method. <code>dal.CollectionOf[string, Task]()</code> returns a session-less handle: it holds no connection and can be a package-level variable. <code>dalgo2firestore.NewDatabase</code> wraps an official <code>*firestore.Client</code> in a <code>dal.DB</code>, so authentication, project selection and the emulator switch stay the official client&#x27;s job.</p>
+<div class="codeblock"><div class="codeblock-head"><span class="codeblock-name">example.go</span><span class="codeblock-lang">Go</span></div><pre><code>// Package tasks stores to-do tasks in Firestore through DALgo.
+package tasks
+
+import (
+	"context"
+	"errors"
+
+	"cloud.google.com/go/firestore"
+	"github.com/dal-go/dalgo/dal"
+	"github.com/dal-go/dalgo2firestore"
+	"github.com/dal-go/record"
+	"github.com/dal-go/record/update"
+)
+
+// Task is one document in the "tasks" collection.
+// Firestore stores the exported fields as document fields: Title and Done.
+// The document id is the record key, not a field of Task.
+type Task struct {
+	Title string
+	Done  bool
+}
+
+func (Task) CollectionName() string { return "tasks" }
+
+// Tasks is a session-less handle to the "tasks" collection, keyed by string ids.
+var Tasks = dal.CollectionOf[string, Task]()
+
+// OpenFirestore wraps an official Firestore client in a dal.DB.
+// The caller closes the client. NewDatabase panics on an empty id or a nil client.
+func OpenFirestore(ctx context.Context, projectID string) (dal.DB, *firestore.Client, error) {
+	client, err := firestore.NewClient(ctx, projectID)
+	if err != nil {
+		return nil, nil, err
+	}
+	return dalgo2firestore.NewDatabase(projectID, client), client, nil
+}
+
+// Create inserts a new task. Writes need a dal.WriteSession,
+// so they run inside a read-write transaction.
+func Create(ctx context.Context, db dal.DB, id string, task Task) error {
+	return db.RunReadwriteTransaction(ctx, func(ctx context.Context, tx dal.ReadwriteTransaction) error {
+		_, err := Tasks.InsertWithID(ctx, tx, id, task)
+		return err
+	})
+}
+
+// Get reads one task. A plain dal.DB is a dal.ReadSession.
+func Get(ctx context.Context, db dal.DB, id string) (Task, error) {
+	return Tasks.GetData(ctx, db, id)
+}
+
+// Complete sets Done to true without rewriting the rest of the document.
+func Complete(ctx context.Context, db dal.DB, id string) error {
+	return db.RunReadwriteTransaction(ctx, func(ctx context.Context, tx dal.ReadwriteTransaction) error {
+		return Tasks.UpdateByID(ctx, tx, id, []update.Update{update.ByFieldName("Done", true)})
+	})
+}
+
+// Delete removes one task.
+func Delete(ctx context.Context, db dal.DB, id string) error {
+	return db.RunReadwriteTransaction(ctx, func(ctx context.Context, tx dal.ReadwriteTransaction) error {
+		return Tasks.DeleteByID(ctx, tx, id)
+	})
+}
+
+// ErrAlreadyDone is returned by Rename for a completed task.
+var ErrAlreadyDone = errors.New("task is already done")
+
+// Rename reads and writes in one transaction: the title changes only
+// if the task is still open when the transaction commits.
+// Firestore requires every read in a transaction to come before its writes.
+func Rename(ctx context.Context, db dal.DB, id, title string) error {
+	return db.RunReadwriteTransaction(ctx, func(ctx context.Context, tx dal.ReadwriteTransaction) error {
+		task, err := Tasks.GetData(ctx, tx, id)
+		if err != nil {
+			return err
+		}
+		if task.Done {
+			return ErrAlreadyDone
+		}
+		task.Title = title
+		return Tasks.SetByID(ctx, tx, id, task)
+	})
+}
+
+// Missing reports a not-found read.
+func Missing(err error) bool {
+	return record.IsNotFound(err)
+}</code></pre></div>
+<h2 id="firestore-go-crud-one-function-per-operation">Firestore Go CRUD, one function per operation</h2>
+<ul>
+<li><strong>Create.</strong> <code>InsertWithID</code> writes a new document at a known id. On the emulator, a second insert at the same id failed with Firestore&#x27;s <code>AlreadyExists</code> error. Use <code>Insert</code> without an id to let DALgo generate one, or <code>SetByID</code> to create-or-replace.</li>
+<li><strong>Read.</strong> <code>GetData</code> takes a <code>dal.ReadSession</code>, and a plain <code>dal.DB</code> is one. A missing document comes back as an error that <a href="https://pkg.go.dev/github.com/dal-go/record" rel="noopener"><code>record.IsNotFound</code></a> recognizes; <code>Missing</code> wraps it.</li>
+<li><strong>Update.</strong> <code>UpdateByID</code> with <code>update.ByFieldName(&quot;Done&quot;, true)</code> changes one field and leaves the others alone. <code>dalgo2firestore</code> passes the field name to Firestore as the update path, so it must be the stored field name: here the Go field name, because <code>Task</code> has no <code>firestore</code> struct tags.</li>
+<li><strong>Delete.</strong> <code>DeleteByID</code> removes the document.</li>
+</ul>
+<p>Writes take a <code>dal.WriteSession</code>. A plain <code>dal.DB</code> is not one, so calling <code>SetByID</code> or <code>DeleteByID</code> with it is a compile error. Every write above runs inside <code>RunReadwriteTransaction</code>, which is where a <code>dal.ReadwriteTransaction</code> comes from.</p>
+<h2 id="firestore-transactions-in-go">Firestore transactions in Go</h2>
+<p><code>Rename</code> is the transaction: it reads the task, refuses to rename a finished one, and writes the new title, all in one read-write transaction. <code>dalgo2firestore</code> runs <code>RunReadwriteTransaction</code> through the official client&#x27;s <code>RunTransaction</code>, so Firestore&#x27;s rules apply unchanged. Google&#x27;s <a href="https://firebase.google.com/docs/firestore/manage-data/transactions" rel="noopener">transactions guide</a> says read operations must come before write operations, and that a transaction function might run more than once if a concurrent edit affects a document it reads. The <a href="https://pkg.go.dev/cloud.google.com/go/firestore#Client.RunTransaction" rel="noopener">Go client reference</a> says <code>RunTransaction</code> retries the function when the commit fails because of a conflicting transaction. So:</p>
+<ul>
+<li>Do every <code>GetData</code> before the first write in the callback.</li>
+<li>Use the <code>ctx</code> and <code>tx</code> the callback receives, not the outer ones.</li>
+<li>Keep side effects such as sending email out of the callback, because it can run again.</li>
+<li>Return an error, like <code>ErrAlreadyDone</code>, to abandon the transaction without writing.</li>
+</ul>
+<p><code>db.RunReadonlyTransaction</code> is the read-only form when the callback only reads.</p>
+<h2 id="test-the-same-code-without-firestore">Test the same code without Firestore</h2>
+<p>The functions take a <code>dal.DB</code>, not a <code>*firestore.Client</code>, so a unit test can hand them DALgo&#x27;s in-memory adapter. <code>dalgo2memory.FirestoreProfile()</code> makes that stand-in follow Firestore&#x27;s transaction rules; it is part of the core module, so the test needs no emulator, network or credentials.</p>
+<div class="codeblock"><div class="codeblock-head"><span class="codeblock-name">example.go</span><span class="codeblock-lang">Go</span></div><pre><code>package tasks
+
+import (
+	"context"
+	"errors"
+	"testing"
+
+	"github.com/dal-go/dalgo/adapters/dalgo2memory"
+)
+
+func TestTasksOnFirestoreProfile(t *testing.T) {
+	ctx := context.Background()
+	// The in-memory adapter with Firestore's transaction rules stands in for Firestore.
+	db := dalgo2memory.New(dalgo2memory.FirestoreProfile())
+
+	if err := Create(ctx, db, "t1", Task{Title: "Write the tutorial"}); err != nil {
+		t.Fatal(err)
+	}
+	if err := Rename(ctx, db, "t1", "Publish the tutorial"); err != nil {
+		t.Fatal(err)
+	}
+	if err := Complete(ctx, db, "t1"); err != nil {
+		t.Fatal(err)
+	}
+	got, err := Get(ctx, db, "t1")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got != (Task{Title: "Publish the tutorial", Done: true}) {
+		t.Fatalf("got %+v", got)
+	}
+	if err := Rename(ctx, db, "t1", "Too late"); !errors.Is(err, ErrAlreadyDone) {
+		t.Fatalf("Rename done task: %v", err)
+	}
+	if err := Delete(ctx, db, "t1"); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := Get(ctx, db, "t1"); !Missing(err) {
+		t.Fatalf("Get deleted task: %v", err)
+	}
+}</code></pre></div>
+<p><code>go test</code> passed this test on 16 November 2026. A second test, run with <code>FIRESTORE_EMULATOR_HOST</code> set, ran the same steps through <code>OpenFirestore</code> against the Firestore emulator from <code>firebase-tools</code> 15.36.0 (<code>cloud-firestore-emulator</code> v1.22.0) and also passed; it skips when the variable is unset. The official client switches to the emulator when that variable is set. The same functions also accept the <a href="/adapters/">SQL adapters</a>, with the setup the <a href="/articles/go-database-abstraction-layer/">abstraction-layer article</a> shows.</p>
+<h2 id="dalgo-or-the-official-firestore-client-directly">DALgo or the official Firestore client directly</h2>
+<p>The official client is the shorter path when the service will only ever use Firestore. Google&#x27;s <a href="https://firebase.google.com/docs/firestore/manage-data/add-data" rel="noopener">add-data guide</a> writes with <code>client.Collection(&quot;cities&quot;).Doc(&quot;LA&quot;).Set(ctx, data)</code>, reads with <code>Doc(...).Get(ctx)</code> and <code>DataTo</code>, updates fields with a <code>[]firestore.Update</code>, and deletes with <code>Doc(...).Delete(ctx)</code>. <code>client.RunTransaction</code> is the transaction. Everything Firestore-specific, such as real-time listeners, is available there first.</p>
+<p>DALgo earns its place when the code that reads and writes tasks should not depend on Firestore: unit tests on the in-memory adapter, a second deployment on SQL, or one data-access style across several stores. The cost is a second layer and its limits. An adapter returns <code>dal.ErrNotSupported</code> for a capability its backend cannot provide, and Firestore-only features stay on the official client, which <code>OpenFirestore</code> still returns. <a href="/articles/why-use-dalgo/">Why use DALgo</a> and <a href="/articles/when-to-use-dalgo/">When to use DALgo, and when not to</a> cover that trade-off.</p>
+<h2 id="faq">FAQ</h2>
+<h3 id="how-do-i-connect-to-firestore-from-go">How do I connect to Firestore from Go?</h3>
+<p>Create an official client with <code>firestore.NewClient(ctx, projectID)</code>. To use it through DALgo, wrap it with <code>dalgo2firestore.NewDatabase(projectID, client)</code> and pass the resulting <code>dal.DB</code> to your functions. Close the client when the program exits.</p>
+<h3 id="can-i-run-firestore-transactions-in-go-with-dalgo">Can I run Firestore transactions in Go with DALgo?</h3>
+<p>Yes. <code>db.RunReadwriteTransaction</code> runs the callback through Firestore&#x27;s <code>RunTransaction</code>, so reads must come before writes and the callback can be retried on contention. <code>db.RunReadonlyTransaction</code> is the read-only form.</p>
+<h3 id="how-do-i-test-firestore-go-code-without-firestore">How do I test Firestore Go code without Firestore?</h3>
+<p>Pass <code>dalgo2memory.New(dalgo2memory.FirestoreProfile())</code> to the same functions in unit tests. For a check against Firestore itself, run the Firestore emulator and set <code>FIRESTORE_EMULATOR_HOST</code>.</p>
+<h3 id="do-i-need-dalgo-to-use-firestore-from-go">Do I need DALgo to use Firestore from Go?</h3>
+<p>No. The official <code>cloud.google.com/go/firestore</code> client is complete on its own. DALgo is useful when the same code must also run on another store or on an in-memory stand-in.</p>
+<h2 id="sources">Sources</h2>
+<p>Public module docs, Google&#x27;s documentation, and the listings above, checked on 16 November 2026.</p>
+<ul>
+<li><a href="https://github.com/dal-go/dalgo" rel="noopener">dal-go/dalgo</a> v0.102.4, <a href="https://github.com/dal-go/dalgo2firestore" rel="noopener">dalgo2firestore</a> v0.11.2 and <a href="https://github.com/dal-go/record" rel="noopener">dal-go/record</a> v0.1.5. License: <a href="https://github.com/dal-go/dalgo/blob/main/LICENSE" rel="noopener">MIT</a>.</li>
+<li><a href="https://pkg.go.dev/cloud.google.com/go/firestore" rel="noopener"><code>cloud.google.com/go/firestore</code></a> v1.29.2.</li>
+<li>Google: <a href="https://firebase.google.com/docs/firestore/manage-data/add-data" rel="noopener">Add data to Cloud Firestore</a>, <a href="https://firebase.google.com/docs/firestore/manage-data/transactions" rel="noopener">Transactions and batched writes</a>, <a href="https://firebase.google.com/docs/emulator-suite/connect_firestore" rel="noopener">Connect your app to the Cloud Firestore Emulator</a>.</li>
+</ul>
+  </div>
+  <aside class="article-related"><h2>More articles</h2><ul><li><a href="/articles/dalgo-vs-gorm/">DALgo vs GORM: a gorm alternative</a></li>
+<li><a href="/articles/go-database-abstraction-layer/">Database abstraction layer in Go: what it is and when you need one</a></li>
+<li><a href="/articles/go-repository-pattern/">Repository pattern in Go with a swappable storage backend</a></li>
+<li><a href="/articles/why-use-dalgo/">Why use DALgo</a></li>
+<li><a href="/articles/when-to-use-dalgo/">When to use DALgo, and when not to</a></li></ul></aside>
+  <p class="article-source">Source file: <a href="https://github.com/dal-go/dalgo-io/blob/main/content/articles/go-firestore-tutorial.md"><code>content/articles/go-firestore-tutorial.md</code></a></p>
+</article>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Firestore in Go: CRUD and transactions with DALgo","description":"Golang Firestore tutorial: Firestore Go CRUD and Firestore transactions in Go with DALgo, tested on the Firestore emulator and an in-memory stand-in.","datePublished":"2026-11-16","dateModified":"2026-11-16","inLanguage":"en","mainEntityOfPage":"https://dalgo.io/articles/go-firestore-tutorial/","dependencies":"Go","author":{"@type":"Organization","name":"DALgo contributors","url":"https://dalgo.io/"},"publisher":{"@type":"Organization","name":"DALgo","url":"https://dalgo.io/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"DALgo","item":"https://dalgo.io/"},{"@type":"ListItem","position":2,"name":"Articles","item":"https://dalgo.io/articles/"},{"@type":"ListItem","position":3,"name":"Firestore in Go: CRUD and transactions with DALgo","item":"https://dalgo.io/articles/go-firestore-tutorial/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I connect to Firestore from Go?","acceptedAnswer":{"@type":"Answer","text":"Create an official client with firestore.NewClient(ctx, projectID). To use it through DALgo, wrap it with dalgo2firestore.NewDatabase(projectID, client) and pass the resulting dal.DB to your functions. Close the client when the program exits."}},{"@type":"Question","name":"Can I run Firestore transactions in Go with DALgo?","acceptedAnswer":{"@type":"Answer","text":"Yes. db.RunReadwriteTransaction runs the callback through Firestore's RunTransaction, so reads must come before writes and the callback can be retried on contention. db.RunReadonlyTransaction is the read-only form."}},{"@type":"Question","name":"How do I test Firestore Go code without Firestore?","acceptedAnswer":{"@type":"Answer","text":"Pass dalgo2memory.New(dalgo2memory.FirestoreProfile()) to the same functions in unit tests. For a check against Firestore itself, run the Firestore emulator and set FIRESTORE_EMULATOR_HOST."}},{"@type":"Question","name":"Do I need DALgo to use Firestore from Go?","acceptedAnswer":{"@type":"Answer","text":"No. The official cloud.google.com/go/firestore client is complete on its own. DALgo is useful when the same code must also run on another store or on an in-memory stand-in."}}]}</script>
+</main>
+
+
+<footer class="AppFooter">
+  <div class="container AppFooter-inner">
+    <ul role="list">
+      <li>&copy; <span id="year">2026</span> DALgo contributors</li>
+      <li><a href="/">DALgo</a></li>
+      <li><a href="/articles/">Articles</a></li>
+      <li><a href="/tugql/">TugQL</a></li>
+      <li><a href="https://github.com/dal-go/dalgo" rel="noopener">Core repo</a></li>
+      <li><a href="https://github.com/dal-go/dalgo/blob/main/LICENSE" rel="noopener">MIT License</a></li>
+      <li><a href="/privacy/">Privacy</a></li>
+    </ul>
+    <span class="AppFooter-tag">Open-source documentation site. No accounts, no advertising.</span>
+  </div>
+<nav class="topic-footer container" data-topic-footer aria-label="Documentation"><a href="/go/">DALgo for Go</a><a href="/typescript/">DALgo for TypeScript</a><a href="/quickstart/">Quick Start</a><a href="/adapters/">Adapters and runtime support</a><a href="/why/">Why DALgo</a><a href="/collections/">Typed collections</a><a href="/interfaces/">Interfaces</a><a href="/queries/">Queries and schema</a><a href="/film/">DALgo films</a><a href="/datatug/">DALgo and DataTug</a><a href="/about/tech-stack/">Technology behind DALgo</a><a href="/articles/">Articles</a><a href="/tugql/">TugQL</a></nav></footer>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<div class="site-feedback"><button type="button" data-feedback-launcher aria-haspopup="dialog" hidden><svg class="feedback-mark" aria-hidden="true" focusable="false" viewBox="0 0 64 64"><rect width="64" height="64" rx="18" fill="#d4ef83"/><path d="M18 46 46 18M20 18h26v26" fill="none" stroke="#202c2a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>Suggest an improvement</button></div>
+<script id="site-feedback-widget" src="https://improveit.now/widget.js" data-space="ao58m" data-app="53707531c1e1120447e7673109bb6538" data-lang="en" data-color="#0d63e9" data-launcher="hidden" defer></script>
+<script src="/feedback.js" defer></script>
+</body>
+</html>
