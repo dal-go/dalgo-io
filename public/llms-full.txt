@@ -119,7 +119,7 @@ DALgo is a database abstraction layer for Go applications. Its [README](https://
 
 ### Is DALgo an ORM (object-relational mapper)?
 
-DALgo is a database abstraction layer, not a full ORM. GORM describes itself as an ORM for relational databases; DALgo gives the same record calls on SQL and on other stores, such as memory and Firestore. The core module has a small `orm` package that maps collections and fields onto DALgo collection references and conditions. [DALgo vs GORM](https://dalgo.io/articles/dalgo-vs-gorm/) compares the two.
+DALgo is a database abstraction layer, not a full ORM. GORM's guide calls it an ORM library for Go; DALgo gives the same record calls on SQL and on other stores, such as memory and Firestore. The core module has a small `orm` package that maps collections and fields onto DALgo collection references and conditions. [DALgo vs GORM](https://dalgo.io/articles/dalgo-vs-gorm/) compares the two.
 
 ### Which databases does DALgo support?
 
@@ -173,7 +173,7 @@ DALgo — слой абстракции базы данных для прило�
 
 ### DALgo — это ORM?
 
-DALgo — слой абстракции базы данных, а не полноценная ORM. GORM называет себя ORM для реляционных баз данных; DALgo даёт одни и те же вызовы для записей в SQL и в других хранилищах, например в памяти и в Firestore. В основном модуле есть небольшой пакет `orm`, который связывает коллекции и поля со ссылками на коллекции и условиями DALgo. Сравнение — в статье [DALgo vs GORM](https://dalgo.io/articles/dalgo-vs-gorm/) (англ.).
+DALgo — слой абстракции базы данных, а не полноценная ORM. Руководство GORM называет его ORM-библиотекой для Go; DALgo даёт одни и те же вызовы для записей в SQL и в других хранилищах, например в памяти и в Firestore. В основном модуле есть небольшой пакет `orm`, который связывает коллекции и поля со ссылками на коллекции и условиями DALgo. Сравнение — в статье [DALgo vs GORM](https://dalgo.io/articles/dalgo-vs-gorm/) (англ.).
 
 ### Какие базы данных поддерживает DALgo?
 
