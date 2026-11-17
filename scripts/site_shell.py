@@ -16,6 +16,7 @@ TITLES = {
     "film": ("DALgo films", "Смените адаптер"),
     "datatug": ("DALgo and DataTug", "DALgo и DataTug"),
     "about/tech-stack": ("Technology behind DALgo", "Технологии DALgo"),
+    "faq": ("DALgo FAQ", "DALgo: вопросы и ответы"),
 }
 UI = {
     "en": {"theme": "Theme", "system": "System", "light": "Light", "dark": "Dark", "docs": "Documentation", "more": "Read more", "language": "Language"},

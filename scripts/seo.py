@@ -13,6 +13,8 @@ import re
 from functools import lru_cache
 from pathlib import Path
 
+from faq import llms_faq
+
 ROOT = Path(__file__).resolve().parents[1]
 SITE = "https://dalgo.io"
 SEO_PATH = ROOT / "content" / "site" / "seo.json"
@@ -31,6 +33,7 @@ PAIRED = (
     "film",
     "datatug",
     "about/tech-stack",
+    "faq",
 )
 ENGLISH_ONLY = ("articles", "privacy", "tugql", "tugql/examples")
 GO_REPO = "https://github.com/dal-go/dalgo"
@@ -274,6 +277,7 @@ def _page_links(locale: str, slugs: tuple[str, ...], catalogs: dict[str, dict]) 
             "film": "Films",
             "datatug": "DataTug",
             "about/tech-stack": "Tech stack",
+            "faq": "DALgo FAQ",
             "articles": "Articles",
             "privacy": "Privacy",
             "tugql": "TugQL",
@@ -291,6 +295,7 @@ def _page_links(locale: str, slugs: tuple[str, ...], catalogs: dict[str, dict]) 
             "film": "Фильм",
             "datatug": "DataTug",
             "about/tech-stack": "Технологии",
+            "faq": "Вопросы и ответы о DALgo",
         },
     }
     for slug in slugs:
@@ -331,10 +336,10 @@ def _prose_blocks(catalog: dict) -> list[str]:
 
 def llms_documents(catalogs: dict[str, dict], adapters: dict, articles: list) -> tuple[str, str]:
     check_home_copy(catalogs)
-    primary = ("home", "go", "typescript", "adapters", "articles")
+    primary = ("home", "go", "typescript", "adapters", "articles", "faq")
     secondary = ("quickstart", "why", "collections", "interfaces", "queries", "film", "datatug", "about/tech-stack")
     english = _page_links("en", primary, catalogs)
-    russian = _page_links("ru", ("home", "go", "typescript", "adapters") + secondary, catalogs)
+    russian = _page_links("ru", ("home", "go", "typescript", "adapters", "faq") + secondary, catalogs)
     optional = _page_links("en", secondary + ("privacy", "tugql", "tugql/examples"), catalogs)
     intro = (
         "# DALgo\n\n"
@@ -365,6 +370,10 @@ def llms_documents(catalogs: dict[str, dict], adapters: dict, articles: list) ->
         + "\n\n".join(_prose_blocks(catalogs["en"]))
         + "\n\n## Russian product copy\n\n"
         + "\n\n".join(_prose_blocks(catalogs["ru"]))
+        + "\n\n## English FAQ\n\n"
+        + llms_faq("en")
+        + "\n\n## Russian FAQ\n\n"
+        + llms_faq("ru")
         + "\n\n## Adapter catalogue\n\n"
         + "\n".join(_repo_lines(adapters, catalogs, include_more=True))
         + "\n\n## Articles\n\n"

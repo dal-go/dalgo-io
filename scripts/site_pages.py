@@ -9,6 +9,7 @@ from pathlib import Path
 from render_articles import page_shell
 from seo import breadcrumb_script, json_ld_script, page_meta
 from site_shell import TITLES, UI, enhance_page, href, title
+from faq import faq_body, faq_ld
 
 from capability_matrix import load_inventory as adapter_inventory, render_matrix as adapter_table
 
@@ -16,8 +17,8 @@ SITE = "https://dalgo.io"
 
 
 def go_section(locale: str) -> str:
-    text = ('Use typed keys, records, collections and structured queries in Go. Start locally with the built-in in-memory adapter, then choose a database adapter by its supported operations. The definition of that layer is <a href="/articles/go-database-abstraction-layer/">Database abstraction layer in Go</a>.' if locale == 'en' else
-            'Используйте типизированные ключи, записи, коллекции и структурированные запросы в Go. Начните со встроенного адаптера в памяти, затем выберите адаптер по поддерживаемым операциям. Определение этого слоя — в статье <a href="/articles/go-database-abstraction-layer/">Database abstraction layer in Go</a> (англ.).')
+    text = ('Use typed keys, records, collections and structured queries in Go. Start locally with the built-in in-memory adapter, then choose a database adapter by its supported operations. The definition of that layer is <a href="/articles/go-database-abstraction-layer/">Database abstraction layer in Go</a>. Short answers are in the <a href="/faq/">DALgo FAQ</a>.' if locale == 'en' else
+            'Используйте типизированные ключи, записи, коллекции и структурированные запросы в Go. Начните со встроенного адаптера в памяти, затем выберите адаптер по поддерживаемым операциям. Определение этого слоя — в статье <a href="/articles/go-database-abstraction-layer/">Database abstraction layer in Go</a> (англ.). Короткие ответы — в разделе <a href="/ru/faq/">DALgo: вопросы и ответы</a>.')
     return f'<section id="go" class="section"><div class="container"><h2 class="section-title">{title("go", locale)}</h2><p>{text}</p><p><a href="https://github.com/dal-go/dalgo">Go source</a> · <a href="https://pkg.go.dev/github.com/dal-go/dalgo">Go API</a> · <a href="{href("quickstart", locale)}">{title("quickstart", locale)}</a></p></div></section>'
 
 
@@ -45,7 +46,7 @@ def topic_pages(page: str, locale: str, inventory: dict, source: Path, public: P
     _, sections = home_sections(page, locale)
     result = {}
     for slug in TITLES:
-        if slug == 'about/tech-stack':
+        if slug in ('about/tech-stack', 'faq'):
             continue
         if slug == 'adapters':
             body = adapter_table(inventory, locale)
@@ -109,4 +110,17 @@ def tech_stack_page(locale: str, public: Path) -> dict[Path, str]:
     about = json_ld_script({'@context': 'https://schema.org', '@type': 'AboutPage', '@id': canonical + '#about', 'url': canonical, 'name': meta['title'], 'description': meta['description'], 'inLanguage': locale})
     main = f'<main id="top" class="container topic-page"><p><a href="{href("", locale)}">DALgo</a> / {html.escape(title(slug, locale))}</p>{body}</main>'
     rendered = page_shell(title=meta['title'], description=meta['description'], canonical=canonical, og_type='website', main=main, context_label=title(slug, locale), context_href=href(slug, locale), extra_head=alternates + crumbs + about, locale=locale, section=slug)
+    return {public / ('ru' if locale == 'ru' else '') / slug / 'index.html': rendered}
+
+
+def faq_page(locale: str, public: Path) -> dict[Path, str]:
+    slug = 'faq'
+    canonical = SITE + href(slug, locale)
+    meta = page_meta(slug, locale)
+    alternates = ''.join(f'<link rel="alternate" hreflang="{language}" href="{SITE}{href(slug, language)}" />\n' for language in ('en', 'ru'))
+    alternates += f'<link rel="alternate" hreflang="x-default" href="{SITE}{href(slug, "en")}" />\n'
+    crumbs = breadcrumb_script([('DALgo', SITE + href('', locale)), (title(slug, locale), canonical)])
+    questions = json_ld_script(faq_ld(locale))
+    main = f'<main id="top" class="container topic-page faq-page"><p><a href="{href("", locale)}">DALgo</a> / {html.escape(title(slug, locale))}</p>{faq_body(locale, title(slug, locale))}</main>'
+    rendered = page_shell(title=meta['title'], description=meta['description'], canonical=canonical, og_type='website', main=main, context_label=title(slug, locale), context_href=href(slug, locale), extra_head=alternates + crumbs + questions, locale=locale, section=slug)
     return {public / ('ru' if locale == 'ru' else '') / slug / 'index.html': rendered}
