@@ -11,6 +11,7 @@ DALgo is [open-source](https://github.com/dal-go/dalgo). The Go module is the ma
 - [TypeScript](https://dalgo.io/typescript/): @dalgo/core is the TypeScript implementation of DALgo: hierarchical keys, typed collections, structured queries, and writes that run inside a transaction.
 - [Adapters](https://dalgo.io/adapters/): DALgo adapter matrix for Go and TypeScript: implementation status, documented limits, and the runtime each adapter documents for browser or server.
 - [Articles](https://dalgo.io/articles/): Notes on DALgo for Go and TypeScript: what the shared record and transaction interface is for, and when a database driver should stay in charge.
+- [DALgo FAQ](https://dalgo.io/faq/): DALgo FAQ: what the database abstraction layer is, whether it is an ORM, which databases it supports, transactions, in-memory tests, TypeScript and install.
 
 ## Russian
 
@@ -18,6 +19,7 @@ DALgo is [open-source](https://github.com/dal-go/dalgo). The Go module is the ma
 - [Go](https://dalgo.io/ru/go/): DALgo для Go: типизированные ключи, записи, коллекции и структурированные запросы. Начните со встроенного адаптера в памяти и выберите адаптер базы.
 - [TypeScript](https://dalgo.io/ru/typescript/): @dalgo/core — реализация DALgo на TypeScript: иерархические ключи, типизированные коллекции, структурированные запросы и запись внутри транзакции.
 - [Адаптеры](https://dalgo.io/ru/adapters/): Таблица адаптеров DALgo для Go и TypeScript: статус реализации, ограничения и требования к среде — браузер или доверенный сервер.
+- [Вопросы и ответы о DALgo](https://dalgo.io/ru/faq/): DALgo FAQ: что такое слой абстракции БД, ORM ли это, какие базы поддерживаются, транзакции, тесты в памяти, TypeScript и установка.
 - [Быстрый старт](https://dalgo.io/ru/quickstart/): Установите DALgo и запишите данные. Для Go хватает встроенного адаптера в памяти. Пример на TypeScript хранит данные в IndexedDB в браузере.
 - [Зачем DALgo](https://dalgo.io/ru/why/): Зачем DALgo: предметный код зависит от одного интерфейса, тесты могут использовать адаптер в памяти, а хуки, журнал и транзакции не привязаны к конкретной базе.
 - [Коллекции](https://dalgo.io/ru/collections/): Типизированная коллекция DALgo возвращает значения типа T для обычных чтений и записей. Набор операций зависит от выбранного адаптера.

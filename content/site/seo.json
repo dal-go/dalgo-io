@@ -109,6 +109,16 @@
       "description": "Как устроен DALgo: библиотеки Go и TypeScript с адаптерами баз данных, документация, собранная на Python, и размещение в Cloudflare Workers."
     }
   },
+  "faq": {
+    "en": {
+      "title": "DALgo FAQ — database abstraction layer for Go and TypeScript",
+      "description": "DALgo FAQ: what the database abstraction layer is, whether it is an ORM, which databases it supports, transactions, in-memory tests, TypeScript and install."
+    },
+    "ru": {
+      "title": "DALgo FAQ — вопросы и ответы о слое абстракции БД",
+      "description": "DALgo FAQ: что такое слой абстракции БД, ORM ли это, какие базы поддерживаются, транзакции, тесты в памяти, TypeScript и установка."
+    }
+  },
   "articles": {
     "en": {
       "title": "DALgo articles — when the abstraction helps, and when it does not",

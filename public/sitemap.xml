@@ -82,6 +82,18 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://dalgo.io/datatug/"/>
   </url>
   <url>
+    <loc>https://dalgo.io/faq/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dalgo.io/faq/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dalgo.io/ru/faq/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dalgo.io/faq/"/>
+  </url>
+  <url>
+    <loc>https://dalgo.io/ru/faq/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dalgo.io/faq/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dalgo.io/ru/faq/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dalgo.io/faq/"/>
+  </url>
+  <url>
     <loc>https://dalgo.io/film/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://dalgo.io/film/"/>
     <xhtml:link rel="alternate" hreflang="ru" href="https://dalgo.io/ru/film/"/>

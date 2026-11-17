@@ -11,6 +11,7 @@ DALgo is [open-source](https://github.com/dal-go/dalgo). The Go module is the ma
 - [TypeScript](https://dalgo.io/typescript/): @dalgo/core is the TypeScript implementation of DALgo: hierarchical keys, typed collections, structured queries, and writes that run inside a transaction.
 - [Adapters](https://dalgo.io/adapters/): DALgo adapter matrix for Go and TypeScript: implementation status, documented limits, and the runtime each adapter documents for browser or server.
 - [Articles](https://dalgo.io/articles/): Notes on DALgo for Go and TypeScript: what the shared record and transaction interface is for, and when a database driver should stay in charge.
+- [DALgo FAQ](https://dalgo.io/faq/): DALgo FAQ: what the database abstraction layer is, whether it is an ORM, which databases it supports, transactions, in-memory tests, TypeScript and install.
 
 ## Russian
 
@@ -18,6 +19,7 @@ DALgo is [open-source](https://github.com/dal-go/dalgo). The Go module is the ma
 - [Go](https://dalgo.io/ru/go/): DALgo для Go: типизированные ключи, записи, коллекции и структурированные запросы. Начните со встроенного адаптера в памяти и выберите адаптер базы.
 - [TypeScript](https://dalgo.io/ru/typescript/): @dalgo/core — реализация DALgo на TypeScript: иерархические ключи, типизированные коллекции, структурированные запросы и запись внутри транзакции.
 - [Адаптеры](https://dalgo.io/ru/adapters/): Таблица адаптеров DALgo для Go и TypeScript: статус реализации, ограничения и требования к среде — браузер или доверенный сервер.
+- [Вопросы и ответы о DALgo](https://dalgo.io/ru/faq/): DALgo FAQ: что такое слой абстракции БД, ORM ли это, какие базы поддерживаются, транзакции, тесты в памяти, TypeScript и установка.
 - [Быстрый старт](https://dalgo.io/ru/quickstart/): Установите DALgo и запишите данные. Для Go хватает встроенного адаптера в памяти. Пример на TypeScript хранит данные в IndexedDB в браузере.
 - [Зачем DALgo](https://dalgo.io/ru/why/): Зачем DALgo: предметный код зависит от одного интерфейса, тесты могут использовать адаптер в памяти, а хуки, журнал и транзакции не привязаны к конкретной базе.
 - [Коллекции](https://dalgo.io/ru/collections/): Типизированная коллекция DALgo возвращает значения типа T для обычных чтений и записей. Набор операций зависит от выбранного адаптера.
@@ -108,6 +110,114 @@ TypeScript-адаптеры находятся в dalgo-http-adapters. Лока�
 DALgo включает построитель структурированных запросов для типичных чтений: фильтры, сортировка, LIMIT, выбор столбцов, GROUP BY / HAVING, агрегаты вроде COUNT(*) и SUM, а также внутренние и левые соединения по равенству. Ключи могут описывать вложенные пути документов, например countries/ireland/cities/dublin, а родительский ключ ограничивает запрос вложенной коллекцией.
 
 DataTug помогает разработчикам изучать схемы баз данных, писать и запускать запросы и понимать их результаты. DALgo служит швом доступа к данным в среде разработки DataTug. Прочитайте, как создавались инструменты разработки DataTug (на английском).
+
+## English FAQ
+
+### What is DALgo?
+
+DALgo is a database abstraction layer for Go applications. Its [README](https://github.com/dal-go/dalgo) describes one small, consistent API for records, queries, transactions, hooks and schema-aware key mapping, while the storage backend stays an implementation choice. A TypeScript implementation, `@dalgo/core`, lives in a separate repository. See [DALgo for Go](https://dalgo.io/go/).
+
+### Is DALgo an ORM (object-relational mapper)?
+
+DALgo is a database abstraction layer, not a full ORM. GORM describes itself as an ORM for relational databases; DALgo gives the same record calls on SQL and on other stores, such as memory and Firestore. The core module has a small `orm` package that maps collections and fields onto DALgo collection references and conditions. [DALgo vs GORM](https://dalgo.io/articles/dalgo-vs-gorm/) compares the two.
+
+### Which databases does DALgo support?
+
+The core module includes `dalgo2memory` (in memory) and `dalgo2fs` (filesystem). The README lists separate adapter modules for SQL engines through `dalgo2sql`, PostgreSQL, SQLite, MySQL, Microsoft SQL Server, Oracle, Firestore, Datastore, MongoDB, Redis, DynamoDB and more. Each adapter supports different operations; the [adapter matrix](https://dalgo.io/adapters/) lists them one by one.
+
+### Is DALgo open-source, and under what licence?
+
+Yes. The Go module is [dal-go/dalgo](https://github.com/dal-go/dalgo) under the [MIT License](https://github.com/dal-go/dalgo/blob/main/LICENSE). The TypeScript package `@dalgo/core` is [dal-go/dalgo-js](https://github.com/dal-go/dalgo-js), also under the [MIT License](https://github.com/dal-go/dalgo-js/blob/main/LICENSE).
+
+### Does DALgo support transactions?
+
+Yes. `RunReadonlyTransaction` runs a function with read access, and `RunReadwriteTransaction` runs one that can also write. With typed collections, reads take a read session and writes take a write session, so writes are only reachable inside `RunReadwriteTransaction`. See [Interfaces](https://dalgo.io/interfaces/).
+
+### How do I test code without a real database?
+
+Use `dalgo2memory`, the built-in in-memory adapter: `dalgo2memory.NewDB()` returns a database that runs the same record, query and transaction code. The README says it can run many structured query features end to end, which makes it a practical default for unit tests. The [Quick Start](https://dalgo.io/quickstart/) starts with it.
+
+### What happens when an adapter does not support a feature?
+
+The adapter returns `dal.ErrNotSupported`. DALgo does not try to hide every database difference; the error keeps the core API honest. The [adapter matrix](https://dalgo.io/adapters/) shows which operations each adapter supports.
+
+### How do I install DALgo?
+
+For Go, run `go get github.com/dal-go/dalgo`, then add the adapter module for your database. For TypeScript, run `pnpm add @dalgo/core`; the core package does not connect to a database by itself, so you add an adapter too. See the [Quick Start](https://dalgo.io/quickstart/).
+
+### Is there a TypeScript version of DALgo?
+
+Yes. [@dalgo/core](https://github.com/dal-go/dalgo-js) is the browser-neutral TypeScript implementation, with hierarchical keys, typed collections, structured queries, records, database sessions and transaction-only writes. Its first adapter is for Firestore and uses Firebase's modular Web SDK in the browser. See [DALgo for TypeScript](https://dalgo.io/typescript/).
+
+### Does DALgo work with Firestore?
+
+Yes. In Go, the `dalgo2firestore` adapter connects DALgo to Cloud Firestore. [Firestore in Go: CRUD and transactions with DALgo](https://dalgo.io/articles/go-firestore-tutorial/) creates, reads, updates and deletes a document and runs a read-write transaction, and runs the same functions on the in-memory adapter in tests.
+
+### When should I not use DALgo?
+
+DALgo earns its place when the same domain code must run against more than one store, including a test double. It is the wrong tool when the engine's own query language is the product. [When to use DALgo, and when not to](https://dalgo.io/articles/when-to-use-dalgo/) lists the cases.
+
+### What is TugQL?
+
+TugQL is a readable YAML format for DALgo structured queries. Its Go implementation is the `tugql` package in the main module, which serializes `dal.StructuredQuery`. See [TugQL](https://dalgo.io/tugql/).
+
+### Who maintains DALgo?
+
+DALgo is developed in the [dal-go](https://github.com/dal-go) GitHub organization by the DALgo contributors; [CONTRIBUTING.md](https://github.com/dal-go/dalgo/blob/main/CONTRIBUTING.md) explains how to contribute. DALgo provides the data-access seam in DataTug's development ecosystem, and Sneat Go services also depend on the module. See [Technology behind DALgo](https://dalgo.io/about/tech-stack/).
+
+## Russian FAQ
+
+### Что такое DALgo?
+
+DALgo — слой абстракции базы данных для приложений на Go. В [README](https://github.com/dal-go/dalgo) он описан как небольшой единый API для записей, запросов, транзакций, хуков и отображения ключей по схеме, а хранилище остаётся деталью реализации. Реализация на TypeScript, `@dalgo/core`, живёт в отдельном репозитории. Подробнее: [DALgo для Go](https://dalgo.io/ru/go/).
+
+### DALgo — это ORM?
+
+DALgo — слой абстракции базы данных, а не полноценная ORM. GORM называет себя ORM для реляционных баз данных; DALgo даёт одни и те же вызовы для записей в SQL и в других хранилищах, например в памяти и в Firestore. В основном модуле есть небольшой пакет `orm`, который связывает коллекции и поля со ссылками на коллекции и условиями DALgo. Сравнение — в статье [DALgo vs GORM](https://dalgo.io/articles/dalgo-vs-gorm/) (англ.).
+
+### Какие базы данных поддерживает DALgo?
+
+В основной модуль входят `dalgo2memory` (в памяти) и `dalgo2fs` (файловая система). README перечисляет отдельные модули адаптеров: SQL-движки через `dalgo2sql`, PostgreSQL, SQLite, MySQL, Microsoft SQL Server, Oracle, Firestore, Datastore, MongoDB, Redis, DynamoDB и другие. Адаптеры поддерживают разные операции; [таблица адаптеров](https://dalgo.io/ru/adapters/) показывает их по отдельности.
+
+### DALgo — открытый исходный код? Какая лицензия?
+
+Да. Модуль Go — [dal-go/dalgo](https://github.com/dal-go/dalgo) под [лицензией MIT](https://github.com/dal-go/dalgo/blob/main/LICENSE). Пакет TypeScript `@dalgo/core` — [dal-go/dalgo-js](https://github.com/dal-go/dalgo-js), тоже под [лицензией MIT](https://github.com/dal-go/dalgo-js/blob/main/LICENSE).
+
+### Поддерживает ли DALgo транзакции?
+
+Да. `RunReadonlyTransaction` выполняет функцию с доступом на чтение, а `RunReadwriteTransaction` — с доступом и на запись. В типизированных коллекциях чтение принимает сессию чтения, а запись — сессию записи, поэтому записать можно только внутри `RunReadwriteTransaction`. Подробнее: [Интерфейсы](https://dalgo.io/ru/interfaces/).
+
+### Как тестировать код без настоящей базы данных?
+
+Используйте `dalgo2memory`, встроенный адаптер в памяти: `dalgo2memory.NewDB()` возвращает базу, на которой работает тот же код записей, запросов и транзакций. По README он выполняет многие возможности структурированных запросов целиком, поэтому подходит по умолчанию для модульных тестов. [Быстрый старт](https://dalgo.io/ru/quickstart/) начинается с него.
+
+### Что будет, если адаптер не поддерживает возможность?
+
+Адаптер вернёт `dal.ErrNotSupported`. DALgo не пытается скрыть все различия баз данных; эта ошибка сохраняет основной API честным. [Таблица адаптеров](https://dalgo.io/ru/adapters/) показывает, какие операции поддерживает каждый адаптер.
+
+### Как установить DALgo?
+
+Для Go выполните `go get github.com/dal-go/dalgo` и добавьте модуль адаптера для своей базы данных. Для TypeScript выполните `pnpm add @dalgo/core`; сам пакет к базе не подключается, поэтому нужен ещё адаптер. Подробнее: [Быстрый старт](https://dalgo.io/ru/quickstart/).
+
+### Есть ли версия DALgo для TypeScript?
+
+Да. [@dalgo/core](https://github.com/dal-go/dalgo-js) — реализация на TypeScript, не привязанная к браузеру или серверу: иерархические ключи, типизированные коллекции, структурированные запросы, записи, сессии базы данных и запись только в транзакциях. Первый адаптер — для Firestore, он работает в браузере через модульный Web SDK Firebase. Подробнее: [DALgo для TypeScript](https://dalgo.io/ru/typescript/).
+
+### Работает ли DALgo с Firestore?
+
+Да. В Go адаптер `dalgo2firestore` подключает DALgo к Cloud Firestore. В статье [Firestore in Go: CRUD and transactions with DALgo](https://dalgo.io/articles/go-firestore-tutorial/) (англ.) документ создаётся, читается, изменяется и удаляется, выполняется транзакция чтения и записи, а те же функции в тестах работают на адаптере в памяти.
+
+### Когда DALgo не нужен?
+
+DALgo оправдан, когда один и тот же код предметной области должен работать с несколькими хранилищами, включая тестовую замену. Он не подходит, когда сам язык запросов движка и есть продукт. Случаи перечислены в статье [When to use DALgo, and when not to](https://dalgo.io/articles/when-to-use-dalgo/) (англ.).
+
+### Что такое TugQL?
+
+TugQL — читаемый формат YAML для структурированных запросов DALgo. Его реализация на Go — пакет `tugql` в основном модуле, он сериализует `dal.StructuredQuery`. Подробнее: [TugQL](https://dalgo.io/tugql/) (англ.).
+
+### Кто поддерживает DALgo?
+
+DALgo разрабатывают участники DALgo в организации [dal-go](https://github.com/dal-go) на GitHub; как внести вклад, описано в [CONTRIBUTING.md](https://github.com/dal-go/dalgo/blob/main/CONTRIBUTING.md). DALgo служит слоем доступа к данным в инструментах разработки DataTug, а сервисы Sneat на Go тоже зависят от этого модуля. Подробнее: [Технологии DALgo](https://dalgo.io/ru/about/tech-stack/).
 
 ## Adapter catalogue
 
