@@ -30,7 +30,7 @@
   "why.title": "Хранилище — деталь, а не судьба.",
   "why.kicker": "Шесть причин, по которым разработчики берут DALgo с первого дня. Подробнее — в статье <a href=\"/articles/why-use-dalgo/\">Why use DALgo</a>, а границы применимости — в <a href=\"/articles/when-to-use-dalgo/\">When to use DALgo, and when not to</a>. Определение слоя — в <a href=\"/articles/go-database-abstraction-layer/\">Database abstraction layer in Go</a> (все три на английском).",
   "why.1.title": "Логика, не зависящая от хранилища",
-  "why.1.text": "Пишите бизнес-код против <code>dal.DB</code>. Где он будет жить — в Postgres, Firestore или в JSON-файле на диске, — решите позже.",
+  "why.1.text": "Пишите бизнес-код против <code>dal.DB</code>. Где он будет жить — в Postgres, Firestore или в JSON-файле на диске, — решите позже. Разбор перехода — в статье <a href=\"/articles/switch-postgres-to-firestore/\">Switching between PostgreSQL and Firestore in Go</a> (англ.).",
   "why.2.title": "Меньше кода, он читается лучше",
   "why.2.text": "Общий контракт для ключей, записей, запросов и транзакций. Поддерживаемые операции зависят от адаптера.",
   "why.3.title": "Тестируемость по построению",

@@ -9,7 +9,7 @@ order: 1
 
 DALgo is a database abstraction layer. The Go module, [`github.com/dal-go/dalgo`](https://github.com/dal-go/dalgo), is the one production services import. A separate TypeScript package, [`@dalgo/core`](https://github.com/dal-go/dalgo-js), carries the same idea into browser and Node code: hierarchical keys, typed collections, structured queries, and transaction-scoped writes, with no database SDK of its own. Adapters are the part that knows Firestore, Postgres, SQLite, a Git working tree, or an HTTP API.
 
-The point of the split is ordinary. Application code spends years naming records, reading them back, and updating them inside a transaction. Those operations do not have to name `*sql.DB`, a Firestore client, or an HTTP route. When they don't, the storage choice can move without a rewrite of the domain, and the test suite can run against a stand-in that speaks the same interface.
+The point of the split is ordinary. Application code spends years naming records, reading them back, and updating them inside a transaction. Those operations do not have to name `*sql.DB`, a Firestore client, or an HTTP route. When they don't, the storage choice can move without a rewrite of the domain, and the test suite can run against a stand-in that speaks the same interface. [Switching between PostgreSQL and Firestore in Go without rewriting business code](/articles/switch-postgres-to-firestore/) is that swap for one users repository.
 
 That is the whole pitch. The rest of this article is what the repositories actually ship, and where teams in the same orbit already use it. The companion article, [When to use DALgo, and when not to](/articles/when-to-use-dalgo/), is the other half: the jobs this layer should not be given.
 

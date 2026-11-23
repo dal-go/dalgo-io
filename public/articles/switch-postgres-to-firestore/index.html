@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script src="/theme.js"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Switching between PostgreSQL and Firestore in Go without rewriting business code — DALgo</title>
+<meta name="description" content="Switch Postgres to Firestore in Go without rewriting business code, using DALgo adapters for PostgreSQL, Cloud Firestore, and in-memory tests." />
+<link rel="canonical" href="https://dalgo.io/articles/switch-postgres-to-firestore/" />
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)" />
+<meta property="og:title" content="Switching between PostgreSQL and Firestore in Go without rewriting business code — DALgo" />
+<meta property="og:description" content="Switch Postgres to Firestore in Go without rewriting business code, using DALgo adapters for PostgreSQL, Cloud Firestore, and in-memory tests." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://dalgo.io/articles/switch-postgres-to-firestore/" />
+<meta property="article:published_time" content="2026-11-23" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230d1117'/><text x='50%25' y='52%25' text-anchor='middle' dominant-baseline='middle' font-family='ui-monospace,monospace' font-size='28' font-weight='700' fill='%232f81f7'>d/</text></svg>" />
+<link rel="stylesheet" href="/styles.css" />
+<script src="/analytics.js" defer></script>
+<link rel="stylesheet" href="/theme.css" />
+<script src="/site.js" defer></script>
+</head>
+<body>
+
+<header class="AppHeader" role="banner">
+  <div class="AppHeader-inner">
+    <a class="AppHeader-brand" href="/" aria-label="DALgo home">
+      <span class="AppHeader-brand-mark" aria-hidden="true">
+        <span class="brand-dal">DAL</span><span class="brand-go">go</span>
+      </span>
+    </a>
+
+
+
+    <nav class="AppHeader-nav" aria-label="Documentation"><a href="/go/">Go</a><a href="/typescript/">TypeScript</a><a href="/adapters/">Adapters</a><a href="/quickstart/">Quick Start</a></nav>
+
+    <div class="AppHeader-actions"><label class="theme-control" data-theme-control hidden><span aria-hidden="true">◐</span><select data-theme-switch aria-label="Theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label>
+
+    </div>
+  </div>
+</header>
+
+<main id="top">
+<article class="article">
+  <header class="article-header">
+    <p class="article-kicker"><a href="/articles/">Articles</a></p>
+    <h1>Switching between PostgreSQL and Firestore in Go without rewriting business code</h1>
+    <p class="article-meta"><time datetime="2026-11-23">23 November 2026</time></p>
+    <p class="article-standfirst">Write a small users repository once against dal.DB, then open it on PostgreSQL, Cloud Firestore, or DALgo&#x27;s in-memory adapter. This page shows what those calls share, what still differs, and how to copy records through the same interface.</p>
+  </header>
+  <nav class="Box toc" aria-label="On this page"><strong>On this page</strong><ol><li><a href="#the-record-written-once-against-dal-db">The record, written once against dal.DB</a></li>
+<li><a href="#wire-postgresql-firestore-and-memory">Wire PostgreSQL, Firestore, and memory</a></li>
+<li><a href="#what-stays-the-same">What stays the same</a></li>
+<li><a href="#what-differs">What differs</a></li>
+<li><a href="#when-not-to-switch-this-way">When not to switch this way</a></li>
+<li><a href="#copying-records-through-the-interface">Copying records through the interface</a></li>
+<li><a href="#faq">FAQ</a></li>
+<li><a href="#sources">Sources</a></li></ol></nav>
+  <div class="article-prose">
+<p>A <a href="https://en.wikipedia.org/wiki/Database_abstraction_layer" rel="noopener">database abstraction layer</a> (DAL) is a library that sits between application code and a database, so the program can store and load records without calling one vendor&#x27;s client. <a href="/">DALgo</a> is an <a href="https://github.com/dal-go/dalgo" rel="noopener">open-source</a> database abstraction layer for <a href="https://go.dev/" rel="noopener">Go</a>; the Go module is <a href="https://github.com/dal-go/dalgo" rel="noopener"><code>github.com/dal-go/dalgo</code></a>. <a href="/articles/go-database-abstraction-layer/">Database abstraction layer in Go</a> is that definition for this project. An adapter is the DALgo module that speaks to one backend. <a href="https://www.postgresql.org/docs/current/" rel="noopener">PostgreSQL</a> is a relational database that stores rows in tables and is queried with <a href="https://en.wikipedia.org/wiki/SQL" rel="noopener">SQL</a> (Structured Query Language). <a href="https://firebase.google.com/docs/firestore" rel="noopener">Cloud Firestore</a> is Google&#x27;s document database: it stores documents, each a set of named fields, in collections. <a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete" rel="noopener">CRUD</a> is short for create, read, update, and delete, the four record operations. <a href="https://en.wikipedia.org/wiki/Data_definition_language" rel="noopener">DDL</a> (data definition language) is the SQL used to create and alter tables. An <a href="https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping" rel="noopener">ORM</a> (object-relational mapper) maps objects onto a relational schema; this page is about swapping adapters, not about choosing an ORM.</p>
+<p>The <a href="/quickstart/">quick start</a> and the <a href="/adapters/">adapter matrix</a> are the product overview. This page is the walkthrough the home page&#x27;s &quot;swap Postgres for Firestore&quot; line does not itself show: one small <code>users</code> domain written against <a href="https://pkg.go.dev/github.com/dal-go/dalgo/dal#DB" rel="noopener"><code>dal.DB</code></a>, then wired to <a href="https://github.com/dal-go/dalgo2postgres" rel="noopener"><code>dalgo2postgres</code></a> (which wraps <a href="https://github.com/dal-go/dalgo2sql" rel="noopener"><code>dalgo2sql</code></a>), to <a href="https://github.com/dal-go/dalgo2firestore" rel="noopener"><code>dalgo2firestore</code></a>, and to <a href="https://github.com/dal-go/dalgo/tree/main/adapters/dalgo2memory" rel="noopener"><code>dalgo2memory</code></a> in tests. <a href="/articles/go-firestore-tutorial/">Firestore in Go: CRUD and transactions with DALgo</a> is the Firestore adapter on its own. <a href="/articles/go-repository-pattern/">Repository pattern in Go with a swappable storage backend</a> puts an interface in front of the same calls. <a href="/articles/why-use-dalgo/">Why use DALgo</a> and <a href="/articles/when-to-use-dalgo/">When to use DALgo, and when not to</a> are the wider case and the limits. The <a href="/faq/">FAQ</a> collects short answers.</p>
+<p>Nothing below is a benchmark. There is no timing, no migration duration, and no claim about which store is faster.</p>
+<h2 id="the-record-written-once-against-dal-db">The record, written once against dal.DB</h2>
+<p>A DALgo record type names its own collection with a value-receiver <code>CollectionName</code> method. <code>dal.CollectionOf[string, User]()</code> returns a session-less handle: it holds no connection and can be a package-level variable. Reads take a <code>dal.ReadSession</code>, and a plain <code>dal.DB</code> is one. Writes take a <code>dal.WriteSession</code>. A plain <code>dal.DB</code> is not a write session, so every write below enters <code>RunReadwriteTransaction</code> and uses the transaction the adapter passes in.</p>
+<div class="codeblock"><div class="codeblock-head"><span class="codeblock-name">example.go</span><span class="codeblock-lang">Go</span></div><pre><code>// Package users stores user records through DALgo, so the same functions
+// can run on PostgreSQL, Cloud Firestore, or the in-memory adapter.
+package users
+
+import (
+	"context"
+	"fmt"
+	"reflect"
+
+	"cloud.google.com/go/firestore"
+	"github.com/dal-go/dalgo/adapters/dalgo2memory"
+	"github.com/dal-go/dalgo/dal"
+	"github.com/dal-go/dalgo/dbschema"
+	"github.com/dal-go/dalgo/ddl"
+	"github.com/dal-go/dalgo2firestore"
+	"github.com/dal-go/dalgo2postgres"
+	"github.com/dal-go/dalgo2sql"
+	"github.com/dal-go/record"
+	"github.com/dal-go/record/update"
+)
+
+// User is one record in the "users" collection.
+// The id is the record key, not a field of User.
+// Firestore stores the exported fields as document fields: Name and Email.
+// PostgreSQL maps those fields onto columns; with the default identifier
+// mode the adapter lower-cases the names when it writes SQL.
+type User struct {
+	Name  string
+	Email string
+}
+
+func (User) CollectionName() string { return "users" }
+
+// Users is a session-less handle to the "users" collection, keyed by string ids.
+var Users = dal.CollectionOf[string, User]()
+
+// Create inserts a new user at a known id.
+func Create(ctx context.Context, db dal.DB, id string, user User) error {
+	return db.RunReadwriteTransaction(ctx, func(ctx context.Context, tx dal.ReadwriteTransaction) error {
+		_, err := Users.InsertWithID(ctx, tx, id, user)
+		return err
+	})
+}
+
+// Get reads one user. A plain dal.DB is a dal.ReadSession.
+func Get(ctx context.Context, db dal.DB, id string) (User, error) {
+	return Users.GetData(ctx, db, id)
+}
+
+// Save writes or replaces one user at a known id.
+func Save(ctx context.Context, db dal.DB, id string, user User) error {
+	return db.RunReadwriteTransaction(ctx, func(ctx context.Context, tx dal.ReadwriteTransaction) error {
+		return Users.SetByID(ctx, tx, id, user)
+	})
+}
+
+// SetEmail changes the Email field and leaves Name alone.
+func SetEmail(ctx context.Context, db dal.DB, id, email string) error {
+	return db.RunReadwriteTransaction(ctx, func(ctx context.Context, tx dal.ReadwriteTransaction) error {
+		return Users.UpdateByID(ctx, tx, id, []update.Update{update.ByFieldName("Email", email)})
+	})
+}
+
+// Rename reads and writes in one transaction: the name changes only
+// if the record is still there when the transaction commits.
+func Rename(ctx context.Context, db dal.DB, id, name string) error {
+	return db.RunReadwriteTransaction(ctx, func(ctx context.Context, tx dal.ReadwriteTransaction) error {
+		user, err := Users.GetData(ctx, tx, id)
+		if err != nil {
+			return err
+		}
+		user.Name = name
+		return Users.SetByID(ctx, tx, id, user)
+	})
+}
+
+// Delete removes one user.
+func Delete(ctx context.Context, db dal.DB, id string) error {
+	return db.RunReadwriteTransaction(ctx, func(ctx context.Context, tx dal.ReadwriteTransaction) error {
+		return Users.DeleteByID(ctx, tx, id)
+	})
+}
+
+// FindByEmail returns the first user whose Email field equals email,
+// together with that record's id. It uses a structured query the SQL
+// and Firestore adapters both implement for equality filters.
+func FindByEmail(ctx context.Context, db dal.DB, email string) (id string, user User, err error) {
+	query := dal.From(dal.NewRootCollectionRef("users", "")).NewQuery().
+		WhereField("Email", dal.Equal, email).
+		Limit(1).
+		SelectIntoRecord(func() record.Record {
+			return record.NewRecordWithIncompleteKey("users", reflect.String, new(User))
+		})
+	records, err := dal.ExecuteQueryAndReadAllToRecords(ctx, query, db)
+	if err != nil {
+		return "", User{}, err
+	}
+	if len(records) == 0 {
+		return "", User{}, fmt.Errorf("find user by email %q: %w", email, record.ErrRecordNotFound)
+	}
+	rec := records[0]
+	id, ok := rec.Key().ID.(string)
+	if !ok {
+		return "", User{}, fmt.Errorf("users: unexpected key type %T", rec.Key().ID)
+	}
+	return id, *rec.Data().(*User), nil
+}
+
+// Missing reports a not-found read.
+func Missing(err error) bool {
+	return record.IsNotFound(err)
+}</code></pre></div>
+<p>The operations that stay on <code>dal.DB</code> are:</p>
+<ul>
+<li><strong>Insert.</strong> <code>InsertWithID</code> writes a new record at a known id. <code>Insert</code> without an id lets DALgo generate one.</li>
+<li><strong>Read.</strong> <code>GetData</code> loads one record. A missing record is an error that <a href="https://pkg.go.dev/github.com/dal-go/record" rel="noopener"><code>record.IsNotFound</code></a> recognizes; <code>Missing</code> wraps it.</li>
+<li><strong>Set.</strong> <code>SetByID</code> creates or replaces the record at that id.</li>
+<li><strong>Update.</strong> <code>UpdateByID</code> with <code>update.ByFieldName(&quot;Email&quot;, email)</code> changes one field and leaves the others alone. The field name is the stored name: here the exported Go field name, because <code>User</code> has no <code>firestore</code> or SQL struct tags.</li>
+<li><strong>Delete.</strong> <code>DeleteByID</code> removes the record.</li>
+<li><strong>Query.</strong> <code>FindByEmail</code> is a structured query: <code>dal.From(...).NewQuery()</code>, an equality filter, a limit, and <code>SelectIntoRecord</code> so each row comes back as a <code>record.Record</code> with a key. <code>Collection.All</code> returns values only, without ids, which is why this query is the form that keeps the id.</li>
+<li><strong>Transactions.</strong> <code>Rename</code> reads and writes in one <code>RunReadwriteTransaction</code> closure. <code>db.RunReadonlyTransaction</code> is the read-only form when the callback only reads.</li>
+</ul>
+<h2 id="wire-postgresql-firestore-and-memory">Wire PostgreSQL, Firestore, and memory</h2>
+<p>The functions above never import an adapter. Constructors live next to <code>main</code> or in tests:</p>
+<div class="codeblock"><div class="codeblock-head"><span class="codeblock-name">example.go</span><span class="codeblock-lang">Go</span></div><pre><code>// OpenMemory builds the in-memory adapter. The profile names the
+// transaction rules the stand-in follows. FirestoreProfile follows
+// Firestore's rules; SingleWriterProfile follows a single-writer store.
+func OpenMemory(profile dalgo2memory.Profile) dal.DB {
+	return dalgo2memory.New(profile)
+}
+
+// usersRecordsets tells the SQL adapter that the record key is the "id" column.
+// Insert, Get and Delete need this metadata; NewDatabase without options is not
+// enough for those point operations.
+func usersRecordsets() map[string]*dalgo2sql.Recordset {
+	return map[string]*dalgo2sql.Recordset{
+		"users": dalgo2sql.NewRecordset("users", dalgo2sql.Table, []dal.FieldRef{dal.Field("id")}),
+	}
+}
+
+// OpenPostgres opens PostgreSQL through dalgo2postgres, which wraps dalgo2sql
+// and forces the postgres dialect. The caller closes the returned database.
+func OpenPostgres(dsn string) (*dalgo2postgres.Database, error) {
+	return dalgo2postgres.NewDatabaseWithOptions(dsn, dal.NewSchema(nil, nil), dalgo2sql.DbOptions{
+		Recordsets: usersRecordsets(),
+	})
+}
+
+// EnsureUsersTable creates the SQL table the repository writes.
+// Memory and Firestore do not use this. PostgreSQL does, and only when
+// the database implements ddl.SchemaModifier.
+func EnsureUsersTable(ctx context.Context, db dal.DB) error {
+	return ddl.CreateCollection(ctx, db, dbschema.CollectionDef{
+		Name: "users",
+		Fields: []dbschema.FieldDef{
+			{Name: "id", Type: dbschema.String, Nullable: false},
+			{Name: "Name", Type: dbschema.String, Nullable: false},
+			{Name: "Email", Type: dbschema.String, Nullable: false},
+		},
+		PrimaryKey: []dal.FieldName{"id"},
+	})
+}
+
+// OpenFirestore wraps an official Firestore client in a dal.DB.
+// The caller closes the client. NewDatabase panics on an empty id or a nil client.
+func OpenFirestore(ctx context.Context, projectID string) (dal.DB, *firestore.Client, error) {
+	client, err := firestore.NewClient(ctx, projectID)
+	if err != nil {
+		return nil, nil, err
+	}
+	return dalgo2firestore.NewDatabase(projectID, client), client, nil
+}</code></pre></div>
+<ul>
+<li><code>OpenMemory</code> uses <a href="https://github.com/dal-go/dalgo/tree/main/adapters/dalgo2memory" rel="noopener"><code>dalgo2memory</code></a> in the core module. <code>New</code> requires a profile; there is no silent default. <code>FirestoreProfile()</code> follows <a href="https://cloud.google.com/firestore/docs" rel="noopener">Cloud Firestore</a> transaction rules. <code>SingleWriterProfile()</code> follows a single-writer store such as SQLite. If production might be either PostgreSQL or Firestore, run the same tests on both profiles; the Firestore profile is the stricter one (reads must come before writes).</li>
+<li><code>OpenPostgres</code> uses <a href="https://github.com/dal-go/dalgo2postgres" rel="noopener"><code>dalgo2postgres.NewDatabaseWithOptions</code></a>. That constructor wraps <a href="https://github.com/dal-go/dalgo2sql" rel="noopener"><code>dalgo2sql</code></a>, opens the server with <a href="https://pkg.go.dev/github.com/jackc/pgx/v5/stdlib" rel="noopener"><code>github.com/jackc/pgx/v5/stdlib</code></a> (pure Go, <code>CGO_ENABLED=0</code>), pings at construction time, and forces the <code>postgres</code> structured-query dialect so a structured query does not use the legacy text emitter. The recordset names <code>id</code> as the primary-key column. The <a href="https://github.com/dal-go/dalgo2postgres" rel="noopener">dalgo2postgres README</a> says <code>NewDatabase(dsn)</code> is the minimal constructor, and that per-collection primary-key metadata is required for <code>Insert</code>/<code>Get</code>/<code>Delete</code> with <code>map[string]any</code> data. The SQL write path also needs a primary-key column for a typed record with a known id, so this listing registers the recordset. The caller closes <code>*dalgo2postgres.Database</code>.</li>
+<li><code>EnsureUsersTable</code> calls <a href="https://pkg.go.dev/github.com/dal-go/dalgo/ddl" rel="noopener"><code>ddl.CreateCollection</code></a>. The PostgreSQL driver implements <code>ddl.SchemaModifier</code>. The memory adapter and <code>dalgo2firestore</code> do not: memory has no SQL catalog, and Firestore stores the struct as a document. On a handle that is not a schema modifier, <code>CreateCollection</code> returns a not-supported error.</li>
+<li><code>OpenFirestore</code> builds a client with <a href="https://pkg.go.dev/cloud.google.com/go/firestore" rel="noopener"><code>cloud.google.com/go/firestore</code></a> and wraps it with <a href="https://github.com/dal-go/dalgo2firestore" rel="noopener"><code>dalgo2firestore.NewDatabase</code></a>. The caller closes the client. <code>dal.DB</code> has no <code>Close</code> method.</li>
+</ul>
+<p>A production <code>main</code> would call <code>OpenPostgres</code> or <code>OpenFirestore</code>, optionally <code>EnsureUsersTable</code> on the SQL path, and pass the <code>dal.DB</code> to the functions above. A unit test can do the same with memory:</p>
+<div class="codeblock"><div class="codeblock-head"><span class="codeblock-name">example.go</span><span class="codeblock-lang">Go</span></div><pre><code>package users
+
+import (
+	"context"
+	"testing"
+
+	"github.com/dal-go/dalgo/adapters/dalgo2memory"
+	"github.com/dal-go/dalgo/dal"
+)
+
+func TestUsersRoundTrip(t *testing.T) {
+	ctx := context.Background()
+	want := User{Name: "Ada Lovelace", Email: "ada@example.com"}
+	db := OpenMemory(dalgo2memory.FirestoreProfile())
+
+	if _, err := Get(ctx, db, "u1"); !Missing(err) {
+		t.Fatalf("Get missing user: %v", err)
+	}
+	if err := Create(ctx, db, "u1", want); err != nil {
+		t.Fatal(err)
+	}
+	got, err := Get(ctx, db, "u1")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got != want {
+		t.Fatalf("got %+v, want %+v", got, want)
+	}
+	id, found, err := FindByEmail(ctx, db, want.Email)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if id != "u1" || found != want {
+		t.Fatalf("FindByEmail got %s %+v", id, found)
+	}
+	if err := Rename(ctx, db, "u1", "Ada"); err != nil {
+		t.Fatal(err)
+	}
+	if err := SetEmail(ctx, db, "u1", "ada@example.org"); err != nil {
+		t.Fatal(err)
+	}
+	if err := Delete(ctx, db, "u1"); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := Get(ctx, db, "u1"); !Missing(err) {
+		t.Fatalf("Get deleted user: %v", err)
+	}
+}
+
+func TestOpenSignaturesCompile(t *testing.T) {
+	_ = OpenPostgres
+	_ = OpenFirestore
+	_ = EnsureUsersTable
+	var _ dal.DB = OpenMemory(dalgo2memory.SingleWriterProfile())
+}</code></pre></div>
+<p><code>go test</code> on 23 November 2026 ran this package against <code>github.com/dal-go/dalgo</code> v0.102.6, <code>dalgo2sql</code> v0.32.6, <code>dalgo2postgres</code> v0.11.6, <code>dalgo2firestore</code> v0.11.3, <code>record</code> v0.1.5, and <code>cloud.google.com/go/firestore</code> v1.29.2, using Go 1.27.3. The test passed for <code>FirestoreProfile</code> and for <code>SingleWriterProfile</code>. <code>OpenPostgres</code> and <code>OpenFirestore</code> were compiled in the same package. This check did not open a PostgreSQL server or a Firestore project, so it is evidence that those constructors type-check and that the shared functions run on the adapters the test actually opened. Adapter limits still live in each adapter README and in the <a href="/adapters/">adapter matrix</a>.</p>
+<h2 id="what-stays-the-same">What stays the same</h2>
+<p>Across the adapters this page names, the business functions keep the same shape:</p>
+<ul>
+<li>The record type, the collection name, and the string id stay on <code>dal.CollectionOf</code>. The id is the key, not a field of <code>User</code>.</li>
+<li>Point <a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete" rel="noopener">CRUD</a> uses <code>InsertWithID</code>, <code>GetData</code>, <code>SetByID</code>, <code>UpdateByID</code>, and <code>DeleteByID</code>.</li>
+<li>Writes run inside <code>RunReadwriteTransaction</code>. Reads can use a plain <code>dal.DB</code> or a transaction session.</li>
+<li>A missing record is <code>record.IsNotFound</code>.</li>
+<li>Structured queries use the same builder (<code>From</code>, <code>WhereField</code>, <code>Limit</code>, <code>SelectIntoRecord</code>). An equality filter with a limit, as in <code>FindByEmail</code>, is in the intersection the Firestore and PostgreSQL adapters both implement for structured queries.</li>
+<li>Tests inject <code>dalgo2memory</code> with a profile, without changing the functions under test.</li>
+</ul>
+<h2 id="what-differs">What differs</h2>
+<p>The swap is not a complete hiding of the two stores. These differences remain, and they come from the adapter repositories and from official PostgreSQL and Firestore documentation.</p>
+<p><strong>Schema and DDL versus document collections.</strong> PostgreSQL needs a table. <code>EnsureUsersTable</code> is the DALgo form of that DDL. Firestore has no table to create: a document appears when you write it, in a collection that the path names. Google&#x27;s <a href="https://firebase.google.com/docs/firestore/manage-data/add-data" rel="noopener">add-data guide</a> describes documents and collections; PostgreSQL&#x27;s documentation describes <a href="https://www.postgresql.org/docs/current/sql-createtable.html" rel="noopener">creating a table</a>. You still choose, in <code>main</code>, whether to run <code>EnsureUsersTable</code>.</p>
+<p><strong>Identifier names.</strong> <code>dalgo2postgres</code> defaults to <code>IdentifierFoldLower</code>: it lower-cases every name before it quotes it, which is also what its DDL stores, so <code>Name</code> and <code>name</code> are the same column on a database this package created. <code>WithIdentifierMode(dalgo2postgres.IdentifierExact)</code> writes names as spelled, inside quotes, for databases whose tables were created with mixed-case names. Firestore stores the exported Go field names as document fields unless you add <code>firestore</code> struct tags. Typed structs can still round-trip when the SQL adapter matches column names case-insensitively, but a raw map of stored names will show the folded SQL names. Do not put a field mask or an access check on a folding PostgreSQL handle unless the names it compares are folded first; the <a href="https://github.com/dal-go/dalgo2postgres" rel="noopener">dalgo2postgres README</a> states that limit.</p>
+<p><strong>Hierarchical keys.</strong> DALgo keys can be nested, which maps naturally to a Firestore path such as <code>users/u1/orders/o1</code>. <code>Collection.In(parent)</code> scopes a handle to a subcollection, and <code>record.NewKeyWithParentAndID</code> builds the key. On SQL, <code>dalgo2sql</code> does not store that path as a document path. It joins the collection names with <code>_</code> to form the recordset name, so a key <code>orders</code> under <code>users</code> addresses the recordset <code>orders_users</code>, which you must declare, with its own primary-key column. That is a different table, not a Firestore subcollection. A parent id is not, by itself, a PostgreSQL foreign key.</p>
+<p><strong>Queries the adapter cannot run.</strong> An adapter returns <code>dal.ErrNotSupported</code> for a capability it does not implement. <code>dalgo2firestore</code> returns that error for <code>GROUP BY</code> and for <code>HAVING</code>. It also refuses query sources it does not recognize, <code>IS NULL</code> on a field (a native <code>== null</code> would miss documents where the field is absent), and some comparison operators. It implements structured filters, order, limit, and offset on a collection or collection group. <code>dalgo2postgres</code> runs filtering, ordering, grouping, aggregation, and joins on the server through dalgo2sql&#x27;s typed PostgreSQL compiler. A business method that needs a join or a <code>GROUP BY</code> has not been shown to run on Firestore by compiling it against <code>dal.DB</code> alone. Check the <a href="/adapters/">adapter matrix</a> and the adapter README before promising that method on both backends. <a href="/queries/">Queries</a> is the structured form.</p>
+<p><strong>Transaction semantics.</strong> Both adapters use a closure: you pass a function, the driver gives you a session. The sessions are not the same. <code>dalgo2firestore</code> runs <code>RunReadwriteTransaction</code> through the official client&#x27;s <code>RunTransaction</code>, so Firestore&#x27;s rules apply. Google&#x27;s <a href="https://firebase.google.com/docs/firestore/manage-data/transactions" rel="noopener">transactions guide</a> says read operations must come before write operations, and that a transaction function might run more than once if a concurrent edit affects a document it reads. Use the <code>ctx</code> and <code>tx</code> the callback receives, keep side effects such as sending email out of the callback, and return an error to abandon the transaction without writing. <code>dalgo2postgres</code> starts a <code>database/sql</code> transaction, runs the callback once, and commits or rolls back. The SQL adapter does not retry the callback on a conflict the way Firestore&#x27;s client does. PostgreSQL transaction behaviour is documented in the <a href="https://www.postgresql.org/docs/current/tutorial-transactions.html" rel="noopener">PostgreSQL tutorial</a>. PostgreSQL also advertises concurrent connections (<code>dal.ConcurrencyAware</code>); that is a property of the server and the pgx pool, not of Firestore&#x27;s transaction retry loop.</p>
+<p><strong>What stays on the official client.</strong> Firestore-only features such as real-time listeners stay on <code>*firestore.Client</code>, which <code>OpenFirestore</code> still returns. PostgreSQL-only features such as native SQL, views, or extensions stay on the <code>*sql.DB</code> behind the driver, not on <code>dal.DB</code>.</p>
+<h2 id="when-not-to-switch-this-way">When not to switch this way</h2>
+<p>Do not use this swap as a way to move a heavily relational service onto Firestore while keeping the same queries. If the domain depends on joins, on <code>GROUP BY</code>/<code>HAVING</code>, on foreign keys, on SQL views, or on statements you want to keep as SQL, the PostgreSQL adapter is the honest backend and the official Postgres client or a specialized tool such as <a href="https://docs.sqlc.dev/en/latest/tutorials/getting-started-postgresql.html" rel="noopener">sqlc</a> may be the better API. <code>dalgo2firestore</code> will not compile those query shapes into Firestore.</p>
+<p>Do not use it when the product <em>is</em> Firestore: real-time listeners, security rules, or other features that exist only on the official client. <a href="/articles/go-firestore-tutorial/">Firestore in Go: CRUD and transactions with DALgo</a> says the official client is the shorter path when the service will only ever use Firestore.</p>
+<p>Do not assume every method you wrote against <code>dal.DB</code> on memory will run on both production adapters. Memory can run many structured queries end to end; that is not a proof that Firestore will run a join. The price of portability is to stay inside the intersection, or to handle <code>dal.ErrNotSupported</code> on purpose. <a href="/articles/when-to-use-dalgo/">When to use DALgo, and when not to</a> is the longer limit list.</p>
+<h2 id="copying-records-through-the-interface">Copying records through the interface</h2>
+<p>A point-by-point copy of one collection is something the current APIs can do: read records with their keys from one <code>dal.DB</code>, then <code>InsertWithID</code> them into another. <code>Collection.All</code> is not enough, because it returns values without ids. The query below keeps the key.</p>
+<div class="codeblock"><div class="codeblock-head"><span class="codeblock-name">example.go</span><span class="codeblock-lang">Go</span></div><pre><code>// CopyUsers copies every users record from src to dest, keeping the same ids.
+// Each record is written in its own transaction with InsertWithID.
+func CopyUsers(ctx context.Context, src, dest dal.DB) error {
+	query := dal.From(dal.NewRootCollectionRef("users", "")).NewQuery().
+		SelectIntoRecord(func() record.Record {
+			return record.NewRecordWithIncompleteKey("users", reflect.String, new(User))
+		})
+	records, err := dal.ExecuteQueryAndReadAllToRecords(ctx, query, src)
+	if err != nil {
+		return err
+	}
+	for _, rec := range records {
+		id, ok := rec.Key().ID.(string)
+		if !ok {
+			return fmt.Errorf("users: unexpected key type %T", rec.Key().ID)
+		}
+		user := *rec.Data().(*User)
+		if err := Create(ctx, dest, id, user); err != nil {
+			return err
+		}
+	}
+	return nil
+}</code></pre></div>
+<p>The same 23 November 2026 test ran <code>CopyUsers</code> from one in-memory database to another, on both memory profiles, and then <code>Get</code> on the destination returned the original record. That is a copy of records the interface can read and write. It is not a general migrator: it does not convert types, remap hierarchical keys onto SQL tables, batch according to Firestore or PostgreSQL limits, or move a schema. Official tools exist for those jobs: Google&#x27;s <a href="https://firebase.google.com/docs/firestore/manage-data/export-import" rel="noopener">export and import</a> documentation (also on <a href="https://cloud.google.com/firestore/docs/manage-data/export-import" rel="noopener">cloud.google.com</a>), and PostgreSQL&#x27;s <a href="https://www.postgresql.org/docs/current/app-pgdump.html" rel="noopener"><code>pg_dump</code></a> and <a href="https://www.postgresql.org/docs/current/app-pgrestore.html" rel="noopener"><code>pg_restore</code></a>. Use <code>SetByID</code> instead of <code>InsertWithID</code> if the destination may already hold the id.</p>
+<h2 id="faq">FAQ</h2>
+<h3 id="how-do-i-switch-a-go-service-from-postgresql-to-firestore-without-rewriting-business-code">How do I switch a Go service from PostgreSQL to Firestore without rewriting business code?</h3>
+<p>Write the record functions against <code>dal.DB</code>, as the listing above does. In <code>main</code>, open <code>dalgo2postgres</code> or <code>dalgo2firestore</code>. In tests, pass <code>dalgo2memory</code> with a profile that matches the production transaction rules. Keep queries and transactions inside the intersection of the adapters you actually run, or handle <code>dal.ErrNotSupported</code>.</p>
+<h3 id="do-i-still-need-a-postgresql-table-after-the-switch">Do I still need a PostgreSQL table after the switch?</h3>
+<p>Only on the PostgreSQL path. Call <code>EnsureUsersTable</code> (or your own DDL) before the first SQL write. Firestore stores documents and does not use that helper.</p>
+<h3 id="will-every-structured-query-run-on-both-adapters">Will every structured query run on both adapters?</h3>
+<p>No. Equality filters, ordering, and limits, as in <code>FindByEmail</code>, are in the shared structured-query subset this page used. <code>GROUP BY</code> and <code>HAVING</code> return <code>dal.ErrNotSupported</code> from <code>dalgo2firestore</code>. Joins run on the PostgreSQL server through <code>dalgo2postgres</code>; do not assume the same join runs on Firestore. See the <a href="/adapters/">adapter matrix</a>.</p>
+<h3 id="can-i-copy-the-data-with-dalgo">Can I copy the data with DALgo?</h3>
+<p>You can copy one collection of records the interface can read and write, as <code>CopyUsers</code> does, if you also copy the ids. That is not a substitute for official export and import tools, linked in the previous section.</p>
+<h3 id="do-i-need-dalgo-to-use-postgresql-or-firestore-from-go">Do I need DALgo to use PostgreSQL or Firestore from Go?</h3>
+<p>No. The official <code>database/sql</code> (or pgx) client and <code>cloud.google.com/go/firestore</code> are complete on their own. DALgo is useful when the same code must also run on the other store or on an in-memory stand-in.</p>
+<h2 id="sources">Sources</h2>
+<p>Public module docs, official PostgreSQL and Firestore documentation, and the listings above, checked on 23 November 2026.</p>
+<ul>
+<li><a href="https://github.com/dal-go/dalgo" rel="noopener">dal-go/dalgo</a> v0.102.6 and <a href="https://github.com/dal-go/record" rel="noopener">dal-go/record</a> v0.1.5. License: <a href="https://github.com/dal-go/dalgo/blob/main/LICENSE" rel="noopener">MIT</a>.</li>
+<li><a href="https://github.com/dal-go/dalgo2sql" rel="noopener">dalgo2sql</a> v0.32.6, <a href="https://github.com/dal-go/dalgo2postgres" rel="noopener">dalgo2postgres</a> v0.11.6, <a href="https://github.com/dal-go/dalgo2firestore" rel="noopener">dalgo2firestore</a> v0.11.3.</li>
+<li><a href="https://pkg.go.dev/cloud.google.com/go/firestore" rel="noopener"><code>cloud.google.com/go/firestore</code></a> v1.29.2, <a href="https://pkg.go.dev/github.com/jackc/pgx/v5" rel="noopener"><code>github.com/jackc/pgx/v5</code></a>.</li>
+<li>Google: <a href="https://firebase.google.com/docs/firestore" rel="noopener">Cloud Firestore</a>, <a href="https://firebase.google.com/docs/firestore/manage-data/add-data" rel="noopener">Add data</a>, <a href="https://firebase.google.com/docs/firestore/manage-data/transactions" rel="noopener">Transactions and batched writes</a>, <a href="https://firebase.google.com/docs/firestore/manage-data/export-import" rel="noopener">Export and import data</a>, and the same topics on <a href="https://cloud.google.com/firestore/docs" rel="noopener">cloud.google.com/firestore/docs</a>.</li>
+<li>PostgreSQL: <a href="https://www.postgresql.org/docs/current/" rel="noopener">current documentation</a>, <a href="https://www.postgresql.org/docs/current/sql-createtable.html" rel="noopener">CREATE TABLE</a>, <a href="https://www.postgresql.org/docs/current/tutorial-transactions.html" rel="noopener">transactions</a>, <a href="https://www.postgresql.org/docs/current/app-pgdump.html" rel="noopener"><code>pg_dump</code></a>, <a href="https://www.postgresql.org/docs/current/app-pgrestore.html" rel="noopener"><code>pg_restore</code></a>.</li>
+</ul>
+  </div>
+  <aside class="article-related"><h2>More articles</h2><ul><li><a href="/articles/go-firestore-tutorial/">Firestore in Go: CRUD and transactions with DALgo</a></li>
+<li><a href="/articles/dalgo-vs-gorm/">DALgo vs GORM: a gorm alternative</a></li>
+<li><a href="/articles/go-database-abstraction-layer/">Database abstraction layer in Go: what it is and when you need one</a></li>
+<li><a href="/articles/go-repository-pattern/">Repository pattern in Go with a swappable storage backend</a></li>
+<li><a href="/articles/why-use-dalgo/">Why use DALgo</a></li>
+<li><a href="/articles/when-to-use-dalgo/">When to use DALgo, and when not to</a></li></ul></aside>
+  <p class="article-source">Source file: <a href="https://github.com/dal-go/dalgo-io/blob/main/content/articles/switch-postgres-to-firestore.md"><code>content/articles/switch-postgres-to-firestore.md</code></a></p>
+</article>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Switching between PostgreSQL and Firestore in Go without rewriting business code","description":"Switch Postgres to Firestore in Go without rewriting business code, using DALgo adapters for PostgreSQL, Cloud Firestore, and in-memory tests.","datePublished":"2026-11-23","dateModified":"2026-11-23","inLanguage":"en","mainEntityOfPage":"https://dalgo.io/articles/switch-postgres-to-firestore/","dependencies":"Go","author":{"@type":"Organization","name":"DALgo contributors","url":"https://dalgo.io/"},"publisher":{"@type":"Organization","name":"DALgo","url":"https://dalgo.io/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"DALgo","item":"https://dalgo.io/"},{"@type":"ListItem","position":2,"name":"Articles","item":"https://dalgo.io/articles/"},{"@type":"ListItem","position":3,"name":"Switching between PostgreSQL and Firestore in Go without rewriting business code","item":"https://dalgo.io/articles/switch-postgres-to-firestore/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I switch a Go service from PostgreSQL to Firestore without rewriting business code?","acceptedAnswer":{"@type":"Answer","text":"Write the record functions against dal.DB, as the listing above does. In main, open dalgo2postgres or dalgo2firestore. In tests, pass dalgo2memory with a profile that matches the production transaction rules. Keep queries and transactions inside the intersection of the adapters you actually run, or handle dal.ErrNotSupported."}},{"@type":"Question","name":"Do I still need a PostgreSQL table after the switch?","acceptedAnswer":{"@type":"Answer","text":"Only on the PostgreSQL path. Call EnsureUsersTable (or your own DDL) before the first SQL write. Firestore stores documents and does not use that helper."}},{"@type":"Question","name":"Will every structured query run on both adapters?","acceptedAnswer":{"@type":"Answer","text":"No. Equality filters, ordering, and limits, as in FindByEmail, are in the shared structured-query subset this page used. GROUP BY and HAVING return dal.ErrNotSupported from dalgo2firestore. Joins run on the PostgreSQL server through dalgo2postgres; do not assume the same join runs on Firestore. See the adapter matrix."}},{"@type":"Question","name":"Can I copy the data with DALgo?","acceptedAnswer":{"@type":"Answer","text":"You can copy one collection of records the interface can read and write, as CopyUsers does, if you also copy the ids. That is not a substitute for official export and import tools, linked in the previous section."}},{"@type":"Question","name":"Do I need DALgo to use PostgreSQL or Firestore from Go?","acceptedAnswer":{"@type":"Answer","text":"No. The official database/sql (or pgx) client and cloud.google.com/go/firestore are complete on their own. DALgo is useful when the same code must also run on the other store or on an in-memory stand-in."}}]}</script>
+</main>
+
+
+<footer class="AppFooter">
+  <div class="container AppFooter-inner">
+    <ul role="list">
+      <li>&copy; <span id="year">2026</span> DALgo contributors</li>
+      <li><a href="/">DALgo</a></li>
+      <li><a href="/articles/">Articles</a></li>
+      <li><a href="/tugql/">TugQL</a></li>
+      <li><a href="https://github.com/dal-go/dalgo" rel="noopener">Core repo</a></li>
+      <li><a href="https://github.com/dal-go/dalgo/blob/main/LICENSE" rel="noopener">MIT License</a></li>
+      <li><a href="/privacy/">Privacy</a></li>
+    </ul>
+    <span class="AppFooter-tag">Open-source documentation site. No accounts, no advertising.</span>
+  </div>
+<nav class="topic-footer container" data-topic-footer aria-label="Documentation"><a href="/go/">DALgo for Go</a><a href="/typescript/">DALgo for TypeScript</a><a href="/quickstart/">Quick Start</a><a href="/adapters/">Adapters and runtime support</a><a href="/why/">Why DALgo</a><a href="/collections/">Typed collections</a><a href="/interfaces/">Interfaces</a><a href="/queries/">Queries and schema</a><a href="/film/">DALgo films</a><a href="/datatug/">DALgo and DataTug</a><a href="/about/tech-stack/">Technology behind DALgo</a><a href="/faq/">DALgo FAQ</a><a href="/articles/">Articles</a><a href="/tugql/">TugQL</a></nav></footer>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<div class="site-feedback"><button type="button" data-feedback-launcher aria-haspopup="dialog" hidden><svg class="feedback-mark" aria-hidden="true" focusable="false" viewBox="0 0 64 64"><rect width="64" height="64" rx="18" fill="#d4ef83"/><path d="M18 46 46 18M20 18h26v26" fill="none" stroke="#202c2a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>Suggest an improvement</button></div>
+<script id="site-feedback-widget" src="https://improveit.now/widget.js" data-space="ao58m" data-app="53707531c1e1120447e7673109bb6538" data-lang="en" data-color="#0d63e9" data-launcher="hidden" defer></script>
+<script src="/feedback.js" defer></script>
+</body>
+</html>
