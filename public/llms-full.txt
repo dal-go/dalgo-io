@@ -63,7 +63,7 @@ DALgo is [open-source](https://github.com/dal-go/dalgo). The Go module is the ma
 
 DALgo is a database abstraction layer for Go and TypeScript. Write your domain logic once against a single, well-tested interface — swap Postgres for Firestore, an in-memory store for a real one — without touching your business code. The Go module is the main implementation; the TypeScript package, @dalgo/core, is published on npm.
 
-Storage-agnostic logic. Write business code against dal.DB. Decide later whether it lives in Postgres, Firestore, or a JSON file on disk.
+Storage-agnostic logic. Write business code against dal.DB. Decide later whether it lives in Postgres, Firestore, or a JSON file on disk. The walkthrough is Switching between PostgreSQL and Firestore in Go.
 
 Less code, more readable. A common contract for keys, records, queries and transactions. Supported operations depend on the adapter.
 
@@ -89,7 +89,7 @@ DataTug helps developers explore database schemas, write and run queries, and un
 
 DALgo — слой абстракции баз данных для Go и TypeScript. Пишите логику предметной области один раз, против единого хорошо протестированного интерфейса, — и меняйте Postgres на Firestore, а хранилище в памяти на настоящее, не трогая бизнес-код. Модуль для Go — основная реализация; пакет для TypeScript, @dalgo/core, опубликован в npm.
 
-Логика, не зависящая от хранилища. Пишите бизнес-код против dal.DB. Где он будет жить — в Postgres, Firestore или в JSON-файле на диске, — решите позже.
+Логика, не зависящая от хранилища. Пишите бизнес-код против dal.DB. Где он будет жить — в Postgres, Firestore или в JSON-файле на диске, — решите позже. Разбор перехода — в статье Switching between PostgreSQL and Firestore in Go (англ.).
 
 Меньше кода, он читается лучше. Общий контракт для ключей, записей, запросов и транзакций. Поддерживаемые операции зависят от адаптера.
 
@@ -153,6 +153,10 @@ Yes. [@dalgo/core](https://github.com/dal-go/dalgo-js) is the browser-neutral Ty
 
 Yes. In Go, the `dalgo2firestore` adapter connects DALgo to Cloud Firestore. [Firestore in Go: CRUD and transactions with DALgo](https://dalgo.io/articles/go-firestore-tutorial/) creates, reads, updates and deletes a document and runs a read-write transaction, and runs the same functions on the in-memory adapter in tests.
 
+### Can I switch a Go service from PostgreSQL to Firestore without rewriting business code?
+
+Yes, for the record operations both adapters implement. Write the domain against `dal.DB`, open `dalgo2postgres` or `dalgo2firestore` in `main`, and use `dalgo2memory` in tests. [Switching between PostgreSQL and Firestore in Go without rewriting business code](https://dalgo.io/articles/switch-postgres-to-firestore/) walks through a users repository, what stays the same, and what still differs (schema, joins, transactions).
+
 ### When should I not use DALgo?
 
 DALgo earns its place when the same domain code must run against more than one store, including a test double. It is the wrong tool when the engine's own query language is the product. [When to use DALgo, and when not to](https://dalgo.io/articles/when-to-use-dalgo/) lists the cases.
@@ -207,6 +211,10 @@ DALgo — слой абстракции базы данных, а не полн�
 
 Да. В Go адаптер `dalgo2firestore` подключает DALgo к Cloud Firestore. В статье [Firestore in Go: CRUD and transactions with DALgo](https://dalgo.io/articles/go-firestore-tutorial/) (англ.) документ создаётся, читается, изменяется и удаляется, выполняется транзакция чтения и записи, а те же функции в тестах работают на адаптере в памяти.
 
+### Можно ли перевести сервис на Go с PostgreSQL на Firestore, не переписывая бизнес-код?
+
+Да, для операций с записями, которые реализуют оба адаптера. Пишите предметный код против `dal.DB`, в `main` открывайте `dalgo2postgres` или `dalgo2firestore`, а в тестах используйте `dalgo2memory`. Разбор — в статье [Switching between PostgreSQL and Firestore in Go without rewriting business code](https://dalgo.io/articles/switch-postgres-to-firestore/) (англ.): репозиторий пользователей, что остаётся общим и чем хранилища всё же различаются (схема, соединения, транзакции).
+
 ### Когда DALgo не нужен?
 
 DALgo оправдан, когда один и тот же код предметной области должен работать с несколькими хранилищами, включая тестовую замену. Он не подходит, когда сам язык запросов движка и есть продукт. Случаи перечислены в статье [When to use DALgo, and when not to](https://dalgo.io/articles/when-to-use-dalgo/) (англ.).
@@ -251,6 +259,7 @@ DALgo разрабатывают участники DALgo в организац�
 
 ## Articles
 
+- [Switching between PostgreSQL and Firestore in Go without rewriting business code](https://dalgo.io/articles/switch-postgres-to-firestore/): 2026-11-23. Switch Postgres to Firestore in Go without rewriting business code, using DALgo adapters for PostgreSQL, Cloud Firestore, and in-memory tests. Write a small users repository once against dal.DB, then open it on PostgreSQL, Cloud Firestore, or DALgo's in-memory adapter. This page shows what those calls share, what still differs, and how to copy records through the same interface.
 - [Firestore in Go: CRUD and transactions with DALgo](https://dalgo.io/articles/go-firestore-tutorial/): 2026-11-16. Golang Firestore tutorial: Firestore Go CRUD and Firestore transactions in Go with DALgo, tested on the Firestore emulator and an in-memory stand-in. Connect to Cloud Firestore from Go through DALgo's dalgo2firestore adapter, then create, read, update and delete a document and run a read-write transaction. The same functions run on an in-memory adapter in unit tests.
 - [DALgo vs GORM: a gorm alternative](https://dalgo.io/articles/dalgo-vs-gorm/): 2026-11-09. dalgo vs gorm: a gorm alternative and golang orm alternative for services that swap stores, and where GORM's relational model is the better fit. GORM is a full-featured object-relational mapper for the relational databases its guide names. DALgo is a database abstraction layer for the same record calls on SQL and on other stores, including memory and Firestore.
 - [Database abstraction layer in Go: what it is and when you need one](https://dalgo.io/articles/go-database-abstraction-layer/): 2026-11-07. A Go database abstraction for services that swap stores, and how DALgo compares with database/sql, sqlx, GORM, ent, and sqlc. A database abstraction layer lets Go domain code talk to records, queries, and transactions while the storage backend stays replaceable. This is the definition, a compilable DALgo example, and a fair look at the usual alternatives.

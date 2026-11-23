@@ -56,7 +56,7 @@
 <li><a href="#sources">Sources</a></li></ol></nav>
   <div class="article-prose">
 <p>DALgo is a database abstraction layer. The Go module, <a href="https://github.com/dal-go/dalgo" rel="noopener"><code>github.com/dal-go/dalgo</code></a>, is the one production services import. A separate TypeScript package, <a href="https://github.com/dal-go/dalgo-js" rel="noopener"><code>@dalgo/core</code></a>, carries the same idea into browser and Node code: hierarchical keys, typed collections, structured queries, and transaction-scoped writes, with no database SDK of its own. Adapters are the part that knows Firestore, Postgres, SQLite, a Git working tree, or an HTTP API.</p>
-<p>The point of the split is ordinary. Application code spends years naming records, reading them back, and updating them inside a transaction. Those operations do not have to name <code>*sql.DB</code>, a Firestore client, or an HTTP route. When they don&#x27;t, the storage choice can move without a rewrite of the domain, and the test suite can run against a stand-in that speaks the same interface.</p>
+<p>The point of the split is ordinary. Application code spends years naming records, reading them back, and updating them inside a transaction. Those operations do not have to name <code>*sql.DB</code>, a Firestore client, or an HTTP route. When they don&#x27;t, the storage choice can move without a rewrite of the domain, and the test suite can run against a stand-in that speaks the same interface. <a href="/articles/switch-postgres-to-firestore/">Switching between PostgreSQL and Firestore in Go without rewriting business code</a> is that swap for one users repository.</p>
 <p>That is the whole pitch. The rest of this article is what the repositories actually ship, and where teams in the same orbit already use it. The companion article, <a href="/articles/when-to-use-dalgo/">When to use DALgo, and when not to</a>, is the other half: the jobs this layer should not be given.</p>
 <h2 id="the-seam-you-program-against">The seam you program against</h2>
 <p>Most application code should accept <code>dal.DB</code>, <code>dal.ReadSession</code>, or <code>dal.ReadwriteSession</code>, and never a concrete adapter. <code>dal.DB</code> is the database handle: identity, schema metadata, transactions, and reads. It is built with <code>dal.NewDB</code> from an adapter&#x27;s <code>dal.Backend</code>, and it owns the write pipeline, so validation and before-save hooks run before any adapter is entered. An adapter cannot quietly skip them, and two adapters cannot disagree about whether a write was checked.</p>
@@ -127,7 +127,8 @@ func GetUser(ctx context.Context, db dal.DB, id string) (User, error) {
 <li><a href="https://github.com/bots-go-framework/bots-fw" rel="noopener">bots-go-framework/bots-fw</a> <code>PERSISTENCE.md</code> and <a href="https://github.com/bots-go-framework/bots-fw-store-dalgo" rel="noopener">bots-fw-store-dalgo</a>.</li>
 </ul>
   </div>
-  <aside class="article-related"><h2>More articles</h2><ul><li><a href="/articles/go-firestore-tutorial/">Firestore in Go: CRUD and transactions with DALgo</a></li>
+  <aside class="article-related"><h2>More articles</h2><ul><li><a href="/articles/switch-postgres-to-firestore/">Switching between PostgreSQL and Firestore in Go without rewriting business code</a></li>
+<li><a href="/articles/go-firestore-tutorial/">Firestore in Go: CRUD and transactions with DALgo</a></li>
 <li><a href="/articles/dalgo-vs-gorm/">DALgo vs GORM: a gorm alternative</a></li>
 <li><a href="/articles/go-database-abstraction-layer/">Database abstraction layer in Go: what it is and when you need one</a></li>
 <li><a href="/articles/go-repository-pattern/">Repository pattern in Go with a swappable storage backend</a></li>
