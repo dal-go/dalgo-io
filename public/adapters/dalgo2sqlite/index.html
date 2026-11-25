@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script src="/theme.js"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SQLite in Go with DALgo: the dalgo2sqlite adapter — DALgo</title>
+<meta name="description" content="Golang SQLite with DALgo: the dalgo2sqlite adapter opens a SQLite file or memory DB in Go, and gives records, queries, transactions, and schema through dal.DB." />
+<link rel="canonical" href="https://dalgo.io/adapters/dalgo2sqlite/" />
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)" />
+<meta property="og:title" content="SQLite in Go with DALgo: the dalgo2sqlite adapter — DALgo" />
+<meta property="og:description" content="Golang SQLite with DALgo: the dalgo2sqlite adapter opens a SQLite file or memory DB in Go, and gives records, queries, transactions, and schema through dal.DB." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://dalgo.io/adapters/dalgo2sqlite/" />
+<meta property="article:published_time" content="2026-11-25" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230d1117'/><text x='50%25' y='52%25' text-anchor='middle' dominant-baseline='middle' font-family='ui-monospace,monospace' font-size='28' font-weight='700' fill='%232f81f7'>d/</text></svg>" />
+<link rel="stylesheet" href="/styles.css" />
+<script src="/analytics.js" defer></script>
+<link rel="stylesheet" href="/theme.css" />
+<script src="/site.js" defer></script>
+</head>
+<body>
+
+<header class="AppHeader" role="banner">
+  <div class="AppHeader-inner">
+    <a class="AppHeader-brand" href="/" aria-label="DALgo home">
+      <span class="AppHeader-brand-mark" aria-hidden="true">
+        <span class="brand-dal">DAL</span><span class="brand-go">go</span>
+      </span>
+    </a>
+
+
+
+    <nav class="AppHeader-nav" aria-label="Documentation"><a href="/go/">Go</a><a href="/typescript/">TypeScript</a><a href="/adapters/">Adapters</a><a href="/quickstart/">Quick Start</a></nav>
+
+    <div class="AppHeader-actions"><label class="theme-control" data-theme-control hidden><span aria-hidden="true">◐</span><select data-theme-switch aria-label="Theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label>
+
+    </div>
+  </div>
+</header>
+
+<main id="top">
+<article class="article">
+  <header class="article-header">
+    <p class="article-kicker"><a href="/adapters/">Adapters</a></p>
+    <h1>SQLite in Go with DALgo: the dalgo2sqlite adapter</h1>
+    <p class="article-meta"><time datetime="2026-11-25">25 November 2026</time></p>
+    <p class="article-standfirst">dalgo2sqlite is the SQLite-specific DALgo driver for Go. It opens a file or an in-memory database with the pure-Go modernc.org/sqlite driver, wraps dalgo2sql to provide dal.DB, and adds SQLite schema introspection, DDL, and a single-writer concurrency hint.</p>
+  </header>
+  <nav class="Box toc" aria-label="On this page"><strong>On this page</strong><ol><li><a href="#what-dalgo2sqlite-is">What dalgo2sqlite is</a></li>
+<li><a href="#the-sqlite-driver-modernc-org-sqlite-pure-go">The SQLite driver: modernc.org/sqlite, pure Go</a></li>
+<li><a href="#install-and-constructors">Install and constructors</a></li>
+<li><a href="#how-structured-queries-are-compiled">How structured queries are compiled</a></li>
+<li><a href="#schema-ddl-and-transactions">Schema, DDL, and transactions</a></li>
+<li><a href="#a-short-crud-example">A short CRUD example</a></li>
+<li><a href="#when-to-choose-sqlite">When to choose SQLite</a></li>
+<li><a href="#capability-summary">Capability summary</a></li>
+<li><a href="#faq">FAQ</a></li>
+<li><a href="#sources">Sources</a></li></ol></nav>
+  <div class="article-prose">
+<p><a href="/">DALgo</a> is an <a href="https://github.com/dal-go/dalgo" rel="noopener">open-source</a> database abstraction layer for <a href="https://go.dev/" rel="noopener">Go</a> and TypeScript; the Go module is <a href="https://github.com/dal-go/dalgo" rel="noopener"><code>github.com/dal-go/dalgo</code></a>. A DAL, short for <a href="/articles/go-database-abstraction-layer/">database abstraction layer</a>, is a library that sits between application code and a database so the program can store and load records without calling one vendor&#x27;s client; <a href="https://en.wikipedia.org/wiki/Database_abstraction_layer" rel="noopener">Wikipedia</a> uses the same name. An adapter, or driver in this module&#x27;s own wording, is the package that implements that interface for one kind of store. <a href="https://sqlite.org/docs.html" rel="noopener">SQLite</a> is a small, file-based <a href="https://en.wikipedia.org/wiki/SQL" rel="noopener">SQL</a> database engine — SQL is short for Structured Query Language, the language relational databases use for queries — that commonly lives in a single file or in memory. <a href="https://github.com/dal-go/dalgo2sqlite" rel="noopener"><code>dalgo2sqlite</code></a> is the <a href="https://github.com/dal-go/dalgo2sqlite/blob/main/LICENSE" rel="noopener">MIT-licensed</a> SQLite adapter for DALgo: it opens that engine and returns a <a href="https://pkg.go.dev/github.com/dal-go/dalgo/dal#DB" rel="noopener"><code>dal.DB</code></a>. <a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete" rel="noopener">CRUD</a>, short for create, read, update, and delete, names the four record operations on that handle. <a href="https://en.wikipedia.org/wiki/Data_definition_language" rel="noopener">DDL</a>, short for data definition language, is the SQL that creates, alters, and drops tables and indexes. <a href="https://pkg.go.dev/cmd/cgo" rel="noopener">CGo</a> is the Go toolchain&#x27;s way of calling C code; this adapter&#x27;s SQLite driver does not need it.</p>
+<p>This page is the reference for the Go module <a href="https://github.com/dal-go/dalgo2sqlite" rel="noopener"><code>github.com/dal-go/dalgo2sqlite</code></a>. The <a href="/adapters/">adapter matrix</a> lists what the SQLite row implements. A broader survey of Go data-access libraries is in <a href="/articles/go-orm-comparison-2026/">Go ORM and data-access libraries compared (2026)</a>; ORM is short for <a href="https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping" rel="noopener">object-relational mapping</a>. <a href="/articles/go-repository-pattern/">Repository pattern in Go</a> puts a smaller interface in front of <code>dal.DB</code>. <a href="/articles/switch-postgres-to-firestore/">Switching between PostgreSQL and Firestore in Go</a> is a walkthrough of the same record calls on two other stores. <a href="/articles/dalgo-vs-gorm/">DALgo vs GORM</a> is the head-to-head with GORM. The <a href="/quickstart/">quickstart</a> and the <a href="/faq/">FAQ</a> are the shorter product pages.</p>
+<h2 id="what-dalgo2sqlite-is">What dalgo2sqlite is</h2>
+<p>The module README calls dalgo2sqlite a SQLite-specific DALgo driver. It wraps <a href="https://github.com/dal-go/dalgo2sql" rel="noopener"><code>github.com/dal-go/dalgo2sql</code></a> to provide the <code>dal.DB</code> surface — transactions, a recordset reader, and Get, Set, Insert, and Delete — and adds SQLite-native implementations of:</p>
+<ul>
+<li><a href="https://pkg.go.dev/github.com/dal-go/dalgo/dbschema" rel="noopener"><code>dbschema.SchemaReader</code></a> — schema introspection through <code>sqlite_master</code> and <code>PRAGMA</code> queries such as <code>pragma_table_info</code></li>
+<li><a href="https://pkg.go.dev/github.com/dal-go/dalgo/ddl" rel="noopener"><code>ddl.SchemaModifier</code></a> and <a href="https://pkg.go.dev/github.com/dal-go/dalgo/ddl" rel="noopener"><code>ddl.Applier</code></a> — SQLite-flavored <code>CREATE TABLE</code>, <code>CREATE INDEX</code>, <code>DROP TABLE</code>, and related statements</li>
+<li><code>ddl.TransactionalDDL</code> — <code>SupportsTransactionalDDL()</code> returns true, because SQLite can run DDL inside a transaction</li>
+<li><a href="https://pkg.go.dev/github.com/dal-go/dalgo/dal" rel="noopener"><code>dal.ConcurrencyAware</code></a> — <code>SupportsConcurrentConnections()</code> returns false; SQLite serializes writers. The <code>Database</code> type embeds <code>dal.NoConcurrency</code>. The README describes the same fact as advertising <code>Concurrency() = 1</code> for write paths.</li>
+</ul>
+<p><code>*Database</code> itself satisfies <code>dal.DB</code>. Construct it with <code>NewDatabase</code> or <code>NewDatabaseWithOptions</code>, and close it when you are finished.</p>
+<p>The facts on this page were checked against <a href="https://github.com/dal-go/dalgo2sqlite/tree/v0.6.5" rel="noopener">dalgo2sqlite v0.6.5</a> (commit <code>64d9e69adc5ab68ad0272b1c402ffb796aee320e</code> on <code>main</code>), which depends on <a href="https://github.com/dal-go/dalgo/tree/v0.102.6" rel="noopener">dalgo v0.102.6</a>, <a href="https://github.com/dal-go/dalgo2sql" rel="noopener">dalgo2sql v0.32.0</a>, <a href="https://github.com/dal-go/record" rel="noopener">record v0.1.5</a>, and <a href="https://pkg.go.dev/modernc.org/sqlite@v1.63.0" rel="noopener">modernc.org/sqlite v1.63.0</a>. A short create, read, update, and delete program compiled and ran with <code>CGO_ENABLED=0</code> against those versions on 25 November 2026, on a temporary SQLite file, on <code>:memory:</code>, and on <code>file:memdb1?mode=memory&amp;cache=shared</code>.</p>
+<h2 id="the-sqlite-driver-modernc-org-sqlite-pure-go">The SQLite driver: modernc.org/sqlite, pure Go</h2>
+<p>dalgo2sqlite registers <a href="https://pkg.go.dev/modernc.org/sqlite" rel="noopener"><code>modernc.org/sqlite</code></a>, a <a href="https://pkg.go.dev/modernc.org/sqlite#section-readme" rel="noopener">pure-Go transpilation</a> of the SQLite C library, and opens the database with <code>sql.Open(&quot;sqlite&quot;, dbPath)</code>. The driver name is <code>&quot;sqlite&quot;</code>, not <code>&quot;sqlite3&quot;</code>. The package comment and the README both state that this build uses <code>CGO_ENABLED=0</code>.</p>
+<p>The README records the earlier driver: the module previously used the <a href="https://pkg.go.dev/cmd/cgo" rel="noopener">cgo</a> binding <a href="https://github.com/mattn/go-sqlite3" rel="noopener"><code>github.com/mattn/go-sqlite3</code></a>. The current module does not import that package. Official SQLite documentation is at <a href="https://sqlite.org/docs.html" rel="noopener">sqlite.org/docs.html</a>.</p>
+<h2 id="install-and-constructors">Install and constructors</h2>
+<div class="codeblock"><div class="codeblock-head"><span class="codeblock-name">text</span><span class="codeblock-lang">Text</span></div><pre><code>go get github.com/dal-go/dalgo2sqlite</code></pre></div>
+<p><code>NewDatabase(dbPath)</code> opens or creates the SQLite file at <code>dbPath</code>, pings the connection so a malformed file fails at construction time, wraps the <code>*sql.DB</code> with <code>dalgo2sql.NewDatabase</code>, and returns a <code>*Database</code>. <code>NewDatabaseWithOptions(dbPath, schema, opts)</code> is the same path with a <code>dal.Schema</code> and <code>dalgo2sql.DbOptions</code>. Use the options form when you need per-collection primary-key metadata, which the constructor documentation says is required for Insert, Get, and Delete with <code>map[string]any</code> data. If <code>opts.IsAlreadyExists</code> is nil, it defaults to this package&#x27;s <code>IsAlreadyExists</code>.</p>
+<p><code>NewDatabase</code> passes <code>dbPath</code> straight to <code>sql.Open(&quot;sqlite&quot;, dbPath)</code>, so a path the <a href="https://pkg.go.dev/modernc.org/sqlite" rel="noopener">modernc.org/sqlite</a> driver accepts is a path this constructor accepts. The program checked for this page opened a regular file, the in-memory name <code>:memory:</code>, and the URI <code>file:memdb1?mode=memory&amp;cache=shared</code>. Close the <code>*Database</code> when the work is finished; <code>Close</code> closes the underlying <code>*sql.DB</code>.</p>
+<p>The <a href="/articles/go-database-abstraction-layer/">database abstraction layer</a> and <a href="/articles/go-repository-pattern/">repository pattern</a> articles show an <code>OpenSQLite</code> helper that uses <code>NewDatabaseWithOptions</code> and a <code>users</code> recordset. Those listings register the primary-key column and do not set <code>StructuredQueryDialect</code>. The example below sets <code>StructuredQueryDialect: &quot;sqlite&quot;</code> when you want dalgo2sql&#x27;s SQLite structured-query compiler, which is described next.</p>
+<h2 id="how-structured-queries-are-compiled">How structured queries are compiled</h2>
+<p>Structured queries are compiled by <a href="https://github.com/dal-go/dalgo2sql" rel="noopener">dalgo2sql</a>, not by a second query engine inside dalgo2sqlite. The dalgo2sql README describes four paths, chosen when the database is opened:</p>
+<ol>
+<li>A native compiler, if <code>DbOptions.NativeStructuredQueryCompiler</code> is set, writes the whole statement.</li>
+<li><code>DbOptions.StructuredQueryDialect: &quot;sqlite&quot;</code> uses dalgo2sql&#x27;s SQLite structured emitter, <code>compileStructuredSQL</code>. Identifiers are quoted with backticks, with a backtick in a name doubled, and values are passed as bound arguments with the <code>?</code> placeholder. That path is built around SQLite&#x27;s dynamic typing. When the dialect is <code>&quot;sqlite&quot;</code>, <code>dalgo2sql.NewDatabase</code> also returns its SQLite protected read/write profile; the README says that profile exists for SQLite only.</li>
+<li><code>&quot;postgres&quot;</code>, <code>&quot;mysql&quot;</code>, <code>&quot;oracle&quot;</code>, or <code>&quot;sqlserver&quot;</code> use the typed SQL compiler for those engines.</li>
+<li>No dialect and no native compiler uses the legacy text emitter.</li>
+</ol>
+<p><code>dalgo2sqlite.NewDatabase</code> and <code>NewDatabaseWithOptions</code> do not set <code>StructuredQueryDialect</code> themselves. An empty options value therefore takes path 4 unless you set the dialect or a native compiler in <code>DbOptions</code>. To use the SQLite emitter and the protected profile, pass <code>StructuredQueryDialect: &quot;sqlite&quot;</code>.</p>
+<h2 id="schema-ddl-and-transactions">Schema, DDL, and transactions</h2>
+<p><code>*Database</code> implements <code>dbschema.SchemaReader</code>. <code>ListCollections</code>, <code>DescribeCollection</code>, and <code>ListIndexes</code> read <code>sqlite_master</code> and PRAGMA helpers such as <code>pragma_table_info</code>, <code>pragma_index_list</code>, and <code>pragma_index_info</code>. <code>ListViews</code> and <code>ListSourceViews</code> list view definitions. <code>ListConstraints</code> and <code>ListReferrers</code> cover CHECK constraints and foreign keys that SQLite records. <code>CheckSourceConstraints</code> asks SQLite to verify table, index, and CHECK constraints. <code>OpenSourceRows</code> streams native table rows. <code>NewSchemaReader</code> and <code>NewLenientSchemaReader</code> build a read-only <code>SchemaReader</code> on an existing <code>*sql.DB</code> you already opened. <code>LenientSchema()</code> returns a second <code>*Database</code> over the same connection whose schema reads describe a file the way SQLite lists it, including some shapes a lossless export would refuse; closing either value closes the shared pool, so close the owner.</p>
+<p><code>*Database</code> also implements <code>ddl.SchemaModifier</code>. <code>CreateCollection</code> issues SQLite <code>CREATE TABLE</code> and any <code>CREATE INDEX</code> from the collection definition. <code>DropCollection</code> drops a table. <code>AlterCollection</code> applies add, drop, and modify operations, including <code>CREATE INDEX</code> and <code>DROP INDEX</code>, inside one transaction. A column type change uses SQLite&#x27;s table-rewrite sequence (create a new table, copy rows, drop the original, rename); the code documents that secondary indexes on the rewritten table are not recreated automatically. <code>SupportsTransactionalDDL()</code> is true. Application code can call <a href="https://pkg.go.dev/github.com/dal-go/dalgo/ddl" rel="noopener"><code>ddl.CreateCollection</code></a> with a <code>dal.DB</code> that implements <code>SchemaModifier</code>, which is how the articles&#x27; <code>EnsureUsersTable</code> helper works.</p>
+<p>Transactions use the same callback workers as the rest of DALgo, delegated to dalgo2sql: <code>RunReadonlyTransaction</code> and <code>RunReadwriteTransaction</code> on <code>dal.DB</code>. Writes that should run through the validating write pipeline belong in the read-write callback. <code>Get</code> is available on <code>dal.DB</code> itself. <code>Set</code>, <code>Insert</code>, <code>Upsert</code>, <code>Delete</code>, and <code>Update</code> also exist on <code>*Database</code>, but <code>UpdateRecord</code> at the database level returns <code>dal.ErrNotImplementedYet</code>; the package comment says to use <code>Update</code> with an explicit key, or <code>UpdateRecord</code> inside <code>RunReadwriteTransaction</code>, where the transaction object supports it. A short Firestore-shaped walkthrough of the same create, read, update, and delete calls is in <a href="/articles/go-firestore-tutorial/">Firestore in Go: CRUD and transactions with DALgo</a>.</p>
+<p>An optional API, <code>OpenTableRead</code>, returns a read-only <code>TableReadSpan</code> over one existing SQLite file for a bounded, single-table read. The <a href="https://github.com/dal-go/dalgo2sqlite" rel="noopener">dalgo2sqlite README</a> states the limits of that profile and says <code>NewDatabase</code> behavior is unchanged.</p>
+<h2 id="a-short-crud-example">A short CRUD example</h2>
+<p>The listing below opens SQLite through <code>NewDatabaseWithOptions</code>, creates a <code>users</code> table, and runs insert, get, set, update, and delete inside one read-write transaction. It compiled and ran with <code>CGO_ENABLED=0</code> against dalgo2sqlite v0.6.5.</p>
+<div class="codeblock"><div class="codeblock-head"><span class="codeblock-name">example.go</span><span class="codeblock-lang">Go</span></div><pre><code>package store
+
+import (
+	"context"
+
+	"github.com/dal-go/dalgo/dal"
+	"github.com/dal-go/dalgo/dbschema"
+	"github.com/dal-go/dalgo/ddl"
+	"github.com/dal-go/dalgo2sql"
+	"github.com/dal-go/dalgo2sqlite"
+	"github.com/dal-go/record"
+	"github.com/dal-go/record/update"
+)
+
+// User is stored in the users table. SQL adapters write the exported field names as column names.
+// The id is the record key, not a field of User.
+type User struct {
+	Name  string
+	Email string
+}
+
+func (User) CollectionName() string { return "users" }
+
+var Users = dal.CollectionOf[string, User]()
+
+// OpenSQLite opens a SQLite file, or an in-memory database such as ":memory:".
+// The recordset tells dalgo2sql that the key is the id column.
+// StructuredQueryDialect selects dalgo2sql's SQLite query compiler.
+// The caller closes the returned database.
+func OpenSQLite(path string) (*dalgo2sqlite.Database, error) {
+	return dalgo2sqlite.NewDatabaseWithOptions(path, dal.NewSchema(nil, nil), dalgo2sql.DbOptions{
+		StructuredQueryDialect: "sqlite",
+		Recordsets: map[string]*dalgo2sql.Recordset{
+			"users": dalgo2sql.NewRecordset("users", dalgo2sql.Table, []dal.FieldRef{dal.Field("id")}),
+		},
+	})
+}
+
+func EnsureUsersTable(ctx context.Context, db dal.DB) error {
+	return ddl.CreateCollection(ctx, db, dbschema.CollectionDef{
+		Name: "users",
+		Fields: []dbschema.FieldDef{
+			{Name: "id", Type: dbschema.String, Nullable: false},
+			{Name: "Name", Type: dbschema.String, Nullable: false},
+			{Name: "Email", Type: dbschema.String, Nullable: false},
+		},
+		PrimaryKey: []dal.FieldName{"id"},
+	})
+}
+
+func CreateUser(ctx context.Context, db dal.DB, id string, user User) error {
+	return db.RunReadwriteTransaction(ctx, func(ctx context.Context, tx dal.ReadwriteTransaction) error {
+		_, err := Users.InsertWithID(ctx, tx, id, user)
+		return err
+	})
+}
+
+func LoadUser(ctx context.Context, db dal.DB, id string) (User, error) {
+	return Users.GetData(ctx, db, id)
+}
+
+func SaveUser(ctx context.Context, db dal.DB, id string, user User) error {
+	return db.RunReadwriteTransaction(ctx, func(ctx context.Context, tx dal.ReadwriteTransaction) error {
+		return Users.SetByID(ctx, tx, id, user)
+	})
+}
+
+func RenameUser(ctx context.Context, db dal.DB, id, name string) error {
+	return db.RunReadwriteTransaction(ctx, func(ctx context.Context, tx dal.ReadwriteTransaction) error {
+		return Users.UpdateByID(ctx, tx, id, []update.Update{update.ByFieldName("Name", name)})
+	})
+}
+
+func RemoveUser(ctx context.Context, db dal.DB, id string) error {
+	return db.RunReadwriteTransaction(ctx, func(ctx context.Context, tx dal.ReadwriteTransaction) error {
+		return Users.DeleteByID(ctx, tx, id)
+	})
+}
+
+func Missing(err error) bool {
+	return record.IsNotFound(err)
+}</code></pre></div>
+<p>A plain <code>dal.DB</code> is a read session, so <code>GetData</code> can take it directly. Writes take a <code>dal.WriteSession</code>, which a plain <code>dal.DB</code> is not, so <code>InsertWithID</code>, <code>SetByID</code>, <code>UpdateByID</code>, and <code>DeleteByID</code> run inside <code>RunReadwriteTransaction</code>.</p>
+<h2 id="when-to-choose-sqlite">When to choose SQLite</h2>
+<p>Choose SQLite when the database should live in-process: a local application, a desktop or CLI tool, an embedded store, or a test that wants a real SQL engine in a temporary file or in memory. The <a href="https://github.com/dal-go/dalgo/tree/main/adapters/dalgo2memory" rel="noopener">in-memory adapter</a> in the core module is the lighter test double when you do not need SQL itself; <code>SingleWriterProfile()</code> is the profile that copies a single-writer store such as SQLite.</p>
+<p>Choose <a href="https://github.com/dal-go/dalgo2postgres" rel="noopener">dalgo2postgres</a> when the service needs a networked PostgreSQL server, concurrent writers, or PostgreSQL-specific SQL. This site does not yet have a dedicated PostgreSQL adapter page; <a href="/articles/switch-postgres-to-firestore/">Switching between PostgreSQL and Firestore in Go</a> shows that constructor and what still differs when the same records move to Firestore. Choose <a href="https://github.com/dal-go/dalgo2firestore" rel="noopener">dalgo2firestore</a> when the product is a Cloud Firestore document store; <a href="/articles/go-firestore-tutorial/">Firestore in Go: CRUD and transactions with DALgo</a> is that walkthrough.</p>
+<p>DALgo does not hide every engine difference. A capability the SQLite adapter cannot provide comes back as <code>dal.ErrNotSupported</code>. <a href="/articles/when-to-use-dalgo/">When to use DALgo, and when not to</a> is the limit list.</p>
+<h2 id="capability-summary">Capability summary</h2>
+<p>The <a href="/adapters/#adapter-sqlite">adapter matrix</a> is the inventory. For the Go module it lists these capabilities as implemented: point-read, structured-query, native-sql, crud, transactions, and schema, with the limit &quot;Backend/dialect restrictions apply.&quot; This page does not add capabilities to that row. The same matrix has a TypeScript row for a different package, <code>@dalgo/sqlite-wasm</code>; that is not this Go module.</p>
+<h2 id="faq">FAQ</h2>
+<h3 id="what-is-dalgo2sqlite">What is dalgo2sqlite?</h3>
+<p>dalgo2sqlite is the SQLite-specific DALgo adapter for Go. It opens a SQLite file or an in-memory database with <code>modernc.org/sqlite</code>, wraps dalgo2sql to implement <code>dal.DB</code>, and adds SQLite schema introspection, DDL, and a single-writer concurrency hint. The module is <a href="https://github.com/dal-go/dalgo2sqlite" rel="noopener"><code>github.com/dal-go/dalgo2sqlite</code></a>.</p>
+<h3 id="does-dalgo2sqlite-use-cgo">Does dalgo2sqlite use CGo?</h3>
+<p>No. The current module registers <code>modernc.org/sqlite</code>, a pure-Go port of SQLite, and opens it with the <code>&quot;sqlite&quot;</code> driver name. The README and package comment state that this path uses <code>CGO_ENABLED=0</code>. The earlier cgo binding <code>github.com/mattn/go-sqlite3</code> is not a dependency of the current module.</p>
+<h3 id="can-i-use-an-in-memory-sqlite-database-with-dalgo">Can I use an in-memory SQLite database with DALgo?</h3>
+<p>Yes. <code>NewDatabase</code> and <code>NewDatabaseWithOptions</code> pass the path to <code>sql.Open(&quot;sqlite&quot;, dbPath)</code>. The program checked for this page opened <code>:memory:</code> and <code>file:memdb1?mode=memory&amp;cache=shared</code> as well as a regular file. Use a file in the same way when you want the data to outlive the process.</p>
+<h3 id="when-should-i-use-sqlite-instead-of-postgresql-or-firestore">When should I use SQLite instead of PostgreSQL or Firestore?</h3>
+<p>Use SQLite when the store should be in-process: a local app, an embedded tool, or a test that wants a real SQL engine. Use dalgo2postgres when you need a PostgreSQL server, and dalgo2firestore when the product is Cloud Firestore. The same domain functions can sit on <code>dal.DB</code> in each case, with table DDL on the SQL adapters and a Firestore client lifecycle on Firestore.</p>
+<h2 id="sources">Sources</h2>
+<p>Public module documentation and source, checked on 25 November 2026.</p>
+<ul>
+<li><a href="https://github.com/dal-go/dalgo2sqlite" rel="noopener">dal-go/dalgo2sqlite</a> v0.6.5, commit <code>64d9e69adc5ab68ad0272b1c402ffb796aee320e</code>, including <code>NewDatabase</code>, <code>NewDatabaseWithOptions</code>, <code>RunReadonlyTransaction</code>, <code>RunReadwriteTransaction</code>, schema and DDL types, and the <code>modernc.org/sqlite</code> driver registration (<code>sql.Open(&quot;sqlite&quot;, dbPath)</code>, <code>CGO_ENABLED=0</code>). License: <a href="https://github.com/dal-go/dalgo2sqlite/blob/main/LICENSE" rel="noopener">MIT</a>.</li>
+<li><a href="https://github.com/dal-go/dalgo" rel="noopener">dal-go/dalgo</a> v0.102.6, <a href="https://github.com/dal-go/dalgo2sql" rel="noopener">dal-go/dalgo2sql</a> v0.32.0 (the version dalgo2sqlite v0.6.5 requires), <a href="https://github.com/dal-go/record" rel="noopener">dal-go/record</a> v0.1.5. DALgo license: <a href="https://github.com/dal-go/dalgo/blob/main/LICENSE" rel="noopener">MIT</a>.</li>
+<li><a href="https://pkg.go.dev/modernc.org/sqlite@v1.63.0" rel="noopener">modernc.org/sqlite</a> v1.63.0, the driver dalgo2sqlite v0.6.5 imports. The earlier cgo driver is documented in the dalgo2sqlite README as <a href="https://github.com/mattn/go-sqlite3" rel="noopener"><code>github.com/mattn/go-sqlite3</code></a>.</li>
+<li><a href="https://sqlite.org/docs.html" rel="noopener">SQLite documentation</a>.</li>
+<li><a href="/adapters/">Adapter matrix</a> SQLite row, and the dalgo2sql README on <code>StructuredQueryDialect: &quot;sqlite&quot;</code>, <code>compileStructuredSQL</code>, identifier quoting, and the <code>?</code> placeholder.</li>
+</ul>
+  </div>
+
+  <p class="article-source">Source file: <a href="https://github.com/dal-go/dalgo-io/blob/main/content/adapters/dalgo2sqlite.md"><code>content/adapters/dalgo2sqlite.md</code></a></p>
+</article>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"SQLite in Go with DALgo: the dalgo2sqlite adapter","description":"Golang SQLite with DALgo: the dalgo2sqlite adapter opens a SQLite file or memory DB in Go, and gives records, queries, transactions, and schema through dal.DB.","datePublished":"2026-11-25","dateModified":"2026-11-25","inLanguage":"en","mainEntityOfPage":"https://dalgo.io/adapters/dalgo2sqlite/","dependencies":"Go","codeRepository":"https://github.com/dal-go/dalgo2sqlite","author":{"@type":"Organization","name":"DALgo contributors","url":"https://dalgo.io/"},"publisher":{"@type":"Organization","name":"DALgo","url":"https://dalgo.io/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"DALgo","item":"https://dalgo.io/"},{"@type":"ListItem","position":2,"name":"Adapters","item":"https://dalgo.io/adapters/"},{"@type":"ListItem","position":3,"name":"SQLite in Go with DALgo: the dalgo2sqlite adapter","item":"https://dalgo.io/adapters/dalgo2sqlite/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is dalgo2sqlite?","acceptedAnswer":{"@type":"Answer","text":"dalgo2sqlite is the SQLite-specific DALgo adapter for Go. It opens a SQLite file or an in-memory database with modernc.org/sqlite, wraps dalgo2sql to implement dal.DB, and adds SQLite schema introspection, DDL, and a single-writer concurrency hint. The module is github.com/dal-go/dalgo2sqlite."}},{"@type":"Question","name":"Does dalgo2sqlite use CGo?","acceptedAnswer":{"@type":"Answer","text":"No. The current module registers modernc.org/sqlite, a pure-Go port of SQLite, and opens it with the \"sqlite\" driver name. The README and package comment state that this path uses CGO_ENABLED=0. The earlier cgo binding github.com/mattn/go-sqlite3 is not a dependency of the current module."}},{"@type":"Question","name":"Can I use an in-memory SQLite database with DALgo?","acceptedAnswer":{"@type":"Answer","text":"Yes. NewDatabase and NewDatabaseWithOptions pass the path to sql.Open(\"sqlite\", dbPath). The program checked for this page opened :memory: and file:memdb1?mode=memory&cache=shared as well as a regular file. Use a file in the same way when you want the data to outlive the process."}},{"@type":"Question","name":"When should I use SQLite instead of PostgreSQL or Firestore?","acceptedAnswer":{"@type":"Answer","text":"Use SQLite when the store should be in-process: a local app, an embedded tool, or a test that wants a real SQL engine. Use dalgo2postgres when you need a PostgreSQL server, and dalgo2firestore when the product is Cloud Firestore. The same domain functions can sit on dal.DB in each case, with table DDL on the SQL adapters and a Firestore client lifecycle on Firestore."}}]}</script>
+</main>
+
+
+<footer class="AppFooter">
+  <div class="container AppFooter-inner">
+    <ul role="list">
+      <li>&copy; <span id="year">2026</span> DALgo contributors</li>
+      <li><a href="/">DALgo</a></li>
+      <li><a href="/articles/">Articles</a></li>
+      <li><a href="/tugql/">TugQL</a></li>
+      <li><a href="https://github.com/dal-go/dalgo" rel="noopener">Core repo</a></li>
+      <li><a href="https://github.com/dal-go/dalgo/blob/main/LICENSE" rel="noopener">MIT License</a></li>
+      <li><a href="/privacy/">Privacy</a></li>
+    </ul>
+    <span class="AppFooter-tag">Open-source documentation site. No accounts, no advertising.</span>
+  </div>
+<nav class="topic-footer container" data-topic-footer aria-label="Documentation"><a href="/go/">DALgo for Go</a><a href="/typescript/">DALgo for TypeScript</a><a href="/quickstart/">Quick Start</a><a href="/adapters/">Adapters and runtime support</a><a href="/why/">Why DALgo</a><a href="/collections/">Typed collections</a><a href="/interfaces/">Interfaces</a><a href="/queries/">Queries and schema</a><a href="/film/">DALgo films</a><a href="/datatug/">DALgo and DataTug</a><a href="/about/tech-stack/">Technology behind DALgo</a><a href="/faq/">DALgo FAQ</a><a href="/articles/">Articles</a><a href="/tugql/">TugQL</a></nav></footer>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<div class="site-feedback"><button type="button" data-feedback-launcher aria-haspopup="dialog" hidden><svg class="feedback-mark" aria-hidden="true" focusable="false" viewBox="0 0 64 64"><rect width="64" height="64" rx="18" fill="#d4ef83"/><path d="M18 46 46 18M20 18h26v26" fill="none" stroke="#202c2a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>Suggest an improvement</button></div>
+<script id="site-feedback-widget" src="https://improveit.now/widget.js" data-space="ao58m" data-app="53707531c1e1120447e7673109bb6538" data-lang="en" data-color="#0d63e9" data-launcher="hidden" defer></script>
+<script src="/feedback.js" defer></script>
+</body>
+</html>

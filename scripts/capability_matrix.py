@@ -136,9 +136,12 @@ def badge(status: str, locale: str) -> str:
     return f'<span class="cap-status cap-{status.lower().replace("_", "-")}">{LABELS[locale][status]}</span>'
 
 
-def render_matrix(inventory: dict, locale: str) -> str:
+def render_matrix(inventory: dict, locale: str, guides: dict[str, str] | None = None) -> str:
     ui = LABELS[locale]
     escape = html.escape
+    if guides is None:
+        from render_adapters import adapter_guides_by_matrix
+        guides = {key: page.url_path for key, page in adapter_guides_by_matrix().items()}
     registry = inventory['capabilityMatrix']['evidence']
     requested = {item['adapterId']: item for item in inventory['capabilityMatrix']['requestedProviders']}
     rows = []
@@ -146,6 +149,8 @@ def render_matrix(inventory: dict, locale: str) -> str:
         identifier = adapter['id']
         target = requested.get(identifier)
         name = escape(target['name'] if target else adapter['name'])
+        href = guides.get(identifier)
+        name_html = f'<a href="{escape(href, quote=True)}">{name}</a>' if href else name
         summaries = []
         for runtime in RUNTIMES:
             statuses = [capability_cell(inventory, identifier, runtime, capability)['status'] for capability in CAPABILITIES]
@@ -187,6 +192,6 @@ def render_matrix(inventory: dict, locale: str) -> str:
             if note:
                 notes.insert(0, f'<p class="cap-target-note">{escape(note)}</p>')
         heads = ''.join(f'<th scope="col">{ui[runtime]}</th>' for runtime in RUNTIMES)
-        rows.append(f'<details class="cap-adapter" id="adapter-{identifier}"><summary><span class="cap-adapter-name">{name}</span>{"".join(summaries)}</summary><div class="cap-expanded"><p class="cap-scroll-hint" id="cap-scroll-{identifier}">{ui["scroll"]}</p><div class="cap-table-scroll" role="region" tabindex="0" aria-labelledby="cap-caption-{identifier}" aria-describedby="cap-scroll-{identifier}"><table class="cap-table"><caption id="cap-caption-{identifier}">{name} · {ui["capability"]}</caption><thead><tr><th scope="col">{ui["capability"]}</th>{heads}</tr></thead><tbody>{"".join(body_rows)}</tbody></table></div>{"".join(notes)}<p class="cap-publication">{ui["publication"]}</p></div></details>')
+        rows.append(f'<details class="cap-adapter" id="adapter-{identifier}"><summary><span class="cap-adapter-name">{name_html}</span>{"".join(summaries)}</summary><div class="cap-expanded"><p class="cap-scroll-hint" id="cap-scroll-{identifier}">{ui["scroll"]}</p><div class="cap-table-scroll" role="region" tabindex="0" aria-labelledby="cap-caption-{identifier}" aria-describedby="cap-scroll-{identifier}"><table class="cap-table"><caption id="cap-caption-{identifier}">{name} · {ui["capability"]}</caption><thead><tr><th scope="col">{ui["capability"]}</th>{heads}</tr></thead><tbody>{"".join(body_rows)}</tbody></table></div>{"".join(notes)}<p class="cap-publication">{ui["publication"]}</p></div></details>')
     legend = ' '.join(badge(status, locale) for status in STATUSES)
     return f'<header class="section-head"><h1>{"Adapters and capabilities" if locale == "en" else "Адаптеры и возможности"}</h1><p>{ui["note"]}</p></header><p class="cap-legend">{legend}</p><p id="matrix-help">{ui["expand"]}</p><p>{ui["source"]}: <time>{escape(inventory["auditDate"])}</time> · <a href="/adapters/status.json">JSON</a></p><div class="cap-matrix" aria-describedby="matrix-help">{"".join(rows)}</div>'

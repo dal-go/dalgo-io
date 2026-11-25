@@ -29,7 +29,8 @@
       "id": "dalgo2sqlite",
       "name": "dalgo2sqlite",
       "url": "https://github.com/dal-go/dalgo2sqlite",
-      "gopath": "github.com/dal-go/dalgo2sqlite"
+      "gopath": "github.com/dal-go/dalgo2sqlite",
+      "guide": "/adapters/dalgo2sqlite/"
     },
     {
       "id": "dalgo2postgres",

@@ -26,6 +26,7 @@ import re
 import sys
 from pathlib import Path
 from render_articles import load_articles
+from render_adapters import load_adapter_pages
 from site_shell import enhance_page, theme_styles
 from site_pages import adapter_inventory, faq_page, home_sections, tech_stack_page, topic_pages
 from seo import apply_static_seo, home_json_ld, llms_documents
@@ -116,6 +117,13 @@ def adapter_cards(loc: str, catalog: dict, adapters: dict) -> str:
         text = catalog["adapters"][card["id"]]
         cls = "Box adapter adapter-core" if card.get("core") else "Box adapter"
         icon = core_icon if card.get("core") else ""
+        guide = card.get("guide")
+        guide_html = ""
+        if guide:
+            label = "Adapter page" if loc == "en" else "Страница адаптера"
+            guide_html = (
+                f'\n        <p class="adapter-guide"><a href="{html.escape(guide, quote=True)}">{label}</a></p>'
+            )
         items.append(
             f"""      <li>
         <a class="{cls}" href="{card["url"]}" rel="noopener">
@@ -125,7 +133,7 @@ def adapter_cards(loc: str, catalog: dict, adapters: dict) -> str:
           <h3>{card["name"]}</h3>
           <p>{text["desc"]}</p>
           <span class="adapter-go">{card["gopath"]}</span>
-        </a>
+        </a>{guide_html}
       </li>"""
         )
     label = html.escape(catalog["adapters.cards_label"], quote=True)
@@ -307,7 +315,7 @@ def build() -> dict[Path, str]:
     for route, filename in [('privacy', 'privacy.html'), ('tugql', 'tugql.html'), ('tugql/examples', 'tugql-examples.html')]:
         raw = (ROOT / 'content' / 'pages' / filename).read_text(encoding='utf-8')
         outputs[PUBLIC / route / 'index.html'] = enhance_page(apply_static_seo(raw, route))
-    llms, full = llms_documents(catalogs, adapters, load_articles())
+    llms, full = llms_documents(catalogs, adapters, load_articles(), load_adapter_pages())
     outputs[PUBLIC / 'llms.txt'] = llms
     outputs[PUBLIC / 'llms-full.txt'] = full
     outputs[PUBLIC / "sitemap.xml"] = sitemap(set(outputs))

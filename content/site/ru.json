@@ -59,7 +59,7 @@
   "qs.step1": "Установите основной модуль. Встроенный адаптер <code>dalgo2memory</code> идёт вместе с ним — дополнительных зависимостей для старта не нужно.",
   "qs.step2": "Откройте базу данных. Возвращённый <code>dal.DB</code> — единственный тип, о котором должно знать ваше приложение.",
   "qs.step3": "Опишите запись, задайте её данные и прочитайте обратно по ключу.",
-  "qs.step4": "Позже замените <code>dalgo2memory</code> на <code>dalgo2sqlite</code> или <code>dalgo2firestore</code>. Ваши обработчики не меняются.",
+  "qs.step4": "Позже замените <code>dalgo2memory</code> на <a href=\"/adapters/dalgo2sqlite/\"><code>dalgo2sqlite</code></a> или <code>dalgo2firestore</code>. Ваши обработчики не меняются.",
   "qs.code_label": "Пример: установка и использование",
   "ts.eyebrow": "04 — TypeScript",
   "ts.title": "Та же идея на TypeScript.",
