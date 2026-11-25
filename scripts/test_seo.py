@@ -7,6 +7,7 @@ from pathlib import Path
 
 import render_site as site
 from render_articles import load_articles
+from render_adapters import load_adapter_pages
 from seo import GO_LICENSE, GO_REPO, TS_LICENSE, TS_REPO, plain
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -133,6 +134,9 @@ class PublishedSeo(unittest.TestCase):
         for article in load_articles():
             self.assertIn(article.canonical, full)
             self.assertIn(article.title, full)
+        for page in load_adapter_pages():
+            self.assertIn(page.canonical, full)
+            self.assertIn(page.title, full)
         self.assertIn("https://github.com/dal-go/dalgo2sqlite", text)
         for document in (text, full):
             for match in CLAIM.finditer(document):

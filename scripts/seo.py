@@ -334,7 +334,7 @@ def _prose_blocks(catalog: dict) -> list[str]:
     return [block for block in blocks if block and not _LINKED_CLAIM.search(block)]
 
 
-def llms_documents(catalogs: dict[str, dict], adapters: dict, articles: list) -> tuple[str, str]:
+def llms_documents(catalogs: dict[str, dict], adapters: dict, articles: list, adapter_pages: list | None = None) -> tuple[str, str]:
     check_home_copy(catalogs)
     primary = ("home", "go", "typescript", "adapters", "articles", "faq")
     secondary = ("quickstart", "why", "collections", "interfaces", "queries", "film", "datatug", "about/tech-stack")
@@ -378,6 +378,11 @@ def llms_documents(catalogs: dict[str, dict], adapters: dict, articles: list) ->
         + "\n".join(_repo_lines(adapters, catalogs, include_more=True))
         + "\n\n## Articles\n\n"
         + "\n".join(article_lines)
+        + "\n\n## Adapter pages\n\n"
+        + "\n".join(
+            _link(page.title, page.canonical, f"{page.iso_date}. {page.description} {plain(page.summary)}")
+            for page in (adapter_pages or [])
+        )
         + "\n"
     )
     return intro, full

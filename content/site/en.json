@@ -54,7 +54,7 @@
   "qs.step1": "Install the core module. The built-in <code>dalgo2memory</code> adapter ships with it — no extra dependency to get started.",
   "qs.step2": "Open a database. The returned <code>dal.DB</code> is the only type your app needs to know about.",
   "qs.step3": "Define a record, set its data, then read it back by key.",
-  "qs.step4": "Later, swap <code>dalgo2memory</code> for <code>dalgo2sqlite</code> or <code>dalgo2firestore</code>. Your handlers don't change.",
+  "qs.step4": "Later, swap <code>dalgo2memory</code> for <a href=\"/adapters/dalgo2sqlite/\"><code>dalgo2sqlite</code></a> or <code>dalgo2firestore</code>. Your handlers don't change.",
   "qs.code_label": "Example: install and use",
   "col.eyebrow": "05 — Typed collections",
   "col.title": "Less ceremony for everyday CRUD.",
