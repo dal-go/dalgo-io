@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script src="/theme.js"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>MongoDB in Go with DALgo: the dalgo2mongodb adapter — DALgo</title>
+<meta name="description" content="Golang MongoDB with DALgo: the read-only dalgo2mongodb adapter opens a MongoDB URI in Go and runs point reads and bounded structured queries through dal.DB." />
+<link rel="canonical" href="https://dalgo.io/adapters/dalgo2mongodb/" />
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)" />
+<meta property="og:title" content="MongoDB in Go with DALgo: the dalgo2mongodb adapter — DALgo" />
+<meta property="og:description" content="Golang MongoDB with DALgo: the read-only dalgo2mongodb adapter opens a MongoDB URI in Go and runs point reads and bounded structured queries through dal.DB." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://dalgo.io/adapters/dalgo2mongodb/" />
+<meta property="article:published_time" content="2026-11-26" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230d1117'/><text x='50%25' y='52%25' text-anchor='middle' dominant-baseline='middle' font-family='ui-monospace,monospace' font-size='28' font-weight='700' fill='%232f81f7'>d/</text></svg>" />
+<link rel="stylesheet" href="/styles.css" />
+<script src="/analytics.js" defer></script>
+<link rel="stylesheet" href="/theme.css" />
+<script src="/site.js" defer></script>
+</head>
+<body>
+
+<header class="AppHeader" role="banner">
+  <div class="AppHeader-inner">
+    <a class="AppHeader-brand" href="/" aria-label="DALgo home">
+      <span class="AppHeader-brand-mark" aria-hidden="true">
+        <span class="brand-dal">DAL</span><span class="brand-go">go</span>
+      </span>
+    </a>
+
+
+
+    <nav class="AppHeader-nav" aria-label="Documentation"><a href="/go/">Go</a><a href="/typescript/">TypeScript</a><a href="/adapters/">Adapters</a><a href="/quickstart/">Quick Start</a></nav>
+
+    <div class="AppHeader-actions"><label class="theme-control" data-theme-control hidden><span aria-hidden="true">◐</span><select data-theme-switch aria-label="Theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label>
+
+    </div>
+  </div>
+</header>
+
+<main id="top">
+<article class="article">
+  <header class="article-header">
+    <p class="article-kicker"><a href="/adapters/">Adapters</a></p>
+    <h1>MongoDB in Go with DALgo: the dalgo2mongodb adapter</h1>
+    <p class="article-meta"><time datetime="2026-11-26">26 November 2026</time></p>
+    <p class="article-standfirst">dalgo2mongodb is the read-only MongoDB adapter for DALgo in Go. It opens a MongoDB database URI with the official Go driver and supports Get, GetMulti, Exists, and bounded structured queries; writes return dal.ErrNotSupported.</p>
+  </header>
+  <nav class="Box toc" aria-label="On this page"><strong>On this page</strong><ol><li><a href="#what-dalgo2mongodb-is">What dalgo2mongodb is</a></li>
+<li><a href="#what-it-supports-and-what-it-does-not">What it supports, and what it does not</a></li>
+<li><a href="#install-and-constructor">Install and constructor</a></li>
+<li><a href="#structured-queries">Structured queries</a></li>
+<li><a href="#a-short-read-example">A short read example</a></li>
+<li><a href="#when-to-choose-mongodb">When to choose MongoDB</a></li>
+<li><a href="#capability-summary">Capability summary</a></li>
+<li><a href="#faq">FAQ</a></li>
+<li><a href="#sources">Sources</a></li></ol></nav>
+  <div class="article-prose">
+<p><a href="/">DALgo</a> is an <a href="https://github.com/dal-go/dalgo" rel="noopener">open-source</a> database abstraction layer for <a href="https://go.dev/" rel="noopener">Go</a> and TypeScript; the Go module is <a href="https://github.com/dal-go/dalgo" rel="noopener"><code>github.com/dal-go/dalgo</code></a>. A DAL, short for <a href="/articles/go-database-abstraction-layer/">database abstraction layer</a>, is a library that sits between application code and a database so the program can store and load records without calling one vendor&#x27;s client; <a href="https://en.wikipedia.org/wiki/Database_abstraction_layer" rel="noopener">Wikipedia</a> uses the same name. An adapter, or driver in this module&#x27;s own wording, is the package that implements that interface for one kind of store. <a href="https://www.mongodb.com/docs/manual/" rel="noopener">MongoDB</a> is a document database that stores records as <a href="https://www.mongodb.com/docs/manual/reference/bson-types/" rel="noopener">BSON</a> documents — BSON is short for Binary JSON, MongoDB&#x27;s binary encoding of JSON-like values — and is typically reached over the network with a connection <a href="https://en.wikipedia.org/wiki/Uniform_Resource_Identifier" rel="noopener">URI</a>, short for uniform resource identifier. <a href="https://github.com/dal-go/dalgo2mongodb" rel="noopener"><code>dalgo2mongodb</code></a> is the MongoDB adapter for DALgo: it opens that database with the <a href="https://www.mongodb.com/docs/drivers/go/current/" rel="noopener">official MongoDB Go driver</a> and returns a <a href="https://pkg.go.dev/github.com/dal-go/dalgo/dal#DB" rel="noopener"><code>dal.DB</code></a> that can read records. The adapter is read-only. <a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete" rel="noopener">CRUD</a>, short for create, read, update, and delete, names the four usual record operations; this module supports the read operations <code>Get</code>, <code>GetMulti</code>, and <code>Exists</code>, plus bounded structured queries, and returns <code>dal.ErrNotSupported</code> for writes. The module on current <code>main</code> is <a href="https://github.com/dal-go/dalgo2mongodb/blob/main/LICENSE" rel="noopener">Apache-2.0 licensed</a>.</p>
+<p>This page is the reference for the Go module <a href="https://github.com/dal-go/dalgo2mongodb" rel="noopener"><code>github.com/dal-go/dalgo2mongodb</code></a>. The <a href="/adapters/">adapter matrix</a> lists what the MongoDB row implements. A broader survey of Go data-access libraries is in <a href="/articles/go-orm-comparison-2026/">Go ORM and data-access libraries compared (2026)</a>; ORM is short for <a href="https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping" rel="noopener">object-relational mapping</a>. <a href="/articles/go-repository-pattern/">Repository pattern in Go</a> puts a smaller interface in front of <code>dal.DB</code>. <a href="/adapters/dalgo2sqlite/">SQLite in Go with DALgo: the dalgo2sqlite adapter</a> is the SQLite adapter page. <a href="/articles/switch-postgres-to-firestore/">Switching between PostgreSQL and Firestore in Go</a> is a walkthrough of the same record calls on two other stores that do support writes. The <a href="/quickstart/">quickstart</a> and the <a href="/faq/">FAQ</a> are the shorter product pages.</p>
+<h2 id="what-dalgo2mongodb-is">What dalgo2mongodb is</h2>
+<p>The module README calls dalgo2mongodb a read-only MongoDB adapter for DALgo, built on the official MongoDB Go driver, <a href="https://pkg.go.dev/go.mongodb.org/mongo-driver/v2" rel="noopener"><code>go.mongodb.org/mongo-driver/v2</code></a>. The package comment says it provides bounded, read-only MongoDB structured queries. The public constructor is <code>dalgo2mongodb.NewDB(ctx, uri)</code>. It returns a <code>dal.DB</code>. Close that value through <code>io.Closer</code> when the work is finished.</p>
+<p>The facts on this page were checked against current <code>main</code> of <a href="https://github.com/dal-go/dalgo2mongodb" rel="noopener">dal-go/dalgo2mongodb</a>, commit <code>08ff6460d3498f5b307acdb86c6e35a2b6933a3e</code>, which depends on <a href="https://github.com/dal-go/dalgo/tree/v0.102.6" rel="noopener">dalgo v0.102.6</a>, <a href="https://github.com/dal-go/record" rel="noopener">record v0.1.5</a>, and <a href="https://pkg.go.dev/go.mongodb.org/mongo-driver/v2@v2.10.1" rel="noopener">go.mongodb.org/mongo-driver/v2 v2.10.1</a>. The latest Git tag is <a href="https://github.com/dal-go/dalgo2mongodb/tree/v0.1.0" rel="noopener">v0.1.0</a> (commit <code>1c6549d8dc1e43878501ebe69f7c461615ce9773</code>, 27 October 2026). <code>Adapter()</code> still reports the version string <code>&quot;0.1.0&quot;</code> on current <code>main</code>. The public constructor, the read methods, and the query surface described below are the same on the tag and on <code>main</code>. A short read program using <code>NewDB</code>, <code>Get</code>, <code>Exists</code>, and <code>ExecuteQueryToRecordsReader</code> compiled against both the tag and that <code>main</code> commit on 26 November 2026. <code>NewDB</code> pings the server, so that program was not executed against a live MongoDB instance.</p>
+<h2 id="what-it-supports-and-what-it-does-not">What it supports, and what it does not</h2>
+<p>These operations are supported:</p>
+<ul>
+<li><code>Get</code>, <code>GetMulti</code>, and <code>Exists</code> — point reads of a document by key in one root collection</li>
+<li><code>ExecuteQueryToRecordsReader</code> — a bounded structured query that returns a <code>dal.RecordsReader</code></li>
+<li><code>RunReadonlyTransaction</code> — the callback runs as ordinary reads on the same handle; the README states that this does not provide snapshot isolation across calls</li>
+</ul>
+<p>These operations are not provided:</p>
+<ul>
+<li>Writes: the README states that writes return <code>dal.ErrNotSupported</code>. <code>RunReadwriteTransaction</code> returns <code>dal.ErrNotSupported</code> with the message that the MongoDB adapter is read-only.</li>
+<li><code>ExecuteQueryToRecordsetReader</code> returns <code>dal.ErrNotSupported</code>. Use <code>ExecuteQueryToRecordsReader</code>.</li>
+<li>Schema discovery: <code>Schema()</code> returns <code>nil</code>.</li>
+</ul>
+<p><code>Get</code> requires a root collection (no parent key), a collection name the adapter accepts, and a non-nil, comparable document ID. Collection names must be non-empty, at most 120 characters, and must not contain <code>.</code>, <code>$</code>, or a NUL byte. Queried record keys and <code>Get</code>/<code>Exists</code> preserve native comparable BSON scalar IDs, including ObjectID and numbers, even when a projection omits <code>_id</code>. Null IDs and non-comparable IDs, such as embedded documents and binary slices, are unsupported. A string ID is different from an ObjectID.</p>
+<h2 id="install-and-constructor">Install and constructor</h2>
+<div class="codeblock"><div class="codeblock-head"><span class="codeblock-name">text</span><span class="codeblock-lang">Text</span></div><pre><code>go get github.com/dal-go/dalgo2mongodb</code></pre></div>
+<p><code>NewDB(ctx, uri)</code> opens the database named in <code>uri</code>, pings the server so a bad URI or failed authentication fails at construction time, and returns a <code>dal.DB</code>. The URI must select a database: <code>mongodb://host/database</code> or <code>mongodb+srv://host/database</code>. Official <a href="https://www.mongodb.com/docs/manual/reference/connection-string/" rel="noopener">MongoDB connection string</a> documentation describes those URI forms. The constructor rejects a URI that does not use one of those schemes, has an empty host, includes a fragment, or does not name exactly one database in the path.</p>
+<p>The README says to use a dedicated MongoDB account with the <a href="https://www.mongodb.com/docs/manual/reference/built-in-roles/#mongodb-authrole-read" rel="noopener"><code>read</code> role</a> for that database, and to keep credentials in environment variables or a secret store. TLS and authentication options are handled by the official driver. The adapter does not return driver error messages that may contain credentials. Default driver timeouts on this constructor are 10 seconds for server selection and 30 seconds for an operation. On current <code>main</code>, caller cancellation and deadlines return the standard <code>context.Canceled</code> or <code>context.DeadlineExceeded</code> sentinels; other driver failures use fixed redacted messages.</p>
+<p>Close the handle when finished. The value returned by <code>NewDB</code> implements <code>io.Closer</code>; <code>Close</code> disconnects the official driver client.</p>
+<h2 id="structured-queries">Structured queries</h2>
+<p>Queries run with <code>db.ExecuteQueryToRecordsReader</code>. Supported queries use one root collection, top-level fields, scalar <code>==</code>, <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code> comparisons, AND/OR groups, field projection, ordering, offset (up to 100000), and a positive limit (at most 1000, the package constant <code>MaxResults</code>). An omitted limit defaults to 1000. Results are additionally bounded to 16 MiB of BSON. MongoDB comparison, missing-field, and null semantics apply. <code>_id</code> is returned unless a projection omits it.</p>
+<p>Computed expressions, aliases, qualified or nested fields, joins, grouping, cursors, raw commands, and aggregation pipelines are rejected. No query can submit <code>$where</code>, <code>$out</code>, or <code>$merge</code>. Those refusals return an error wrapping <code>dal.ErrNotSupported</code>.</p>
+<h2 id="a-short-read-example">A short read example</h2>
+<p>The listing below opens MongoDB through <code>NewDB</code>, reads one document with <code>Get</code>, and runs a structured query with <code>WhereField</code>, <code>OrderBy</code>, and <code>Limit</code>. It compiled against dalgo2mongodb commit <code>08ff6460d3498f5b307acdb86c6e35a2b6933a3e</code> and against tag v0.1.0 on 26 November 2026. It was not executed against a live server, because <code>NewDB</code> pings MongoDB at construction time.</p>
+<div class="codeblock"><div class="codeblock-head"><span class="codeblock-name">example.go</span><span class="codeblock-lang">Go</span></div><pre><code>package store
+
+import (
+	"context"
+	"errors"
+	"io"
+
+	"github.com/dal-go/dalgo/dal"
+	"github.com/dal-go/dalgo2mongodb"
+	"github.com/dal-go/record"
+)
+
+func ReadProducts(ctx context.Context, uri string) error {
+	db, err := dalgo2mongodb.NewDB(ctx, uri)
+	if err != nil {
+		return err
+	}
+	if closer, ok := db.(io.Closer); ok {
+		defer closer.Close()
+	}
+
+	loaded := record.NewRecordWithData(record.NewKeyWithID("products", "sku-1"), map[string]any{})
+	if err := db.Get(ctx, loaded); err != nil &amp;&amp; !errors.Is(err, record.ErrRecordNotFound) {
+		return err
+	}
+
+	q := dal.From(dal.NewRootCollectionRef("products", "")).NewQuery().
+		WhereField("price", dal.GreaterOrEqual, 10).
+		OrderBy(dal.DescendingField("price")).
+		Limit(20).
+		SelectIntoRecord(nil)
+	reader, err := db.ExecuteQueryToRecordsReader(ctx, q)
+	if err != nil {
+		return err
+	}
+	defer reader.Close()
+	for {
+		rec, err := reader.Next()
+		if errors.Is(err, dal.ErrNoMoreRecords) {
+			break
+		}
+		if err != nil {
+			return err
+		}
+		_ = rec.Data()
+	}
+	return nil
+}</code></pre></div>
+<p><code>Get</code> and <code>Exists</code> take a <code>dal.DB</code> directly, because that handle is a read session. There is no write path on this adapter: <code>RunReadwriteTransaction</code> returns <code>dal.ErrNotSupported</code>.</p>
+<h2 id="when-to-choose-mongodb">When to choose MongoDB</h2>
+<p>Choose dalgo2mongodb when the data already lives in <a href="https://www.mongodb.com/docs/manual/" rel="noopener">MongoDB</a> and the Go code needs to read it through <code>dal.DB</code> — point reads and the bounded structured queries above — with the official Go driver. The same <code>Get</code>, <code>Exists</code>, <code>GetMulti</code>, and <code>ExecuteQueryToRecordsReader</code> calls can run against this adapter. Writes need a different store; this module will not insert, update, or delete.</p>
+<p>Choose <a href="/adapters/dalgo2sqlite/">dalgo2sqlite</a> when the database should live in-process as a SQLite file or an in-memory SQL engine, including when you need writes, schema, and DDL. Choose <a href="https://github.com/dal-go/dalgo2postgres" rel="noopener">dalgo2postgres</a> when the service needs a networked PostgreSQL server and SQL writes. <a href="/articles/switch-postgres-to-firestore/">Switching between PostgreSQL and Firestore in Go</a> shows that constructor and what still differs when the same records move to Firestore. Choose <a href="https://github.com/dal-go/dalgo2firestore" rel="noopener">dalgo2firestore</a> when the product is a Cloud Firestore document store; <a href="/articles/go-firestore-tutorial/">Firestore in Go: CRUD and transactions with DALgo</a> is that walkthrough.</p>
+<p>DALgo does not hide every engine difference. The limits above are part of this adapter, not a generic MongoDB client. <a href="/articles/when-to-use-dalgo/">When to use DALgo, and when not to</a> is the wider limit list.</p>
+<h2 id="capability-summary">Capability summary</h2>
+<p>The <a href="/adapters/#adapter-mongodb">adapter matrix</a> is the inventory. For the Go module it lists these capabilities as implemented: point-read, structured-query, and cancellation. It lists write, transactions, and schema discovery as not implemented, with the limit &quot;Bounded root collection/top-level scalar filters, projection and order. No writes, joins, grouping, cursors, native commands or recordset reader.&quot; This page does not add capabilities to that row. The same matrix has a TypeScript row for a different package, <code>@dalgo/dalgo2mongodb</code>; that is not this Go module.</p>
+<h2 id="faq">FAQ</h2>
+<h3 id="what-is-dalgo2mongodb">What is dalgo2mongodb?</h3>
+<p>dalgo2mongodb is the read-only MongoDB adapter for DALgo in Go. It opens a MongoDB database URI with the official MongoDB Go driver and returns a <code>dal.DB</code> that supports <code>Get</code>, <code>GetMulti</code>, <code>Exists</code>, and bounded structured queries. The module is <a href="https://github.com/dal-go/dalgo2mongodb" rel="noopener"><code>github.com/dal-go/dalgo2mongodb</code></a>.</p>
+<h3 id="can-dalgo2mongodb-insert-update-or-delete-documents">Can dalgo2mongodb insert, update, or delete documents?</h3>
+<p>No. The adapter is read-only. The README states that writes return <code>dal.ErrNotSupported</code>. <code>RunReadwriteTransaction</code> returns that error and states that the MongoDB adapter is read-only. <code>ExecuteQueryToRecordsetReader</code> is also unsupported; use <code>ExecuteQueryToRecordsReader</code>.</p>
+<h3 id="how-do-i-open-a-mongodb-database-with-dalgo">How do I open a MongoDB database with DALgo?</h3>
+<p>Call <code>dalgo2mongodb.NewDB(ctx, uri)</code>. The URI must select a database, as <code>mongodb://host/database</code> or <code>mongodb+srv://host/database</code>. The constructor pings the server. Close the returned handle through <code>io.Closer</code>. The README recommends a dedicated MongoDB account with the <code>read</code> role for that database.</p>
+<h3 id="when-should-i-use-this-adapter-instead-of-sqlite-postgresql-or-firestore">When should I use this adapter instead of SQLite, PostgreSQL, or Firestore?</h3>
+<p>Use dalgo2mongodb when you need to read an existing MongoDB database through <code>dal.DB</code>. Use <a href="/adapters/dalgo2sqlite/">dalgo2sqlite</a> for an in-process SQLite file or memory database, including writes and schema. Use dalgo2postgres for a PostgreSQL server, and dalgo2firestore when the product is Cloud Firestore. Write operations belong on those other adapters, not on this one.</p>
+<h2 id="sources">Sources</h2>
+<p>Public module documentation and source, checked on 26 November 2026.</p>
+<ul>
+<li><a href="https://github.com/dal-go/dalgo2mongodb" rel="noopener">dal-go/dalgo2mongodb</a> current <code>main</code> commit <code>08ff6460d3498f5b307acdb86c6e35a2b6933a3e</code>, and latest tag <a href="https://github.com/dal-go/dalgo2mongodb/tree/v0.1.0" rel="noopener">v0.1.0</a> (commit <code>1c6549d8dc1e43878501ebe69f7c461615ce9773</code>). Public APIs cited: <code>NewDB</code>, <code>Get</code>, <code>GetMulti</code>, <code>Exists</code>, <code>ExecuteQueryToRecordsReader</code>, <code>ExecuteQueryToRecordsetReader</code>, <code>RunReadonlyTransaction</code>, <code>RunReadwriteTransaction</code>, <code>Schema</code>, and <code>Close</code>. License on current <code>main</code>: <a href="https://github.com/dal-go/dalgo2mongodb/blob/main/LICENSE" rel="noopener">Apache License 2.0</a>. The v0.1.0 tag does not include that LICENSE file; the license was added on <code>main</code> after the tag.</li>
+<li><a href="https://github.com/dal-go/dalgo" rel="noopener">dal-go/dalgo</a> v0.102.6 (the version current <code>main</code> requires; tag v0.1.0 requires v0.95.3), <a href="https://github.com/dal-go/record" rel="noopener">dal-go/record</a> v0.1.5. DALgo license: <a href="https://github.com/dal-go/dalgo/blob/main/LICENSE" rel="noopener">MIT</a>.</li>
+<li><a href="https://pkg.go.dev/go.mongodb.org/mongo-driver/v2@v2.10.1" rel="noopener">go.mongodb.org/mongo-driver/v2</a> v2.10.1, the official driver current <code>main</code> imports (tag v0.1.0 imports v2.4.4). Driver documentation: <a href="https://www.mongodb.com/docs/drivers/go/current/" rel="noopener">MongoDB Go driver</a> and the <a href="https://github.com/mongodb/mongo-go-driver" rel="noopener">mongo-go-driver</a> repository.</li>
+<li><a href="https://www.mongodb.com/docs/manual/" rel="noopener">MongoDB documentation</a>, including <a href="https://www.mongodb.com/docs/manual/reference/connection-string/" rel="noopener">connection strings</a> and <a href="https://www.mongodb.com/docs/manual/reference/bson-types/" rel="noopener">BSON types</a>.</li>
+<li><a href="/adapters/">Adapter matrix</a> MongoDB row.</li>
+</ul>
+  </div>
+  <aside class="article-related"><h2>More adapter pages</h2><ul><li><a href="/adapters/dalgo2sqlite/">SQLite in Go with DALgo: the dalgo2sqlite adapter</a></li></ul></aside>
+  <p class="article-source">Source file: <a href="https://github.com/dal-go/dalgo-io/blob/main/content/adapters/dalgo2mongodb.md"><code>content/adapters/dalgo2mongodb.md</code></a></p>
+</article>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"MongoDB in Go with DALgo: the dalgo2mongodb adapter","description":"Golang MongoDB with DALgo: the read-only dalgo2mongodb adapter opens a MongoDB URI in Go and runs point reads and bounded structured queries through dal.DB.","datePublished":"2026-11-26","dateModified":"2026-11-26","inLanguage":"en","mainEntityOfPage":"https://dalgo.io/adapters/dalgo2mongodb/","dependencies":"Go","codeRepository":"https://github.com/dal-go/dalgo2mongodb","author":{"@type":"Organization","name":"DALgo contributors","url":"https://dalgo.io/"},"publisher":{"@type":"Organization","name":"DALgo","url":"https://dalgo.io/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"DALgo","item":"https://dalgo.io/"},{"@type":"ListItem","position":2,"name":"Adapters","item":"https://dalgo.io/adapters/"},{"@type":"ListItem","position":3,"name":"MongoDB in Go with DALgo: the dalgo2mongodb adapter","item":"https://dalgo.io/adapters/dalgo2mongodb/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is dalgo2mongodb?","acceptedAnswer":{"@type":"Answer","text":"dalgo2mongodb is the read-only MongoDB adapter for DALgo in Go. It opens a MongoDB database URI with the official MongoDB Go driver and returns a dal.DB that supports Get, GetMulti, Exists, and bounded structured queries. The module is github.com/dal-go/dalgo2mongodb."}},{"@type":"Question","name":"Can dalgo2mongodb insert, update, or delete documents?","acceptedAnswer":{"@type":"Answer","text":"No. The adapter is read-only. The README states that writes return dal.ErrNotSupported. RunReadwriteTransaction returns that error and states that the MongoDB adapter is read-only. ExecuteQueryToRecordsetReader is also unsupported; use ExecuteQueryToRecordsReader."}},{"@type":"Question","name":"How do I open a MongoDB database with DALgo?","acceptedAnswer":{"@type":"Answer","text":"Call dalgo2mongodb.NewDB(ctx, uri). The URI must select a database, as mongodb://host/database or mongodb+srv://host/database. The constructor pings the server. Close the returned handle through io.Closer. The README recommends a dedicated MongoDB account with the read role for that database."}},{"@type":"Question","name":"When should I use this adapter instead of SQLite, PostgreSQL, or Firestore?","acceptedAnswer":{"@type":"Answer","text":"Use dalgo2mongodb when you need to read an existing MongoDB database through dal.DB. Use dalgo2sqlite for an in-process SQLite file or memory database, including writes and schema. Use dalgo2postgres for a PostgreSQL server, and dalgo2firestore when the product is Cloud Firestore. Write operations belong on those other adapters, not on this one."}}]}</script>
+</main>
+
+
+<footer class="AppFooter">
+  <div class="container AppFooter-inner">
+    <ul role="list">
+      <li>&copy; <span id="year">2026</span> DALgo contributors</li>
+      <li><a href="/">DALgo</a></li>
+      <li><a href="/articles/">Articles</a></li>
+      <li><a href="/tugql/">TugQL</a></li>
+      <li><a href="https://github.com/dal-go/dalgo" rel="noopener">Core repo</a></li>
+      <li><a href="https://github.com/dal-go/dalgo/blob/main/LICENSE" rel="noopener">MIT License</a></li>
+      <li><a href="/privacy/">Privacy</a></li>
+    </ul>
+    <span class="AppFooter-tag">Open-source documentation site. No accounts, no advertising.</span>
+  </div>
+<nav class="topic-footer container" data-topic-footer aria-label="Documentation"><a href="/go/">DALgo for Go</a><a href="/typescript/">DALgo for TypeScript</a><a href="/quickstart/">Quick Start</a><a href="/adapters/">Adapters and runtime support</a><a href="/why/">Why DALgo</a><a href="/collections/">Typed collections</a><a href="/interfaces/">Interfaces</a><a href="/queries/">Queries and schema</a><a href="/film/">DALgo films</a><a href="/datatug/">DALgo and DataTug</a><a href="/about/tech-stack/">Technology behind DALgo</a><a href="/faq/">DALgo FAQ</a><a href="/articles/">Articles</a><a href="/tugql/">TugQL</a></nav></footer>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<div class="site-feedback"><button type="button" data-feedback-launcher aria-haspopup="dialog" hidden><svg class="feedback-mark" aria-hidden="true" focusable="false" viewBox="0 0 64 64"><rect width="64" height="64" rx="18" fill="#d4ef83"/><path d="M18 46 46 18M20 18h26v26" fill="none" stroke="#202c2a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>Suggest an improvement</button></div>
+<script id="site-feedback-widget" src="https://improveit.now/widget.js" data-space="ao58m" data-app="53707531c1e1120447e7673109bb6538" data-lang="en" data-color="#0d63e9" data-launcher="hidden" defer></script>
+<script src="/feedback.js" defer></script>
+</body>
+</html>

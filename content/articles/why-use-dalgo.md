@@ -116,6 +116,7 @@ Public default branches and repository metadata, read on 27 October 2026.
 - [dal-go/dalgo](https://github.com/dal-go/dalgo) README, access-policy guide, hooks documentation, and `end2end` / `mocks` layout. License: MIT.
 - [dal-go/dalgo-js](https://github.com/dal-go/dalgo-js) and [dal-go/dalgo-http-adapters](https://github.com/dal-go/dalgo-http-adapters).
 - [dal-go/dalgo2sql](https://github.com/dal-go/dalgo2sql), [dalgo2postgres](https://github.com/dal-go/dalgo2postgres), [dalgo2sqlite](https://github.com/dal-go/dalgo2sqlite), [dalgo2firestore](https://github.com/dal-go/dalgo2firestore), [dalgo2openvaultdb](https://github.com/dal-go/dalgo2openvaultdb).
+- [dalgo2mongodb](https://github.com/dal-go/dalgo2mongodb), the read-only MongoDB adapter; see [MongoDB in Go with DALgo: the dalgo2mongodb adapter](/adapters/dalgo2mongodb/).
 - [sneat-co/sneat-go-core](https://github.com/sneat-co/sneat-go-core) `facade/get_sneat_db.go` and `facade/root_policy.go`. [sneat-co/sneat-cli](https://github.com/sneat-co/sneat-cli) `cmd/sneat/commands/convo_storage.go` and `internal/firestoredb/firestoredb.go`.
 - [openvaultdb/openvaultdb](https://github.com/openvaultdb/openvaultdb) and [openvaultdb/openvaultdb-go](https://github.com/openvaultdb/openvaultdb-go).
 - [ingitdb/ingitdb](https://github.com/ingitdb/ingitdb), [ingitdb/ingitdb-cli](https://github.com/ingitdb/ingitdb-cli), [ingitdb/dalgo2ingitdb](https://github.com/ingitdb/dalgo2ingitdb).

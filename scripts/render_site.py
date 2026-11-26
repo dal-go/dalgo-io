@@ -140,11 +140,18 @@ def adapter_cards(loc: str, catalog: dict, adapters: dict) -> str:
     return f'    <ul class="adapter-grid" role="list" aria-label="{label}">\n' + "\n\n".join(items) + "\n    </ul>"
 
 
-def adapter_more(catalog: dict, adapters: dict) -> str:
-    rows = "\n".join(
-        f'        <li><a href="{item["url"]}" rel="noopener"><strong>{item["name"]}</strong></a> — {catalog["adapters_more"][item["id"]]}</li>'
-        for item in adapters["more"]
-    )
+def adapter_more(loc: str, catalog: dict, adapters: dict) -> str:
+    rows = []
+    for item in adapters["more"]:
+        guide = item.get("guide")
+        guide_html = ""
+        if guide:
+            label = "Adapter page" if loc == "en" else "Страница адаптера"
+            guide_html = f' · <a href="{html.escape(guide, quote=True)}">{label}</a>'
+        rows.append(
+            f'        <li><a href="{item["url"]}" rel="noopener"><strong>{item["name"]}</strong></a> — {catalog["adapters_more"][item["id"]]}{guide_html}</li>'
+        )
+    rows = "\n".join(rows)
     return (
         '    <aside class="Box companion adapters-more">\n'
         f'      <h3>{catalog["adapters.more_title"]}</h3>\n'
@@ -223,7 +230,7 @@ def render_page(loc: str, template: str, catalogs: dict, adapters: dict, video: 
         "home_href": "#top",
         "lang_switch": lang_switch(loc, flat["lang.label"]),
         "adapter_cards": adapter_cards(loc, catalog, adapters),
-        "adapter_more": adapter_more(catalog, adapters),
+        "adapter_more": adapter_more(loc, catalog, adapters),
         "video_section": video_section(loc, flat, video),
         "cy_labels_json": cy_labels,
     }

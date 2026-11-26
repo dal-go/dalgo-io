@@ -108,7 +108,8 @@
     {
       "id": "dalgo2mongodb",
       "name": "dalgo2mongodb",
-      "url": "https://github.com/dal-go/dalgo2mongodb"
+      "url": "https://github.com/dal-go/dalgo2mongodb",
+      "guide": "/adapters/dalgo2mongodb/"
     },
     {
       "id": "dalgo2couchdb",
