@@ -163,6 +163,8 @@ Choose SQLite when the database should live in-process: a local application, a d
 
 Choose [dalgo2postgres](https://github.com/dal-go/dalgo2postgres) when the service needs a networked PostgreSQL server, concurrent writers, or PostgreSQL-specific SQL. [Switching between PostgreSQL and Firestore in Go](/articles/switch-postgres-to-firestore/) shows that constructor and what still differs when the same records move to Firestore. Choose [dalgo2firestore](https://github.com/dal-go/dalgo2firestore) when the product is a Cloud Firestore document store; [Firestore in Go: CRUD and transactions with DALgo](/articles/go-firestore-tutorial/) is that walkthrough.
 
+A read-only MongoDB option is the [MongoDB in Go with DALgo: the dalgo2mongodb adapter](/adapters/dalgo2mongodb/) page; that module reads through `dal.DB` and does not write.
+
 DALgo does not hide every engine difference. A refused schema description comes back as a `*dbschema.NotSupportedError`, for example when a table has a generated or hidden column, an empty name, or an unrecognized SQLite type. Database-level `UpdateRecord` returns `dal.ErrNotImplementedYet`. Some refusals from the underlying dalgo2sql layer wrap `dal.ErrNotSupported`. [When to use DALgo, and when not to](/articles/when-to-use-dalgo/) is the limit list.
 
 ## Capability summary

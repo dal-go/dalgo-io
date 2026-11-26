@@ -37,6 +37,9 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://dalgo.io/adapters/"/>
   </url>
   <url>
+    <loc>https://dalgo.io/adapters/dalgo2mongodb/</loc>
+  </url>
+  <url>
     <loc>https://dalgo.io/adapters/dalgo2sqlite/</loc>
   </url>
   <url>
