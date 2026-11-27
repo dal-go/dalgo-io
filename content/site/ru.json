@@ -64,7 +64,7 @@
   "ts.eyebrow": "04 — TypeScript",
   "ts.title": "Та же идея на TypeScript.",
   "ts.kicker": "<code>@dalgo/core</code> — реализация DALgo на TypeScript, не привязанная к браузеру: иерархические ключи, типизированные коллекции, структурированные запросы и запись только внутри транзакций.",
-  "ts.prose": "Установите пакет из npm: <code>npm install @dalgo/core</code>. У пакета нет собственного SDK базы данных, и сам он к базе не подключается — это делает адаптер. Исходный код: <a href=\"https://github.com/dal-go/dalgo-js\" rel=\"noopener\">dal-go/dalgo-js</a>.",
+  "ts.prose": "Установите пакет из npm: <code>npm install @dalgo/core</code>. У пакета нет собственного SDK базы данных, и сам он к базе не подключается — это делает адаптер. Исходный код: <a href=\"https://github.com/dal-go/dalgo-js\" rel=\"noopener\">dal-go/dalgo-js</a>. Как это устроено и чем отличается от Prisma, Drizzle, TypeORM и Kysely (статья на английском): <a href=\"/articles/typescript-database-abstraction/\">Database abstraction layer for TypeScript: @dalgo/core</a>.",
   "ts.adapters": "TypeScript-адаптеры находятся в <a href=\"https://github.com/dal-go/dalgo-http-adapters\">dalgo-http-adapters</a>. Локальные, HTTP-браузерные и серверные адаптеры имеют разные требования. Смотрите <a href=\"/ru/adapters/\">таблицу Go/TypeScript и сред выполнения</a>.",
   "ts.flash": "Зрелость: <code>@dalgo/core</code> пока в версиях 0.x, а несколько адаптеров работают только на чтение или только на запросы. В README каждого адаптера указано, что он поддерживает; операция, которую он не умеет, завершается явной ошибкой.",
   "ts.code_label": "Пример: типизированный запрос на TypeScript",

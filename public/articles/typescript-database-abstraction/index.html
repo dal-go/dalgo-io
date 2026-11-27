@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script src="/theme.js"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Database abstraction layer for TypeScript: @dalgo/core — DALgo</title>
+<meta name="description" content="TypeScript database abstraction layer explained: how @dalgo/core models records, queries, and transactions, and where Prisma or Drizzle fit better." />
+<link rel="canonical" href="https://dalgo.io/articles/typescript-database-abstraction/" />
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)" />
+<meta property="og:title" content="Database abstraction layer for TypeScript: @dalgo/core — DALgo" />
+<meta property="og:description" content="TypeScript database abstraction layer explained: how @dalgo/core models records, queries, and transactions, and where Prisma or Drizzle fit better." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://dalgo.io/articles/typescript-database-abstraction/" />
+<meta property="article:published_time" content="2026-11-27" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230d1117'/><text x='50%25' y='52%25' text-anchor='middle' dominant-baseline='middle' font-family='ui-monospace,monospace' font-size='28' font-weight='700' fill='%232f81f7'>d/</text></svg>" />
+<link rel="stylesheet" href="/styles.css" />
+<script src="/analytics.js" defer></script>
+<link rel="stylesheet" href="/theme.css" />
+<script src="/site.js" defer></script>
+</head>
+<body>
+
+<header class="AppHeader" role="banner">
+  <div class="AppHeader-inner">
+    <a class="AppHeader-brand" href="/" aria-label="DALgo home">
+      <span class="AppHeader-brand-mark" aria-hidden="true">
+        <span class="brand-dal">DAL</span><span class="brand-go">go</span>
+      </span>
+    </a>
+
+
+
+    <nav class="AppHeader-nav" aria-label="Documentation"><a href="/go/">Go</a><a href="/typescript/">TypeScript</a><a href="/adapters/">Adapters</a><a href="/quickstart/">Quick Start</a></nav>
+
+    <div class="AppHeader-actions"><label class="theme-control" data-theme-control hidden><span aria-hidden="true">◐</span><select data-theme-switch aria-label="Theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label>
+
+    </div>
+  </div>
+</header>
+
+<main id="top">
+<article class="article">
+  <header class="article-header">
+    <p class="article-kicker"><a href="/articles/">Articles</a></p>
+    <h1>Database abstraction layer for TypeScript: @dalgo/core</h1>
+    <p class="article-meta"><time datetime="2026-11-27">27 November 2026</time></p>
+    <p class="article-standfirst">What a database abstraction layer is in TypeScript, how @dalgo/core models records, queries, and transactions for browser and server code, a type-checked example, and an honest comparison with Prisma, Drizzle ORM, TypeORM, and Kysely.</p>
+  </header>
+  <nav class="Box toc" aria-label="On this page"><strong>On this page</strong><ol><li><a href="#what-a-database-abstraction-layer-does-in-typescript">What a database abstraction layer does in TypeScript</a></li>
+<li><a href="#how-dalgo-core-models-it">How @dalgo/core models it</a></li>
+<li><a href="#install">Install</a></li>
+<li><a href="#a-typed-example-that-does-not-name-a-database">A typed example that does not name a database</a></li>
+<li><a href="#typescript-adapters-and-where-they-run">TypeScript adapters and where they run</a></li>
+<li><a href="#how-it-compares-with-prisma-drizzle-typeorm-and-kysely">How it compares with Prisma, Drizzle, TypeORM, and Kysely</a></li>
+<li><a href="#how-it-relates-to-the-go-module">How it relates to the Go module</a></li>
+<li><a href="#faq">FAQ</a></li>
+<li><a href="#sources">Sources</a></li></ol></nav>
+  <div class="article-prose">
+<p><a href="/">DALgo</a> is an <a href="https://github.com/dal-go/dalgo-js" rel="noopener">open-source</a> database abstraction layer for <a href="https://go.dev/" rel="noopener">Go</a> and <a href="https://www.typescriptlang.org/" rel="noopener">TypeScript</a>. A database abstraction layer, or DAL, is a library that sits between application code and a database, so the program can store and load records without calling one vendor&#x27;s client. An adapter is the package that connects that interface to one particular database or runtime. <a href="https://github.com/dal-go/dalgo-js" rel="noopener"><code>@dalgo/core</code></a> is DALgo&#x27;s TypeScript package: it defines keys, typed collections, structured queries, records, and transaction contracts, and it does not connect to a database by itself. It is published on <a href="https://www.npmjs.com/package/@dalgo/core" rel="noopener">npm</a>, the package registry for JavaScript, as an <a href="https://developer.mozilla.org/docs/Web/JavaScript/Guide/Modules" rel="noopener">ECMAScript module</a> (ESM) under the <a href="https://github.com/dal-go/dalgo-js/blob/main/LICENSE" rel="noopener">MIT license</a>. Other terms on this page: an ORM is an object-relational mapper, a library that maps program objects to rows of a relational database; SQL is Structured Query Language, the language relational databases use for queries; CRUD is create, read, update, and delete, the four basic record operations; and an SDK is a software development kit, such as the Firebase library a Firestore app imports.</p>
+<p>This page is an explainer, not the product overview: the <a href="/typescript/">DALgo for TypeScript</a> page is that, and the <a href="/adapters/">adapter matrix</a> is the inventory of what each adapter implements. The Go side of the same idea is in <a href="/articles/go-database-abstraction-layer/">Database abstraction layer in Go</a>, and <a href="/articles/go-orm-comparison-2026/">Go ORM and data-access libraries compared (2026)</a> is the Go counterpart of the comparison below. The <a href="/quickstart/">quickstart</a> and the <a href="/faq/">FAQ</a> are the shorter product pages.</p>
+<h2 id="what-a-database-abstraction-layer-does-in-typescript">What a database abstraction layer does in TypeScript</h2>
+<p>A TypeScript program usually reaches a database through a vendor library: the Firebase SDK for Firestore, <code>indexedDB</code> in the browser, a SQL driver on a server. A database abstraction layer puts one small interface in front of those libraries, so the code that decides what to store depends on the interface and only the start-up code names a vendor. That is the whole idea. It solves three practical problems:</p>
+<ul>
+<li><strong>One interface over several databases.</strong> The same function can read a record whether the adapter behind it is IndexedDB or Firestore, as long as it uses only operations both adapters implement.</li>
+<li><strong>Browser and server code that shares logic.</strong> The package is browser-neutral: it has no database SDK of its own and no Node-only imports, so the same domain code can be bundled for the browser or run in Node. The package declares Node 20 or later.</li>
+<li><strong>Testability.</strong> Application code that accepts the interface can be given a different adapter in a test. The IndexedDB adapter, for example, accepts an injected <code>IDBFactory</code>, which is how the example below ran under Node.</li>
+</ul>
+<p>A layer like this does not remove the differences between databases. It hides vendor client code, not the engine. An operation an adapter cannot do has to fail explicitly, and the <a href="/adapters/">adapter matrix</a> records which adapter does what.</p>
+<h2 id="how-dalgo-core-models-it">How @dalgo/core models it</h2>
+<p>Everything below is exported from <code>@dalgo/core</code> 0.9.0.</p>
+<p><strong>Keys.</strong> A <code>Key</code> is a collection name plus an id, optionally under a parent key, so a record can live at <code>spaces/{id}/items/{id}</code>. <code>key(&quot;spaces&quot;, id)</code> builds one. <code>Key.path</code> joins the segments, escaping <code>.</code>, <code>$</code>, <code>#</code>, <code>[</code>, <code>]</code>, and <code>/</code> inside ids. Ids are strings or finite numbers.</p>
+<p><strong>Typed collections.</strong> <code>collection&lt;T&gt;(&quot;todos&quot;)</code> returns a <code>Collection&lt;T&gt;</code>. <code>collection.key(id)</code> makes a key, <code>collection.in(parentKey)</code> scopes it under a parent, and <code>collection.query()</code> starts a query. <code>collectionGroup&lt;T&gt;(&quot;items&quot;)</code> is the explicit constructor for a query across every collection of that name. An optional <code>Codec&lt;T&gt;</code> with <code>encode</code> and <code>decode</code> can convert between your type and the stored value.</p>
+<p><strong>Records.</strong> A read returns a <code>RecordSnapshot&lt;T&gt;</code>: either <code>{ exists: true, key, data }</code> or <code>{ exists: false, key }</code>. TypeScript narrows on <code>exists</code>, so <code>data</code> is only readable when the record is there.</p>
+<p><strong>Structured queries.</strong> The builder is immutable. <code>where(field, operator, value)</code> takes one of <code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code>, <code>in</code>, <code>not-in</code>, <code>array-contains</code>, and <code>array-contains-any</code>. <code>orderBy(field, &quot;asc&quot; | &quot;desc&quot;)</code>, <code>limit(n)</code>, and <code>offset(n)</code> shape the result, and <code>startAt</code>, <code>startAfter</code>, <code>endAt</code>, and <code>endBefore</code> take cursor values. <code>build()</code> returns a plain <code>StructuredQuery&lt;T&gt;</code> object. A query returns a <code>QueryPage&lt;T&gt;</code> with <code>records</code> and an optional <code>nextCursor</code>. Whether an adapter accepts every operator, offset, or cursor is the adapter&#x27;s decision: the Firestore adapter, for instance, rejects query offsets.</p>
+<p><strong>Database and transactions.</strong> The <code>Database</code> interface has <code>get</code>, <code>getMany</code>, <code>query</code>, and <code>runReadwriteTransaction</code>. Writes (<code>insert</code>, <code>set</code>, <code>update</code>, <code>delete</code>) exist only on the transaction object passed to that callback, which is what the README means by transaction-only mutation. There is no separate read-only transaction type in the TypeScript package; reads happen on the database itself or inside the read-write callback.</p>
+<p><strong>Errors and capabilities.</strong> The package defines <code>DalgoError</code>, <code>NotFoundError</code>, <code>AlreadyExistsError</code>, and <code>UnsupportedError</code>. A database may also implement the optional <code>CapabilityAware</code> interface, whose <code>capabilities()</code> reports <code>read</code>, <code>query</code>, <code>write</code>, <code>delete</code>, <code>reset</code>, and <code>persistent</code>; the source says to discover these at runtime rather than infer them from the engine name.</p>
+<p><code>@dalgo/core</code> also ships a text query language, <a href="/tugql/">TugQL</a>, with a parser and a generic join executor. That is a separate query model and is not covered here. The package README states that the generic executor scans each relation through <code>QueryExecutor.query</code>, and that the current-core Firestore and IndexedDB adapters have no JOIN integration tests, so do not assume joins from the core alone.</p>
+<h2 id="install">Install</h2>
+<div class="codeblock"><div class="codeblock-head"><span class="codeblock-name">text</span><span class="codeblock-lang">Text</span></div><pre><code>npm install @dalgo/core @dalgo/indexeddb</code></pre></div>
+<p><code>pnpm add @dalgo/core @dalgo/indexeddb</code> is the README&#x27;s own form. The facts here were checked on 27 November 2026. <a href="https://www.npmjs.com/package/@dalgo/core" rel="noopener"><code>@dalgo/core</code></a> 0.9.0 is the latest version on npm. It was built from commit <a href="https://github.com/dal-go/dalgo-js/commit/2ed7cf775838d4d4df884ffddea1a75b807d919e" rel="noopener"><code>2ed7cf775838</code></a> of <a href="https://github.com/dal-go/dalgo-js" rel="noopener">dal-go/dalgo-js</a>, the commit that the <code>core@v0.9.0</code> tag points to. It has one runtime dependency, <a href="https://www.npmjs.com/package/yaml" rel="noopener"><code>yaml</code></a>.</p>
+<p>The published adapters at that date, <code>@dalgo/indexeddb</code> 0.4.1 and <code>@dalgo/firestore</code> 0.4.2, declare the peer range <code>@dalgo/core &gt;=0.8.0 &lt;0.9.0</code>. Because of that, the command above installed <code>@dalgo/core</code> 0.8.1 next to the adapter on that date, not 0.9.0. If you install 0.9.0 yourself, npm warns about the peer range and needs <code>--legacy-peer-deps</code>. The example below type-checks and runs on both 0.8.1 and 0.9.0; only 0.8.1 is inside the adapter&#x27;s declared range. Read the adapter&#x27;s README for the version it supports before you pin.</p>
+<h2 id="a-typed-example-that-does-not-name-a-database">A typed example that does not name a database</h2>
+<p>The first file knows about <code>Database</code> and a record type, and nothing about IndexedDB or Firestore. <code>addTodo</code> reads a record and inserts it inside one read-write transaction; <code>openTodos</code> runs a query.</p>
+<div class="codeblock"><div class="codeblock-head"><span class="codeblock-name">example.ts</span><span class="codeblock-lang">TypeScript</span></div><pre><code>import { collection, type Database } from "@dalgo/core";
+
+export interface Todo {
+  title: string;
+  done: boolean;
+  rank: number;
+}
+
+const todos = collection&lt;Todo&gt;("todos");
+
+export async function addTodo(db: Database, id: string, todo: Todo): Promise&lt;boolean&gt; {
+  return db.runReadwriteTransaction(async (transaction) =&gt; {
+    const existing = await transaction.get&lt;Todo&gt;(todos.key(id));
+    if (existing.exists) {
+      return false;
+    }
+    await transaction.insert(todos.key(id), todo);
+    return true;
+  });
+}
+
+export async function openTodos(db: Database): Promise&lt;readonly Todo[]&gt; {
+  const page = await db.query(
+    todos.query().where("done", "==", false).orderBy("rank").limit(20).build(),
+  );
+  return page.records.map((record) =&gt; record.data);
+}</code></pre></div>
+<p>The browser entry point picks the adapter. This is the only file that imports <code>@dalgo/indexeddb</code>:</p>
+<div class="codeblock"><div class="codeblock-head"><span class="codeblock-name">example.ts</span><span class="codeblock-lang">TypeScript</span></div><pre><code>import { IndexedDbDatabase } from "@dalgo/indexeddb";
+import { addTodo, openTodos } from "./app.js";
+
+const db = new IndexedDbDatabase({ name: "my-app" });
+await addTodo(db, "first", { title: "Try DALgo", done: false, rank: 1 });
+console.log(await openTodos(db));
+await db.close();</code></pre></div>
+<p>Moving the same <code>app.ts</code> to Firestore changes only the entry point, using the Firebase SDK&#x27;s <code>initializeApp</code> and <code>getFirestore</code>:</p>
+<div class="codeblock"><div class="codeblock-head"><span class="codeblock-name">example.ts</span><span class="codeblock-lang">TypeScript</span></div><pre><code>import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+import { FirestoreDatabase } from "@dalgo/firestore";
+import { addTodo, openTodos } from "./app.js";
+
+const db = new FirestoreDatabase(getFirestore(initializeApp({ projectId: "my-project" })));
+await addTodo(db, "first", { title: "Try DALgo", done: false, rank: 1 });
+console.log(await openTodos(db));</code></pre></div>
+<p>What was and was not checked. All three files were type-checked under TypeScript&#x27;s <code>strict</code> mode against <code>@dalgo/core</code> 0.8.1 and 0.9.0, <code>@dalgo/indexeddb</code> 0.4.1, <code>@dalgo/firestore</code> 0.4.2, and <code>firebase</code> 13.4.0. The first file and the IndexedDB entry point were also run under Node 24 with an injected <code>fake-indexeddb</code> factory: the first <code>addTodo</code> returned <code>true</code>, a second call with the same id returned <code>false</code>, and <code>openTodos</code> returned the two records with <code>done: false</code>, ordered by <code>rank</code>. The Firestore entry point was type-checked only; it was not run against Firestore or its emulator. In a real browser the IndexedDB constructor uses the global <code>indexedDB</code>, and the adapter README says its transaction callback should await only DALgo operations.</p>
+<p>&quot;Unchanged calling code&quot; holds for the operations both adapters implement. It does not make the stores equal. Firestore applies its own security rules and rejects query offsets, while the IndexedDB adapter evaluates filters and ordering as records arrive and can scan the whole collection. Treat the matrix and each adapter&#x27;s README as the contract.</p>
+<h2 id="typescript-adapters-and-where-they-run">TypeScript adapters and where they run</h2>
+<p>Adapter work for TypeScript lives in <a href="https://github.com/dal-go/dalgo-http-adapters" rel="noopener">dalgo-http-adapters</a>. Several earlier standalone repositories, such as <code>dalgo2firestore-js</code> and <code>dalgo2indexeddb-js</code>, are archived and point there. The table lists adapters whose npm package and README were read on 27 November 2026. It is not a complete list, and this page does not count adapters.</p>
+<div class="article-table-wrap"><table class="article-table"><thead><tr><th>Package</th><th>Version on npm</th><th>Runs in</th><th>What its README says</th></tr></thead><tbody><tr><td><a href="https://github.com/dal-go/dalgo-http-adapters/tree/main/packages/indexeddb" rel="noopener"><code>@dalgo/indexeddb</code></a></td><td>0.4.1</td><td>Browser</td><td>Native IndexedDB persistence; real read-write transactions; same-origin only.</td></tr><tr><td><a href="https://github.com/dal-go/dalgo-http-adapters/tree/main/packages/firestore" rel="noopener"><code>@dalgo/firestore</code></a></td><td>0.4.2</td><td>Browser, through Firebase&#x27;s modular Web SDK</td><td>The reference adapter; needs the <code>firebase</code> peer.</td></tr><tr><td><a href="https://github.com/dal-go/dalgo-http-adapters/tree/main/packages/sqlite-wasm" rel="noopener"><code>@dalgo/sqlite-wasm</code></a></td><td>0.1.0</td><td>Browser and Node</td><td>A read-write <code>Database</code> over one SQLite connection; peers on <code>@dalgo/sqlite-sql</code>.</td></tr><tr><td><a href="https://github.com/dal-go/dalgo-http-adapters/tree/main/packages/bigquery" rel="noopener"><code>@dalgo/bigquery</code></a></td><td>0.3.3</td><td>Browser-compatible analytical entry</td><td>Read-only on the <a href="/adapters/">adapter matrix</a>; a record adapter plus a separate analytical export.</td></tr></tbody></table></div>
+<p>The <a href="/adapters/">adapter matrix</a> links each adapter to pinned source and says which runtime it applies to, and it is the page to read before you pick one. Its TypeScript rows were last audited on 1 November 2026, so check the matrix date against the npm version you install.</p>
+<h2 id="how-it-compares-with-prisma-drizzle-typeorm-and-kysely">How it compares with Prisma, Drizzle, TypeORM, and Kysely</h2>
+<p>These tools answer a different question from a database abstraction layer, and most of them are excellent at theirs. The claims below come from each project&#x27;s own documentation, read on 27 November 2026. None of this is a benchmark, and the page makes no claim about speed, bundle size, or popularity.</p>
+<div class="article-table-wrap"><table class="article-table"><thead><tr><th></th><th>What its docs call it</th><th>Databases its docs name</th><th>Where it fits better than DALgo</th></tr></thead><tbody><tr><td><a href="https://www.prisma.io/docs/orm" rel="noopener">Prisma ORM</a></td><td>A typed data layer for TypeScript, with typed queries and migrations.</td><td>PostgreSQL, MongoDB, SQLite, and MySQL on the <a href="https://www.prisma.io/docs/orm" rel="noopener">overview</a>, with more in the <a href="https://www.prisma.io/docs/orm/v7/core-concepts/supported-databases" rel="noopener">supported databases</a> page for version 7.</td><td>A server app with a modelled relational schema, generated types, and migrations.</td></tr><tr><td><a href="https://orm.drizzle.team/docs/overview" rel="noopener">Drizzle ORM</a></td><td>A headless TypeScript ORM with SQL-like and relational query APIs.</td><td>PostgreSQL, MySQL, SQLite, SingleStore, MSSQL, and CockroachDB drivers.</td><td>Teams that know SQL and want the schema in TypeScript and queries close to SQL.</td></tr><tr><td><a href="https://typeorm.io/" rel="noopener">TypeORM</a></td><td>An ORM for TypeScript with DataMapper and ActiveRecord patterns, a query builder, and migrations.</td><td>MySQL, PostgreSQL, MariaDB, SQLite, SQL Server, Oracle, MongoDB, and others.</td><td>Entity classes with decorators over a SQL database, including in the browser and on mobile platforms its docs list.</td></tr><tr><td><a href="https://kysely.dev/" rel="noopener">Kysely</a></td><td>A type-safe SQL query builder for TypeScript.</td><td>PostgreSQL, MySQL, SQL Server, SQLite, and PGlite built in; more through community dialects.</td><td>SQL-first code where compile-time checking of queries matters. See its <a href="https://kysely.dev/docs/getting-started" rel="noopener">getting started</a> guide.</td></tr><tr><td><a href="https://firebase.google.com/docs/firestore" rel="noopener">Firebase SDK</a></td><td>The Cloud Firestore client library for web, mobile, and server.</td><td>Cloud Firestore only.</td><td>An app that is committed to Firestore and wants its realtime listeners and offline support directly.</td></tr></tbody></table></div>
+<p>Choose a SQL-first tool when the database engine is the product. If your code is relational, with joins, constraints, and migrations that you want generated from a schema, Prisma, Drizzle, TypeORM, and Kysely all give you that and <code>@dalgo/core</code> does not. DALgo&#x27;s core has no schema language, no migrations, no code generation, and no SQL builder, and it does not expose SQL.</p>
+<p>Choose DALgo when the unit of work is a keyed record and the store may change. That is a browser app that keeps data in IndexedDB today and Firestore tomorrow, a codebase that shares record logic between browser and server, or a test that should not need the real database. The price is a smaller common denominator: operations an adapter cannot do fail, and the TypeScript package is at 0.x. TypeORM and Kysely both list browser support, so running in the browser alone is not what separates them. The difference is the model: tables and SQL on their side, keyed records and structured queries on this one.</p>
+<p>These tools are not exclusive. A project can use Kysely or Prisma for its server&#x27;s SQL database and still use <code>@dalgo/core</code> where a keyed-record interface helps. The Firebase SDK is not a rival either: the Firestore adapter is built on it.</p>
+<h2 id="how-it-relates-to-the-go-module">How it relates to the Go module</h2>
+<p>The Go module <a href="https://github.com/dal-go/dalgo" rel="noopener"><code>github.com/dal-go/dalgo</code></a> and <code>@dalgo/core</code> share concepts: hierarchical keys, typed collections, structured queries, and transaction-scoped writes. They are separate codebases with no shared runtime, so a TypeScript program cannot call Go adapters and Go code cannot call TypeScript ones. Names differ: Go&#x27;s handle is <code>dal.DB</code> and it has both <code>RunReadonlyTransaction</code> and <code>RunReadwriteTransaction</code>, while TypeScript&#x27;s is <code>Database</code> and has <code>runReadwriteTransaction</code> only. <a href="/articles/go-database-abstraction-layer/">Database abstraction layer in Go</a> shows the Go form, and <a href="/typescript/">DALgo for TypeScript</a> is the product page for this one.</p>
+<h2 id="faq">FAQ</h2>
+<h3 id="what-is-a-database-abstraction-layer-in-typescript">What is a database abstraction layer in TypeScript?</h3>
+<p>A database abstraction layer is a library that sits between application code and a database, so the program can store and load records without calling one vendor&#x27;s client. In TypeScript, <code>@dalgo/core</code> is one: it defines keys, collections, structured queries, and transactions, and an adapter connects them to a database such as IndexedDB or Firestore.</p>
+<h3 id="does-dalgo-core-connect-to-a-database-by-itself">Does @dalgo/core connect to a database by itself?</h3>
+<p>No. The package has no database SDK of its own and does not connect to a database. You install an adapter, such as <code>@dalgo/indexeddb</code> for the browser or <code>@dalgo/firestore</code> for Firestore through the Firebase Web SDK, and pass its database object to your code.</p>
+<h3 id="is-dalgo-core-an-orm-like-prisma-drizzle-or-typeorm">Is @dalgo/core an ORM like Prisma, Drizzle, or TypeORM?</h3>
+<p>No. An ORM maps objects to rows of a relational database and usually brings a schema, migrations, or a SQL builder. <code>@dalgo/core</code> models keyed records, typed collections, and structured queries, and it has no schema language, migrations, or SQL builder. Use a SQL-first tool when your data is relational; the <a href="/articles/typescript-database-abstraction/#how-it-compares-with-prisma-drizzle-typeorm-and-kysely">comparison above</a> lists when each fits.</p>
+<h3 id="can-i-swap-indexeddb-for-firestore-without-changing-my-code">Can I swap IndexedDB for Firestore without changing my code?</h3>
+<p>For the operations both adapters implement, yes: the example on this page keeps its domain code in one file that accepts a <code>Database</code>, and only the entry point changes. The two stores still differ. Firestore rejects query offsets and applies its own security rules, and each adapter&#x27;s README states what it supports.</p>
+<h3 id="is-dalgo-core-the-same-as-the-go-module">Is @dalgo/core the same as the Go module?</h3>
+<p>No. They share concepts and are separate implementations. The Go module is <code>github.com/dal-go/dalgo</code>, and the TypeScript package is <code>@dalgo/core</code> from <a href="https://github.com/dal-go/dalgo-js" rel="noopener">dal-go/dalgo-js</a>. Go adapters do not run in TypeScript, and the reverse.</p>
+<h2 id="sources">Sources</h2>
+<p>Public package metadata, documentation, and repository source, checked on 27 November 2026. This page is not a benchmark and reports no download counts, stars, or timings.</p>
+<ul>
+<li><a href="https://www.npmjs.com/package/@dalgo/core" rel="noopener"><code>@dalgo/core</code> on npm</a> 0.9.0 (MIT, Node &gt;=20, ESM, <code>gitHead</code> <a href="https://github.com/dal-go/dalgo-js/commit/2ed7cf775838d4d4df884ffddea1a75b807d919e" rel="noopener"><code>2ed7cf775838</code></a>) and <a href="https://github.com/dal-go/dalgo-js" rel="noopener">dal-go/dalgo-js</a> at tag <code>core@v0.9.0</code>: the README, <code>CHANGELOG.md</code>, and <code>src/</code> (<code>key.ts</code>, <code>collection.ts</code>, <code>record.ts</code>, <code>query.ts</code>, <code>database.ts</code>, <code>errors.ts</code>, <code>capabilities.ts</code>). License: <a href="https://github.com/dal-go/dalgo-js/blob/main/LICENSE" rel="noopener">MIT</a>.</li>
+<li><a href="https://github.com/dal-go/dalgo-http-adapters" rel="noopener">dal-go/dalgo-http-adapters</a> with the READMEs and manifests of <a href="https://www.npmjs.com/package/@dalgo/indexeddb" rel="noopener"><code>@dalgo/indexeddb</code></a> 0.4.1, <a href="https://www.npmjs.com/package/@dalgo/firestore" rel="noopener"><code>@dalgo/firestore</code></a> 0.4.2, <a href="https://www.npmjs.com/package/@dalgo/sqlite-wasm" rel="noopener"><code>@dalgo/sqlite-wasm</code></a> 0.1.0, and <a href="https://www.npmjs.com/package/@dalgo/bigquery" rel="noopener"><code>@dalgo/bigquery</code></a> 0.3.3, and its <a href="https://github.com/dal-go/dalgo-http-adapters/blob/main/LEGACY_REPOSITORIES.md" rel="noopener">legacy repositories list</a>.</li>
+<li><a href="/adapters/">Adapter matrix</a> and <a href="/typescript/">DALgo for TypeScript</a>.</li>
+<li>Prisma: <a href="https://www.prisma.io/docs/orm" rel="noopener">Prisma ORM documentation</a> (page dated 26 November 2026) and <a href="https://www.prisma.io/docs/orm/v7/core-concepts/supported-databases" rel="noopener">supported databases</a>.</li>
+<li>Drizzle: <a href="https://orm.drizzle.team/docs/overview" rel="noopener">Drizzle ORM overview</a>.</li>
+<li>TypeORM: <a href="https://typeorm.io/" rel="noopener">typeorm.io</a>.</li>
+<li>Kysely: <a href="https://kysely.dev/" rel="noopener">kysely.dev</a> and <a href="https://kysely.dev/docs/getting-started" rel="noopener">getting started</a>.</li>
+<li>Firebase: <a href="https://firebase.google.com/docs/firestore" rel="noopener">Cloud Firestore documentation</a> (last updated 19 November 2026).</li>
+<li><a href="https://www.typescriptlang.org/" rel="noopener">TypeScript</a>, <a href="https://developer.mozilla.org/docs/Web/JavaScript/Guide/Modules" rel="noopener">ECMAScript modules (MDN)</a>, <a href="https://www.npmjs.com/" rel="noopener">npm</a>, and Wikipedia on <a href="https://en.wikipedia.org/wiki/Database_abstraction_layer" rel="noopener">database abstraction layers</a>.</li>
+</ul>
+  </div>
+  <aside class="article-related"><h2>More articles</h2><ul><li><a href="/articles/go-orm-comparison-2026/">Go ORM and data-access libraries compared (2026)</a></li>
+<li><a href="/articles/switch-postgres-to-firestore/">Switching between PostgreSQL and Firestore in Go without rewriting business code</a></li>
+<li><a href="/articles/go-firestore-tutorial/">Firestore in Go: CRUD and transactions with DALgo</a></li>
+<li><a href="/articles/dalgo-vs-gorm/">DALgo vs GORM: a gorm alternative</a></li>
+<li><a href="/articles/go-database-abstraction-layer/">Database abstraction layer in Go: what it is and when you need one</a></li>
+<li><a href="/articles/go-repository-pattern/">Repository pattern in Go with a swappable storage backend</a></li>
+<li><a href="/articles/why-use-dalgo/">Why use DALgo</a></li>
+<li><a href="/articles/when-to-use-dalgo/">When to use DALgo, and when not to</a></li></ul></aside>
+  <p class="article-source">Source file: <a href="https://github.com/dal-go/dalgo-io/blob/main/content/articles/typescript-database-abstraction.md"><code>content/articles/typescript-database-abstraction.md</code></a></p>
+</article>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Database abstraction layer for TypeScript: @dalgo/core","description":"TypeScript database abstraction layer explained: how @dalgo/core models records, queries, and transactions, and where Prisma or Drizzle fit better.","datePublished":"2026-11-27","dateModified":"2026-11-27","inLanguage":"en","mainEntityOfPage":"https://dalgo.io/articles/typescript-database-abstraction/","dependencies":"TypeScript","author":{"@type":"Organization","name":"DALgo contributors","url":"https://dalgo.io/"},"publisher":{"@type":"Organization","name":"DALgo","url":"https://dalgo.io/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"DALgo","item":"https://dalgo.io/"},{"@type":"ListItem","position":2,"name":"Articles","item":"https://dalgo.io/articles/"},{"@type":"ListItem","position":3,"name":"Database abstraction layer for TypeScript: @dalgo/core","item":"https://dalgo.io/articles/typescript-database-abstraction/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is a database abstraction layer in TypeScript?","acceptedAnswer":{"@type":"Answer","text":"A database abstraction layer is a library that sits between application code and a database, so the program can store and load records without calling one vendor's client. In TypeScript, @dalgo/core is one: it defines keys, collections, structured queries, and transactions, and an adapter connects them to a database such as IndexedDB or Firestore."}},{"@type":"Question","name":"Does @dalgo/core connect to a database by itself?","acceptedAnswer":{"@type":"Answer","text":"No. The package has no database SDK of its own and does not connect to a database. You install an adapter, such as @dalgo/indexeddb for the browser or @dalgo/firestore for Firestore through the Firebase Web SDK, and pass its database object to your code."}},{"@type":"Question","name":"Is @dalgo/core an ORM like Prisma, Drizzle, or TypeORM?","acceptedAnswer":{"@type":"Answer","text":"No. An ORM maps objects to rows of a relational database and usually brings a schema, migrations, or a SQL builder. @dalgo/core models keyed records, typed collections, and structured queries, and it has no schema language, migrations, or SQL builder. Use a SQL-first tool when your data is relational; the comparison above lists when each fits."}},{"@type":"Question","name":"Can I swap IndexedDB for Firestore without changing my code?","acceptedAnswer":{"@type":"Answer","text":"For the operations both adapters implement, yes: the example on this page keeps its domain code in one file that accepts a Database, and only the entry point changes. The two stores still differ. Firestore rejects query offsets and applies its own security rules, and each adapter's README states what it supports."}},{"@type":"Question","name":"Is @dalgo/core the same as the Go module?","acceptedAnswer":{"@type":"Answer","text":"No. They share concepts and are separate implementations. The Go module is github.com/dal-go/dalgo, and the TypeScript package is @dalgo/core from dal-go/dalgo-js. Go adapters do not run in TypeScript, and the reverse."}}]}</script>
+</main>
+
+
+<footer class="AppFooter">
+  <div class="container AppFooter-inner">
+    <ul role="list">
+      <li>&copy; <span id="year">2026</span> DALgo contributors</li>
+      <li><a href="/">DALgo</a></li>
+      <li><a href="/articles/">Articles</a></li>
+      <li><a href="/tugql/">TugQL</a></li>
+      <li><a href="https://github.com/dal-go/dalgo" rel="noopener">Core repo</a></li>
+      <li><a href="https://github.com/dal-go/dalgo/blob/main/LICENSE" rel="noopener">MIT License</a></li>
+      <li><a href="/privacy/">Privacy</a></li>
+    </ul>
+    <span class="AppFooter-tag">Open-source documentation site. No accounts, no advertising.</span>
+  </div>
+<nav class="topic-footer container" data-topic-footer aria-label="Documentation"><a href="/go/">DALgo for Go</a><a href="/typescript/">DALgo for TypeScript</a><a href="/quickstart/">Quick Start</a><a href="/adapters/">Adapters and runtime support</a><a href="/why/">Why DALgo</a><a href="/collections/">Typed collections</a><a href="/interfaces/">Interfaces</a><a href="/queries/">Queries and schema</a><a href="/film/">DALgo films</a><a href="/datatug/">DALgo and DataTug</a><a href="/about/tech-stack/">Technology behind DALgo</a><a href="/faq/">DALgo FAQ</a><a href="/articles/">Articles</a><a href="/tugql/">TugQL</a></nav></footer>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<div class="site-feedback"><button type="button" data-feedback-launcher aria-haspopup="dialog" hidden><svg class="feedback-mark" aria-hidden="true" focusable="false" viewBox="0 0 64 64"><rect width="64" height="64" rx="18" fill="#d4ef83"/><path d="M18 46 46 18M20 18h26v26" fill="none" stroke="#202c2a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>Suggest an improvement</button></div>
+<script id="site-feedback-widget" src="https://improveit.now/widget.js" data-space="ao58m" data-app="53707531c1e1120447e7673109bb6538" data-lang="en" data-color="#0d63e9" data-launcher="hidden" defer></script>
+<script src="/feedback.js" defer></script>
+</body>
+</html>

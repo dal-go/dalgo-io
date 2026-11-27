@@ -50,6 +50,7 @@ class Article:
     body: str
     source_name: str
     schema: str
+    dependencies: str = "Go"
 
     @property
     def url_path(self) -> str:
@@ -110,6 +111,7 @@ def parse_front_matter(text: str, name: str) -> Article:
         body=body.strip() + "\n",
         source_name=name,
         schema=schema,
+        dependencies=fields.get("dependencies") or "Go",
     )
 
 
@@ -496,7 +498,7 @@ def tech_article_ld(article: Article) -> str:
             "dateModified": article.iso_date,
             "inLanguage": "en",
             "mainEntityOfPage": article.canonical,
-            "dependencies": "Go",
+            "dependencies": article.dependencies,
             "author": {"@type": "Organization", "name": "DALgo contributors", "url": "https://dalgo.io/"},
             "publisher": {"@type": "Organization", "name": "DALgo", "url": "https://dalgo.io/"},
         }
