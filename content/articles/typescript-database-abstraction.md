@@ -49,7 +49,7 @@ npm install @dalgo/core @dalgo/indexeddb
 
 `pnpm add @dalgo/core @dalgo/indexeddb` is the README's own form. The facts here were checked on 27 November 2026. [`@dalgo/core`](https://www.npmjs.com/package/@dalgo/core) 0.9.0 is the latest version on npm. It was built from commit [`2ed7cf775838`](https://github.com/dal-go/dalgo-js/commit/2ed7cf775838d4d4df884ffddea1a75b807d919e) of [dal-go/dalgo-js](https://github.com/dal-go/dalgo-js), the commit that the `core@v0.9.0` tag points to. It has one runtime dependency, [`yaml`](https://www.npmjs.com/package/yaml).
 
-The published adapters at that date, `@dalgo/indexeddb` 0.4.1 and `@dalgo/firestore` 0.4.2, declare the peer range `@dalgo/core >=0.8.0 <0.9.0`. Because of that, the command above installed `@dalgo/core` 0.8.1 next to the adapter on that date, not 0.9.0. If you install 0.9.0 yourself, npm warns about the peer range and needs `--legacy-peer-deps`. The example below type-checks and runs on both 0.8.1 and 0.9.0; only 0.8.1 is inside the adapter's declared range. Read the adapter's README for the version it supports before you pin.
+The published adapters at that date, `@dalgo/indexeddb` 0.4.1 and `@dalgo/firestore` 0.4.2, declare the peer range `@dalgo/core >=0.8.0 <0.9.0`. Because of that, the command above installed `@dalgo/core` 0.8.1 next to the adapter on that date, not 0.9.0. None of the adapters in the table list 0.9.0 yet. If you install 0.9.0 yourself, npm refuses to resolve it (ERESOLVE) and needs `--legacy-peer-deps`. The example below type-checks and runs on both 0.8.1 and 0.9.0; only 0.8.1 is inside the adapter's declared range. Read the adapter's README for the version it supports before you pin.
 
 ## A typed example that does not name a database
 
@@ -116,12 +116,12 @@ What was and was not checked. All three files were type-checked under TypeScript
 
 ## TypeScript adapters and where they run
 
-Adapter work for TypeScript lives in [dalgo-http-adapters](https://github.com/dal-go/dalgo-http-adapters). Several earlier standalone repositories, such as `dalgo2firestore-js` and `dalgo2indexeddb-js`, are archived and point there. The table lists adapters whose npm package and README were read on 27 November 2026. It is not a complete list, and this page does not count adapters.
+Adapter work for TypeScript lives in [dalgo-http-adapters](https://github.com/dal-go/dalgo-http-adapters). Earlier standalone repositories for these adapters are archived; see the legacy repositories list. The table lists adapters whose npm package and README were read on 27 November 2026. It is not a complete list, and this page does not count adapters.
 
 | Package | Version on npm | Runs in | What its README says |
 | --- | --- | --- | --- |
 | [`@dalgo/indexeddb`](https://github.com/dal-go/dalgo-http-adapters/tree/main/packages/indexeddb) | 0.4.1 | Browser | Native IndexedDB persistence; real read-write transactions; same-origin only. |
-| [`@dalgo/firestore`](https://github.com/dal-go/dalgo-http-adapters/tree/main/packages/firestore) | 0.4.2 | Browser, through Firebase's modular Web SDK | The reference adapter; needs the `firebase` peer. |
+| [`@dalgo/firestore`](https://github.com/dal-go/dalgo-http-adapters/tree/main/packages/firestore) | 0.4.2 | Browser, through Firebase's modular Web SDK | Called the reference adapter in the dalgo-http-adapters root README; needs the `firebase` peer. |
 | [`@dalgo/sqlite-wasm`](https://github.com/dal-go/dalgo-http-adapters/tree/main/packages/sqlite-wasm) | 0.1.0 | Browser and Node | A read-write `Database` over one SQLite connection; peers on `@dalgo/sqlite-sql`. |
 | [`@dalgo/bigquery`](https://github.com/dal-go/dalgo-http-adapters/tree/main/packages/bigquery) | 0.3.3 | Browser-compatible analytical entry | Read-only on the [adapter matrix](/adapters/); a record adapter plus a separate analytical export. |
 
@@ -133,7 +133,7 @@ These tools answer a different question from a database abstraction layer, and m
 
 | | What its docs call it | Databases its docs name | Where it fits better than DALgo |
 | --- | --- | --- | --- |
-| [Prisma ORM](https://www.prisma.io/docs/orm) | A typed data layer for TypeScript, with typed queries and migrations. | PostgreSQL, MongoDB, SQLite, and MySQL on the [overview](https://www.prisma.io/docs/orm), with more in the [supported databases](https://www.prisma.io/docs/orm/v7/core-concepts/supported-databases) page for version 7. | A server app with a modelled relational schema, generated types, and migrations. |
+| [Prisma ORM](https://www.prisma.io/docs/orm) | A typed data layer for TypeScript, with typed queries and migrations. | PostgreSQL, MongoDB, SQLite, and MySQL on the [overview](https://www.prisma.io/docs/orm), with more in the [supported databases](https://www.prisma.io/docs/orm/v7/core-concepts/supported-databases) page for version 7. Prisma ORM 8 is a release candidate; see its [release status](https://www.prisma.io/docs/orm/release-status) (updated 26 November 2026). | A server app with a modelled relational schema, generated types, and migrations. |
 | [Drizzle ORM](https://orm.drizzle.team/docs/overview) | A headless TypeScript ORM with SQL-like and relational query APIs. | PostgreSQL, MySQL, SQLite, SingleStore, MSSQL, and CockroachDB drivers. | Teams that know SQL and want the schema in TypeScript and queries close to SQL. |
 | [TypeORM](https://typeorm.io/) | An ORM for TypeScript with DataMapper and ActiveRecord patterns, a query builder, and migrations. | MySQL, PostgreSQL, MariaDB, SQLite, SQL Server, Oracle, MongoDB, and others. | Entity classes with decorators over a SQL database, including in the browser and on mobile platforms its docs list. |
 | [Kysely](https://kysely.dev/) | A type-safe SQL query builder for TypeScript. | PostgreSQL, MySQL, SQL Server, SQLite, and PGlite built in; more through community dialects. | SQL-first code where compile-time checking of queries matters. See its [getting started](https://kysely.dev/docs/getting-started) guide. |
@@ -161,7 +161,7 @@ No. The package has no database SDK of its own and does not connect to a databas
 
 ### Is @dalgo/core an ORM like Prisma, Drizzle, or TypeORM?
 
-No. An ORM maps objects to rows of a relational database and usually brings a schema, migrations, or a SQL builder. `@dalgo/core` models keyed records, typed collections, and structured queries, and it has no schema language, migrations, or SQL builder. Use a SQL-first tool when your data is relational; the [comparison above](/articles/typescript-database-abstraction/#how-it-compares-with-prisma-drizzle-typeorm-and-kysely) lists when each fits.
+No. An ORM maps objects to rows of a relational database and usually brings a schema, migrations, or a SQL builder. `@dalgo/core` models keyed records, typed collections, and structured queries, and it has no schema language or migrations. TugQL aside, it has no SQL builder and does not expose SQL. Use a SQL-first tool when your data is relational; the [comparison above](/articles/typescript-database-abstraction/#how-it-compares-with-prisma-drizzle-typeorm-and-kysely) lists when each fits.
 
 ### Can I swap IndexedDB for Firestore without changing my code?
 
@@ -178,7 +178,7 @@ Public package metadata, documentation, and repository source, checked on 27 Nov
 - [`@dalgo/core` on npm](https://www.npmjs.com/package/@dalgo/core) 0.9.0 (MIT, Node >=20, ESM, `gitHead` [`2ed7cf775838`](https://github.com/dal-go/dalgo-js/commit/2ed7cf775838d4d4df884ffddea1a75b807d919e)) and [dal-go/dalgo-js](https://github.com/dal-go/dalgo-js) at tag `core@v0.9.0`: the README, `CHANGELOG.md`, and `src/` (`key.ts`, `collection.ts`, `record.ts`, `query.ts`, `database.ts`, `errors.ts`, `capabilities.ts`). License: [MIT](https://github.com/dal-go/dalgo-js/blob/main/LICENSE).
 - [dal-go/dalgo-http-adapters](https://github.com/dal-go/dalgo-http-adapters) with the READMEs and manifests of [`@dalgo/indexeddb`](https://www.npmjs.com/package/@dalgo/indexeddb) 0.4.1, [`@dalgo/firestore`](https://www.npmjs.com/package/@dalgo/firestore) 0.4.2, [`@dalgo/sqlite-wasm`](https://www.npmjs.com/package/@dalgo/sqlite-wasm) 0.1.0, and [`@dalgo/bigquery`](https://www.npmjs.com/package/@dalgo/bigquery) 0.3.3, and its [legacy repositories list](https://github.com/dal-go/dalgo-http-adapters/blob/main/LEGACY_REPOSITORIES.md).
 - [Adapter matrix](/adapters/) and [DALgo for TypeScript](/typescript/).
-- Prisma: [Prisma ORM documentation](https://www.prisma.io/docs/orm) (page dated 26 November 2026) and [supported databases](https://www.prisma.io/docs/orm/v7/core-concepts/supported-databases).
+- Prisma: [Prisma ORM documentation](https://www.prisma.io/docs/orm) (page dated 26 November 2026), [supported databases](https://www.prisma.io/docs/orm/v7/core-concepts/supported-databases), and [release status](https://www.prisma.io/docs/orm/release-status) (updated 26 November 2026).
 - Drizzle: [Drizzle ORM overview](https://orm.drizzle.team/docs/overview).
 - TypeORM: [typeorm.io](https://typeorm.io/).
 - Kysely: [kysely.dev](https://kysely.dev/) and [getting started](https://kysely.dev/docs/getting-started).
