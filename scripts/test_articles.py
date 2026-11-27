@@ -63,6 +63,13 @@ class ArticleSchema(unittest.TestCase):
         self.assertNotIn("Not a question", page.split("FAQPage", 1)[-1])
         self.assertNotIn("This section is not part of the FAQ.", page.split("FAQPage", 1)[-1])
 
+    def test_techarticle_dependencies_can_be_overridden(self):
+        source = SAMPLE.replace("schema: techarticle", "schema: techarticle\ndependencies: TypeScript", 1)
+        article = parse_front_matter(source, "example.md")
+        page = render_article(article, [article])
+        self.assertIn('"dependencies":"TypeScript"', page)
+        self.assertNotIn('"dependencies":"Go"', page)
+
     def test_faq_extractor_stops_at_the_next_h2(self):
         items = extract_faq(SAMPLE.split("---", 2)[-1])
         self.assertEqual(

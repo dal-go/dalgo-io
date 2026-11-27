@@ -75,7 +75,7 @@ One end-to-end test suite. The shared conformance suite tests common behavior. S
 
 Transactions, the Go way. Read-only and read-write transactions are first-class. Pass a closure, get atomicity — without leaking driver-specific transaction types into your domain.
 
-Install it from npm with npm install @dalgo/core. The package has no database SDK of its own and does not connect to a database by itself; an adapter does. Source: dal-go/dalgo-js.
+Install it from npm with npm install @dalgo/core. The package has no database SDK of its own and does not connect to a database by itself; an adapter does. Source: dal-go/dalgo-js. How it works and how it compares with Prisma, Drizzle, TypeORM and Kysely: Database abstraction layer for TypeScript: @dalgo/core.
 
 TypeScript adapters live in dalgo-http-adapters. Browser-local, browser HTTP and trusted-server adapters have separate requirements. See the Go/TypeScript and runtime matrix for source status and limitations.
 
@@ -101,7 +101,7 @@ DALgo — слой абстракции баз данных для Go и TypeScr
 
 Транзакции в духе Go. Транзакции только для чтения и для чтения и записи — полноправная часть интерфейса. Передайте замыкание — получите атомарность, не пропуская типы транзакций конкретных драйверов в предметный код.
 
-Установите пакет из npm: npm install @dalgo/core. У пакета нет собственного SDK базы данных, и сам он к базе не подключается — это делает адаптер. Исходный код: dal-go/dalgo-js.
+Установите пакет из npm: npm install @dalgo/core. У пакета нет собственного SDK базы данных, и сам он к базе не подключается — это делает адаптер. Исходный код: dal-go/dalgo-js. Как это устроено и чем отличается от Prisma, Drizzle, TypeORM и Kysely (статья на английском): Database abstraction layer for TypeScript: @dalgo/core.
 
 TypeScript-адаптеры находятся в dalgo-http-adapters. Локальные, HTTP-браузерные и серверные адаптеры имеют разные требования. Смотрите таблицу Go/TypeScript и сред выполнения.
 
@@ -147,7 +147,7 @@ For Go, run `go get github.com/dal-go/dalgo`, then add the adapter module for yo
 
 ### Is there a TypeScript version of DALgo?
 
-Yes. [@dalgo/core](https://github.com/dal-go/dalgo-js) is the browser-neutral TypeScript implementation, with hierarchical keys, typed collections, structured queries, records, database sessions and transaction-only writes. Its first adapter is for Firestore and uses Firebase's modular Web SDK in the browser. See [DALgo for TypeScript](https://dalgo.io/typescript/).
+Yes. [@dalgo/core](https://github.com/dal-go/dalgo-js) is the browser-neutral TypeScript implementation, with hierarchical keys, typed collections, structured queries, records, database sessions and transaction-only writes. Its first adapter is for Firestore and uses Firebase's modular Web SDK in the browser. See [DALgo for TypeScript](https://dalgo.io/typescript/), or [Database abstraction layer for TypeScript: @dalgo/core](https://dalgo.io/articles/typescript-database-abstraction/) for how it works and how it compares with Prisma, Drizzle, TypeORM and Kysely.
 
 ### Does DALgo work with Firestore?
 
@@ -205,7 +205,7 @@ DALgo — слой абстракции базы данных, а не полн�
 
 ### Есть ли версия DALgo для TypeScript?
 
-Да. [@dalgo/core](https://github.com/dal-go/dalgo-js) — реализация на TypeScript, не привязанная к браузеру или серверу: иерархические ключи, типизированные коллекции, структурированные запросы, записи, сессии базы данных и запись только в транзакциях. Первый адаптер — для Firestore, он работает в браузере через модульный Web SDK Firebase. Подробнее: [DALgo для TypeScript](https://dalgo.io/ru/typescript/).
+Да. [@dalgo/core](https://github.com/dal-go/dalgo-js) — реализация на TypeScript, не привязанная к браузеру или серверу: иерархические ключи, типизированные коллекции, структурированные запросы, записи, сессии базы данных и запись только в транзакциях. Первый адаптер — для Firestore, он работает в браузере через модульный Web SDK Firebase. Подробнее: [DALgo для TypeScript](https://dalgo.io/ru/typescript/); как это устроено и чем отличается от Prisma, Drizzle, TypeORM и Kysely — в статье на английском [Database abstraction layer for TypeScript: @dalgo/core](https://dalgo.io/articles/typescript-database-abstraction/).
 
 ### Работает ли DALgo с Firestore?
 
@@ -259,6 +259,7 @@ DALgo разрабатывают участники DALgo в организац�
 
 ## Articles
 
+- [Database abstraction layer for TypeScript: @dalgo/core](https://dalgo.io/articles/typescript-database-abstraction/): 2026-11-27. TypeScript database abstraction layer explained: how @dalgo/core models records, queries, and transactions, and where Prisma or Drizzle fit better. What a database abstraction layer is in TypeScript, how @dalgo/core models records, queries, and transactions for browser and server code, a type-checked example, and an honest comparison with Prisma, Drizzle ORM, TypeORM, and Kysely.
 - [Go ORM and data-access libraries compared (2026)](https://dalgo.io/articles/go-orm-comparison-2026/): 2026-11-24. A 2026 golang ORM comparison of GORM, ent, bun, sqlc, sqlx, database/sql, and DALgo: what each is, how it works, and when to choose it. A side-by-side of the main Go data-access libraries in 2026: full ORMs, SQL-first tools, and a database abstraction layer that also spans non-SQL stores. Facts come from each project's official docs; there are no benchmarks.
 - [Switching between PostgreSQL and Firestore in Go without rewriting business code](https://dalgo.io/articles/switch-postgres-to-firestore/): 2026-11-23. Switch Postgres to Firestore in Go without rewriting business code, using DALgo adapters for PostgreSQL, Cloud Firestore, and in-memory tests. Write a small users repository once against dal.DB, then open it on PostgreSQL, Cloud Firestore, or DALgo's in-memory adapter. This page shows what those calls share, what still differs, and how to copy records through the same interface.
 - [Firestore in Go: CRUD and transactions with DALgo](https://dalgo.io/articles/go-firestore-tutorial/): 2026-11-16. Golang Firestore tutorial: Firestore Go CRUD and Firestore transactions in Go with DALgo, tested on the Firestore emulator and an in-memory stand-in. Connect to Cloud Firestore from Go through DALgo's dalgo2firestore adapter, then create, read, update and delete a document and run a read-write transaction. The same functions run on an in-memory adapter in unit tests.

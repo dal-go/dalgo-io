@@ -206,7 +206,7 @@ Use `database/sql` or sqlx when the program is one SQL database and the team wan
 
 The Go module is [MIT-licensed](https://github.com/dal-go/dalgo/blob/main/LICENSE). It is still a v0 module path: the example above pins v0.101.4, and a service should pin the version it has tested. Adapters are separate modules with their own versions. Read the adapter you deploy. A structured query that the memory adapter runs can still return `dal.ErrNotSupported` on another backend. That is the contract, documented in the [core README](https://github.com/dal-go/dalgo).
 
-The TypeScript package follows the same idea and is a separate codebase. Use it for a browser or Node program that imports an adapter written against `@dalgo/core`. It does not execute the Go functions on this page.
+The TypeScript package follows the same idea and is a separate codebase. Use it for a browser or Node program that imports an adapter written against `@dalgo/core`. It does not execute the Go functions on this page. The explainer for it is [Database abstraction layer for TypeScript: @dalgo/core](/articles/typescript-database-abstraction/).
 
 ## FAQ
 
